@@ -1,0 +1,11 @@
+{
+  "key.coordinatesmod.visible": "Toggle Hud",
+  "key.coordinatesmod.background": "Toggle Background",
+  "key.coordinatesmod.chunkdata": "Toggle Chunk",
+  "key.coordinatesmod.direction": "Toggle Direction",
+  "key.coordinatesmod.biome": "Toggle Biome",
+  "key.coordinatesmod.decimals": "Toggle Decimal Rounding",
+  "key.coordinatesmod.configreload": "Reload Config",
+  "key.coordinatesmod.openfile": "Open Configuration File",
+  "category.coordinatesmod": "Coordinates Mod"
+}

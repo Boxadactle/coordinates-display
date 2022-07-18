@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 1,
+  "id": "coordinatesdisplay",
+  "version": "${version}",
+  "name": "Coordinates Display",
+  "description": "A simple and customizable coordinates display mod for Fabric.",
+  "authors": [
+    "Boxadactle"
+  ],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/coordinatesdisplay/icon.png",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "me.boxadactle.coordinatesdisplay.CoordinatesDisplay"
+    ]
+  },
+  "mixins": [
+    "CoordinatesDisplay.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.8",
+    "fabric": "*",
+    "minecraft": ">=1.18.2"
+  }
+}
