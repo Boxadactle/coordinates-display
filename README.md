@@ -23,4 +23,4 @@ In this image, I have changed definitionColor to "dark_aqua" and dataColor to "a
 
 
 
-*If you find any bugs/issues or have feedback, please open an issue on this repository*
+*If you find any bugs/issues, please open an issue on this repository*
