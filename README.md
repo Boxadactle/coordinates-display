@@ -7,6 +7,7 @@ The HUD is is customizable as well. There are many different ways you could make
 
 ![The Keybinds used to customize the overlay](https://github.com/Boxadactle/coordinates-display/blob/main/img/controls.png?raw=true)
 
+In this image, I have turned off the biome and the direction.
 ![The overlay customized with the keybinds](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay1.png?raw=true)
 
 You cannot change all of the options with the key binds however. Use the "Open Configuration File" key bind to locate the config file. Now you can change every option!
