@@ -13,7 +13,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -59,7 +59,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
         return direction;
     }
 
-    public void renderCoordinatesOverlay(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, Direction direction, Biome biome, float cameraYaw) {
+    public void renderCoordinatesOverlay(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, Direction direction, RegistryEntry biome, float cameraYaw) {
         Text x = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "X: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getX()) : Math.round(pos.getX())));
         Text y = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "Y: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getY()) : Math.round(pos.getY())));
         Text z = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "Z: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getZ()) : Math.round(pos.getZ())));
@@ -70,8 +70,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
         float yaw = MathHelper.wrapDegrees(cameraYaw);
         Text directionText = CoordinatesDisplay.CONFIG.renderDirection ? Text.of(CoordinatesDisplay.DefinitionColorPrefix + getDirection(yaw) + CoordinatesDisplay.DataColorPrefix  + " (" + decimalFormat.format(yaw) + ")") : Text.of("");
 
-        Registry registry = this.client.world.getRegistryManager().get(Registry.BIOME_KEY);
-        Text biomeText = CoordinatesDisplay.CONFIG.renderBiome ? Text.of(CoordinatesDisplay.DataColorPrefix + parseBiomeId(registry.getId(biome).toString())) : Text.of("");
+        Text biomeText = CoordinatesDisplay.CONFIG.renderBiome ? Text.of(CoordinatesDisplay.DataColorPrefix + parseBiomeId(getBiomeString(biome))) : Text.of("");
 
         int th = 10;
         int p = CoordinatesDisplay.CONFIG.padding;
@@ -132,5 +131,14 @@ public abstract class InGameHudMixin extends DrawableHelper {
         }
 
         return name.trim();
+    }
+
+    // copy + pasted from DebugHud.class
+    private static String getBiomeString(RegistryEntry<Biome> biome) {
+        return (String)biome.getKeyOrValue().map((biomeKey) -> {
+            return biomeKey.getValue().toString();
+        }, (biome_) -> {
+            return "[unregistered " + biome_ + "]";
+        });
     }
 }

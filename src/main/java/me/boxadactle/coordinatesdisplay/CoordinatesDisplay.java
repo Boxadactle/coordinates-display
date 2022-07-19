@@ -5,8 +5,6 @@ import io.github.cottonmc.cotton.logging.ModLogger;
 import me.boxadactle.coordinatesdisplay.init.KeybindsInit;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.Locale;
@@ -18,7 +16,7 @@ public class CoordinatesDisplay implements ClientModInitializer {
 
     public static final String CHAT_PREFIX = "§3[§bCoordinatesDisplay§3] §a";
 
-    public static ModLogger LOGGER = new ModLogger(MOD_ID, MOD_NAME);
+	public static ModLogger LOGGER = new ModLogger(MOD_ID, MOD_NAME);
 
     public static final File configDir = new File(FabricLoader.getInstance().getConfigDir() + "/" + MOD_NAME);
 
