@@ -7,5 +7,5 @@
   "key.coordinatesmod.decimals": "Toggle Decimal Rounding",
   "key.coordinatesmod.configreload": "Reload Config",
   "key.coordinatesmod.openfile": "Open Configuration File",
-  "category.coordinatesmod": "Coordinates Mod"
+  "category.coordinatesmod": "Coordinates Display"
 }
