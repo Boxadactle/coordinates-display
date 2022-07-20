@@ -7,32 +7,32 @@ import io.github.cottonmc.cotton.config.annotations.ConfigFile;
 public class Config {
 
     @Comment("should anything be rendered")
-    public boolean visible = true;
+    public boolean visible = ConfigDefault.visible;
 
     @Comment("should the gray background be rendered")
-    public boolean renderBackground = true;
+    public boolean renderBackground = ConfigDefault.renderBackground;
 
     @Comment("should the chunk data be rendered")
-    public boolean renderChunkData = true;
+    public boolean renderChunkData = ConfigDefault.renderChunkData;
 
     @Comment("should the cardinal direction be rendered")
-    public boolean renderDirection = true;
+    public boolean renderDirection = ConfigDefault.renderDirection;
 
     @Comment("should the biome you're in be rendered")
-    public boolean renderBiome = true;
+    public boolean renderBiome = ConfigDefault.renderBiome;
 
-    @Comment("the color of the definitions on the hud")
-    public String definitionColor = "green";
+    @Comment("the color of the definitions on the hud (see https://www.digminecraft.com/lists/color_list_pc.php)")
+    public String definitionColor = ConfigDefault.definitionColor;
 
-    @Comment("the color of the data on the hud")
-    public String dataColor = "white";
+    @Comment("the color of the data on the hud (see https://www.digminecraft.com/lists/color_list_pc.php)")
+    public String dataColor = ConfigDefault.dataColor;
 
     @Comment("should numbers be rounded with two decimals")
-    public boolean roundPosToTwoDecimals = true;
+    public boolean roundPosToTwoDecimals = ConfigDefault.roundPosToTwoDecimals;
 
     @Comment("how much padding on the box")
-    public int padding = 5;
+    public int padding = ConfigDefault.padding;
 
     @Comment("how much padding should be on the text")
-    public int textPadding = 10;
+    public int textPadding = ConfigDefault.textPadding;
 }

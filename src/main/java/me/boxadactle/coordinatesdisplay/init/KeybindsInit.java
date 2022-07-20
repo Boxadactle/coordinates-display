@@ -9,12 +9,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.text.Text;
-import org.apache.commons.lang3.SystemUtils;
 import org.lwjgl.glfw.GLFW;
-
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 
 @Environment(EnvType.CLIENT)
 public class KeybindsInit {
@@ -73,25 +68,12 @@ public class KeybindsInit {
         }
 
         if (openConfigFileKeybind.wasPressed()) {
-            CoordinatesDisplay.LOGGER.info("Trying to open file in native file explorer...");
-            File f = CoordinatesDisplay.configDir;
-            if (SystemUtils.OS_NAME.toLowerCase().contains("windows")) {
-                try {
-                    Runtime.getRuntime().exec(new String[]{"explorer.exe", f.getAbsolutePath()});
-                } catch (IOException e) {
-                    MinecraftClient.getInstance().player.sendMessage(Text.of(CoordinatesDisplay.CHAT_PREFIX + "Sorry but I could not open the file. It is saved in the \"config\" folder in your .minecraft directory."), false);
-                    CoordinatesDisplay.LOGGER.error("Got an error: ");
-                    e.printStackTrace();
-                }
+            if (CoordinatesDisplay.openConfigFile()) {
+                MinecraftClient.getInstance().player.sendMessage(Text.of(CoordinatesDisplay.CHAT_PREFIX + "Successfully opened config file"), false);
             } else {
-                if (Desktop.isDesktopSupported()) {
-                    Desktop.getDesktop().browseFileDirectory(f);
-                    CoordinatesDisplay.LOGGER.info("Opened directory");
-                } else {
-                    MinecraftClient.getInstance().player.sendMessage(Text.of(CoordinatesDisplay.CHAT_PREFIX + "Sorry but I could not open the file. It is saved in the \"config\" folder in your .minecraft directory."), false);
-                    CoordinatesDisplay.LOGGER.warn("Incompatible with desktop class");
-                }
+                MinecraftClient.getInstance().player.sendMessage(Text.of(CoordinatesDisplay.CHAT_PREFIX + "Sorry but I could not open the file. It is at: " + CoordinatesDisplay.configDir.getAbsolutePath()), false);
             }
+
         }
 
         if (reloadConfigKeybind.wasPressed()) {

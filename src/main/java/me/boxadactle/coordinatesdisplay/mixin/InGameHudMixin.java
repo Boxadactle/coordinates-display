@@ -49,7 +49,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
     // method to turn an angle into a direction string
     private String getDirection(float degrees) {
         String direction;
-        String directions[] = new String[]{"North", "Northeast", "East", "Southeast", "South", "Southwest", "West", "Northwest", "North"};
+        String directions[] = new String[]{"South", "Southwest", "West", "Northwest", "North", "Northeast", "East", "Southeast", "South"};
         if (degrees > 0)
             direction = directions[Math.round(degrees / 45)];
         else {

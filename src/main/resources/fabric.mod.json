@@ -7,13 +7,20 @@
   "authors": [
     "Boxadactle"
   ],
-  "contact": {},
+  "contact": {
+    "homepage": "https://github.com/Boxadactle",
+    "sources": "https://github.com/Boxadactle/coordinates-display",
+    "issues": "https://github.com/Boxadactle/coordinates-display/issues"
+  },
   "license": "MIT",
   "icon": "assets/coordinatesdisplay/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
       "me.boxadactle.coordinatesdisplay.CoordinatesDisplay"
+    ],
+    "modmenu": [
+      "me.boxadactle.coordinatesdisplay.CoordinatesDisplayModMenu"
     ]
   },
   "mixins": [
@@ -22,6 +29,9 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": ">=1.18.2"
+    "minecraft": "1.19"
+  },
+  "recommends": {
+    "modmenu": ">=4.0.0"
   }
 }

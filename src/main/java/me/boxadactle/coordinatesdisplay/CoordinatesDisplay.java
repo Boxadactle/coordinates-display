@@ -5,8 +5,13 @@ import io.github.cottonmc.cotton.logging.ModLogger;
 import me.boxadactle.coordinatesdisplay.init.KeybindsInit;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
+import org.apache.commons.lang3.SystemUtils;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
 public class CoordinatesDisplay implements ClientModInitializer {
@@ -25,6 +30,25 @@ public class CoordinatesDisplay implements ClientModInitializer {
     public static String DefinitionColorPrefix;
 
     public static String DataColorPrefix;
+
+    public static final String[] colors = {
+            "white", "gray", "dark_gray", "black",
+            "dark_red", "red",
+            "gold", "yellow",
+            "dark_green", "green",
+            "aqua", "dark_aqua",
+            "blue", "dark_blue",
+            "light_purple", "dark_purple"
+    };
+
+    public static int getColorIndex(String color) {
+        int index = -1;
+
+        for (int i = 0; i < colors.length; i++)
+            if (colors[i].equalsIgnoreCase(color)) index = i;
+
+        return index;
+    }
 
     @Override
     public void onInitializeClient() {
@@ -52,7 +76,7 @@ public class CoordinatesDisplay implements ClientModInitializer {
         DataColorPrefix = getColorPrefix(CONFIG.dataColor);
     }
 
-    private static String getColorPrefix(String color) {
+    public static String getColorPrefix(String color) {
         String prefix;
         String c = color.toLowerCase(Locale.ROOT);
         String defaultPrefix = "§f";
@@ -111,5 +135,52 @@ public class CoordinatesDisplay implements ClientModInitializer {
         }
         LOGGER.info("Parsed color " + color + " as " + prefix);
         return prefix;
+    }
+
+    public static boolean openConfigFile() {
+        LOGGER.info("Trying to open file in native file explorer...");
+        File f = configDir;
+        boolean worked;
+        if (SystemUtils.OS_NAME.toLowerCase().contains("windows")) {
+            try {
+                Runtime.getRuntime().exec(new String[]{"explorer.exe", f.getAbsolutePath()});
+                worked = true;
+            } catch (IOException e) {
+                LOGGER.error("Got an error: ");
+                e.printStackTrace();
+                worked = false;
+            }
+        } else {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().browseFileDirectory(f);
+                LOGGER.info("Opened directory");
+                worked = true;
+            } else {
+                MinecraftClient.getInstance().player.sendMessage(Text.of(CHAT_PREFIX + "Sorry but I could not open the file. It is saved in the \"config\" folder in your .minecraft directory."), false);
+                LOGGER.warn("Incompatible with desktop class");
+                worked = false;
+            }
+        }
+
+        return worked;
+    }
+
+    public static void resetConfig() {
+        CONFIG.visible = ConfigDefault.visible;
+        CONFIG.roundPosToTwoDecimals = ConfigDefault.roundPosToTwoDecimals;
+
+        CONFIG.renderBiome = ConfigDefault.renderBiome;
+        CONFIG.renderDirection = ConfigDefault.renderDirection;
+        CONFIG.renderChunkData = ConfigDefault.renderChunkData;
+        CONFIG.renderBackground = ConfigDefault.renderBackground;
+
+        CONFIG.definitionColor = ConfigDefault.definitionColor;
+        CONFIG.dataColor = ConfigDefault.dataColor;
+
+        CONFIG.padding = ConfigDefault.padding;
+        CONFIG.textPadding = ConfigDefault.textPadding;
+
+        ConfigManager.saveConfig(CONFIG);
+        parseColorPrefixes();
     }
 }
