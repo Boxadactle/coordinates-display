@@ -15,12 +15,9 @@ You cannot change all of the options with the key binds however. Use the Mod Men
 
 ![config](https://github.com/Boxadactle/coordinates-display/blob/main/img/config%20gui.png?raw=true)
 
-In this image, I have changed definitionColor to "dark_aqua" and dataColor to "aqua". There are many different color combinations you could choose from. List of colors [here](https://www.digminecraft.com/lists/color_list_pc.php).
+In this image, I have changed the keys color to "dark_aqua" and the values color to "aqua". There are many different color combinations you could choose from. List of colors [here](https://www.digminecraft.com/lists/color_list_pc.php).
 
 ![custom config](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay2.png?raw=true)
-
-
-
 
 
 *If you find any bugs/issues, please open an issue on this repository*
