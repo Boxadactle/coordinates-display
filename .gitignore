@@ -2,8 +2,6 @@
 .git/
 .gradle/
 .idea/
-build/
-run/
 FabricCoordinatesMod.iml
 
 *.iml
