@@ -4,6 +4,9 @@
 .idea/
 build/
 run/
+.gitignore
+.gitattributes
+FabricCoordinatesMod.iml
 
 *.iml
 *.ipr
