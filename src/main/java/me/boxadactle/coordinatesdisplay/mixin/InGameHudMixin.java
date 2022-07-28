@@ -1,7 +1,7 @@
 package me.boxadactle.coordinatesdisplay.mixin;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import me.boxadactle.coordinatesdisplay.init.KeybindsInit;
+import me.boxadactle.coordinatesdisplay.init.Keybinds;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -10,7 +10,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.RegistryEntry;
@@ -26,7 +25,7 @@ import java.text.DecimalFormat;
 
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin extends DrawableHelper {
-    @Shadow @Final MinecraftClient client;
+    @Shadow @Final private MinecraftClient client;
 
     @Shadow public abstract TextRenderer getTextRenderer();
 
@@ -38,18 +37,31 @@ public abstract class InGameHudMixin extends DrawableHelper {
         if (!this.client.options.hudHidden && CoordinatesDisplay.CONFIG.visible && !this.client.options.debugEnabled) {
             try {
                 Entity camera = this.client.getCameraEntity();
-                renderCoordinatesOverlay(matrices, camera.getPos(), camera.getChunkPos(), camera.getHorizontalFacing(), this.client.world.getBiome(camera.getBlockPos()), camera.getYaw());
+
+                if (camera == null) return;
+
+                Vec3d pos = camera.getPos();
+                ChunkPos chunkPos = camera.getChunkPos();
+                RegistryEntry<Biome> biomeRegistryEntry = this.client.world != null ? this.client.world.getBiome(camera.getBlockPos()) : null;
+                float cameraYaw = camera.getYaw();
+
+                renderCoordinatesOverlay(matrices, pos, chunkPos, biomeRegistryEntry, cameraYaw);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
-        KeybindsInit.checkBindings();
+
+        Vec3d pos = this.client.getCameraEntity().getPos();
+        int x = (int) Math.round(pos.getX());
+        int y = (int) Math.round(pos.getY());
+        int z = (int) Math.round(pos.getZ());
+        Keybinds.checkBindings(x, y, z);
     }
 
     // method to turn an angle into a direction string
     private String getDirection(float degrees) {
         String direction;
-        String directions[] = new String[]{"South", "Southwest", "West", "Northwest", "North", "Northeast", "East", "Southeast", "South"};
+        String[] directions = {"South", "Southwest", "West", "Northwest", "North", "Northeast", "East", "Southeast", "South"};
         if (degrees > 0)
             direction = directions[Math.round(degrees / 45)];
         else {
@@ -59,7 +71,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
         return direction;
     }
 
-    public void renderCoordinatesOverlay(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, Direction direction, RegistryEntry biome, float cameraYaw) {
+    public void renderCoordinatesOverlay(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, RegistryEntry<Biome> biome, float cameraYaw) {
         Text x = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "X: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getX()) : Math.round(pos.getX())));
         Text y = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "Y: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getY()) : Math.round(pos.getY())));
         Text z = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "Z: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getZ()) : Math.round(pos.getZ())));
@@ -112,33 +124,29 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
     private int getLengthOfLongestTextObject(Text ...text) {
         int largest = 0;
-        for (int i = 0; i < text.length; i++) {
-            int t = this.getTextRenderer().getWidth(text[i]);
+        for (Text value : text) {
+            int t = this.getTextRenderer().getWidth(value);
             if (t > largest) largest = t;
         }
         return largest;
     }
 
     private static String parseBiomeId(String id) {
-        String name = "";
+        StringBuilder name = new StringBuilder();
 
         String withoutNamespace = id.split(":")[1];
         String spaces = withoutNamespace.replaceAll("_", " ");
         for (String word : spaces.split("\\s")) {
-            String firstletter = word.substring(0, 1);
-            String therest = word.substring(1);
-            name += firstletter.toUpperCase() + therest + " ";
+            String firstLetter = word.substring(0, 1);
+            String theRest = word.substring(1);
+            name.append(firstLetter.toUpperCase()).append(theRest).append(" ");
         }
 
-        return name.trim();
+        return name.toString().trim();
     }
 
     // copy + pasted from DebugHud.class
     private static String getBiomeString(RegistryEntry<Biome> biome) {
-        return (String)biome.getKeyOrValue().map((biomeKey) -> {
-            return biomeKey.getValue().toString();
-        }, (biome_) -> {
-            return "[unregistered " + biome_ + "]";
-        });
+        return biome.getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]");
     }
 }

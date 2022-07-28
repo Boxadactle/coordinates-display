@@ -2,7 +2,7 @@ package me.boxadactle.coordinatesdisplay;
 
 import io.github.cottonmc.cotton.config.ConfigManager;
 import io.github.cottonmc.cotton.logging.ModLogger;
-import me.boxadactle.coordinatesdisplay.init.KeybindsInit;
+import me.boxadactle.coordinatesdisplay.init.Keybinds;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
@@ -20,8 +20,9 @@ public class CoordinatesDisplay implements ClientModInitializer {
     public static final String MOD_ID = "coordinatesdisplay";
 
     public static final String CHAT_PREFIX = "§3[§bCoordinatesDisplay§3] §a";
+    public static final String MOD_VERSION = "1.1.0";
 
-	public static ModLogger LOGGER = new ModLogger(MOD_ID, MOD_NAME);
+    public static ModLogger LOGGER = new ModLogger(MOD_ID, MOD_NAME);
 
     public static final File configDir = new File(FabricLoader.getInstance().getConfigDir() + "/" + MOD_NAME);
 
@@ -58,7 +59,7 @@ public class CoordinatesDisplay implements ClientModInitializer {
         CONFIG = ConfigManager.loadConfig(Config.class);
         LOGGER.info("Loaded all config");
 
-        KeybindsInit.register();
+        Keybinds.register();
 
         parseColorPrefixes();
         LOGGER.info("Parsed all color prefixes");
@@ -80,58 +81,27 @@ public class CoordinatesDisplay implements ClientModInitializer {
         String prefix;
         String c = color.toLowerCase(Locale.ROOT);
         String defaultPrefix = "§f";
-        switch(c) {
-            case "dark_red":
-                prefix = "§4";
-                break;
-            case "red":
-                prefix = "§c";
-                break;
-            case "gold":
-                prefix = "§6";
-                break;
-            case "yellow":
-                prefix = "§e";
-                break;
-            case "dark_green":
-                prefix = "§2";
-                break;
-            case "green":
-                prefix = "§a";
-                break;
-            case "aqua":
-                prefix = "§b";
-                break;
-            case "dark_aqua":
-                prefix = "§3";
-                break;
-            case "dark_blue":
-                prefix = "§1";
-                break;
-            case "blue":
-                prefix = "§9";
-                break;
-            case "light_purple":
-                prefix = "§d";
-                break;
-            case "dark_purple":
-                prefix = "§5";
-                break;
-            case "white":
-                prefix = "§f";
-                break;
-            case "gray":
-                prefix = "§7";
-                break;
-            case "dark_gray":
-                prefix = "§8";
-                break;
-            case "black":
-                prefix = "§0";
-                break;
-            default:
+        switch (c) {
+            case "dark_red" -> prefix = "§4";
+            case "red", "rainbow" -> prefix = "§c";
+            case "gold" -> prefix = "§6";
+            case "yellow" -> prefix = "§e";
+            case "dark_green" -> prefix = "§2";
+            case "green" -> prefix = "§a";
+            case "aqua" -> prefix = "§b";
+            case "dark_aqua" -> prefix = "§3";
+            case "dark_blue" -> prefix = "§1";
+            case "blue" -> prefix = "§9";
+            case "light_purple" -> prefix = "§d";
+            case "dark_purple" -> prefix = "§5";
+            case "white" -> prefix = "§f";
+            case "gray" -> prefix = "§7";
+            case "dark_gray" -> prefix = "§8";
+            case "black" -> prefix = "§0";
+            default -> {
                 prefix = defaultPrefix;
                 CoordinatesDisplay.LOGGER.warn("Could not parse color " + color + " so defaulted to " + defaultPrefix);
+            }
         }
         LOGGER.info("Parsed color " + color + " as " + prefix);
         return prefix;
@@ -156,7 +126,9 @@ public class CoordinatesDisplay implements ClientModInitializer {
                 LOGGER.info("Opened directory");
                 worked = true;
             } else {
-                MinecraftClient.getInstance().player.sendMessage(Text.of(CHAT_PREFIX + "Sorry but I could not open the file. It is saved in the \"config\" folder in your .minecraft directory."), false);
+                if (MinecraftClient.getInstance().player != null) {
+                    MinecraftClient.getInstance().player.sendMessage(Text.of(CHAT_PREFIX + "Sorry but I could not open the file. It is saved in the \"config\" folder in your .minecraft directory."), false);
+                }
                 LOGGER.warn("Incompatible with desktop class");
                 worked = false;
             }

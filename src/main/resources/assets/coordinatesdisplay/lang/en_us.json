@@ -1,11 +1,48 @@
 {
-  "key.coordinatesmod.visible": "Toggle Hud",
-  "key.coordinatesmod.background": "Toggle Background",
-  "key.coordinatesmod.chunkdata": "Toggle Chunk",
-  "key.coordinatesmod.direction": "Toggle Direction",
-  "key.coordinatesmod.biome": "Toggle Biome",
-  "key.coordinatesmod.decimals": "Toggle Decimal Rounding",
-  "key.coordinatesmod.configreload": "Reload Config",
-  "key.coordinatesmod.openfile": "Open Configuration File",
-  "category.coordinatesmod": "Coordinates Display"
+  "key.coordinatesdisplay.visible": "Toggle Hud",
+  "key.coordinatesdisplay.openfile": "Open Configuration File",
+  "key.coordinatesdisplay.configreload": "Reload Configuration",
+  "key.coordinatesdisplay.coordinatesgui": "Open Coordinates GUI",
+  "category.coordinatesdisplay": "Coordinates Display",
+
+  "screen.coordinatesdisplay.config": "Config for %s v%s",
+  "screen.coordinatesdisplay.confirmreset": "Confirm Reset to Default",
+
+  "label.coordinatesdisplay.render": "Rendering",
+  "label.coordinatesdisplay.color": "Colors",
+  "label.coordinatesdisplay.other": "Other Options",
+
+  "button.coordinatesdisplay.visible": "Visible: %s",
+  "button.coordinatesdisplay.decimal": "Trailing Decimals: %s",
+  "button.coordinatesdisplay.render.background": "Background: %s",
+  "button.coordinatesdisplay.render.chunkdata": "Chunk Data: %s",
+  "button.coordinatesdisplay.render.direction": "Direction: %s",
+  "button.coordinatesdisplay.render.biome": "Biome: %s",
+  "button.coordinatesdisplay.colors.keys": "Keys: %s",
+  "button.coordinatesdisplay.colors.values": "Values: %s",
+
+  "button.coordinatesdisplay.configfile": "Show config file...",
+  "button.coordinatesdisplay.resetconf": "Reset to Default...",
+
+  "button.coordinatesdisplay.cancel": "Cancel",
+  "button.coordinatesdisplay.save": "Save & Exit",
+
+  "message.coordinatesdisplay.openfilefailed": "Could not open file",
+  "message.coordinatesdisplay.openfilesuccess": "Opened file in native explorer",
+  "message.coordinatesdisplay.confirmreset": "Are you sure you want to restore all configuration to default?",
+  "message.coordinatesdisplay.at": "You are at",
+  "message.coordinatesdisplay.location": "X: %d Y: %d Z: %d",
+
+  "button.coordinatesdisplay.copy": "Copy to Clipboard",
+  "button.coordinatesdisplay.copied": "Copied!",
+  "button.coordinatesdisplay.send": "Send as Chat Message",
+
+  "description.coordinatesdisplay.visible": "Render the HUD",
+  "description.coordinatesdisplay.decimal": "Round numbers with 2 trailing decimals",
+  "description.coordinatesdisplay.render.background": "Render the gray background",
+  "description.coordinatesdisplay.render.chunkdata": "Display the chunk X and Z",
+  "description.coordinatesdisplay.render.direction": "Display the direction you're looking in",
+  "description.coordinatesdisplay.render.biome": "Display the biome that you're in",
+  "description.coordinatesdisplay.colors.key": "Color of the definitions",
+  "description.coordinatesdisplay.colors.value": "Color of the data"
 }
