@@ -1,17 +1,13 @@
 # Coordinates Display
-Coordinates Display mod is a simple mod for displaying your coordinates as an HUD in-game. It shows you your x, y, and z positions, your chunk x and y, the direction you're looking in, and the biome you're in.
+Coordinates Display is a simple mod for displaying your coordinates as an HUD in-game. It shows you your x, y, and z positions, your chunk x and y, the direction you're looking in, and the biome you're in.
 
 ![The Overlay](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay.png?raw=true)
 
-The HUD is customizable as well. There are many different ways you could make your HUD look. Simply use one of the key binds to customize it!
+The HUD is customizable as well. Firstly, you could toggle the hud by pressing a keybind.
 
 ![The Keybinds used to customize the overlay](https://github.com/Boxadactle/coordinates-display/blob/main/img/controls.png?raw=true)
 
-In this image, I have turned off the biome and the direction.
-
-![The overlay customized with the keybinds](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay1.png?raw=true)
-
-You cannot change all of the options with the key binds however. Use the Mod Menu integration to open the Configuration GUI. Now you can change all the options!
+That's not all! Use the Mod Menu integration to open the Configuration GUI. Now you can change all the options!
 
 ![config](https://github.com/Boxadactle/coordinates-display/blob/main/img/config%20gui.png?raw=true)
 
@@ -19,5 +15,8 @@ In this image, I have changed the keys color to "dark_aqua" and the values color
 
 ![custom config](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay2.png?raw=true)
 
+By pressing "C", you can open the Coordinates GUI. Here you can copy your coordinates or send them in chat!
+
+![location screen](https://github.com/Boxadactle/coordinates-display/blob/main/img/location%20screen.png?raw=true)
 
 *If you find any bugs/issues, please open an issue on this repository*
