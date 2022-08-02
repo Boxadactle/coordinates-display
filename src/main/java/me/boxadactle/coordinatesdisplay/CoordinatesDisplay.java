@@ -4,8 +4,10 @@ import io.github.cottonmc.cotton.config.ConfigManager;
 import io.github.cottonmc.cotton.logging.ModLogger;
 import me.boxadactle.coordinatesdisplay.init.Keybinds;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -20,7 +22,7 @@ public class CoordinatesDisplay implements ClientModInitializer {
     public static final String MOD_ID = "coordinatesdisplay";
 
     public static final String CHAT_PREFIX = "§3[§bCoordinatesDisplay§3] §a";
-    public static final String MOD_VERSION = "1.1.0";
+    public static final String MOD_VERSION = "1.2.0";
 
     public static ModLogger LOGGER = new ModLogger(MOD_ID, MOD_NAME);
 
@@ -31,6 +33,8 @@ public class CoordinatesDisplay implements ClientModInitializer {
     public static String DefinitionColorPrefix;
 
     public static String DataColorPrefix;
+
+    public static String DeathposColorPrefix;
 
     public static final String[] colors = {
             "white", "gray", "dark_gray", "black",
@@ -75,6 +79,7 @@ public class CoordinatesDisplay implements ClientModInitializer {
     public static void parseColorPrefixes() {
         DefinitionColorPrefix = getColorPrefix(CONFIG.definitionColor);
         DataColorPrefix = getColorPrefix(CONFIG.dataColor);
+        DeathposColorPrefix = getColorPrefix(CONFIG.deathPosColor);
     }
 
     public static String getColorPrefix(String color) {
@@ -138,6 +143,9 @@ public class CoordinatesDisplay implements ClientModInitializer {
     }
 
     public static void resetConfig() {
+        CONFIG.displayPosOnDeathScreen = ConfigDefault.displayPosOnDeathScreen;
+        CONFIG.showDeathPosInChat = ConfigDefault.showDeathPosInChat;
+
         CONFIG.visible = ConfigDefault.visible;
         CONFIG.roundPosToTwoDecimals = ConfigDefault.roundPosToTwoDecimals;
 
@@ -148,6 +156,7 @@ public class CoordinatesDisplay implements ClientModInitializer {
 
         CONFIG.definitionColor = ConfigDefault.definitionColor;
         CONFIG.dataColor = ConfigDefault.dataColor;
+        CONFIG.deathPosColor = ConfigDefault.deathPosColor;
 
         CONFIG.padding = ConfigDefault.padding;
         CONFIG.textPadding = ConfigDefault.textPadding;

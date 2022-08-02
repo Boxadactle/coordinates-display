@@ -11,12 +11,9 @@ import net.minecraft.text.Text;
 public class ConfigScreen extends Screen {
     int p = 2;
     int p1 = p / 2;
-    int th = 10;
-    int tp = 4;
 
     int largeButtonW = 300;
     int smallButtonW = 150 - p;
-    int tinyButtonW = 75;
     int buttonHeight = 20;
 
     int start = 20;
@@ -25,11 +22,11 @@ public class ConfigScreen extends Screen {
 
     int white = 16777215;
 
-    String TRUE = "§atrue";
-    String FALSE = "§cfalse";
+    String TRUE = "§a" + Text.translatable("coordinatesdisplay.true").getString();
+    String FALSE = "§c" + Text.translatable("coordinatesdisplay.false").getString();
 
     public ConfigScreen(Screen parent) {
-        super(Text.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
+        super(Text.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
         this.parent = parent;
     }
 
@@ -38,12 +35,6 @@ public class ConfigScreen extends Screen {
         this.renderBackground(matrices);
 
         drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION), this.width / 2, 5, white);
-
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("label.coordinatesdisplay.render"), this.width / 2, start + (buttonHeight + p) * 2 + p, white);
-
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("label.coordinatesdisplay.color"), this.width / 2, start + (buttonHeight + p) * 4  + (th + tp) + p, white);
-
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("label.coordinatesdisplay.other"), this.width / 2,  start + (buttonHeight + p) * 5  + (th + tp) * 2 + p, white);
 
         super.render(matrices, mouseX,  mouseY, delta);
     }
@@ -71,106 +62,34 @@ public class ConfigScreen extends Screen {
             }
         }));
 
-        initButtonsRender();
-        initButtonsColor();
-        initButtonsOther();
+        initButtons();
+        initButtonsOpen();
         initButtonsExit();
     }
 
-    private void initButtonsRender() {
-        // background
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - smallButtonW - p1, start + (buttonHeight + p) * 2 + th + tp, smallButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.renderBackground ? TRUE : FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.renderBackground = !CoordinatesDisplay.CONFIG.renderBackground;
-            button.setMessage(Text.translatable("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.renderBackground ? TRUE : FALSE)));
-        }, (button, matrices, mouseX, mouseY) -> {
+    private void initButtons() {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.render"), (button) -> this.client.setScreen(new RenderConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
             if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.render.background"), mouseX, mouseY);
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.render"), mouseX, mouseY);
             }
         }));
 
-        // chunk data
-        this.addDrawableChild(new ButtonWidget(this.width / 2 + p1, start + (buttonHeight + p) * 2 + th + tp, smallButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.renderChunkData ? TRUE : FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.renderChunkData = !CoordinatesDisplay.CONFIG.renderChunkData;
-            button.setMessage(Text.translatable("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.renderChunkData ? TRUE : FALSE)));
-        }, (button, matrices, mouseX, mouseY) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.color"), (button) -> this.client.setScreen(new ColorConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
             if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.render.chunkdata"), mouseX, mouseY);
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.colors"), mouseX, mouseY);
             }
         }));
 
-        // direction
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - smallButtonW - p1, start + (buttonHeight + p) * 3 + th + tp, smallButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.renderDirection ? TRUE : FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.renderDirection = !CoordinatesDisplay.CONFIG.renderDirection;
-            button.setMessage(Text.translatable("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.renderDirection ? TRUE : FALSE)));
-        }, (button, matrices, mouseX, mouseY) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.deathpos"), (button) -> this.client.setScreen(new DeathPosConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
             if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.render.direction"), mouseX, mouseY);
-            }
-        }));
-
-        // biome
-        this.addDrawableChild(new ButtonWidget(this.width / 2 + p1, start + (buttonHeight + p) * 3 + th + tp, smallButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.renderBiome ? TRUE : FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.renderBiome = !CoordinatesDisplay.CONFIG.renderBiome;
-            button.setMessage(Text.translatable("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.renderBiome ? TRUE : FALSE)));
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.render.biome"), mouseX, mouseY);
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.deathpos"), mouseX, mouseY);
             }
         }));
     }
 
-    private void initButtonsColor() {
-        String keyColor = CoordinatesDisplay.getColorIndex(CoordinatesDisplay.CONFIG.definitionColor) > 0 ?
-                CoordinatesDisplay.colors[CoordinatesDisplay.getColorIndex(CoordinatesDisplay.CONFIG.definitionColor)] : "white";
-        String valueColor = CoordinatesDisplay.getColorIndex(CoordinatesDisplay.CONFIG.dataColor) > 0 ?
-                CoordinatesDisplay.colors[CoordinatesDisplay.getColorIndex(CoordinatesDisplay.CONFIG.dataColor)] : "white";
-
-        String keyPrefix = CoordinatesDisplay.getColorPrefix(keyColor);
-        String valuePrefix = CoordinatesDisplay.getColorPrefix(valueColor);
-
-        // lambdas are annoying
-        final int[] indexes = {CoordinatesDisplay.getColorIndex(keyColor), CoordinatesDisplay.getColorIndex(valueColor)};
-
-        // keys
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - smallButtonW - p1, start + (buttonHeight + p) * 4 + (th + tp) * 2, smallButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.colors.keys", keyPrefix + keyColor), (button) -> {
-            if (indexes[0] == CoordinatesDisplay.colors.length - 1) indexes[0] = 0;
-            else indexes[0]++;
-
-            CoordinatesDisplay.CONFIG.definitionColor = CoordinatesDisplay.colors[indexes[0]];
-            CoordinatesDisplay.parseColorPrefixes();
-
-            String newColor = CoordinatesDisplay.colors[indexes[0]];
-            String newPrefix = CoordinatesDisplay.getColorPrefix(CoordinatesDisplay.colors[indexes[0]]);
-
-            button.setMessage(Text.translatable("button.coordinatesdisplay.colors.keys", newPrefix + newColor));
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.colors.key"), mouseX, mouseY);
-            }
-        }));
-
-        // values
-        this.addDrawableChild(new ButtonWidget(this.width / 2 + p1, start + (buttonHeight + p) * 4 + (th + tp) * 2, smallButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.colors.values", valuePrefix + valueColor), (button) -> {
-            if (indexes[1] == CoordinatesDisplay.colors.length - 1) indexes[1] = 0;
-            else indexes[1]++;
-
-            CoordinatesDisplay.CONFIG.dataColor = CoordinatesDisplay.colors[indexes[1]];
-            CoordinatesDisplay.parseColorPrefixes();
-
-            String newColor = CoordinatesDisplay.colors[indexes[1]];
-            String newPrefix = CoordinatesDisplay.getColorPrefix(CoordinatesDisplay.colors[indexes[1]]);
-
-            button.setMessage(Text.translatable("button.coordinatesdisplay.colors.values", newPrefix + newColor));
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.colors.value"), mouseX, mouseY);
-            }
-        }));
-    }
-
-    private void initButtonsOther() {
+    private void initButtonsOpen() {
         // open config file
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 5 + (th + tp) * 3, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.configfile"), (button) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.configfile"), (button) -> {
             if (CoordinatesDisplay.openConfigFile()) {
                 button.setMessage(Text.translatable("message.coordinatesdisplay.openfilesuccess"));
                 button.active = false;
@@ -181,7 +100,7 @@ public class ConfigScreen extends Screen {
         }));
 
         // reset to default
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6 + (th + tp) * 3, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.client.setScreen(new ConfirmScreen((doIt) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 7, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.client.setScreen(new ConfirmScreen((doIt) -> {
             if (doIt) {
                 CoordinatesDisplay.resetConfig();
                 this.client.setScreen(new ConfigScreen(parent));

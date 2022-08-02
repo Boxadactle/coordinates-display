@@ -72,6 +72,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
     }
 
     public void renderCoordinatesOverlay(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, RegistryEntry<Biome> biome, float cameraYaw) {
+
         Text x = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "X: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getX()) : Math.round(pos.getX())));
         Text y = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "Y: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getY()) : Math.round(pos.getY())));
         Text z = Text.of(CoordinatesDisplay.DefinitionColorPrefix + "Z: " + CoordinatesDisplay.DataColorPrefix + (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? decimalFormat.format(pos.getZ()) : Math.round(pos.getZ())));

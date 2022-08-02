@@ -7,10 +7,13 @@
 
   "screen.coordinatesdisplay.config": "%s v%s 환경설정",
   "screen.coordinatesdisplay.confirmreset": "기본값으로 초기화 확인",
+  "screen.coordinatesdisplay.config.render": "Rendering Config for %s v%s",
+  "screen.coordinatesdisplay.config.color": "Color Config for %s v%s",
+  "screen.coordinatesdisplay.config.deathpos": "Death Position Config for %s v%s",
 
-  "label.coordinatesdisplay.render": "렌더링",
-  "label.coordinatesdisplay.color": "색상",
-  "label.coordinatesdisplay.other": "기타 옵션",
+  "button.coordinatesdisplay.render": "렌더링...",
+  "button.coordinatesdisplay.color": "색상...",
+  "button.coordinatesdisplay.deathpos": "죽음의 위치",
 
   "button.coordinatesdisplay.visible": "화면에 표시: %s",
   "button.coordinatesdisplay.decimal": "소수점 표시: %s",
@@ -18,24 +21,33 @@
   "button.coordinatesdisplay.render.chunkdata": "청크 데이터: %s",
   "button.coordinatesdisplay.render.direction": "방향: %s",
   "button.coordinatesdisplay.render.biome": "바이옴: %s",
+  "button.coordinatesdisplay.deathpos.chat": "채팅에 넣다: %s",
+  "button.coordinatesdisplay.deathpos.deathscreen": "화면에 표시: %s",
   "button.coordinatesdisplay.colors.keys": "키값: %s",
   "button.coordinatesdisplay.colors.values": "값: %s",
+  "button.coordinatesdisplay.colors.deathpos": "사망 위치 채팅 메시지: %s",
 
   "button.coordinatesdisplay.configfile": "환경설정 파일 표시...",
   "button.coordinatesdisplay.resetconf": "기본값으로 초기화...",
 
   "button.coordinatesdisplay.cancel": "취소",
   "button.coordinatesdisplay.save": "저장 & 종료",
+  "button.coordinatesdisplay.back": "이전",
 
   "message.coordinatesdisplay.openfilefailed": "파일을 열 수 없습니다.",
   "message.coordinatesdisplay.openfilesuccess": "기본 탐색기에서 파일을 열었습니다.",
   "message.coordinatesdisplay.confirmreset": "정말 모든 환경설정을 기본값으로 복구하시겠습니까?",
-  "message.coordinatesdisplay.at": "현재 위치 ",
+  "message.coordinatesdisplay.at": "현재 위치",
   "message.coordinatesdisplay.location": "X: %d Y: %d Z: %d",
+  "message.coordinatesdisplay.deathpos": "당신의 죽음 위치는 X: %d Y: %d Z: %d",
 
   "button.coordinatesdisplay.copy": "클립보드로 복사",
   "button.coordinatesdisplay.copied": "복사됨!",
   "button.coordinatesdisplay.send": "채팅 메시지로 전송",
+
+  "description.coordinatesdisplay.render": "HUD에 렌더링되어야 하는 것",
+  "description.coordinatesdisplay.colors": "HUD의 색상",
+  "description.coordinatesdisplay.deathpos": "사망 위치 구성",
 
   "description.coordinatesdisplay.visible": "HUD를 렌더링합니다.",
   "description.coordinatesdisplay.decimal": "소수점 2번째 자리까지 표시하는 어림수",
@@ -43,6 +55,12 @@
   "description.coordinatesdisplay.render.chunkdata": "청크 X, Z를 표시합니다.",
   "description.coordinatesdisplay.render.direction": "플레이어가 바라보는 방향을 표시합니다.",
   "description.coordinatesdisplay.render.biome": "플레이어가 있는 바이옴을 표시합니다.",
+  "description.coordinatesdisplay.deathpos.deathscreen": "사망 화면에 사망 위치 표시",
+  "description.coordinatesdisplay.deathpos.chat": "채팅 메시지로 사망 위치 보내기(당신에게만)",
   "description.coordinatesdisplay.colors.key": "정의값 색상",
-  "description.coordinatesdisplay.colors.value": "데이터 색상"
+  "description.coordinatesdisplay.colors.value": "데이터 색상",
+  "description.coordinatesdisplay.colors.deathpos": "당신이 죽은 위치의 색상",
+
+  "coordinatesdisplay.true": "예",
+  "coordinatesdisplay.false": "아니요"
 }
