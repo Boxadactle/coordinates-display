@@ -9,7 +9,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.text.Text;
+import net.minecraft.util.Util;
 import org.lwjgl.glfw.GLFW;
 
 @Environment(EnvType.CLIENT)
@@ -40,17 +40,12 @@ public class Keybinds {
         }
 
         if (openConfigFileKeybind.wasPressed()) {
-            if (CoordinatesDisplay.openConfigFile()) {
-                MinecraftClient.getInstance().player.sendMessage(Text.of(CoordinatesDisplay.CHAT_PREFIX + "Successfully opened config file"), false);
-            } else {
-                MinecraftClient.getInstance().player.sendMessage(Text.of(CoordinatesDisplay.CHAT_PREFIX + "Sorry but I could not open the file. It is at: " + CoordinatesDisplay.configDir.getAbsolutePath()), false);
-            }
-
+            Util.getOperatingSystem().open(CoordinatesDisplay.configfile);
         }
 
         if (reloadConfigKeybind.wasPressed()) {
             CoordinatesDisplay.reloadConfig();
-            MinecraftClient.getInstance().player.sendMessage(Text.of(CoordinatesDisplay.CHAT_PREFIX + "Config reloaded!"), false);
+            CoordinatesDisplay.LOGGER.chatInfo("Config reloaded!");
             CoordinatesDisplay.LOGGER.info("Reloaded all config");
         }
     }

@@ -1,4 +1,4 @@
-package me.boxadactle.coordinatesdisplay;
+package me.boxadactle.coordinatesdisplay.util;
 
 /*
  * this is all the default config
@@ -6,7 +6,7 @@ package me.boxadactle.coordinatesdisplay;
  * this is used for resetting all the config
 */
 
-public class ConfigDefault {
+public class DefaultModConfig {
 
     public static final boolean visible = true;
     public static final boolean roundPosToTwoDecimals = true;
@@ -25,4 +25,7 @@ public class ConfigDefault {
 
     public static final int padding = 5;
     public static final int textPadding = 10;
+
+    public static final int hudX = 0;
+    public static final int hudY = 0;
 }
