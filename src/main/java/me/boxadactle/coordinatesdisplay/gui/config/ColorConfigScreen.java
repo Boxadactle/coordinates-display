@@ -5,7 +5,9 @@ import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.Texts;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
@@ -32,9 +34,9 @@ public class ColorConfigScreen extends Screen {
     ChunkPos chunkPos;
     float cameraYaw;
 
-    String deathx;
-    String deathy;
-    String deathz;
+    int deathx;
+    int deathy;
+    int deathz;
 
     public ColorConfigScreen(Screen parent) {
         super(new TranslatableText("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
@@ -46,9 +48,10 @@ public class ColorConfigScreen extends Screen {
 
         DecimalFormat d = new DecimalFormat("0.00");
 
-        deathx = d.format(Math.random() * 1000);
-        deathy = d.format(Math.random() * 100);
-        deathz = d.format(Math.random() * 1000);
+        deathx = (int) Math.round(Math.random() * 1000);
+        deathy = (int) Math.round(Math.random() * 100);
+        deathz = (int) Math.round(Math.random() * 1000);
+
     }
 
     @Override
@@ -61,8 +64,8 @@ public class ColorConfigScreen extends Screen {
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), y);
 
-        String pos = CoordinatesDisplay.DeathposColorPrefix + new TranslatableText("message.coordinatesdisplay.location", deathx, deathy, deathz).getString();
-        Text deathPos = new TranslatableText("message.coordinatesdisplay.deathpos", pos);
+        Text posT = Texts.bracketed(new TranslatableText("message.coordinatesdisplay.location2", deathx, deathy, deathz)).styled(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.deathPosColor)));
+        Text deathPos = new TranslatableText("message.coordinatesdisplay.deathpos", posT);
         drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4), ModUtils.WHITE);
 
         super.render(matrices, mouseX,  mouseY, delta);

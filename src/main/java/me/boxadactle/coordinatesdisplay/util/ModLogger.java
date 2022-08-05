@@ -61,4 +61,18 @@ public class ModLogger {
             this.client.player.sendMessage(new LiteralText(chatPrefix + "§a" + String.format(msg, data)), false);
         }
     }
+
+    public void sendChatMessage(Text msg) {
+        if (this.client.player != null) {
+            this.client.player.sendMessage(msg, false);
+        }
+    }
+
+    public String getChatPrefix() {
+        return chatPrefix;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
 }

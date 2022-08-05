@@ -4,8 +4,8 @@ import io.github.cottonmc.cotton.config.ConfigManager;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.*;
+import net.minecraft.util.Formatting;
 
 import java.util.Locale;
 
@@ -36,6 +36,18 @@ public class ModUtils {
 
     public static int convertPosition(int position) {
         return position / MinecraftClient.getInstance().options.guiScale;
+    }
+
+    public static Text makeDeathPositionText(int x, int y, int z) {
+        Text pos = new TranslatableText("message.coordinatesdisplay.location2", x, y, z);
+
+        Text position = Texts.bracketed(pos).styled((style -> style
+            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("message.coordinatesdisplay.teleport")))
+            .withColor(getColorDecimal(CoordinatesDisplay.CONFIG.deathPosColor))
+            .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/tp @s %d %d %d", x, y, z)))
+        ));
+
+        return new TranslatableText("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(getColorDecimal(CoordinatesDisplay.CONFIG.definitionColor)));
     }
 
     public static int getColorIndex(String color) {

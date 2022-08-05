@@ -1,6 +1,7 @@
 package me.boxadactle.coordinatesdisplay.mixin;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.text.Text;
@@ -26,9 +27,7 @@ public class ClientPlayerEntityMixin {
             int y = (int) Math.round(c.player.getY());
             int z = (int) Math.round(c.player.getZ());
 
-            String pos = CoordinatesDisplay.DeathposColorPrefix + new TranslatableText("message.coordinatesdisplay.location", x, y, z).getString();
-            Text deathPos = new TranslatableText("message.coordinatesdisplay.deathpos", pos);
-            CoordinatesDisplay.LOGGER.chatInfo(deathPos.getString());
+            CoordinatesDisplay.LOGGER.sendChatMessage(ModUtils.makeDeathPositionText(x, y, z));
         }
     }
 }
