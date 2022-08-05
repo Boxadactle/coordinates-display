@@ -61,7 +61,7 @@
   "message.coordinatesdisplay.confirmreset": "Êtes-vous sûr de souhaiter réinitialiser toutes les configurations?",
   "message.coordinatesdisplay.at": "Localisation actuelle",
   "message.coordinatesdisplay.location": "X: %d Y: %d Z: %d",
-  "message.coordinatesdisplay.location2": "%d, %d, %d",
+  "message.coordinatesdisplay.deathlocation": "%d, %d, %d a %s",
   "message.coordinatesdisplay.deathpos": "Tu es mort à %s",
   "message.coordinatesdisplay.teleport": "Position de téléportation à la mort",
 

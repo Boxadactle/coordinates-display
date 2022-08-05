@@ -61,7 +61,7 @@
   "message.coordinatesdisplay.confirmreset": "∀ɹǝ ʎon snɹǝ ʎon ʍɐuʇ ʇo ɹǝsʇoɹǝ ɐll ɔouɟᴉɓnɹɐʇᴉou ʇo pǝɟɐnlʇ¿",
   "message.coordinatesdisplay.at": "Ɔnɹɹǝuʇ ⅂oɔɐʇᴉou",
   "message.coordinatesdisplay.location": "X: %d ⅄: %d Z: %d",
-  "message.coordinatesdisplay.location2": "%d, %d, %d",
+  "message.coordinatesdisplay.deathlocation": "%d, %d, %d in %s",
   "message.coordinatesdisplay.deathpos": "ʇɐ pǝᴉp no⅄ %s",
   "message.coordinatesdisplay.teleport": "uoᴉʇᴉsod ɥʇɐǝp oʇ ʇɹodǝlǝ┴",
 

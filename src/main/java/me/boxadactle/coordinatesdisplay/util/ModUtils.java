@@ -6,6 +6,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.*;
 import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 
 import java.util.Locale;
@@ -38,14 +40,31 @@ public class ModUtils {
     public static int convertPosition(int position) {
         return position / MinecraftClient.getInstance().options.getGuiScale().getValue();
     }
+
+    public static Object selectRandom(Object ...args) {
+        return args[(int) Math.round(Math.random() * (args.length - 1))];
+    }
     
     public static Text makeDeathPositionText(int x, int y, int z) {
-        Text pos = Text.translatable("message.coordinatesdisplay.location2", x, y, z);
+        MinecraftClient client = MinecraftClient.getInstance();
+        String dimension;
+        String command;
+        RegistryKey<World> registry = client.player.getWorld().getRegistryKey();
+
+        if (registry != null) {
+            dimension = registry.getValue().toString();
+            command = "/execute in " + dimension + " run tp @s %d %d %d";
+        } else {
+            dimension = "unknown dimension";
+            command = "/tp @s %d %d %d";
+        }
+
+        Text pos = Text.translatable("message.coordinatesdisplay.deathlocation", x, y, z, dimension);
 
         Text position = Texts.bracketed(pos).styled((style -> style
             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("message.coordinatesdisplay.teleport")))
             .withColor(getColorDecimal(CoordinatesDisplay.CONFIG.deathPosColor))
-            .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/tp @s %d %d %d", x, y, z)))
+            .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
         return Text.translatable("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(getColorDecimal(CoordinatesDisplay.CONFIG.definitionColor)));

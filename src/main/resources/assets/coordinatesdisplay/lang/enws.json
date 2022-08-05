@@ -61,7 +61,7 @@
   "message.coordinatesdisplay.confirmreset": "Art thee sure thee wanteth to rest're all configuration to default?",
   "message.coordinatesdisplay.at": "Current Location",
   "message.coordinatesdisplay.location": "X: %d Y: %d Z: %d",
-  "message.coordinatesdisplay.location2": "%d, %d, %d",
+  "message.coordinatesdisplay.deathlocation": "%d, %d, %d in %s",
   "message.coordinatesdisplay.deathpos": "Thee kicked the bucket at %s",
   "message.coordinatesdisplay.teleport": "Telep'rt to death position",
 

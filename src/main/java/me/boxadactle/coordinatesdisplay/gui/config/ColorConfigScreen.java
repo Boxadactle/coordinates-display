@@ -36,6 +36,8 @@ public class ColorConfigScreen extends Screen {
     int deathy;
     int deathz;
 
+    String dimension;
+
     public ColorConfigScreen(Screen parent) {
         super(Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
         this.parent = parent;
@@ -50,6 +52,8 @@ public class ColorConfigScreen extends Screen {
         deathy = (int) Math.round(Math.random() * 100);
         deathz = (int) Math.round(Math.random() * 1000);
 
+        dimension = (String) ModUtils.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
+
     }
 
     @Override
@@ -62,7 +66,7 @@ public class ColorConfigScreen extends Screen {
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), y);
 
-        Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.location2", deathx, deathy, deathz)).styled(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.deathPosColor)));
+        Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)).styled(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.deathPosColor)));
         Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", posT);
         drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4), ModUtils.WHITE);
 

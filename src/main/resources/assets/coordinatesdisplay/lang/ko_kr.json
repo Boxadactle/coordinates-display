@@ -61,7 +61,7 @@
   "message.coordinatesdisplay.confirmreset": "정말 모든 환경설정을 기본값으로 복구하시겠습니까?",
   "message.coordinatesdisplay.at": "현재 위치",
   "message.coordinatesdisplay.location": "X: %d Y: %d Z: %d",
-  "message.coordinatesdisplay.location2": "%d, %d, %d",
+  "message.coordinatesdisplay.deathlocation": "%d, %d, %d in %s",
   "message.coordinatesdisplay.deathpos": "당신의 죽음 위치는 %s",
   "message.coordinatesdisplay.teleport": "사망 위치로 순간 이동",
 

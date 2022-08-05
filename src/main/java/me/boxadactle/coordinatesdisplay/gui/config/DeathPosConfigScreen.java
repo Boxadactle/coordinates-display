@@ -29,6 +29,8 @@ public class DeathPosConfigScreen extends Screen {
     String deathy;
     String deathz;
 
+    String dimension;
+
     public DeathPosConfigScreen(Screen parent) {
         super(Text.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
         this.parent = parent;
