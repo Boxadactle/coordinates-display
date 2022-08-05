@@ -7,7 +7,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 
 import java.text.DecimalFormat;
 
@@ -31,7 +30,7 @@ public class DeathPosConfigScreen extends Screen {
     String deathz;
 
     public DeathPosConfigScreen(Screen parent) {
-        super(new TranslatableText("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
+        super(Text.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
         this.parent = parent;
 
         DecimalFormat d = new DecimalFormat("0.00");
@@ -45,10 +44,10 @@ public class DeathPosConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredText(matrices, this.textRenderer, new TranslatableText("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION), this.width / 2, 5, ModUtils.WHITE);
 
-        String pos = CoordinatesDisplay.DeathposColorPrefix + new TranslatableText("message.coordinatesdisplay.location", deathx, deathy, deathz).getString();
-        Text deathPos = new TranslatableText("message.coordinatesdisplay.deathpos", pos);
+        String pos = CoordinatesDisplay.DeathposColorPrefix + Text.translatable("message.coordinatesdisplay.location", deathx, deathy, deathz).getString();
+        Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", pos);
         drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, (int) (this.width / 1.5), ModUtils.WHITE);
 
         super.render(matrices, mouseX,  mouseY, delta);
@@ -57,31 +56,31 @@ public class DeathPosConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.back"), (button) -> this.client.setScreen(parent)));
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.back"), (button) -> this.client.setScreen(parent)));
 
         initButtons();
     }
 
     private void initButtons() {
         // show death pos in chat
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.displayPosOnDeathScreen ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.displayPosOnDeathScreen ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.displayPosOnDeathScreen = !CoordinatesDisplay.CONFIG.displayPosOnDeathScreen;
-            button.setMessage(new TranslatableText("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.displayPosOnDeathScreen ? ModUtils.TRUE : ModUtils.FALSE)));
+            button.setMessage(Text.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.displayPosOnDeathScreen ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHovered()) {
-                this.renderTooltip(matrices, new TranslatableText("description.coordinatesdisplay.deathpos.deathscreen"), mouseX, mouseY);
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.deathpos.deathscreen"), mouseX, mouseY);
             }
         }));
 
         this.addDrawableChild(new InvisibleButtonWidget(0, 0, 10, 10, (button -> CoordinatesDisplay.LOGGER.info("hi bitch"))));
 
         // chunk data
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.showDeathPosInChat ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.showDeathPosInChat ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.showDeathPosInChat = !CoordinatesDisplay.CONFIG.showDeathPosInChat;
-            button.setMessage(new TranslatableText("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.showDeathPosInChat ? ModUtils.TRUE : ModUtils.FALSE)));
+            button.setMessage(Text.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.showDeathPosInChat ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHovered()) {
-                this.renderTooltip(matrices, new TranslatableText("description.coordinatesdisplay.deathpos.chat"), mouseX, mouseY);
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.deathpos.chat"), mouseX, mouseY);
             }
         }));
     }

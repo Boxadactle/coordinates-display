@@ -2,7 +2,6 @@ package me.boxadactle.coordinatesdisplay.util;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
@@ -46,19 +45,19 @@ public class ModLogger {
 
     public void chatError(String msg, Object... data) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new LiteralText(chatPrefix + "§4" + String.format(msg, data)), false);
+            this.client.player.sendMessage(Text.literal(chatPrefix + "§4" + String.format(msg, data)), false);
         }
     }
 
     public void chatWarn(String msg, Object... data) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new LiteralText(chatPrefix + "§3" + String.format(msg, data)), false);
+            this.client.player.sendMessage(Text.literal(chatPrefix + "§3" + String.format(msg, data)), false);
         }
     }
 
     public void chatInfo(String msg, Object... data) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new LiteralText(chatPrefix + "§a" + String.format(msg, data)), false);
+            this.client.player.sendMessage(Text.literal(chatPrefix + "§a" + String.format(msg, data)), false);
         }
     }
 

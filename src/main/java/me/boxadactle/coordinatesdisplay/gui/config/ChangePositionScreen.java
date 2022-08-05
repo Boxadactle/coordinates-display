@@ -6,7 +6,7 @@ import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
@@ -27,7 +27,7 @@ public class ChangePositionScreen extends Screen {
     int y;
 
     public ChangePositionScreen(Screen parent) {
-        super(new TranslatableText("screen.coordinatesdisplay.config.position"));
+        super(Text.translatable("screen.coordinatesdisplay.config.position"));
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
@@ -47,12 +47,12 @@ public class ChangePositionScreen extends Screen {
 
         matrices.scale(0.9F, 0.9F, 0.9F);
 
-        drawCenteredText(matrices, this.textRenderer, new TranslatableText("screen.coordinatesdisplay.config.position"), (int) ((this.width / 2) / 0.9), 5, ModUtils.WHITE);
-        drawCenteredText(matrices, this.textRenderer, new TranslatableText("description.coordinatesdisplay.changeposition"), (int) ((this.width / 2) / 0.9), 20, ModUtils.GRAY);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.position"), (int) ((this.width / 2) / 0.9), 5, ModUtils.WHITE);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition"), (int) ((this.width / 2) / 0.9), 20, ModUtils.GRAY);
 
         matrices.pop();
 
-        drawCenteredText(matrices, this.textRenderer, new TranslatableText("description.coordinatesdisplay.changeposition2"), this.width / 2, this.height - 15, ModUtils.WHITE);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition2"), this.width / 2, this.height - 15, ModUtils.WHITE);
 
         if (lockHudPos) {
             x = mouseX;

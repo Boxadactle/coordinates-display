@@ -5,7 +5,6 @@ import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.*;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 
@@ -21,8 +20,8 @@ public class ModUtils {
     public static String FALSE;
 
     public static void initText() {
-        TRUE  = "§a" + new TranslatableText("coordinatesdisplay.true").getString();
-        FALSE = "§c" + new TranslatableText("coordinatesdisplay.false").getString();
+        TRUE  = "§a" + Text.translatable("coordinatesdisplay.true").getString();
+        FALSE = "§c" + Text.translatable("coordinatesdisplay.false").getString();
     }
 
     // list of colors
@@ -37,19 +36,19 @@ public class ModUtils {
     };
 
     public static int convertPosition(int position) {
-        return position / MinecraftClient.getInstance().options.guiScale;
+        return position / MinecraftClient.getInstance().options.getGuiScale().getValue();
     }
-
+    
     public static Text makeDeathPositionText(int x, int y, int z) {
-        Text pos = new TranslatableText("message.coordinatesdisplay.location2", x, y, z);
+        Text pos = Text.translatable("message.coordinatesdisplay.location2", x, y, z);
 
         Text position = Texts.bracketed(pos).styled((style -> style
-            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("message.coordinatesdisplay.teleport")))
+            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("message.coordinatesdisplay.teleport")))
             .withColor(getColorDecimal(CoordinatesDisplay.CONFIG.deathPosColor))
             .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format("/tp @s %d %d %d", x, y, z)))
         ));
 
-        return new TranslatableText("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(getColorDecimal(CoordinatesDisplay.CONFIG.definitionColor)));
+        return Text.translatable("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(getColorDecimal(CoordinatesDisplay.CONFIG.definitionColor)));
     }
 
     public static int getColorIndex(String color) {
@@ -62,7 +61,7 @@ public class ModUtils {
     }
 
     public static String getColor(String color) {
-        return new TranslatableText("coordinatesdisplay.color." + color).getString();
+        return Text.translatable("coordinatesdisplay.color." + color).getString();
     }
 
     public static String getColorPrefix(String color) {

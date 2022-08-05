@@ -5,10 +5,8 @@ import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.Texts;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
@@ -39,7 +37,7 @@ public class ColorConfigScreen extends Screen {
     int deathz;
 
     public ColorConfigScreen(Screen parent) {
-        super(new TranslatableText("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
+        super(Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION));
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
@@ -58,14 +56,14 @@ public class ColorConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredText(matrices, this.textRenderer, new TranslatableText("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION), this.width / 2, 5, ModUtils.WHITE);
 
         int y = (int) (this.height / 2.3);
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), y);
 
-        Text posT = Texts.bracketed(new TranslatableText("message.coordinatesdisplay.location2", deathx, deathy, deathz)).styled(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.deathPosColor)));
-        Text deathPos = new TranslatableText("message.coordinatesdisplay.deathpos", posT);
+        Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.location2", deathx, deathy, deathz)).styled(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.deathPosColor)));
+        Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", posT);
         drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4), ModUtils.WHITE);
 
         super.render(matrices, mouseX,  mouseY, delta);
@@ -74,7 +72,7 @@ public class ColorConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.back"), (button) -> this.client.setScreen(parent)));
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.back"), (button) -> this.client.setScreen(parent)));
 
         initButtons();
     }
@@ -95,7 +93,7 @@ public class ColorConfigScreen extends Screen {
         final int[] indexes = {ModUtils.getColorIndex(keyColor), ModUtils.getColorIndex(valueColor), ModUtils.getColorIndex(deathPosColor)};
 
         // keys
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.colors.keys", keyPrefix + ModUtils.getColor(keyColor)), (button) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.colors.keys", keyPrefix + ModUtils.getColor(keyColor)), (button) -> {
             if (indexes[0] == ModUtils.colors.length - 1) indexes[0] = 0;
             else indexes[0]++;
 
@@ -105,15 +103,15 @@ public class ColorConfigScreen extends Screen {
             String newColor = ModUtils.colors[indexes[0]];
             String newPrefix = ModUtils.getColorPrefix(newColor);
 
-            button.setMessage(new TranslatableText("button.coordinatesdisplay.colors.keys", newPrefix + ModUtils.getColor(newColor)));
+            button.setMessage(Text.translatable("button.coordinatesdisplay.colors.keys", newPrefix + ModUtils.getColor(newColor)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHovered()) {
-                this.renderTooltip(matrices, new TranslatableText("description.coordinatesdisplay.colors.key"), mouseX, mouseY);
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.colors.key"), mouseX, mouseY);
             }
         }));
 
         // values
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.colors.values", valuePrefix + ModUtils.getColor(valueColor)), (button) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.colors.values", valuePrefix + ModUtils.getColor(valueColor)), (button) -> {
             if (indexes[1] == ModUtils.colors.length - 1) indexes[1] = 0;
             else indexes[1]++;
 
@@ -123,15 +121,15 @@ public class ColorConfigScreen extends Screen {
             String newColor = ModUtils.colors[indexes[1]];
             String newPrefix = ModUtils.getColorPrefix(newColor);
 
-            button.setMessage(new TranslatableText("button.coordinatesdisplay.colors.values", newPrefix + ModUtils.getColor(newColor)));
+            button.setMessage(Text.translatable("button.coordinatesdisplay.colors.values", newPrefix + ModUtils.getColor(newColor)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHovered()) {
-                this.renderTooltip(matrices, new TranslatableText("description.coordinatesdisplay.colors.value"), mouseX, mouseY);
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.colors.value"), mouseX, mouseY);
             }
         }));
 
         // death pos
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.colors.deathpos", deathPosPrefix + ModUtils.getColor(deathPosColor)), (button) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.colors.deathpos", deathPosPrefix + ModUtils.getColor(deathPosColor)), (button) -> {
             if (indexes[2] == ModUtils.colors.length - 1) indexes[2] = 0;
             else indexes[2]++;
 
@@ -141,10 +139,10 @@ public class ColorConfigScreen extends Screen {
             String newColor = ModUtils.colors[indexes[2]];
             String newPrefix = ModUtils.getColorPrefix(newColor);
 
-            button.setMessage(new TranslatableText("button.coordinatesdisplay.colors.deathpos", newPrefix + ModUtils.getColor(newColor)));
+            button.setMessage(Text.translatable("button.coordinatesdisplay.colors.deathpos", newPrefix + ModUtils.getColor(newColor)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHovered()) {
-                this.renderTooltip(matrices, new TranslatableText("description.coordinatesdisplay.colors.deathpos"), mouseX, mouseY);
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.colors.deathpos"), mouseX, mouseY);
             }
         }));
 
