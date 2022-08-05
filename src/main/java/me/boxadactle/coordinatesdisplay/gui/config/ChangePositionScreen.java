@@ -72,7 +72,7 @@ public class ChangePositionScreen extends Screen {
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         CoordinatesDisplay.CONFIG.hudX = x;
         CoordinatesDisplay.CONFIG.hudY = y;
 

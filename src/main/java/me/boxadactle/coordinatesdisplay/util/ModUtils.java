@@ -6,6 +6,8 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.registry.RegistryEntry;
+import net.minecraft.world.biome.Biome;
 
 import java.util.Locale;
 
@@ -149,7 +151,6 @@ public class ModUtils {
         CoordinatesDisplay.OVERLAY.updateConfig(CoordinatesDisplay.CONFIG);
     }
 
-
     // method to turn an angle into a direction string
     public static String getDirectionFromYaw(float degrees) {
         String direction;
@@ -185,6 +186,15 @@ public class ModUtils {
         }
 
         return name.toString().trim();
+    }
+
+    // copy + pasted from DebugHud.class
+    public static String getBiomeString(RegistryEntry<Biome> biome) {
+        return (String)biome.getKeyOrValue().map((biomeKey) -> {
+            return biomeKey.getValue().toString();
+        }, (biome_) -> {
+            return "[unregistered " + biome_ + "]";
+        });
     }
 
 }

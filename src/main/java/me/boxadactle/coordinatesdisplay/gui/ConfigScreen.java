@@ -93,14 +93,14 @@ public class ConfigScreen extends Screen {
     private void initButtonsExit() {
         // cancel
         this.addDrawableChild(new ButtonWidget(this.width / 2 - smallButtonW - p1, this.height - buttonHeight - p, smallButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.cancel"), (button -> {
-            this.onClose();
+            this.close();
             CoordinatesDisplay.LOGGER.info("Cancel pressed so reloading config");
             CoordinatesDisplay.reloadConfig();
         })));
 
         // save and exit
         this.addDrawableChild(new ButtonWidget(this.width / 2 + p1, this.height - buttonHeight - p, smallButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.save"), (button -> {
-            this.onClose();
+            this.close();
             ConfigManager.saveConfig(CoordinatesDisplay.CONFIG);
             CoordinatesDisplay.LOGGER.info("Save pressed so saving config");
         })));
@@ -112,7 +112,7 @@ public class ConfigScreen extends Screen {
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         this.client.setScreen(parent);
         CoordinatesDisplay.shouldRenderOnHud = true;
     }

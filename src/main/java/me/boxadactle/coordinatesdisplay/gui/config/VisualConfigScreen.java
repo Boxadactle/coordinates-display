@@ -137,12 +137,7 @@ public class VisualConfigScreen extends Screen {
     }
 
     @Override
-    public void tick() {
-        super.tick();
-    }
-
-    @Override
-    public void onClose() {
+    public void close() {
         this.client.setScreen(parent);
     }
 }

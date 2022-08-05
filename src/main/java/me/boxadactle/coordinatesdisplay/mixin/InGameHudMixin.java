@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -33,7 +34,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
                 Vec3d pos = camera.getPos();
                 ChunkPos chunkPos = new ChunkPos(new BlockPos(pos));
-                Biome biome = this.client.world.getBiome(camera.getBlockPos());
+                RegistryEntry<Biome> biome = this.client.world.getBiome(camera.getBlockPos());
                 float cameraYaw = camera.getYaw(tickDelta);
 
                 CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, biome, CoordinatesDisplay.CONFIG.hudX, CoordinatesDisplay.CONFIG.hudY);
