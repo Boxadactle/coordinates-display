@@ -26,21 +26,6 @@ In this image, I have disabled the biome and the chunk location in the rendering
 
 ![overlay2](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay2.png?raw=true)
 
-# How to customize
-
-For starters, there are some basic keybinds that you can use to toggle off/on the HUD.
-
-![keybinds](https://github.com/Boxadactle/coordinates-display/blob/main/img/controls.png?raw=true)
-
-To change the more advanced settings like the colors and what should render, you will need [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/) installed to open a configuration GUI.
-Now you can change every option!
-
-![config gui](https://github.com/Boxadactle/coordinates-display/blob/main/img/config%20gui.png?raw=true)
-
-Here is an example of changing the location of the HUD:
-
-![change position of HUD](https://github.com/Boxadactle/coordinates-display/blob/main/img/change%20position.gif?raw=true)
-
 # Death Position
 
 Coordinates Display will tell you your location when you die. This can be really helpful when you die and need to get your inventory back. This can be easily turned off in the configuration GUI. Where will this be displayed?
