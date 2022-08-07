@@ -26,6 +26,8 @@ In this image, I have disabled the biome and the chunk location in the rendering
 
 ![overlay2](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay2.png?raw=true)
 
+[How to customize](https://github.com/Boxadactle/coordinates-display/wiki/Configuration)
+
 # Death Position
 
 Coordinates Display will tell you your location when you die. This can be really helpful when you die and need to get your inventory back. This can be easily turned off in the configuration GUI. Where will this be displayed?
