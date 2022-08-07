@@ -4,6 +4,7 @@ import io.github.cottonmc.cotton.config.ConfigManager;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import me.boxadactle.coordinatesdisplay.gui.config.*;
+import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -73,14 +74,27 @@ public class ConfigScreen extends Screen {
                 this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.deathpos"), mouseX, mouseY);
             }
         }));
+
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.text"), (button) -> this.client.setScreen(new TextConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
+            if (button.isHovered()) {
+                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.text"), mouseX, mouseY);
+            }
+        }));
     }
 
     private void initButtonsOpen() {
         // open config file
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 5, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.configfile"), (button) -> Util.getOperatingSystem().open(CoordinatesDisplay.configfile)));
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.configfile"), (button) -> {
+            button.active = false;
+            if (ModUtils.openConfigFile()) {
+                button.setMessage(Text.translatable("message.coordinatesdisplay.openfilesuccess"));
+            } else {
+                button.setMessage(Text.translatable("message.coordinatesdisplay.openfilefailed"));
+            }
+        }));
 
         // reset to default
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.client.setScreen(new ConfirmScreen((doIt) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 7, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.client.setScreen(new ConfirmScreen((doIt) -> {
             if (doIt) {
                 ModUtils.resetConfig();
                 this.client.setScreen(new ConfigScreen(parent));
@@ -88,6 +102,15 @@ public class ConfigScreen extends Screen {
                 this.client.setScreen(this);
             }
         }, Text.translatable("screen.coordinatesdisplay.confirmreset"), Text.translatable("message.coordinatesdisplay.confirmreset")))));
+
+        // open wiki
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 8, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.wiki"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
+            this.client.setScreen(this);
+            if (yes) {
+                Util.getOperatingSystem().open(ModUtils.CONFIG_WIKI);
+                CoordinatesDisplay.LOGGER.info("Opened link");
+            }
+        }, ModUtils.CONFIG_WIKI, false))));
     }
 
     private void initButtonsExit() {

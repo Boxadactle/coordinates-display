@@ -28,4 +28,7 @@ public class DefaultModConfig {
 
     public static final int hudX = 0;
     public static final int hudY = 0;
+
+    public static final String posChatMessage = "{x} {y} {z}";
+    public static final String copyPosMessage = "{x}, {y}, {z}";
 }

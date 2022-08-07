@@ -1,15 +1,24 @@
 package me.boxadactle.coordinatesdisplay.util;
 
+import com.mojang.datafixers.util.Pair;
 import io.github.cottonmc.cotton.config.ConfigManager;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.*;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
+import org.apache.commons.lang3.SystemUtils;
 
+import javax.annotation.Nullable;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.Locale;
 
 public class ModUtils {
@@ -20,6 +29,13 @@ public class ModUtils {
     public static final int DARK_GRAY = 5592405;
     public static String TRUE;
     public static String FALSE;
+
+    public static final String CONFIG_WIKI = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration";
+    public static final String CONFIG_WIKI_VISUAL = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#visual-settings";
+    public static final String CONFIG_WIKI_RENDER = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#render-settings";
+    public static final String CONFIG_WIKI_COLOR = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#color-configuration";
+    public static final String CONFIG_WIKI_DEATH = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#death-position-configuration";
+    public static final String CONFIG_WIKI_TEXTS = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#texts-configuration";
 
     public static void initText() {
         TRUE  = "§a" + Text.translatable("coordinatesdisplay.true").getString();
@@ -37,27 +53,63 @@ public class ModUtils {
             "light_purple", "dark_purple"
     };
 
-    public static int convertPosition(int position) {
-        return position / MinecraftClient.getInstance().options.getGuiScale().getValue();
+    public static String getDimension() {
+        RegistryKey<World> registry = MinecraftClient.getInstance().player.getWorld().getRegistryKey();
+
+        return (registry != null ? registry.getValue().toString() : null);
+    }
+
+    public static String parseText(String text) {
+        MinecraftClient c = MinecraftClient.getInstance();
+        String newtext = text;
+
+        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? "0.00" : "0");
+
+        String x = decimalFormat.format(c.player.getX());
+        String y = decimalFormat.format(c.player.getY());
+        String z = decimalFormat.format(c.player.getZ());
+
+        String direction = getDirectionFromYaw(MathHelper.wrapDegrees(c.cameraEntity.getYaw()));
+
+        Pair[] supported = new Pair[]{
+                new Pair<>("dimension", getBiomeId(getDimension())),
+                new Pair<>("x", x),
+                new Pair<>("y", y),
+                new Pair<>("z", z),
+                new Pair<>("direction", direction),
+                new Pair<>("name", c.player.getDisplayName().getString())
+        };
+        for (Pair<?, ?> pair : supported) {
+            newtext = newtext.replaceAll("\\{" + pair.getFirst() + "}", (String) pair.getSecond());
+        }
+
+        return newtext;
     }
 
     public static Object selectRandom(Object ...args) {
         return args[(int) Math.round(Math.random() * (args.length - 1))];
     }
+
+    public static String asTpCommand(int x, int y, int z, @Nullable String dimension) {
+        if (dimension != null) {
+            return String.format("/execute in %s run tp @s %d %d %d", dimension, x, y, z);
+        } else {
+            return String.format("/tp @s %d %d %d", x, y, z);
+        }
+    }
     
     public static Text makeDeathPositionText(int x, int y, int z) {
         MinecraftClient client = MinecraftClient.getInstance();
         String dimension;
-        String command;
         RegistryKey<World> registry = client.player.getWorld().getRegistryKey();
 
         if (registry != null) {
             dimension = registry.getValue().toString();
-            command = "/execute in " + dimension + " run tp @s %d %d %d";
         } else {
             dimension = "unknown dimension";
-            command = "/tp @s %d %d %d";
         }
+
+        String command = asTpCommand(x, y, z, dimension);
 
         Text pos = Text.translatable("message.coordinatesdisplay.deathlocation", x, y, z, dimension);
 
@@ -142,6 +194,33 @@ public class ModUtils {
         return decimal;
     }
 
+    public static boolean openConfigFile() {
+        CoordinatesDisplay.LOGGER.info("Trying to open file in native file explorer...");
+        File f = FabricLoader.getInstance().getConfigDir().toFile();
+        boolean worked;
+        if (SystemUtils.OS_NAME.toLowerCase().contains("windows")) {
+            try {
+                Runtime.getRuntime().exec(new String[]{"explorer.exe", f.getAbsolutePath()});
+                worked = true;
+            } catch (IOException e) {
+                CoordinatesDisplay.LOGGER.error("Got an error: ");
+                e.printStackTrace();
+                worked = false;
+            }
+        } else {
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().browseFileDirectory(f);
+                CoordinatesDisplay.LOGGER.info("Opened directory");
+                worked = true;
+            } else {
+                CoordinatesDisplay.LOGGER.warn("Incompatible with desktop class");
+                worked = false;
+            }
+        }
+
+        return worked;
+    }
+
     public static void resetConfig() {
         CoordinatesDisplay.CONFIG.displayPosOnDeathScreen = DefaultModConfig.displayPosOnDeathScreen;
         CoordinatesDisplay.CONFIG.showDeathPosInChat = DefaultModConfig.showDeathPosInChat;
@@ -163,6 +242,9 @@ public class ModUtils {
 
         CoordinatesDisplay.CONFIG.hudX = DefaultModConfig.hudX;
         CoordinatesDisplay.CONFIG.hudY = DefaultModConfig.hudY;
+
+        CoordinatesDisplay.CONFIG.posChatMessage = DefaultModConfig.posChatMessage;
+        CoordinatesDisplay.CONFIG.copyPosMessage = DefaultModConfig.copyPosMessage;
 
         ConfigManager.saveConfig(CoordinatesDisplay.CONFIG);
         CoordinatesDisplay.parseColorPrefixes();
@@ -192,27 +274,27 @@ public class ModUtils {
         return largest;
     }
 
-    public static String getBiomeId(String id) {
-        StringBuilder name = new StringBuilder();
+    public static String getBiomeId(@Nullable String id) {
+        if (id != null) {
+            StringBuilder name = new StringBuilder();
 
-        String withoutNamespace = id.split(":")[1];
-        String spaces = withoutNamespace.replaceAll("_", " ");
-        for (String word : spaces.split("\\s")) {
-            String firstLetter = word.substring(0, 1);
-            String theRest = word.substring(1);
-            name.append(firstLetter.toUpperCase()).append(theRest).append(" ");
+            String withoutNamespace = id.split(":")[1];
+            String spaces = withoutNamespace.replaceAll("_", " ");
+            for (String word : spaces.split("\\s")) {
+                String firstLetter = word.substring(0, 1);
+                String theRest = word.substring(1);
+                name.append(firstLetter.toUpperCase()).append(theRest).append(" ");
+            }
+
+            return name.toString().trim();
+        } else {
+            return "Plains";
         }
-
-        return name.toString().trim();
     }
 
     // copy + pasted from DebugHud.class
     public static String getBiomeString(RegistryEntry<Biome> biome) {
-        return (String)biome.getKeyOrValue().map((biomeKey) -> {
-            return biomeKey.getValue().toString();
-        }, (biome_) -> {
-            return "[unregistered " + biome_ + "]";
-        });
+        return biome.getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]");
     }
 
 }

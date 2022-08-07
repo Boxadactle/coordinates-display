@@ -25,4 +25,7 @@ public class ModConfig {
 
     public int padding = DefaultModConfig.padding;
     public int textPadding = DefaultModConfig.textPadding;
+
+    public String posChatMessage = DefaultModConfig.posChatMessage;
+    public String copyPosMessage = DefaultModConfig.copyPosMessage;
 }

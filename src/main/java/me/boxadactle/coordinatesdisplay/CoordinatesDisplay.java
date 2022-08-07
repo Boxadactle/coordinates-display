@@ -7,19 +7,14 @@ import me.boxadactle.coordinatesdisplay.util.ModConfig;
 import me.boxadactle.coordinatesdisplay.util.ModLogger;
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.loader.api.FabricLoader;
-
-import java.io.File;
 
 public class CoordinatesDisplay implements ClientModInitializer {
 
     public static final String MOD_NAME = "CoordinatesDisplay";
     public static final String MOD_ID = "coordinatesdisplay";
-    public static final String MOD_VERSION = "1.3.2";
+    public static final String MOD_VERSION = "1.4.0";
 
     public static final ModLogger LOGGER = new ModLogger();
-
-    public static final File configfile = new File(FabricLoader.getInstance().getConfigDir() + "/" + MOD_ID + ".json");
 
     public static boolean shouldRenderOnHud = true;
 
