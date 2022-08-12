@@ -85,8 +85,6 @@ public class DeathPosConfigScreen extends Screen {
             }
         }));
 
-        this.addDrawableChild(new InvisibleButtonWidget(0, 0, 10, 10, (button -> CoordinatesDisplay.LOGGER.info("hi bitch"))));
-
         // chunk data
         this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.showDeathPosInChat ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.showDeathPosInChat = !CoordinatesDisplay.CONFIG.showDeathPosInChat;
