@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "me.boxadactle.coordinatesdisplay.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "refmap": "coordinatesdisplay.refmap.json",
+  "client": [
+    "DeathScreenMixin",
+    "ForgeIngameGuiMixin",
+    "LocalPlayerMixin"
+  ],
+  "minVersion": "0.8"
+}
