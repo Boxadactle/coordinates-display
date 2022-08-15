@@ -8,8 +8,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.text.*;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.World;
+import net.minecraft.world.biome.Biome;
 import org.apache.commons.lang3.SystemUtils;
 
 import javax.annotation.Nullable;
@@ -244,8 +246,8 @@ public class ModUtils {
     }
 
     // copy + pasted from DebugHud.class
-    //public static String getBiomeString(RegistryEntry<Biome> biome) {
-    //    return biome.getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]");
-    //}
+    public static String getBiomeString(RegistryEntry<Biome> biome) {
+        return biome.getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]");
+    }
 
 }

@@ -3,7 +3,7 @@ package me.boxadactle.coordinatesdisplay.util;
 import com.mojang.datafixers.util.Pair;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.Registry;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -268,8 +268,12 @@ public class ModUtils {
     }
 
     // copy + pasted from DebugHud.class
-    public static String getBiomeString(Biome biome) {
-        return Minecraft.getInstance().level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).getKey(biome).toString();
+    public static String printBiome(Holder<Biome> p_205375_) {
+        return p_205375_.unwrap().map((p_205377_) -> {
+            return p_205377_.location().toString();
+        }, (p_205367_) -> {
+            return "[unregistered " + p_205367_ + "]";
+        });
     }
 
 }

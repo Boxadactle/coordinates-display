@@ -1,7 +1,7 @@
 package me.boxadactle.coordinatesdisplay.mixin;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import me.boxadactle.coordinatesdisplay.ModVersion;
+import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.client.ClientRecipeBook;
 import net.minecraft.client.Minecraft;

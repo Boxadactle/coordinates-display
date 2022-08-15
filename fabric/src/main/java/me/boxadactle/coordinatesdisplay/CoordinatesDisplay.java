@@ -5,6 +5,7 @@ import me.boxadactle.coordinatesdisplay.init.Keybinds;
 import me.boxadactle.coordinatesdisplay.util.HudOverlay;
 import me.boxadactle.coordinatesdisplay.util.ModConfig;
 import me.boxadactle.coordinatesdisplay.util.ModLogger;
+import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import net.fabricmc.api.ClientModInitializer;
 
 public class CoordinatesDisplay implements ClientModInitializer {

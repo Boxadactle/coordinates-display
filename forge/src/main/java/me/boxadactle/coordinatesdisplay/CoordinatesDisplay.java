@@ -2,10 +2,7 @@ package me.boxadactle.coordinatesdisplay;
 
 import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import me.boxadactle.coordinatesdisplay.init.Keybinds;
-import me.boxadactle.coordinatesdisplay.util.HudOverlay;
-import me.boxadactle.coordinatesdisplay.util.ModConfig;
-import me.boxadactle.coordinatesdisplay.util.ModLogger;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import me.boxadactle.coordinatesdisplay.util.*;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;

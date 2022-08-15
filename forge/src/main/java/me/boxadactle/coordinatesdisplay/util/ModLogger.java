@@ -47,33 +47,25 @@ public class ModLogger {
 
     public void chatError(String msg, Object... data) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new TextComponent(chatPrefix + "§4" + String.format(msg, data)), Util.NIL_UUID);
+            this.client.player.sendMessage(new TextComponent(String.format(msg, data)), Util.NIL_UUID);
         }
     }
 
     public void chatWarn(String msg, Object... data) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new TextComponent(chatPrefix + "§3" + String.format(msg, data)), Util.NIL_UUID);
+            this.client.player.sendMessage(new TextComponent(String.format(msg, data)), Util.NIL_UUID);
         }
     }
 
     public void chatInfo(String msg, Object... data) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new TextComponent(chatPrefix + "§a" + String.format(msg, data)), Util.NIL_UUID);
+            this.client.player.sendMessage(new TextComponent(String.format(msg, data)), Util.NIL_UUID);
         }
     }
 
     public void sendChatMessage(Component msg) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new TextComponent(chatPrefix).append(msg), Util.NIL_UUID);
+            this.client.player.sendMessage(msg, Util.NIL_UUID);
         }
-    }
-
-    public String getChatPrefix() {
-        return chatPrefix;
-    }
-
-    public String getPrefix() {
-        return prefix;
     }
 }

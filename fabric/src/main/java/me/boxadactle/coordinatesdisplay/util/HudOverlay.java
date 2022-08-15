@@ -12,6 +12,7 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 
 import javax.annotation.Nullable;
@@ -34,7 +35,7 @@ public class HudOverlay extends DrawableHelper {
         this.config = config;
     }
 
-    public void render(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, Biome biome, int x, int y) {
+    public void render(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, RegistryEntry<Biome> biome, int x, int y) {
         try {
             renderOverlay(matrices, pos, chunkPos, cameraYaw, biome, x, y);
         } catch (NullPointerException e) {
@@ -42,7 +43,7 @@ public class HudOverlay extends DrawableHelper {
         }
     }
 
-    public void render(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, Biome biome, int x, int y, float scale) {
+    public void render(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, RegistryEntry<Biome> biome, int x, int y, float scale) {
         try {
             matrices.push();
 
@@ -63,7 +64,7 @@ public class HudOverlay extends DrawableHelper {
         return h;
     }
 
-    public void renderOverlay(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, @Nullable Biome biome, int x, int y) throws NullPointerException {
+    public void renderOverlay(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, @Nullable RegistryEntry<Biome> biome, int x, int y) throws NullPointerException {
 
         DecimalFormat decimalFormat = new DecimalFormat(this.config.roundPosToTwoDecimals ? "0.00" : "0");
 
@@ -76,8 +77,7 @@ public class HudOverlay extends DrawableHelper {
 
         Text biometext;
         if (this.client.world != null) {
-            Registry<Biome> registry = this.client.world.getRegistryManager().get(Registry.BIOME_KEY);
-            biometext = this.config.renderBiome ? new LiteralText(biome != null ? ModUtils.parseIdentifier(registry.getId(biome).toString()) : "Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor))) : new LiteralText("");
+            biometext = this.config.renderBiome ? new LiteralText(biome != null ? ModUtils.parseIdentifier(ModUtils.getBiomeString(biome)) : "Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor))) : new LiteralText("");
         } else
             biometext = new LiteralText("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
 

@@ -2,7 +2,7 @@ package me.boxadactle.coordinatesdisplay.gui;
 
 import io.github.cottonmc.cotton.config.ConfigManager;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import me.boxadactle.coordinatesdisplay.ModVersion;
+import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import me.boxadactle.coordinatesdisplay.gui.config.*;
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
@@ -119,14 +119,14 @@ public class ConfigScreen extends Screen {
     private void initButtonsExit() {
         // cancel
         this.addDrawableChild(new ButtonWidget(this.width / 2 - smallButtonW - p1, this.height - buttonHeight - p, smallButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.cancel"), (button -> {
-            this.onClose();
+            this.close();
             CoordinatesDisplay.LOGGER.info("Cancel pressed so reloading config");
             CoordinatesDisplay.reloadConfig();
         })));
 
         // save and exit
         this.addDrawableChild(new ButtonWidget(this.width / 2 + p1, this.height - buttonHeight - p, smallButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.save"), (button -> {
-            this.onClose();
+            this.close();
             ConfigManager.saveConfig(CoordinatesDisplay.CONFIG);
             CoordinatesDisplay.LOGGER.info("Save pressed so saving config");
         })));
@@ -138,7 +138,7 @@ public class ConfigScreen extends Screen {
     }
 
     @Override
-    public void onClose() {
+    public void close() {
         this.client.setScreen(parent);
     }
 }

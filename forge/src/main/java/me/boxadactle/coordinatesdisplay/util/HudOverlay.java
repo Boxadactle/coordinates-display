@@ -5,6 +5,7 @@ import com.mojang.math.Vector3d;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -25,7 +26,7 @@ public class HudOverlay extends GuiComponent {
 
     }
 
-    public void render(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, Biome biome, int x, int y) {
+    public void render(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, Holder<Biome> biome, int x, int y) {
         try {
             renderOverlay(matrices, pos, chunkPos, cameraYaw, biome, x, y);
         } catch (NullPointerException e) {
@@ -33,7 +34,7 @@ public class HudOverlay extends GuiComponent {
         }
     }
 
-    public void render(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, Biome biome, int x, int y, float scale) {
+    public void render(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, Holder<Biome> biome, int x, int y, float scale) {
         try {
             matrices.pushPose();
 
@@ -54,7 +55,7 @@ public class HudOverlay extends GuiComponent {
         return h;
     }
 
-    public void renderOverlay(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, @Nullable Biome biome, int x, int y) throws NullPointerException {
+    public void renderOverlay(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, @Nullable Holder<Biome> biome, int x, int y) throws NullPointerException {
 
         Minecraft client = Minecraft.getInstance();
         
@@ -80,7 +81,7 @@ public class HudOverlay extends GuiComponent {
         Component biomeText;
         if (biome != null && client.level != null) {
             biomeText = CoordinatesDisplay.CONFIG.get().renderBiome ? new TranslatableComponent("hud.coordinatesdisplay.biome",
-                    new TextComponent(ModUtils.parseIdentifier(biome.getRegistryName().toString())).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
+                    new TextComponent(ModUtils.parseIdentifier(ModUtils.printBiome(biome))).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
                     new TextComponent("");
         }
         else
