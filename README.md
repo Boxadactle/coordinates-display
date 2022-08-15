@@ -12,8 +12,6 @@ Coordinates Display is a Client-side Fabric Mod that adds an HUD to your game. T
 
 I also recommend you install [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/) for configuration purposes. It is required to open the Configuration GUI.
 
-*If you find any bugs or have a suggestion, please create an [issue](https://github.com/Boxadactle/coordinates-display/issues). on the GitHub repository. Also, Feel free to make a [pull request](https://github.com/Boxadactle/coordinates-display/pulls). I will probably merge it since my code is garbage.*
-
 ## Forge
 
 This mod requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) for configuration.
