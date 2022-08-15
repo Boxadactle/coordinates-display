@@ -33,8 +33,6 @@ public class ConfigScreen extends Screen {
         this.parent = parent;
 
         ModUtils.initText();
-
-        CoordinatesDisplay.shouldRenderOnHud = false;
     }
     
     @Override
@@ -56,31 +54,31 @@ public class ConfigScreen extends Screen {
 
     private void initButtons() {
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.visual"), (button) -> this.minecraft.setScreen(new VisualConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.visual"), mouseX, mouseY);
             }
         }));
 
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.render"), (button) -> this.minecraft.setScreen(new RenderConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.render"), mouseX, mouseY);
             }
         }));
 
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.color"), (button) -> this.minecraft.setScreen(new ColorConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.colors"), mouseX, mouseY);
             }
         }));
 
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.deathpos"), (button) -> this.minecraft.setScreen(new DeathPosConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.deathpos"), mouseX, mouseY);
             }
         }));
 
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.text"), (button) -> this.minecraft.setScreen(new TextConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.text"), mouseX, mouseY);
             }
         }));
@@ -133,6 +131,5 @@ public class ConfigScreen extends Screen {
     @Override
     public void onClose() {
         this.minecraft.setScreen(parent);
-        CoordinatesDisplay.shouldRenderOnHud = true;
     }
 }

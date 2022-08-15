@@ -69,7 +69,7 @@ public class RenderConfigScreen extends Screen {
             CoordinatesDisplay.CONFIG.get().renderBackground = !CoordinatesDisplay.CONFIG.get().renderBackground;
             button.setMessage(new TranslatableComponent("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.get().renderBackground ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.render.background"), mouseX, mouseY);
             }
         }));
@@ -79,7 +79,7 @@ public class RenderConfigScreen extends Screen {
             CoordinatesDisplay.CONFIG.get().renderChunkData = !CoordinatesDisplay.CONFIG.get().renderChunkData;
             button.setMessage(new TranslatableComponent("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.get().renderChunkData ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.render.chunkdata"), mouseX, mouseY);
             }
         }));
@@ -89,7 +89,7 @@ public class RenderConfigScreen extends Screen {
             CoordinatesDisplay.CONFIG.get().renderDirection = !CoordinatesDisplay.CONFIG.get().renderDirection;
             button.setMessage(new TranslatableComponent("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.get().renderDirection ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.render.direction"), mouseX, mouseY);
             }
         }));
@@ -99,7 +99,7 @@ public class RenderConfigScreen extends Screen {
             CoordinatesDisplay.CONFIG.get().renderBiome = !CoordinatesDisplay.CONFIG.get().renderBiome;
             button.setMessage(new TranslatableComponent("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.render.biome"), mouseX, mouseY);
             }
         }));

@@ -15,7 +15,7 @@ public class ModLogger {
 
     private final String prefix = "[" + CoordinatesDisplay.MOD_NAME + "]: ";
 
-    private final String chatPrefix = "§3[§bCoordinatesDisplay§3] ";
+    private final String chatPrefix = "[CoordinatesDisplay] ";
 
     private final Minecraft client;
 

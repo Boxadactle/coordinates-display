@@ -12,6 +12,7 @@ import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.api.distmarker.Dist;
@@ -72,7 +73,7 @@ public class ColorConfigScreen extends Screen {
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), y);
 
-        String pos = CoordinatesDisplay.DeathposColorPrefix + new TranslatableComponent("message.coordinatesdisplay.location", deathx, deathy, deathz).getString();
+        Component pos = new TranslatableComponent("message.coordinatesdisplay.location", deathx, deathy, deathz).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
         Component deathPos = new TranslatableComponent("message.coordinatesdisplay.deathpos", pos);
         drawCenteredComponent(matrices, this.font, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4), ModUtils.WHITE);
 
@@ -95,63 +96,60 @@ public class ColorConfigScreen extends Screen {
         String deathPosColor = ModUtils.getColorIndex(CoordinatesDisplay.CONFIG.get().deathPosColor) > 0 ?
                 ModUtils.colors[ModUtils.getColorIndex(CoordinatesDisplay.CONFIG.get().deathPosColor)] : "white";
 
-        String keyPrefix = ModUtils.getColorPrefix(keyColor);
-        String valuePrefix = ModUtils.getColorPrefix(valueColor);
-        String deathPosPrefix = ModUtils.getColorPrefix(deathPosColor);
+        Component key = new TranslatableComponent("coordinatesdisplay.color." + keyColor).withStyle(style -> style.withColor(ModUtils.getColorDecimal(keyColor)));
+        Component value = new TranslatableComponent("coordinatesdisplay.color." + valueColor).withStyle(style -> style.withColor(ModUtils.getColorDecimal(valueColor)));
+        Component deathpos = new TranslatableComponent("coordinatesdisplay.color." + deathPosColor).withStyle(style -> style.withColor(ModUtils.getColorDecimal(deathPosColor)));
 
         // lambdas are annoying
         final int[] indexes = {ModUtils.getColorIndex(keyColor), ModUtils.getColorIndex(valueColor), ModUtils.getColorIndex(deathPosColor)};
 
         // keys
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.colors.keys", keyPrefix + ModUtils.getColor(keyColor)), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.colors.keys", key), (button) -> {
             if (indexes[0] == ModUtils.colors.length - 1) indexes[0] = 0;
             else indexes[0]++;
 
             CoordinatesDisplay.CONFIG.get().definitionColor = ModUtils.colors[indexes[0]];
-            CoordinatesDisplay.parseColorPrefixes();
 
             String newColor = ModUtils.colors[indexes[0]];
-            String newPrefix = ModUtils.getColorPrefix(newColor);
 
-            button.setMessage(new TranslatableComponent("button.coordinatesdisplay.colors.keys", newPrefix + ModUtils.getColor(newColor)));
+            button.setMessage(new TranslatableComponent("button.coordinatesdisplay.colors.keys", new TextComponent(ModUtils.getColor(newColor)))
+                    .withStyle(style -> style.withColor(ModUtils.getColorDecimal(newColor))));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.colors.key"), mouseX, mouseY);
             }
         }));
 
         // values
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.colors.values", valuePrefix + ModUtils.getColor(valueColor)), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.colors.values", value), (button) -> {
             if (indexes[1] == ModUtils.colors.length - 1) indexes[1] = 0;
             else indexes[1]++;
 
             CoordinatesDisplay.CONFIG.get().dataColor = ModUtils.colors[indexes[1]];
-            CoordinatesDisplay.parseColorPrefixes();
 
             String newColor = ModUtils.colors[indexes[1]];
-            String newPrefix = ModUtils.getColorPrefix(newColor);
 
-            button.setMessage(new TranslatableComponent("button.coordinatesdisplay.colors.values", newPrefix + ModUtils.getColor(newColor)));
+            button.setMessage(new TranslatableComponent("button.coordinatesdisplay.colors.values", new TextComponent(ModUtils.getColor(newColor)))
+                    .withStyle(style -> style.withColor(ModUtils.getColorDecimal(newColor))));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.colors.value"), mouseX, mouseY);
             }
         }));
 
         // death pos
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.colors.deathpos", deathPosPrefix + ModUtils.getColor(deathPosColor)), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.colors.deathpos", deathpos), (button) -> {
             if (indexes[2] == ModUtils.colors.length - 1) indexes[2] = 0;
             else indexes[2]++;
 
             CoordinatesDisplay.CONFIG.get().deathPosColor = ModUtils.colors[indexes[2]];
-            CoordinatesDisplay.parseColorPrefixes();
 
             String newColor = ModUtils.colors[indexes[2]];
-            String newPrefix = ModUtils.getColorPrefix(newColor);
 
-            button.setMessage(new TranslatableComponent("button.coordinatesdisplay.colors.deathpos", newPrefix + ModUtils.getColor(newColor)));
+            button.setMessage(new TranslatableComponent("button.coordinatesdisplay.colors.deathpos", new TextComponent(ModUtils.getColor(newColor))
+                    .withStyle(style -> style.withColor(ModUtils.getColorDecimal(newColor)))));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.colors.deathpos"), mouseX, mouseY);
             }
         }));

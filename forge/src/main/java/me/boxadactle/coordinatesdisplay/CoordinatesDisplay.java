@@ -11,12 +11,12 @@ import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmlclient.ConfigGuiHandler;
 
 import java.io.File;
 
@@ -33,10 +33,6 @@ public class CoordinatesDisplay {
     public static final File configDir = new File(Minecraft.getInstance().gameDirectory.getAbsolutePath() + "\\config");
 
     public static ConfigHolder<ModConfig> CONFIG;
-
-    public static String DataColorPrefix;
-
-    public static String DeathposColorPrefix;
 
     public static HudOverlay OVERLAY;
 
@@ -60,8 +56,6 @@ public class CoordinatesDisplay {
         ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () ->
                 new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> new ConfigScreen(screen)));
 
-        parseColorPrefixes();
-
         LOGGER.info("Registering key binds");
         Keybinds.register();
 
@@ -69,11 +63,6 @@ public class CoordinatesDisplay {
         OVERLAY = new HudOverlay();
 
         MinecraftForge.EVENT_BUS.register(this);
-    }
-
-    public static void parseColorPrefixes() {
-        DataColorPrefix = ModUtils.getColorPrefix(CONFIG.get().dataColor);
-        DeathposColorPrefix = ModUtils.getColorPrefix(CONFIG.get().deathPosColor);
     }
 
     @SubscribeEvent

@@ -52,8 +52,8 @@ public class DeathPosConfigScreen extends Screen {
 
         drawCenteredString(matrices, this.font, new TranslatableComponent("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()), this.width / 2, 5, ModUtils.WHITE);
 
-        String pos = CoordinatesDisplay.DeathposColorPrefix + new TranslatableComponent("message.coordinatesdisplay.location", deathx, deathy, deathz).getString();
-        Component deathPos = new TranslatableComponent("message.coordinatesdisplay.deathpos", pos);
+        Component pos = new TranslatableComponent("message.coordinatesdisplay.location", deathx, deathy, deathz).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
+        Component deathPos = new TranslatableComponent("message.coordinatesdisplay.deathpos", pos).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().definitionColor)));
         drawCenteredString(matrices, this.font, deathPos, this.width / 2, (int) (this.width / 1.5), ModUtils.WHITE);
 
         super.render(matrices, mouseX,  mouseY, delta);
@@ -73,7 +73,7 @@ public class DeathPosConfigScreen extends Screen {
             CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen = !CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen;
             button.setMessage(new TranslatableComponent("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.deathpos.deathscreen"), mouseX, mouseY);
             }
         }));
@@ -83,7 +83,7 @@ public class DeathPosConfigScreen extends Screen {
             CoordinatesDisplay.CONFIG.get().showDeathPosInChat = !CoordinatesDisplay.CONFIG.get().showDeathPosInChat;
             button.setMessage(new TranslatableComponent("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.get().showDeathPosInChat ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.deathpos.chat"), mouseX, mouseY);
             }
         }));

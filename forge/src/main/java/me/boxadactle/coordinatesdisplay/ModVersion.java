@@ -19,7 +19,7 @@ public class ModVersion {
 
     boolean isMostRecent;
     String mostRecentVer;
-    static String currentVer = "2.0.0";
+    static String currentVer = "2.1.0";
 
     public ModVersion(boolean isMostRecent, String mostRecentVer) {
         this.isMostRecent = isMostRecent;

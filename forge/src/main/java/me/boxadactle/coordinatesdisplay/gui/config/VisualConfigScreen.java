@@ -80,7 +80,7 @@ public class VisualConfigScreen extends Screen {
             CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
             button.setMessage(new TranslatableComponent("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtils.TRUE : ModUtils.FALSE));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.visible"), mouseX, mouseY);
             }
         }));
@@ -90,14 +90,14 @@ public class VisualConfigScreen extends Screen {
             CoordinatesDisplay.CONFIG.get().decimalRounding = !CoordinatesDisplay.CONFIG.get().decimalRounding;
             button.setMessage(new TranslatableComponent("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtils.TRUE : ModUtils.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.decimal"), mouseX, mouseY);
             }
         }));
 
         // modify position button
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, new TranslatableComponent("button.coordinatesdisplay.position"), (button) -> this.minecraft.setScreen(new ChangePositionScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
+            if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, new TranslatableComponent("description.coordinatesdisplay.position"), mouseX, mouseY);
             }
         }));

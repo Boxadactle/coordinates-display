@@ -51,8 +51,8 @@ public class DeathScreenMixin extends Screen {
             String y = d.format(client.player.getY());
             String z = d.format(client.player.getZ());
 
-            String pos = CoordinatesDisplay.DeathposColorPrefix + new TranslatableComponent("message.coordinatesdisplay.location", x, y, z).getString();
-            drawCenteredString(matrices, this.font, new TranslatableComponent("message.coordinatesdisplay.deathpos", pos).getString(), this.width / 2, 115, ModUtils.WHITE);
+            Component pos = new TranslatableComponent("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
+            drawCenteredString(matrices, this.font, new TranslatableComponent("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, ModUtils.WHITE);
         }
     }
 }

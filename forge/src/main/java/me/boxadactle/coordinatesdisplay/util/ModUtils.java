@@ -24,8 +24,8 @@ public class ModUtils {
     public static final int WHITE = 16777215;
     public static final int GRAY = 	11184810;
     public static final int DARK_GRAY = 5592405;
-    public static String TRUE;
-    public static String FALSE;
+    public static Component TRUE;
+    public static Component FALSE;
 
     public static final String CONFIG_WIKI = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration";
     public static final String CONFIG_WIKI_VISUAL = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#visual-settings";
@@ -35,8 +35,8 @@ public class ModUtils {
     public static final String CONFIG_WIKI_TEXTS = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#texts-configuration";
 
     public static void initText() {
-        TRUE  = "§a" + new TranslatableComponent("coordinatesdisplay.true").getString();
-        FALSE = "§c" + new TranslatableComponent("coordinatesdisplay.false").getString();
+        TRUE = new TranslatableComponent("coordinatesdisplay.true").withStyle(style -> style.withColor(0x55FF55));
+        FALSE = new TranslatableComponent("coordinatesdisplay.false").withStyle(style -> style.withColor(0xFF5555));
     }
 
     // list of colors
@@ -224,7 +224,6 @@ public class ModUtils {
 
     public static void reloadConfig() {
         CoordinatesDisplay.CONFIG.load();
-        CoordinatesDisplay.parseColorPrefixes();
         CoordinatesDisplay.LOGGER.info("Reloaded all config");
     }
 

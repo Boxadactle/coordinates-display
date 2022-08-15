@@ -60,23 +60,31 @@ public class HudOverlay extends GuiComponent {
         
         DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
 
-        Component xText = new TranslatableComponent("hud.coordinatesdisplay.x", CoordinatesDisplay.DataColorPrefix + (decimalFormat.format(pos.x)));
-        Component yText = new TranslatableComponent("hud.coordinatesdisplay.y", CoordinatesDisplay.DataColorPrefix + (decimalFormat.format(pos.y)));
-        Component zText = new TranslatableComponent("hud.coordinatesdisplay.z", CoordinatesDisplay.DataColorPrefix + (decimalFormat.format(pos.z)));
+        Component xText = new TranslatableComponent("hud.coordinatesdisplay.x",
+                new TextComponent(decimalFormat.format(pos.x)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+        Component yText = new TranslatableComponent("hud.coordinatesdisplay.y",
+                new TextComponent(decimalFormat.format(pos.y)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+        Component zText = new TranslatableComponent("hud.coordinatesdisplay.z",
+                new TextComponent(decimalFormat.format(pos.z)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
 
-        Component chunkX = new TranslatableComponent("hud.coordinatesdisplay.chunk.x", CoordinatesDisplay.DataColorPrefix + chunkPos.x);
-        Component chunkZ = new TranslatableComponent("hud.coordinatesdisplay.chunk.z", CoordinatesDisplay.DataColorPrefix + chunkPos.z);
+        Component chunkX = new TranslatableComponent("hud.coordinatesdisplay.chunk.x",
+                new TextComponent(Integer.toString(chunkPos.x)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+        Component chunkZ = new TranslatableComponent("hud.coordinatesdisplay.chunk.z",
+                new TextComponent(Integer.toString(chunkPos.z)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
 
         float yaw = Mth.wrapDegrees(cameraYaw);
-        String direction = new TranslatableComponent("hud.coordinatesdisplay.direction." + ModUtils.getDirectionFromYaw(yaw)).getString();
-        Component directionText = CoordinatesDisplay.CONFIG.get().renderDirection ? new TranslatableComponent("hud.coordinatesdisplay.direction", direction, String.format("%s(%s)", CoordinatesDisplay.DataColorPrefix, decimalFormat.format(yaw))) : new TextComponent("");
+        Component directionText = CoordinatesDisplay.CONFIG.get().renderDirection ? new TranslatableComponent("hud.coordinatesdisplay.direction",
+                new TranslatableComponent("hud.coordinatesdisplay.direction." + ModUtils.getDirectionFromYaw(yaw)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
+                new TextComponent("");
 
         Component biomeText;
         if (biome != null && client.level != null) {
-            biomeText = CoordinatesDisplay.CONFIG.get().renderBiome ? new TranslatableComponent("hud.coordinatesdisplay.biome", CoordinatesDisplay.DataColorPrefix + ModUtils.parseIdentifier(biome.getRegistryName().toString())) : new TextComponent("");
+            biomeText = CoordinatesDisplay.CONFIG.get().renderBiome ? new TranslatableComponent("hud.coordinatesdisplay.biome",
+                    new TextComponent(ModUtils.parseIdentifier(biome.getRegistryName().toString())).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
+                    new TextComponent("");
         }
         else
-            biomeText = new TranslatableComponent("hud.coordinatesdisplay.biome", CoordinatesDisplay.DataColorPrefix + "Plains");
+            biomeText = new TranslatableComponent("hud.coordinatesdisplay.biome",  new TextComponent("Plains").withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
 
         int th = 10;
         int p = CoordinatesDisplay.CONFIG.get().padding;
