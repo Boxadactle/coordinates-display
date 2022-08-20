@@ -5,13 +5,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 
@@ -68,31 +65,31 @@ public class HudOverlay extends DrawableHelper {
 
         DecimalFormat decimalFormat = new DecimalFormat(this.config.roundPosToTwoDecimals ? "0.00" : "0");
 
-        Text xpos = new LiteralText(decimalFormat.format(pos.getX())).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
-        Text ypos = new LiteralText(decimalFormat.format(pos.getY())).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
-        Text zpos = new LiteralText(decimalFormat.format(pos.getZ())).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
+        Text xpos = Text.literal(decimalFormat.format(pos.getX())).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
+        Text ypos = Text.literal(decimalFormat.format(pos.getY())).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
+        Text zpos = Text.literal(decimalFormat.format(pos.getZ())).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
 
-        Text chunkxpos = new LiteralText(Integer.toString(chunkPos.x)).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
-        Text chunkzpos = new LiteralText(Integer.toString(chunkPos.z)).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
+        Text chunkxpos = Text.literal(Integer.toString(chunkPos.x)).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
+        Text chunkzpos = Text.literal(Integer.toString(chunkPos.z)).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
 
         Text biometext;
         if (this.client.world != null) {
-            biometext = this.config.renderBiome ? new LiteralText(biome != null ? ModUtils.parseIdentifier(ModUtils.getBiomeString(biome)) : "Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor))) : new LiteralText("");
+            biometext = this.config.renderBiome ? Text.literal(biome != null ? ModUtils.parseIdentifier(ModUtils.getBiomeString(biome)) : "Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor))) : Text.literal("");
         } else
-            biometext = new LiteralText("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
+            biometext = Text.literal("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
 
-        Text dtext = new TranslatableText("hud.coordinatesdisplay.direction." + ModUtils.getDirectionFromYaw(MathHelper.wrapDegrees(cameraYaw))).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
+        Text dtext = Text.translatable("hud.coordinatesdisplay.direction." + ModUtils.getDirectionFromYaw(MathHelper.wrapDegrees(cameraYaw))).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
 
-        Text xText = new TranslatableText("hud.coordinatesdisplay.x", xpos);
-        Text yText = new TranslatableText("hud.coordinatesdisplay.y", ypos);
-        Text zText = new TranslatableText("hud.coordinatesdisplay.z", zpos);
+        Text xText = Text.translatable("hud.coordinatesdisplay.x", xpos);
+        Text yText = Text.translatable("hud.coordinatesdisplay.y", ypos);
+        Text zText = Text.translatable("hud.coordinatesdisplay.z", zpos);
 
-        Text chunkX = new TranslatableText("hud.coordinatesdisplay.chunk.x", chunkxpos);
-        Text chunkZ = new TranslatableText("hud.coordinatesdisplay.chunk.z", chunkzpos);
+        Text chunkX = Text.translatable("hud.coordinatesdisplay.chunk.x", chunkxpos);
+        Text chunkZ = Text.translatable("hud.coordinatesdisplay.chunk.z", chunkzpos);
 
-        Text directionText = this.config.renderDirection ? new TranslatableText("hud.coordinatesdisplay.direction", dtext) : new LiteralText("");
+        Text directionText = this.config.renderDirection ? Text.translatable("hud.coordinatesdisplay.direction", dtext) : Text.literal("");
 
-        Text biomeText = this.config.renderBiome ? new TranslatableText("hud.coordinatesdisplay.biome", biometext) : new LiteralText("");
+        Text biomeText = this.config.renderBiome ? Text.translatable("hud.coordinatesdisplay.biome", biometext) : Text.literal("");
 
         int th = 10;
         int p = this.config.padding;

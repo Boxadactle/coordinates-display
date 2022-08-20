@@ -6,7 +6,6 @@ import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.HoverEvent;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.JsonHelper;
 
@@ -22,7 +21,7 @@ public class ModVersion {
 
     boolean isMostRecent;
     String mostRecentVer;
-    static String thisVer = "2.1.1";
+    static String thisVer = "2.1.2";
 
     public ModVersion(boolean isMostRecent, String mostRecentVer) {
         this.isMostRecent = isMostRecent;
@@ -42,15 +41,15 @@ public class ModVersion {
     }
 
     public Text getUpdateText() {
-        Text link = new LiteralText("here").styled((style -> style
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new LiteralText("Click here to open in browser")))
+        Text link = Text.literal("here").styled((style -> style
+                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.literal("Click here to open in browser")))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, CoordinatesDisplay.UPDATE_MOD_URL))
                 .withColor(ModUtils.getColorDecimal("aqua"))
         ));
 
-        return mostRecentVer != null ? new LiteralText(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! You are currently on %s (newest version is %s). ", CoordinatesDisplay.MINECRAFT_VERSION, this.thisVersion(), this.getMostRecentVer()) +
+        return mostRecentVer != null ? Text.literal(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! You are currently on %s (newest version is %s). ", CoordinatesDisplay.MINECRAFT_VERSION, this.thisVersion(), this.getMostRecentVer()) +
                 "Click ").append(link).append(" to download the newest version.") :
-                new LiteralText(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! Click ", CoordinatesDisplay.MINECRAFT_VERSION)).append(link).append(" to download the newest version.");
+                Text.literal(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! Click ", CoordinatesDisplay.MINECRAFT_VERSION)).append(link).append(" to download the newest version.");
     }
 
     public String toString() {

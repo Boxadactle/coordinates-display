@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.*;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.GsonHelper;
 
 import java.io.BufferedReader;
@@ -19,7 +20,7 @@ public class ModVersion {
 
     boolean isMostRecent;
     String mostRecentVer;
-    static String currentVer = "2.1.1";
+    static String currentVer = "2.1.2";
 
     public ModVersion(boolean isMostRecent, String mostRecentVer) {
         this.isMostRecent = isMostRecent;
@@ -39,15 +40,16 @@ public class ModVersion {
     }
 
     public Component getUpdateText() {
-        Component link = new TextComponent("here").withStyle((style -> style
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TextComponent("Click here to open in browser")))
+        Component link = Component.literal("here").withStyle((style -> style
+                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click here to open in browser")))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, CoordinatesDisplay.UPDATE_MOD_URL))
                 .withColor(ModUtils.getColorDecimal("aqua"))
         ));
 
-        return mostRecentVer != null ? new TextComponent(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! You are currently on %s (newest version is %s). ", CoordinatesDisplay.MINECRAFT_VERSION, this.thisVersion(), this.getMostRecentVer()) +
+        return mostRecentVer != null ? Component.literal(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! You are currently on %s (newest version is %s). ",
+                CoordinatesDisplay.MINECRAFT_VERSION, this.thisVersion(), this.getMostRecentVer()) +
                 "Click ").append(link).append(" to download the newest version.") :
-                new TextComponent(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! Click ", CoordinatesDisplay.MINECRAFT_VERSION)).append(link).append(" to download the newest version.");
+                Component.literal(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! Click ", CoordinatesDisplay.MINECRAFT_VERSION)).append(link).append(" to download the newest version.");
     }
 
     public String toString() {

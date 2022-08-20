@@ -2,8 +2,8 @@ package me.boxadactle.coordinatesdisplay.util;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
+import net.minecraft.text.Texts;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,10 +18,14 @@ public class ModLogger {
 
     private final MinecraftClient client;
 
+    public PlayerLogging player;
+
     public ModLogger() {
         logger = LogManager.getFormatterLogger(CoordinatesDisplay.MOD_NAME);
 
         client = MinecraftClient.getInstance();
+
+        player = new PlayerLogging(client);
     }
 
     public void error(String msg, Object... data) {
@@ -46,25 +50,13 @@ public class ModLogger {
 
     public void chatError(String msg, Object... data) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new LiteralText(chatPrefix + "§4" + String.format(msg, data)), false);
+            this.client.player.sendMessage(Text.literal(chatPrefix + "§4" + String.format(msg, data)), false);
         }
     }
 
     public void chatWarn(String msg, Object... data) {
         if (this.client.player != null) {
-            this.client.player.sendMessage(new LiteralText(chatPrefix + "§3" + String.format(msg, data)), false);
-        }
-    }
-
-    public void chatInfo(String msg, Object... data) {
-        if (this.client.player != null) {
-            this.client.player.sendMessage(new LiteralText(chatPrefix + "§a" + String.format(msg, data)), false);
-        }
-    }
-
-    public void sendChatMessage(Text msg) {
-        if (this.client.player != null) {
-            this.client.player.sendMessage(msg, false);
+            this.client.player.sendMessage(Text.literal(chatPrefix + "§3" + String.format(msg, data)), false);
         }
     }
 
@@ -74,5 +66,54 @@ public class ModLogger {
 
     public String getPrefix() {
         return prefix;
+    }
+
+    public class PlayerLogging {
+
+        private Text prefix = ModUtils.colorize(Texts.bracketed(
+                ModUtils.colorize(Text.literal("Coordinates Display"), 5636095)
+        ), 43690).copy().append(" ");
+
+        private MinecraftClient client;
+
+        public PlayerLogging(MinecraftClient client) {
+            this.client = client;
+        }
+
+        public void error(String msg, Object... data) {
+            if (this.client.player != null) {
+                this.client.player.sendMessage(
+                        prefix.copy().append(ModUtils.colorize(Text.literal(String.format(msg, data)), 0x2f2d2d))
+                );
+            }
+        }
+
+        public void warn(String msg, Object... data) {
+            if (this.client.player != null) {
+                this.client.player.sendMessage(
+                        prefix.copy().append(ModUtils.colorize(Text.literal(String.format(msg, data)), 0xff9966))
+                );
+            }
+        }
+
+        public void info(String msg, Object... data) {
+            if (this.client.player != null) {
+                this.client.player.sendMessage(
+                        prefix.copy().append(ModUtils.colorize(Text.literal(String.format(msg, data)), 5635925))
+                );
+            }
+        }
+
+        public void chat(Text msg) {
+            if (this.client.player != null) {
+                this.client.player.sendMessage(msg);
+            }
+        }
+
+        public void publicChat(String msg) {
+            if (this.client.player != null) {
+                this.client.player.sendChatMessage(msg);
+            }
+        }
     }
 }

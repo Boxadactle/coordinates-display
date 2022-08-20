@@ -47,7 +47,7 @@ public class ColorConfigScreen extends Screen {
     ModVersion version;
 
     public ColorConfigScreen(Screen parent) {
-        super(new TranslatableText("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()));
+        super(Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()));
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
@@ -77,8 +77,8 @@ public class ColorConfigScreen extends Screen {
         int b = (int) (this.height / s);
         int c = (int) (a / 2 + (5 / s));
         int d = (int) (b / 2.3) - 4;
-        int e = (int) (872 / 1.8) / this.client.options.guiScale;
-        int f = (int) (586 / 1.8) / this.client.options.guiScale;
+        int e = (int) (872 / 1.8) / this.client.options.getGuiScale().getValue();
+        int f = (int) (586 / 1.8) / this.client.options.getGuiScale().getValue();
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -93,18 +93,18 @@ public class ColorConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredText(matrices, this.textRenderer, new TranslatableText("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, version.thisVersion()), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, version.thisVersion()), this.width / 2, 5, ModUtils.WHITE);
 
         int y = (int) (this.height / 2.3);
 
-        drawTextWithShadow(matrices, this.textRenderer, new LiteralText("Definition Color"), this.width / 2 - smallButtonW, start + 8, ModUtils.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, new LiteralText("Data Color"), this.width / 2, start + 8, ModUtils.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, new LiteralText("Death Position Color"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtils.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Definition Color"), this.width / 2 - smallButtonW, start + 8, ModUtils.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Data Color"), this.width / 2, start + 8, ModUtils.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Death Position Color"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtils.WHITE);
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y);
 
-        Text posT = Texts.bracketed(new TranslatableText("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.deathPosColor));
-        Text deathPos = new TranslatableText("message.coordinatesdisplay.deathpos", posT);
+        Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.deathPosColor));
+        Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", posT);
         drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4), ModUtils.WHITE);
 
         this.renderColorPicker(matrices);
@@ -115,10 +115,10 @@ public class ColorConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.back"), (button) -> this.close()));
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close()));
 
         // open wiki
-        this.addDrawableChild(new ButtonWidget(5, 5, tinyButtonW, buttonHeight, new TranslatableText("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmChatLinkScreen((yes) -> {
+        this.addDrawableChild(new ButtonWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmChatLinkScreen((yes) -> {
             this.client.setScreen(this);
             if (yes) {
                 Util.getOperatingSystem().open(ModUtils.CONFIG_WIKI_COLOR);
@@ -130,9 +130,9 @@ public class ColorConfigScreen extends Screen {
     }
 
     private void initButtons() {
-        TextFieldWidget definitionColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p), smallButtonW, buttonHeight, new LiteralText(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
-        TextFieldWidget dataColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p), smallButtonW, buttonHeight, new LiteralText(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
-        TextFieldWidget deathposColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, new LiteralText(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
+        TextFieldWidget definitionColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
+        TextFieldWidget dataColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
+        TextFieldWidget deathposColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
 
         definitionColor.setMaxLength(6);
         dataColor.setMaxLength(6);
@@ -176,7 +176,7 @@ public class ColorConfigScreen extends Screen {
         this.addDrawableChild(dataColor);
         this.addDrawableChild(deathposColor);
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 + p1, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, new LiteralText("Color Picker..."), (button -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 + p1, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal("Color Picker..."), (button -> {
             Util.getOperatingSystem().open("https://htmlcolorcodes.com/color-picker/");
         })));
 

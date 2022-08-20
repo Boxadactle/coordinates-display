@@ -22,7 +22,7 @@ public class ClientPlayerEntityMixin {
     @Inject(at = @At("RETURN"), method = "tick")
     private void tick(CallbackInfo ci) {
         if (!CoordinatesDisplay.hasPlayerSeenUpdateMessage && !version.isMostRecent()) {
-            CoordinatesDisplay.LOGGER.sendChatMessage(version.getUpdateText());
+            CoordinatesDisplay.LOGGER.player.chat(version.getUpdateText());
             CoordinatesDisplay.hasPlayerSeenUpdateMessage = true;
         }
     }
@@ -36,7 +36,7 @@ public class ClientPlayerEntityMixin {
             int y = (int) Math.round(c.player.getY());
             int z = (int) Math.round(c.player.getZ());
 
-            CoordinatesDisplay.LOGGER.sendChatMessage(ModUtils.makeDeathPositionText(x, y, z));
+            CoordinatesDisplay.LOGGER.player.chat(ModUtils.makeDeathPositionText(x, y, z));
         }
     }
 }

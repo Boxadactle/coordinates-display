@@ -10,18 +10,16 @@ import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraftforge.client.gui.ForgeIngameGui;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(ForgeIngameGui.class)
-public class ForgeIngameGuiMixin extends Gui {
+@Mixin(ForgeGui.class)
+public class ForgeGuiMixin {
 
-    public ForgeIngameGuiMixin(Minecraft p_93005_) {
-        super(p_93005_);
-    }
+    private Minecraft minecraft = Minecraft.getInstance();
 
     @Inject(at = @At("RETURN"), method = "render")
     private void render(PoseStack matrices, float tickDelta, CallbackInfo ci) {

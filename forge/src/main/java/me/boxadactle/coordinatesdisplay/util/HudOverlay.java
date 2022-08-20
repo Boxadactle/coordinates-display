@@ -7,8 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
@@ -61,31 +59,31 @@ public class HudOverlay extends GuiComponent {
         
         DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
 
-        Component xText = new TranslatableComponent("hud.coordinatesdisplay.x",
-                new TextComponent(decimalFormat.format(pos.x)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
-        Component yText = new TranslatableComponent("hud.coordinatesdisplay.y",
-                new TextComponent(decimalFormat.format(pos.y)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
-        Component zText = new TranslatableComponent("hud.coordinatesdisplay.z",
-                new TextComponent(decimalFormat.format(pos.z)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+        Component xText = Component.translatable("hud.coordinatesdisplay.x",
+                Component.literal(decimalFormat.format(pos.x)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+        Component yText = Component.translatable("hud.coordinatesdisplay.y",
+                Component.literal(decimalFormat.format(pos.y)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+        Component zText = Component.translatable("hud.coordinatesdisplay.z",
+                Component.literal(decimalFormat.format(pos.z)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
 
-        Component chunkX = new TranslatableComponent("hud.coordinatesdisplay.chunk.x",
-                new TextComponent(Integer.toString(chunkPos.x)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
-        Component chunkZ = new TranslatableComponent("hud.coordinatesdisplay.chunk.z",
-                new TextComponent(Integer.toString(chunkPos.z)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+        Component chunkX = Component.translatable("hud.coordinatesdisplay.chunk.x",
+                Component.literal(Integer.toString(chunkPos.x)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+        Component chunkZ = Component.translatable("hud.coordinatesdisplay.chunk.z",
+                Component.literal(Integer.toString(chunkPos.z)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
 
         float yaw = Mth.wrapDegrees(cameraYaw);
-        Component directionText = CoordinatesDisplay.CONFIG.get().renderDirection ? new TranslatableComponent("hud.coordinatesdisplay.direction",
-                new TranslatableComponent("hud.coordinatesdisplay.direction." + ModUtils.getDirectionFromYaw(yaw)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
-                new TextComponent("");
+        Component directionText = CoordinatesDisplay.CONFIG.get().renderDirection ? Component.translatable("hud.coordinatesdisplay.direction",
+                Component.translatable("hud.coordinatesdisplay.direction." + ModUtils.getDirectionFromYaw(yaw)).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
+                Component.literal("");
 
         Component biomeText;
         if (biome != null && client.level != null) {
-            biomeText = CoordinatesDisplay.CONFIG.get().renderBiome ? new TranslatableComponent("hud.coordinatesdisplay.biome",
-                    new TextComponent(ModUtils.parseIdentifier(ModUtils.printBiome(biome))).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
-                    new TextComponent("");
+            biomeText = CoordinatesDisplay.CONFIG.get().renderBiome ? Component.translatable("hud.coordinatesdisplay.biome",
+                    Component.literal(ModUtils.parseIdentifier(ModUtils.printBiome(biome))).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
+                    Component.literal("");
         }
         else
-            biomeText = new TranslatableComponent("hud.coordinatesdisplay.biome",  new TextComponent("Plains").withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+            biomeText = Component.translatable("hud.coordinatesdisplay.biome",  Component.literal("Plains").withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
 
         int th = 10;
         int p = CoordinatesDisplay.CONFIG.get().padding;

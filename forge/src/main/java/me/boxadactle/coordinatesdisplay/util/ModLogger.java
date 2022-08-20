@@ -1,10 +1,9 @@
 package me.boxadactle.coordinatesdisplay.util;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.ComponentUtils;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,14 +14,16 @@ public class ModLogger {
 
     private final String prefix = "[" + CoordinatesDisplay.MOD_NAME + "]: ";
 
-    private final String chatPrefix = "[CoordinatesDisplay] ";
-
     private final Minecraft client;
+
+    public PlayerChat player;
 
     public ModLogger() {
         logger = LogManager.getFormatterLogger(CoordinatesDisplay.MOD_NAME);
 
         client = Minecraft.getInstance();
+
+        player = new PlayerChat(client);
     }
 
     public void error(String msg, Object... data) {
@@ -45,27 +46,52 @@ public class ModLogger {
         }
     }
 
-    public void chatError(String msg, Object... data) {
-        if (this.client.player != null) {
-            this.client.player.sendMessage(new TextComponent(String.format(msg, data)), Util.NIL_UUID);
-        }
-    }
+    public class PlayerChat {
 
-    public void chatWarn(String msg, Object... data) {
-        if (this.client.player != null) {
-            this.client.player.sendMessage(new TextComponent(String.format(msg, data)), Util.NIL_UUID);
-        }
-    }
+        private Minecraft client;
 
-    public void chatInfo(String msg, Object... data) {
-        if (this.client.player != null) {
-            this.client.player.sendMessage(new TextComponent(String.format(msg, data)), Util.NIL_UUID);
-        }
-    }
+        private Component prefix = ModUtils.colorize(ComponentUtils.wrapInSquareBrackets(
+                ModUtils.colorize(Component.literal("Coordinates Display"), 5636095)
+        ), 43690).copy().append(" ");
 
-    public void sendChatMessage(Component msg) {
-        if (this.client.player != null) {
-            this.client.player.sendMessage(msg, Util.NIL_UUID);
+        public PlayerChat(Minecraft minecraft) {
+            this.client = minecraft;
+        }
+
+        public void error(String msg, Object... data) {
+            if (this.client.player != null) {
+                this.client.player.sendSystemMessage(
+                        prefix.copy().append(ModUtils.colorize(Component.literal(String.format(msg, data)), 0x2f2d2d))
+                );
+            }
+        }
+
+        public void warn(String msg, Object... data) {
+            if (this.client.player != null) {
+                this.client.player.sendSystemMessage(
+                        prefix.copy().append(ModUtils.colorize(Component.literal(String.format(msg, data)), 0xff9966))
+                );
+            }
+        }
+
+        public void info(String msg, Object... data) {
+            if (this.client.player != null) {
+                this.client.player.sendSystemMessage(
+                        prefix.copy().append(ModUtils.colorize(Component.literal(String.format(msg, data)), 5635925))
+                );
+            }
+        }
+
+        public void chat(Component msg) {
+            if (this.client.player != null) {
+                this.client.player.sendSystemMessage(msg);
+            }
+        }
+
+        public void publicChat(String msg) {
+            if (this.client.player != null) {
+                this.client.player.chat(msg);
+            }
         }
     }
 }

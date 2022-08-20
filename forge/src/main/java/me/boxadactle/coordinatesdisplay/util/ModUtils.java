@@ -35,8 +35,8 @@ public class ModUtils {
     public static final String CONFIG_WIKI_TEXTS = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#texts-configuration";
 
     public static void initText() {
-        TRUE = new TranslatableComponent("coordinatesdisplay.true").withStyle(style -> style.withColor(0x55FF55));
-        FALSE = new TranslatableComponent("coordinatesdisplay.false").withStyle(style -> style.withColor(0xFF5555));
+        TRUE = Component.translatable("coordinatesdisplay.true").withStyle(style -> style.withColor(0x55FF55));
+        FALSE = Component.translatable("coordinatesdisplay.false").withStyle(style -> style.withColor(0xFF5555));
     }
 
     // list of colors
@@ -95,11 +95,15 @@ public class ModUtils {
         return args[(int) Math.round(Math.random() * (args.length - 1))];
     }
 
-    public static String asTpCommand(int x, int y, int z, @Nullable String dimension) {
+    public static String asTpCommand(double x, double y, double z, @Nullable String dimension) {
+        DecimalFormat d = new DecimalFormat("0.00");
+        String xs = d.format(x);
+        String ys = d.format(y);
+        String zs = d.format(z);
         if (dimension != null) {
-            return String.format("/execute in %s run tp @s %d %d %d", dimension, x, y, z);
+            return String.format("/execute in %s run tp @s %s %s %s", dimension, xs, ys, zs);
         } else {
-            return String.format("/tp @s %d %d %d", x, y, z);
+            return String.format("/tp @s %s %s %s", xs, ys, zs);
         }
     }
 
@@ -107,15 +111,13 @@ public class ModUtils {
 
         String command = asTpCommand(x, y, z, getPlayerCurrentDimension());
 
-        TranslatableComponent pos = new TranslatableComponent("message.coordinatesdisplay.deathlocation", x, y, z, getPlayerCurrentDimension());
-
-        Component position = ComponentUtils.wrapInSquareBrackets(pos).withStyle((style -> style
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("message.coordinatesdisplay.teleport")))
+        Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, getPlayerCurrentDimension()).withStyle((style -> style
+                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
                 .withColor(getColorDecimal(CoordinatesDisplay.CONFIG.getConfig().deathPosColor))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return new TranslatableComponent("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor(getColorDecimal(CoordinatesDisplay.CONFIG.getConfig().deathPosColor)));
+        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor(getColorDecimal(CoordinatesDisplay.CONFIG.getConfig().definitionColor)));
     }
 
     public static int getColorIndex(String color) {
@@ -128,7 +130,7 @@ public class ModUtils {
     }
 
     public static String getColor(String color) {
-        return new TranslatableComponent("coordinatesdisplay.color." + color).getString();
+        return Component.translatable("coordinatesdisplay.color." + color).getString();
     }
 
     public static String getColorPrefix(String color) {
@@ -265,6 +267,10 @@ public class ModUtils {
         } else {
             return "Plains";
         }
+    }
+
+    public static Component colorize(Component c, int color) {
+        return c.copy().withStyle(style -> style.withColor(color));
     }
 
     // copy + pasted from DebugHud.class

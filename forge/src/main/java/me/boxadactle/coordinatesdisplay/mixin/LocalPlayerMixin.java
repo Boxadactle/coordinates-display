@@ -35,14 +35,14 @@ public class LocalPlayerMixin {
             int y = (int) Math.round(minecraft.player.getY());
             int z = (int) Math.round(minecraft.player.getZ());
 
-            CoordinatesDisplay.LOGGER.sendChatMessage(ModUtils.makeDeathPositionTextComponent(x, y, z));
+            CoordinatesDisplay.LOGGER.player.chat(ModUtils.makeDeathPositionTextComponent(x, y, z));
         }
     }
 
     @Inject(at = @At("RETURN"), method = "tick")
     private void tick(CallbackInfo ci) {
         if (!CoordinatesDisplay.hasPlayerSeenUpdateMessage && !version.isMostRecent()) {
-            CoordinatesDisplay.LOGGER.sendChatMessage(version.getUpdateText());
+            CoordinatesDisplay.LOGGER.player.chat(version.getUpdateText());
             CoordinatesDisplay.hasPlayerSeenUpdateMessage = true;
         }
     }

@@ -60,18 +60,18 @@ public class Keybinds {
 
         if (reloadConfigKeybind.wasPressed()) {
             CoordinatesDisplay.reloadConfig();
-            CoordinatesDisplay.LOGGER.chatInfo("Config reloaded!");
+            CoordinatesDisplay.LOGGER.player.info("Config reloaded!");
             CoordinatesDisplay.LOGGER.info("Reloaded all config");
         }
 
         if (copyLocation.wasPressed()) {
             MinecraftClient.getInstance().keyboard.setClipboard(ModUtils.parseText(CoordinatesDisplay.CONFIG.copyPosMessage));
-            CoordinatesDisplay.LOGGER.chatInfo("Copied to clipboard!");
-            CoordinatesDisplay.LOGGER.chatInfo("Copied location to clipboard!");
+            CoordinatesDisplay.LOGGER.player.info("Copied to clipboard!");
+            CoordinatesDisplay.LOGGER.player.info("Copied location to clipboard!");
         }
 
         if (sendLocation.wasPressed()) {
-            MinecraftClient.getInstance().getNetworkHandler().sendPacket(new ChatMessageC2SPacket(ModUtils.parseText(CoordinatesDisplay.CONFIG.posChatMessage)));
+            CoordinatesDisplay.LOGGER.player.publicChat(ModUtils.parseText(CoordinatesDisplay.CONFIG.posChatMessage));
             CoordinatesDisplay.LOGGER.info("Sent position as chat message");
         }
 
@@ -80,7 +80,7 @@ public class Keybinds {
 
             MinecraftClient.getInstance().keyboard.setClipboard(ModUtils.asTpCommand(x, y, z, (registry != null ? registry.getValue().toString() : null)));
 
-            CoordinatesDisplay.LOGGER.chatInfo("Copied position as command");
+            CoordinatesDisplay.LOGGER.player.info("Copied position as command");
         }
     }
 }

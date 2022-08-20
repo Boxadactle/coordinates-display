@@ -8,8 +8,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -28,8 +26,8 @@ public class DeathScreenMixin extends Screen {
     @Inject(at = @At("RETURN"), method = "init")
     private void init(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
-            this.addRenderableWidget(new Button(this.width / 2 - 100, this.height / 4 + 120, 200, 20, new TranslatableComponent("button.coordinatesdisplay.copy"), (button) -> {
-                button.setMessage(new TextComponent("button.coordinatesdisplay.copied"));
+            this.addRenderableWidget(new Button(this.width / 2 - 100, this.height / 4 + 120, 200, 20, Component.translatable("button.coordinatesdisplay.copy"), (button) -> {
+                button.setMessage(Component.literal("button.coordinatesdisplay.copied"));
                 button.active = false;
 
                 int x = (int) Math.round(client.player.getX());
@@ -51,8 +49,8 @@ public class DeathScreenMixin extends Screen {
             String y = d.format(client.player.getY());
             String z = d.format(client.player.getZ());
 
-            Component pos = new TranslatableComponent("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
-            drawCenteredString(matrices, this.font, new TranslatableComponent("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, ModUtils.WHITE);
+            Component pos = Component.translatable("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
+            drawCenteredString(matrices, this.font, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, ModUtils.WHITE);
         }
     }
 }

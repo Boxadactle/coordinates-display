@@ -7,8 +7,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 
 public class CoordinatesScreen extends Screen {
 
@@ -24,7 +23,7 @@ public class CoordinatesScreen extends Screen {
     int p = 5;
 
     public CoordinatesScreen(int x, int y, int z) {
-        super(new LiteralText("Coordinates Screen"));
+        super(Text.literal("Coordinates Screen"));
 
         this.x = x;
         this.y = y;
@@ -35,8 +34,8 @@ public class CoordinatesScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredText(matrices, this.textRenderer, new TranslatableText("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, white);
-        drawCenteredText(matrices, this.textRenderer, new TranslatableText("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), white);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, white);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), white);
 
         super.render(matrices, mouseX, mouseY, delta);
     }
@@ -52,21 +51,21 @@ public class CoordinatesScreen extends Screen {
 
         int bstart = this.height / 2 - 20;
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh, new TranslatableText("button.coordinatesdisplay.copy"), button -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh, Text.translatable("button.coordinatesdisplay.copy"), button -> {
             this.client.keyboard.setClipboard(ModUtils.parseText(CoordinatesDisplay.CONFIG.copyPosMessage));
-            CoordinatesDisplay.LOGGER.chatInfo("Copied coordinates to clipboard");
+            CoordinatesDisplay.LOGGER.player.info("Copied coordinates to clipboard");
             resume();
         }));
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh, new TranslatableText("button.coordinatesdisplay.send"), button -> {
-            MinecraftClient.getInstance().getNetworkHandler().sendPacket(new ChatMessageC2SPacket(ModUtils.parseText(CoordinatesDisplay.CONFIG.posChatMessage)));
-            CoordinatesDisplay.LOGGER.chatInfo("Put Coordinates in Chat");
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh, Text.translatable("button.coordinatesdisplay.send"), button -> {
+            CoordinatesDisplay.LOGGER.player.publicChat(ModUtils.parseText(CoordinatesDisplay.CONFIG.posChatMessage));
+            CoordinatesDisplay.LOGGER.player.info("Put Coordinates in Chat");
             resume();
         }));
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh, new TranslatableText("button.coordinatesdisplay.copytp"), button -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh, Text.translatable("button.coordinatesdisplay.copytp"), button -> {
             this.client.keyboard.setClipboard(ModUtils.asTpCommand(x, y, z, ModUtils.getPlayerCurrentDimension()));
-            CoordinatesDisplay.LOGGER.chatInfo("Copied as TP command");
+            CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             resume();
         }));
     }

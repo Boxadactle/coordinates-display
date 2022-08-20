@@ -7,18 +7,18 @@ package me.boxadactle.coordinatesdisplay.gui.widget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
 public class InvisibleButtonWidget extends Button {
     public InvisibleButtonWidget(int x, int y, int width, int height, OnPress onPress) {
-        super(x, y, width, height, new TextComponent(""), onPress);
+        super(x, y, width, height, Component.translatable(""), onPress);
     }
 
     public InvisibleButtonWidget(int x, int y, int width, int height, OnPress onPress, OnTooltip tooltipSupplier) {
-        super(x, y, width, height, new TextComponent(""), onPress, tooltipSupplier);
+        super(x, y, width, height, Component.translatable(""), onPress, tooltipSupplier);
     }
 
     @Override

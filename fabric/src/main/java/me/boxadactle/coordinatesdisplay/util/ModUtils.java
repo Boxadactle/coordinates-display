@@ -38,8 +38,8 @@ public class ModUtils {
     public static final String CONFIG_WIKI_TEXTS = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#texts-configuration";
 
     public static void initText() {
-        TRUE  = "§a" + new TranslatableText("coordinatesdisplay.true").getString();
-        FALSE = "§c" + new TranslatableText("coordinatesdisplay.false").getString();
+        TRUE  = "§a" + Text.translatable("coordinatesdisplay.true").getString();
+        FALSE = "§c" + Text.translatable("coordinatesdisplay.false").getString();
     }
 
     // list of colors
@@ -52,6 +52,10 @@ public class ModUtils {
             "blue", "dark_blue",
             "light_purple", "dark_purple"
     };
+
+    public static Text colorize(Text text, int color) {
+        return text.copy().styled(style -> style.withColor(color));
+    }
 
     public static int aspectRatio(int int1, int int2, int int3) {
         int i1 = int3 / int1;
@@ -108,15 +112,15 @@ public class ModUtils {
 
         String command = asTpCommand(x, y, z, getPlayerCurrentDimension());
 
-        Text pos = new TranslatableText("message.coordinatesdisplay.deathlocation", x, y, z, getPlayerCurrentDimension() != null ? getPlayerCurrentDimension() : "unregistered dimension");
+        Text pos = Text.translatable("message.coordinatesdisplay.deathlocation", x, y, z, getPlayerCurrentDimension() != null ? getPlayerCurrentDimension() : "unregistered dimension");
 
         Text position = Texts.bracketed(pos).styled((style -> style
-            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("message.coordinatesdisplay.teleport")))
+            .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("message.coordinatesdisplay.teleport")))
             .withColor(CoordinatesDisplay.CONFIG.deathPosColor)
             .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return new TranslatableText("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.definitionColor));
+        return Text.translatable("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.definitionColor));
     }
 
     public static int getColorDecimal(String color) {

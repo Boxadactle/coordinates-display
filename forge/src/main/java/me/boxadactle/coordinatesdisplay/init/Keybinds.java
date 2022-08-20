@@ -7,7 +7,7 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.ClientRegistry;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import org.lwjgl.glfw.GLFW;
 
 @OnlyIn(Dist.CLIENT)
@@ -22,58 +22,58 @@ public class Keybinds {
     static KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", GLFW.GLFW_KEY_X, "category.coordinatesdisplay");
     static KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", GLFW.GLFW_KEY_N, "category.coordinatesdisplay");
 
-    public static void register() {
-        ClientRegistry.registerKeyBinding(visibleKeybind);
-        ClientRegistry.registerKeyBinding(coordinatesGUIKeybind);
+    public static void register(RegisterKeyMappingsEvent e) {
+        e.register(visibleKeybind);
+        e.register(coordinatesGUIKeybind);
 
-        ClientRegistry.registerKeyBinding(openConfigFileKeybind);
-        ClientRegistry.registerKeyBinding(reloadConfigKeybind);
+        e.register(openConfigFileKeybind);
+        e.register(reloadConfigKeybind);
 
-        ClientRegistry.registerKeyBinding(copyLocation);
-        ClientRegistry.registerKeyBinding(sendLocation);
-        ClientRegistry.registerKeyBinding(copyPosTp);
+        e.register(copyLocation);
+        e.register(sendLocation);
+        e.register(copyPosTp);
     }
 
-    public static void checkBindings(int x, int y, int z) {
+    public static void checkBindings(double x, double y, double z) {
 
-        if (visibleKeybind.isDown() && visibleKeybind.consumeClick()) {
+        if (visibleKeybind.consumeClick()) {
             CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
             CoordinatesDisplay.CONFIG.save();
             CoordinatesDisplay.LOGGER.info("Updated visible property in config file");
         }
 
-        if (coordinatesGUIKeybind.isDown() && coordinatesGUIKeybind.consumeClick()) {
-            Minecraft.getInstance().setScreen(new CoordinatesScreen(x, y, z));
+        if (coordinatesGUIKeybind.consumeClick()) {
+            Minecraft.getInstance().setScreen(new CoordinatesScreen((int) x, (int) y, (int) z));
         }
 
-        if (openConfigFileKeybind.isDown() && openConfigFileKeybind.consumeClick()) {
+        if (openConfigFileKeybind.consumeClick()) {
             if (ModUtils.openConfigFile()) {
                 CoordinatesDisplay.LOGGER.info("Opened file in native explorer!");
             } else {
-                CoordinatesDisplay.LOGGER.chatError("Sorry I could not open the file. It is saved at: " + CoordinatesDisplay.configDir.getAbsolutePath());
+                CoordinatesDisplay.LOGGER.player.warn("Sorry I could not open the file. It is saved at: " + CoordinatesDisplay.configDir.getAbsolutePath());
             }
         }
 
-        if (reloadConfigKeybind.isDown() && reloadConfigKeybind.consumeClick()) {
+        if (reloadConfigKeybind.consumeClick()) {
             ModUtils.reloadConfig();
-            CoordinatesDisplay.LOGGER.chatInfo("Config reloaded!");
+            CoordinatesDisplay.LOGGER.player.info("Config reloaded!");
         }
 
-        if (copyLocation.isDown() && copyLocation.consumeClick()) {
+        if (copyLocation.consumeClick()) {
             Minecraft.getInstance().keyboardHandler.setClipboard(ModUtils.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
-            CoordinatesDisplay.LOGGER.chatInfo("Copied to clipboard!");
-            CoordinatesDisplay.LOGGER.chatInfo("Copied location to clipboard!");
+            CoordinatesDisplay.LOGGER.player.info("Copied to clipboard!");
+            CoordinatesDisplay.LOGGER.info("Copied location to clipboard");
         }
 
-        if (sendLocation.isDown() && sendLocation.consumeClick()) {
-            CoordinatesDisplay.LOGGER.chatInfo(ModUtils.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
+        if (sendLocation.consumeClick()) {
+            CoordinatesDisplay.LOGGER.player.info(ModUtils.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
             CoordinatesDisplay.LOGGER.info("Sent position as chat message");
         }
 
-        if (copyPosTp.isDown() && copyPosTp.consumeClick()) {
+        if (copyPosTp.consumeClick()) {
             Minecraft.getInstance().keyboardHandler.setClipboard(ModUtils.asTpCommand(x, y, z, ModUtils.getPlayerCurrentDimension()));
 
-            CoordinatesDisplay.LOGGER.chatInfo("Copied position as command");
+            CoordinatesDisplay.LOGGER.player.info("Copied position as teleport command!");
         }
     }
 
