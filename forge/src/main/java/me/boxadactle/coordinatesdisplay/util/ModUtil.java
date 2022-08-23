@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
-public class ModUtils {
+public class ModUtil {
 
     public static final int TRANSPARENT_GRAY = 0x5c5c5c60;
     public static final int WHITE = 16777215;

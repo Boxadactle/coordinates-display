@@ -1,8 +1,6 @@
 package me.boxadactle.coordinatesdisplay;
 
-import me.boxadactle.coordinatesdisplay.event.ClientEvents;
 import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
-import me.boxadactle.coordinatesdisplay.init.Keybinds;
 import me.boxadactle.coordinatesdisplay.util.*;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -29,7 +27,7 @@ public class CoordinatesDisplay {
 
     public static ConfigHolder<ModConfig> CONFIG;
 
-    public static HudOverlay OVERLAY;
+    public static HudRenderer OVERLAY;
 
     public static final String UPDATE_URL = "https://boxadactle.github.io/update-urls/coordinates-display/forge.json";
 
@@ -52,7 +50,7 @@ public class CoordinatesDisplay {
                 new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen)));
 
         LOGGER.info("Creating instance of HUD overlay");
-        OVERLAY = new HudOverlay();
+        OVERLAY = new HudRenderer();
 
         MinecraftForge.EVENT_BUS.register(this);
     }

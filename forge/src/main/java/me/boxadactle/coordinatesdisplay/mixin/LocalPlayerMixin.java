@@ -1,8 +1,8 @@
 package me.boxadactle.coordinatesdisplay.mixin;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.client.ClientRecipeBook;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -35,7 +35,7 @@ public class LocalPlayerMixin {
             int y = (int) Math.round(minecraft.player.getY());
             int z = (int) Math.round(minecraft.player.getZ());
 
-            CoordinatesDisplay.LOGGER.player.chat(ModUtils.makeDeathPositionTextComponent(x, y, z));
+            CoordinatesDisplay.LOGGER.player.chat(ModUtil.makeDeathPositionTextComponent(x, y, z));
         }
     }
 

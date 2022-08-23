@@ -2,9 +2,9 @@ package me.boxadactle.coordinatesdisplay.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.gui.config.*;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
@@ -31,14 +31,14 @@ public class ConfigScreen extends Screen {
         super(Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()));
         this.parent = parent;
 
-        ModUtils.initText();
+        ModUtil.initText();
     }
     
     @Override
     public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()).getString(), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
 
         super.render(matrices, mouseX,  mouseY, delta);
     }
@@ -85,12 +85,12 @@ public class ConfigScreen extends Screen {
 
     private void initButtonsOpen() {
         // open config file
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.configfile"), (button) -> ModUtils.openConfigFile()));
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.configfile"), (button) -> ModUtil.openConfigFile()));
 
         // reset to default
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 7, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.minecraft.setScreen(new ConfirmScreen((doIt) -> {
             if (doIt) {
-                ModUtils.resetConfig();
+                ModUtil.resetConfig();
                 this.minecraft.setScreen(new ConfigScreen(parent));
             } else {
                 this.minecraft.setScreen(this);
@@ -100,10 +100,10 @@ public class ConfigScreen extends Screen {
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 8, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.wiki"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
             this.minecraft.setScreen(this);
             if (yes) {
-                Util.getPlatform().openUri(ModUtils.CONFIG_WIKI);
+                Util.getPlatform().openUri(ModUtil.CONFIG_WIKI);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtils.CONFIG_WIKI, false))));
+        }, ModUtil.CONFIG_WIKI, false))));
     }
 
     private void initButtonsExit() {

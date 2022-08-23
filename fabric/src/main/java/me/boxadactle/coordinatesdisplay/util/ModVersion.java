@@ -21,7 +21,7 @@ public class ModVersion {
 
     boolean isMostRecent;
     String mostRecentVer;
-    static String thisVer = "2.1.2";
+    static String thisVer = "2.1.3";
 
     public ModVersion(boolean isMostRecent, String mostRecentVer) {
         this.isMostRecent = isMostRecent;
