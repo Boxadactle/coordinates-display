@@ -3,8 +3,8 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3d;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
@@ -41,14 +41,14 @@ public class RenderConfigScreen extends Screen {
 
         this.pos = new Vector3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
         this.chunkPos = new ChunkPos(new BlockPos(pos.x, pos.y, pos.z));
-        this.cameraYaw = ModUtils.randomYaw();
+        this.cameraYaw = ModUtil.randomYaw();
     }
 
     @Override
     public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()).getString(), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 2.1));
 
@@ -65,9 +65,9 @@ public class RenderConfigScreen extends Screen {
 
     private void initButtons() {
         // background
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.get().renderBackground ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.get().renderBackground ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().renderBackground = !CoordinatesDisplay.CONFIG.get().renderBackground;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.get().renderBackground ? ModUtils.TRUE : ModUtils.FALSE)));
+            button.setMessage(Component.translatable("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.get().renderBackground ? ModUtil.TRUE : ModUtil.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.render.background"), mouseX, mouseY);
@@ -75,9 +75,9 @@ public class RenderConfigScreen extends Screen {
         }));
 
         // chunk data
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.get().renderChunkData ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.get().renderChunkData ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().renderChunkData = !CoordinatesDisplay.CONFIG.get().renderChunkData;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.get().renderChunkData ? ModUtils.TRUE : ModUtils.FALSE)));
+            button.setMessage(Component.translatable("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.get().renderChunkData ? ModUtil.TRUE : ModUtil.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.render.chunkdata"), mouseX, mouseY);
@@ -85,9 +85,9 @@ public class RenderConfigScreen extends Screen {
         }));
 
         // direction
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.get().renderDirection ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.get().renderDirection ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().renderDirection = !CoordinatesDisplay.CONFIG.get().renderDirection;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.get().renderDirection ? ModUtils.TRUE : ModUtils.FALSE)));
+            button.setMessage(Component.translatable("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.get().renderDirection ? ModUtil.TRUE : ModUtil.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.render.direction"), mouseX, mouseY);
@@ -95,9 +95,9 @@ public class RenderConfigScreen extends Screen {
         }));
 
         // biome
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().renderBiome = !CoordinatesDisplay.CONFIG.get().renderBiome;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtils.TRUE : ModUtils.FALSE)));
+            button.setMessage(Component.translatable("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.TRUE : ModUtil.FALSE)));
         }, (button, matrices, mouseX, mouseY) -> {
             if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.render.biome"), mouseX, mouseY);
@@ -108,10 +108,10 @@ public class RenderConfigScreen extends Screen {
         this.addRenderableWidget(new Button(5, 5, tinyButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
             this.minecraft.setScreen(this);
             if (yes) {
-                Util.getPlatform().openUri(ModUtils.CONFIG_WIKI_RENDER);
+                Util.getPlatform().openUri(ModUtil.CONFIG_WIKI_RENDER);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtils.CONFIG_WIKI_RENDER, false))));
+        }, ModUtil.CONFIG_WIKI_RENDER, false))));
     }
 
     @Override

@@ -5,7 +5,7 @@ import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import me.boxadactle.coordinatesdisplay.gui.config.*;
-import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
+import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -107,7 +107,7 @@ public class ConfigScreen extends Screen {
         }, Text.translatable("screen.coordinatesdisplay.confirmreset"), Text.translatable("message.coordinatesdisplay.confirmreset")))));
 
         // open wiki
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 8, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.wiki"), (button) -> this.client.setScreen(new ConfirmChatLinkScreen((yes) -> {
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 8, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.wiki"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
             this.client.setScreen(this);
             if (yes) {
                 Util.getOperatingSystem().open(ModUtils.CONFIG_WIKI);

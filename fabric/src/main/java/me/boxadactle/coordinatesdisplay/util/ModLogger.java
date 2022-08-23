@@ -112,7 +112,7 @@ public class ModLogger {
 
         public void publicChat(String msg) {
             if (this.client.player != null) {
-                this.client.player.sendChatMessage(msg);
+                this.client.player.sendChatMessage(msg, null);
             }
         }
     }

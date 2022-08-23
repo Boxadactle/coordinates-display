@@ -20,7 +20,7 @@ public class ModVersion {
 
     boolean isMostRecent;
     String mostRecentVer;
-    static String currentVer = "2.1.2";
+    static String currentVer = "2.1.3";
 
     public ModVersion(boolean isMostRecent, String mostRecentVer) {
         this.isMostRecent = isMostRecent;
@@ -43,7 +43,7 @@ public class ModVersion {
         Component link = Component.literal("here").withStyle((style -> style
                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.literal("Click here to open in browser")))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, CoordinatesDisplay.UPDATE_MOD_URL))
-                .withColor(ModUtils.getColorDecimal("aqua"))
+                .withColor(ModUtil.getColorDecimal("aqua"))
         ));
 
         return mostRecentVer != null ? Component.literal(String.format("There is a new version of CoordinatesDisplay available for Minecraft %s! You are currently on %s (newest version is %s). ",
