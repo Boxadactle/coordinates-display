@@ -33,6 +33,6 @@
     "minecraft": "1.19"
   },
   "recommends": {
-    "modmenu": ">=4.0.3"
+    "modmenu": ">=4.0.5"
   }
 }
