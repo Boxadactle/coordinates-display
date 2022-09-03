@@ -28,5 +28,5 @@ Mod Version:
 Mod Loader:
 Minecraft Version:
 
-**Crash Report?**
-If you're reporting a crash report, please paste your error log
+**Additional context**
+Add any other context about the problem here.
