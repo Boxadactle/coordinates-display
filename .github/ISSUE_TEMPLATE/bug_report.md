@@ -23,10 +23,10 @@ A brief description of what you think should have happened.
 **Screenshots**
 Optional, but it would make understanding the bug easier
 
-**Version of Mod (please fill out so I know which version to look for the bug)**
+**Version**
 Mod Version:
 Mod Loader:
 Minecraft Version:
 
-**Additional context**
-Add any other context about the problem here.
+**Crash Report?**
+If you're reporting a crash report, please paste your error log
