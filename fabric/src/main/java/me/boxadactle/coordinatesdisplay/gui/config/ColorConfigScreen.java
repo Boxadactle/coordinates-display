@@ -77,8 +77,8 @@ public class ColorConfigScreen extends Screen {
         int b = (int) (this.height / s);
         int c = (int) (a / 2 + (5 / s));
         int d = (int) (b / 2.3) - 4;
-        int e = (int) (872 / 1.8) / this.client.options.getGuiScale().getValue();
-        int f = (int) (586 / 1.8) / this.client.options.getGuiScale().getValue();
+        int e = (int) (872 / 1.8) / this.nonZeroGuiScale();
+        int f = (int) (586 / 1.8) / this.nonZeroGuiScale();
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -87,6 +87,16 @@ public class ColorConfigScreen extends Screen {
         drawTexture(matrices, c, d, 0.0F, 0.0F, e, f, e, f);
 
         matrices.pop();
+    }
+
+    private int nonZeroGuiScale() {
+        int scale = this.client.options.getGuiScale().getValue();
+        if (scale == 0) {
+            // This formula copied from the Minecraft wiki
+            return (int) Math.max(1, Math.min(Math.floor(this.width / 320), Math.floor(this.height / 240)));
+        } else {
+            return scale;
+        }
     }
 
     @Override
