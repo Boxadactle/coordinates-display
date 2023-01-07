@@ -5,11 +5,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.world.biome.Biome;
 
 import javax.annotation.Nullable;
@@ -74,7 +74,8 @@ public class HudOverlay extends DrawableHelper {
 
         Text biometext;
         if (this.client.world != null) {
-            biometext = this.config.renderBiome ? Text.literal(biome != null ? ModUtils.parseIdentifier(ModUtils.getBiomeString(biome)) : "Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor))) : Text.literal("");
+            biometext = this.config.renderBiome ? ModUtils.colorize(Text.literal(biome != null ? ModUtils.parseIdentifier(ModUtils.getBiomeString(biome)) : "Plains"), BiomeColors.getBiomeColor(ModUtils.parseIdentifier(ModUtils.getBiomeString(biome)), CoordinatesDisplay.CONFIG.dataColor)) :
+                    Text.literal("");
         } else
             biometext = Text.literal("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.dataColor)));
 

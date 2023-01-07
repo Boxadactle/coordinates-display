@@ -45,7 +45,7 @@ public class ChangePositionScreen extends Screen {
     public void renderBackground(MatrixStack matrices) {
         super.renderBackground(matrices);
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F,1.0F);
         RenderSystem.setShaderTexture(0, new Identifier("coordinatesdisplay", "textures/change_position_bg.png"));
 

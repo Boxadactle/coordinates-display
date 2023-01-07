@@ -11,8 +11,7 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
-import net.minecraft.network.packet.c2s.play.ChatMessageC2SPacket;
-import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.registry.RegistryKey;
 import net.minecraft.world.World;
 import org.lwjgl.glfw.GLFW;
 

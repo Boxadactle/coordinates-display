@@ -3,9 +3,11 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.PressableTextWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -26,10 +28,10 @@ public class TextConfigScreen extends Screen {
 
     Screen parent;
 
-    ModVersion version;
+    String version;
 
     public TextConfigScreen(Screen parent) {
-        super(Text.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()));
+        super(Text.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
         this.parent = parent;
 
         version = ModVersion.getVersion();
@@ -41,7 +43,7 @@ public class TextConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, version.thisVersion()), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtils.WHITE);
 
         drawCenteredText(matrices, this.textRenderer, Text.translatable("button.coordinatesdisplay.poschatmessage"), this.width / 2, start, ModUtils.WHITE);
 
@@ -53,16 +55,16 @@ public class TextConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close()));
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close()).dimensions(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight).build());
 
         // open wiki
-        this.addDrawableChild(new ButtonWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
+        this.addDrawableChild(new PressableTextWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
             this.client.setScreen(this);
             if (yes) {
                 Util.getOperatingSystem().open(ModUtils.CONFIG_WIKI_TEXTS);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtils.CONFIG_WIKI_TEXTS, false))));
+        }, ModUtils.CONFIG_WIKI_TEXTS, false)), MinecraftClient.getInstance().textRenderer));
 
         TextFieldWidget posChatMessage = new TextFieldWidget(this.textRenderer, this.width / 2 - largeButtonW / 2, start + (10 + p), largeButtonW, buttonHeight, Text.of(CoordinatesDisplay.CONFIG.posChatMessage));
         posChatMessage.setChangedListener((message) -> CoordinatesDisplay.CONFIG.posChatMessage = message);

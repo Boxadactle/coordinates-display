@@ -17,16 +17,6 @@ public class ClientPlayerEntityMixin {
 
     @Shadow @Final protected MinecraftClient client;
 
-    ModVersion version = ModVersion.getVersion();
-
-    @Inject(at = @At("RETURN"), method = "tick")
-    private void tick(CallbackInfo ci) {
-        if (!CoordinatesDisplay.hasPlayerSeenUpdateMessage && !version.isMostRecent()) {
-            CoordinatesDisplay.LOGGER.player.chat(version.getUpdateText());
-            CoordinatesDisplay.hasPlayerSeenUpdateMessage = true;
-        }
-    }
-
     @Inject(at = @At("RETURN"), method = "requestRespawn")
     private void requestRespawn(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.showDeathPosInChat) {

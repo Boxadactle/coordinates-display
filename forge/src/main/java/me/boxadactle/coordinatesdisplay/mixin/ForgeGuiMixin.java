@@ -1,12 +1,11 @@
 package me.boxadactle.coordinatesdisplay.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3d;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
@@ -29,9 +28,9 @@ public class ForgeGuiMixin {
 
                 if (camera == null) return;
 
-                Vector3d pos = new Vector3d(camera.getX(), camera.getY(), camera.getZ());
-                ChunkPos chunkPos = new ChunkPos(new BlockPos(pos.x, pos.y, pos.z));
-                Holder<Biome> biome = this.minecraft.level.getBiome(new BlockPos(pos.x, pos.y, pos.z));
+                Vec3i pos = new Vec3i(camera.getX(), camera.getY(), camera.getZ());
+                ChunkPos chunkPos = new ChunkPos(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
+                Holder<Biome> biome = this.minecraft.level.getBiome(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
                 float cameraYaw = camera.getYHeadRot();
 
                 CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY);

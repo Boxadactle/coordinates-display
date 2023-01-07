@@ -1,16 +1,17 @@
 package me.boxadactle.coordinatesdisplay.gui.config;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3d;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
-import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.api.distmarker.Dist;
@@ -32,16 +33,16 @@ public class VisualConfigScreen extends Screen {
 
     Screen parent;
 
-    Vector3d pos;
+    Vec3i pos;
     ChunkPos chunkPos;
     float cameraYaw;
 
     public VisualConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()));
+        super(Component.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()));
         this.parent = parent;
 
-        this.pos = new Vector3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos.x, pos.y, pos.z));
+        this.pos = new Vec3i(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
+        this.chunkPos = new ChunkPos(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
         this.cameraYaw = ModUtil.randomYaw();
     }
 
@@ -51,7 +52,7 @@ public class VisualConfigScreen extends Screen {
 
         super.render(matrices, mouseX,  mouseY, delta);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()), this.width / 2, 5, ModUtil.WHITE);
+        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()), this.width / 2, 5, ModUtil.WHITE);
 
         // padding
         drawString(matrices, this.font, Component.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 3 + p, ModUtil.WHITE);
@@ -67,7 +68,7 @@ public class VisualConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.back"), (button) -> this.minecraft.setScreen(parent)));
+        this.addRenderableWidget(new PlainTextButton(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.back"), (button) -> this.minecraft.setScreen(parent), Minecraft.getInstance().font));
 
         initButtons();
         initTextFields();
@@ -75,40 +76,28 @@ public class VisualConfigScreen extends Screen {
 
     private void initButtons() {
         // visible button
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE), (button) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE), (button) -> {
             CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
             button.setMessage(Component.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE));
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.visible"), mouseX, mouseY);
-            }
-        }));
+        }).bounds(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).build());
 
         // decimal rounding button
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().decimalRounding = !CoordinatesDisplay.CONFIG.get().decimalRounding;
             button.setMessage(Component.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtil.TRUE : ModUtil.FALSE)));
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.decimal"), mouseX, mouseY);
-            }
-        }));
+        }).bounds(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight).build());
 
         // modify position button
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.position"), (button) -> this.minecraft.setScreen(new ChangePositionScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.position"), mouseX, mouseY);
-            }
-        }));
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.position"), (button) -> this.minecraft.setScreen(new ChangePositionScreen(this))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).build());
 
         // open wiki
-        this.addRenderableWidget(new Button(5, 5, tinyButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
+        this.addRenderableWidget(new PlainTextButton(5, 5, tinyButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
             this.minecraft.setScreen(this);
             if (yes) {
                 Util.getPlatform().openUri(ModUtil.CONFIG_WIKI_VISUAL);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtil.CONFIG_WIKI_VISUAL, false))));
+        }, ModUtil.CONFIG_WIKI_VISUAL, false)), Minecraft.getInstance().font));
     }
 
     private void initTextFields() {

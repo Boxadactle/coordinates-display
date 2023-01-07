@@ -1,11 +1,11 @@
 package me.boxadactle.coordinatesdisplay.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3d;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
@@ -24,7 +24,7 @@ public class HudRenderer extends GuiComponent {
 
     }
 
-    public void render(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, Holder<Biome> biome, int x, int y) {
+    public void render(PoseStack matrices, Vec3i pos, ChunkPos chunkPos, float cameraYaw, Holder<Biome> biome, int x, int y) {
         try {
             renderOverlay(matrices, pos, chunkPos, cameraYaw, biome, x, y);
         } catch (NullPointerException e) {
@@ -32,7 +32,7 @@ public class HudRenderer extends GuiComponent {
         }
     }
 
-    public void render(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, Holder<Biome> biome, int x, int y, float scale) {
+    public void render(PoseStack matrices, Vec3i pos, ChunkPos chunkPos, float cameraYaw, Holder<Biome> biome, int x, int y, float scale) {
         try {
             matrices.pushPose();
 
@@ -53,18 +53,18 @@ public class HudRenderer extends GuiComponent {
         return h;
     }
 
-    public void renderOverlay(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, @Nullable Holder<Biome> biome, int x, int y) throws NullPointerException {
+    public void renderOverlay(PoseStack matrices, Vec3i pos, ChunkPos chunkPos, float cameraYaw, @Nullable Holder<Biome> biome, int x, int y) throws NullPointerException {
 
         Minecraft client = Minecraft.getInstance();
         
         DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
 
         Component xText = Component.translatable("hud.coordinatesdisplay.x",
-                Component.literal(decimalFormat.format(pos.x)).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+                Component.literal(decimalFormat.format(pos.getX())).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
         Component yText = Component.translatable("hud.coordinatesdisplay.y",
-                Component.literal(decimalFormat.format(pos.y)).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+                Component.literal(decimalFormat.format(pos.getY())).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
         Component zText = Component.translatable("hud.coordinatesdisplay.z",
-                Component.literal(decimalFormat.format(pos.z)).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
+                Component.literal(decimalFormat.format(pos.getZ())).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
 
         Component chunkX = Component.translatable("hud.coordinatesdisplay.chunk.x",
                 Component.literal(Integer.toString(chunkPos.x)).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor))));
@@ -78,8 +78,7 @@ public class HudRenderer extends GuiComponent {
 
         Component biomeText;
         if (biome != null && client.level != null) {
-            biomeText = CoordinatesDisplay.CONFIG.get().renderBiome ? Component.translatable("hud.coordinatesdisplay.biome",
-                    Component.literal(ModUtil.parseIdentifier(ModUtil.printBiome(biome))).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
+            biomeText = CoordinatesDisplay.CONFIG.get().renderBiome ? Component.translatable("hud.coordinatesdisplay.biome", ModUtil.colorize(Component.literal(ModUtil.parseIdentifier(ModUtil.printBiome(biome))), BiomeColors.getBiomeColor(ModUtil.parseIdentifier(ModUtil.printBiome(biome)), ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().dataColor)))) :
                     Component.literal("");
         }
         else

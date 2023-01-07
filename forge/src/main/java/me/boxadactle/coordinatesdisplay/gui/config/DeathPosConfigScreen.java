@@ -5,12 +5,15 @@ import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.checkerframework.checker.units.qual.C;
 
 import java.text.DecimalFormat;
 
@@ -35,7 +38,7 @@ public class DeathPosConfigScreen extends Screen {
     String deathz;
 
     public DeathPosConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()));
+        super(Component.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()));
         this.parent = parent;
 
         DecimalFormat d = new DecimalFormat("0.00");
@@ -49,7 +52,7 @@ public class DeathPosConfigScreen extends Screen {
     public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()), this.width / 2, 5, ModUtil.WHITE);
+        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()), this.width / 2, 5, ModUtil.WHITE);
 
         Component pos = Component.translatable("message.coordinatesdisplay.location", deathx, deathy, deathz).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
         Component deathPos = Component.translatable("message.coordinatesdisplay.deathpos", pos).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().definitionColor)));
@@ -61,40 +64,32 @@ public class DeathPosConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.back"), (button) -> this.minecraft.setScreen(parent)));
+        this.addRenderableWidget(new PlainTextButton(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.back"), (button) -> this.minecraft.setScreen(parent), Minecraft.getInstance().font));
 
         initButtons();
     }
 
     private void initButtons() {
         // show death pos in chat
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen = !CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen;
             button.setMessage(Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtil.TRUE : ModUtil.FALSE)));
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.deathpos.deathscreen"), mouseX, mouseY);
-            }
-        }));
+        }).bounds(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).build());
 
         // chunk data
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.get().showDeathPosInChat ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.get().showDeathPosInChat ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().showDeathPosInChat = !CoordinatesDisplay.CONFIG.get().showDeathPosInChat;
             button.setMessage(Component.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.get().showDeathPosInChat ? ModUtil.TRUE : ModUtil.FALSE)));
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.deathpos.chat"), mouseX, mouseY);
-            }
-        }));
+        }).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight).build());
 
         // open wiki
-        this.addRenderableWidget(new Button(5, 5, tinyButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
+        this.addRenderableWidget(new PlainTextButton(5, 5, tinyButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
             this.minecraft.setScreen(this);
             if (yes) {
                 Util.getPlatform().openUri(ModUtil.CONFIG_WIKI_DEATH);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtil.CONFIG_WIKI_DEATH, false))));
+        }, ModUtil.CONFIG_WIKI_DEATH, false)), Minecraft.getInstance().font));
     }
 
     @Override

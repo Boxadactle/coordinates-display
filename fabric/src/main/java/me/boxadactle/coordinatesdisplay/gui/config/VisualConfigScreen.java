@@ -3,9 +3,12 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.PressableTextWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -36,10 +39,10 @@ public class VisualConfigScreen extends Screen {
     TextFieldWidget padding;
     TextFieldWidget textPadding;
 
-    ModVersion version;
+    String version;
 
     public VisualConfigScreen(Screen parent) {
-        super(Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()));
+        super(Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
@@ -57,7 +60,7 @@ public class VisualConfigScreen extends Screen {
 
         super.render(matrices, mouseX,  mouseY, delta);
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, version.thisVersion()), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtils.WHITE);
 
         // padding
         drawTextWithShadow(matrices, textRenderer, Text.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 3 + p, ModUtils.WHITE);
@@ -73,16 +76,16 @@ public class VisualConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close()));
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close()).dimensions(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight).build());
 
         // open wiki
-        this.addDrawableChild(new ButtonWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
+        this.addDrawableChild(new PressableTextWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
             this.client.setScreen(this);
             if (yes) {
                 Util.getOperatingSystem().open(ModUtils.CONFIG_WIKI_VISUAL);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtils.CONFIG_WIKI_VISUAL, false))));
+        }, ModUtils.CONFIG_WIKI_VISUAL, false)), MinecraftClient.getInstance().textRenderer));
 
         initButtons();
         initTextFields();
@@ -90,33 +93,22 @@ public class VisualConfigScreen extends Screen {
 
     private void initButtons() {
         // visible button
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.visible ? ModUtils.TRUE : ModUtils.FALSE), (button) -> {
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.visible ? ModUtils.TRUE : ModUtils.FALSE), (button) -> {
             CoordinatesDisplay.CONFIG.visible = !CoordinatesDisplay.CONFIG.visible;
             button.setMessage(Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.visible ? ModUtils.TRUE : ModUtils.FALSE));
             CoordinatesDisplay.OVERLAY.updateConfig(CoordinatesDisplay.CONFIG);
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.visible"), mouseX, mouseY);
-            }
-        }));
+        }).dimensions(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).tooltip(Tooltip.of(Text.translatable("description.coordinatesdisplay.visible"))).build());
 
         // decimal rounding button
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.roundPosToTwoDecimals = !CoordinatesDisplay.CONFIG.roundPosToTwoDecimals;
             button.setMessage(Text.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? ModUtils.TRUE : ModUtils.FALSE)));
             CoordinatesDisplay.OVERLAY.updateConfig(CoordinatesDisplay.CONFIG);
-        }, (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.decimal"), mouseX, mouseY);
-            }
-        }));
+        }).dimensions(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight).tooltip(Tooltip.of(Text.translatable("description.coordinatesdisplay.decimal"))).build());
 
         // modify position button
-        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.position"), (button) -> this.client.setScreen(new ChangePositionScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHovered()) {
-                this.renderTooltip(matrices, Text.translatable("description.coordinatesdisplay.position"), mouseX, mouseY);
-            }
-        }));
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.position"), (button) -> this.client.setScreen(new ChangePositionScreen(this)))
+                .dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).tooltip(Tooltip.of(Text.translatable("description.coordinatesdisplay.position"))).build());
     }
 
     private void initTextFields() {

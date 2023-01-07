@@ -3,7 +3,9 @@ package me.boxadactle.coordinatesdisplay.gui;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -44,22 +46,22 @@ public class CoordinatesScreen extends Screen {
 
         int bstart = this.height / 2 - 20;
 
-        this.addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh, Component.translatable("button.coordinatesdisplay.copy"), button -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copy"), button -> {
             this.minecraft.keyboardHandler.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
             CoordinatesDisplay.LOGGER.player.info("Copied coordinates to clipboard");
             onClose();
-        }));
+        }).bounds(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh).build());
 
-        this.addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh, Component.translatable("button.coordinatesdisplay.send"), button -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.send"), button -> {
             CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
             onClose();
-        }));
+        }).bounds(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh).build());
 
-        this.addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh, Component.translatable("button.coordinatesdisplay.copytp"), button -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copytp"), button -> {
             this.minecraft.keyboardHandler.setClipboard(ModUtil.asTpCommand(x, y, z, ModUtil.getPlayerCurrentDimension()));
             CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             onClose();
-        }));
+        }).bounds(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh).build());
     }
 
     @Override

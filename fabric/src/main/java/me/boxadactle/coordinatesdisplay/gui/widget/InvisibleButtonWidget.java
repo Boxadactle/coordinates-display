@@ -14,11 +14,7 @@ import net.minecraft.text.Text;
 @Environment(EnvType.CLIENT)
 public class InvisibleButtonWidget extends ButtonWidget {
     public InvisibleButtonWidget(int x, int y, int width, int height, PressAction onPress) {
-        super(x, y, width, height, Text.literal(""), onPress);
-    }
-
-    public InvisibleButtonWidget(int x, int y, int width, int height, PressAction onPress, TooltipSupplier tooltipSupplier) {
-        super(x, y, width, height, Text.literal(""), onPress, tooltipSupplier);
+        super(x, y, width, height, Text.literal(""), onPress, DEFAULT_NARRATION_SUPPLIER);
     }
 
     @Override

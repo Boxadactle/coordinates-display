@@ -2,7 +2,6 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3d;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.gui.widget.InvisibleButtonWidget;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
@@ -10,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
@@ -23,7 +23,7 @@ public class ChangePositionScreen extends Screen {
 
     Screen parent;
 
-    Vector3d pos;
+    Vec3i pos;
     ChunkPos chunkPos;
     float cameraYaw;
 
@@ -36,8 +36,8 @@ public class ChangePositionScreen extends Screen {
         super(Component.translatable("screen.coordinatesdisplay.config.position"));
         this.parent = parent;
 
-        this.pos = new Vector3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos.x, pos.y, pos.z));
+        this.pos = new Vec3i(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
+        this.chunkPos = new ChunkPos(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
         this.cameraYaw = ModUtil.randomYaw();
 
         x = CoordinatesDisplay.CONFIG.get().hudX;

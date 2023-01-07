@@ -5,6 +5,7 @@ import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -26,7 +27,7 @@ public class DeathScreenMixin extends Screen {
     @Inject(at = @At("RETURN"), method = "init")
     private void init(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
-            this.addRenderableWidget(new Button(this.width / 2 - 100, this.height / 4 + 120, 200, 20, Component.translatable("button.coordinatesdisplay.copy"), (button) -> {
+            this.addRenderableWidget(new PlainTextButton(this.width / 2 - 100, this.height / 4 + 120, 200, 20, Component.translatable("button.coordinatesdisplay.copy"), (button) -> {
                 button.setMessage(Component.literal("button.coordinatesdisplay.copied"));
                 button.active = false;
 
@@ -36,7 +37,7 @@ public class DeathScreenMixin extends Screen {
 
                 client.keyboardHandler.setClipboard(x + " " + y + " " + z);
                 CoordinatesDisplay.LOGGER.info("Copied death position to clipboard");
-            }));
+            }, Minecraft.getInstance().font));
         }
     }
 

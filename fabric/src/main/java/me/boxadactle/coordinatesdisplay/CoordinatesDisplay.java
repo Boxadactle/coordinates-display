@@ -21,19 +21,11 @@ public class CoordinatesDisplay implements ClientModInitializer {
 
     public static HudOverlay OVERLAY;
 
-    public static final String UPDATE_URL = "https://boxadactle.github.io/update-urls/coordinates-display/fabric.json";
-
-    public static String UPDATE_MOD_URL;
-
-    public static String MINECRAFT_VERSION;
-
     public static boolean hasPlayerSeenUpdateMessage = false;
 
     @Override
     public void onInitializeClient() {
-        ModVersion version = ModVersion.getVersion();
-
-        LOGGER.info("Initializing %s...", version.toString());
+        LOGGER.info("Initializing %s...", ModVersion.getString());
 
         CONFIG = new ModConfig();
         CONFIG = ConfigManager.loadConfig(ModConfig.class);

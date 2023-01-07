@@ -29,23 +29,17 @@ public class CoordinatesDisplay {
 
     public static HudRenderer OVERLAY;
 
-    public static final String UPDATE_URL = "https://boxadactle.github.io/update-urls/coordinates-display/forge.json";
-
-    public static String UPDATE_MOD_URL;
-
-    public static String MINECRAFT_VERSION;
-
-    public static boolean hasPlayerSeenUpdateMessage = false;
+    public static ModVersion MOD_VERSION;
 
     public CoordinatesDisplay() {
-        ModVersion version = ModVersion.getVersion();
+        MOD_VERSION = new ModVersion();
 
-        LOGGER.info("Loading " + version);
+        LOGGER.info("Loading " + MOD_VERSION);
 
         AutoConfig.register(ModConfig.class, JanksonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(ModConfig.class);
 
-        // what a pain
+        // what a pain forge why
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
                 new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen)));
 
