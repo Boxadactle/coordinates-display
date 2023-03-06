@@ -111,6 +111,8 @@ public class ColorConfigScreen extends Screen {
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Definition Color"), this.width / 2 - smallButtonW, start + 8, ModUtils.WHITE);
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Data Color"), this.width / 2, start + 8, ModUtils.WHITE);
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Death Position Color"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtils.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Color (ARGB)"), this.width / 2 - smallButtonW, start + 8 + (buttonHeight + p) * 4, ModUtils.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Opacity"), this.width / 2, start + 8 + (buttonHeight + p) * 4, ModUtils.WHITE);
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y);
 
@@ -144,14 +146,21 @@ public class ColorConfigScreen extends Screen {
         TextFieldWidget definitionColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
         TextFieldWidget dataColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
         TextFieldWidget deathposColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
+        // Could not figure out how to get ARGB or RGBA working so split color and opacity into their own fields
+        TextFieldWidget backgroundColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 5, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
+        TextFieldWidget backgroundOpacity = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p) * 5, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
 
         definitionColor.setMaxLength(6);
         dataColor.setMaxLength(6);
         deathposColor.setMaxLength(6);
+        backgroundColor.setMaxLength(6);
+        backgroundOpacity.setMaxLength(2);
 
         definitionColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor));
         dataColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.dataColor));
         deathposColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.deathPosColor));
+        backgroundColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.backgroundColor));
+        backgroundOpacity.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.backgroundOpacity));
 
         definitionColor.setChangedListener((txt) -> {
             if (txt.isEmpty()) return;
@@ -183,9 +192,31 @@ public class ColorConfigScreen extends Screen {
             }
         });
 
+        backgroundColor.setChangedListener((txt) -> {
+            if (txt.isEmpty()) return;
+            try {
+                CoordinatesDisplay.CONFIG.backgroundColor = Integer.valueOf(txt.replaceAll("#", ""), 16);
+            } catch (NumberFormatException e) {
+                CoordinatesDisplay.LOGGER.error("Why you put invalid hex code?");
+                CoordinatesDisplay.LOGGER.printStackTrace(e);
+            }
+        });
+
+        backgroundOpacity.setChangedListener((txt) -> {
+            if (txt.isEmpty()) return;
+            try {
+                CoordinatesDisplay.CONFIG.backgroundOpacity = Integer.valueOf(txt.replaceAll("#", ""), 16);
+            } catch (NumberFormatException e) {
+                CoordinatesDisplay.LOGGER.error("Why you put invalid hex code?");
+                CoordinatesDisplay.LOGGER.printStackTrace(e);
+            }
+        });
+
         this.addDrawableChild(definitionColor);
         this.addDrawableChild(dataColor);
         this.addDrawableChild(deathposColor);
+        this.addDrawableChild(backgroundColor);
+        this.addDrawableChild(backgroundOpacity);
 
         this.addDrawableChild(new PressableTextWidget(this.width / 2 + p1, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal("Color Picker..."), (button -> {
             Util.getOperatingSystem().open("https://htmlcolorcodes.com/color-picker/");

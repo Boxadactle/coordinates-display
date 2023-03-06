@@ -104,9 +104,9 @@ public class HudOverlay extends DrawableHelper {
 
         if (this.config.renderBackground) {
             if (this.getTextRenderer().getWidth(biomeText) > w || this.getTextRenderer().getWidth(directionText) > w) {
-                fill(matrices, x, y, x + p + ModUtils.getLongestLength(biomeText, directionText), y + h, ModUtils.TRANSPARENT_GRAY);
+                fill(matrices, x, y, x + p + ModUtils.getLongestLength(biomeText, directionText), y + h, CoordinatesDisplay.CONFIG.backgroundColor | (CoordinatesDisplay.CONFIG.backgroundOpacity << 24));
             } else {
-                fill(matrices, x, y, x + w, y + h, ModUtils.TRANSPARENT_GRAY);
+                fill(matrices, x, y, x + w, y + h, CoordinatesDisplay.CONFIG.backgroundColor | (CoordinatesDisplay.CONFIG.backgroundOpacity << 24));
             }
         }
 
