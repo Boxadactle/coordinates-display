@@ -111,7 +111,7 @@ public class ColorConfigScreen extends Screen {
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Definition Color"), this.width / 2 - smallButtonW, start + 8, ModUtils.WHITE);
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Data Color"), this.width / 2, start + 8, ModUtils.WHITE);
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Death Position Color"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtils.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Color (ARGB)"), this.width / 2 - smallButtonW, start + 8 + (buttonHeight + p) * 4, ModUtils.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Color"), this.width / 2 - smallButtonW, start + 8 + (buttonHeight + p) * 4, ModUtils.WHITE);
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Opacity"), this.width / 2, start + 8 + (buttonHeight + p) * 4, ModUtils.WHITE);
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y);
