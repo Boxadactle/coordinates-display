@@ -19,8 +19,7 @@ public class DefaultModConfig {
     public static final int definitionColor = 0x55FF55;
     public static final int dataColor = 0xFFFFFF;
     public static final int deathPosColor = 0x55FFFF;
-    public static final int backgroundColor = 0x5c5c5c;
-    public static final int backgroundOpacity = 0x60;
+    public static final int backgroundColor = 0x605c5c5c;
 
     public static final boolean displayPosOnDeathScreen = true;
     public static final boolean showDeathPosInChat = true;

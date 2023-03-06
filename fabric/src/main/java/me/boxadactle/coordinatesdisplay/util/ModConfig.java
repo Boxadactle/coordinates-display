@@ -20,7 +20,6 @@ public class ModConfig {
     public int dataColor = DefaultModConfig.dataColor;
     public int deathPosColor = DefaultModConfig.deathPosColor;
     public int backgroundColor = DefaultModConfig.backgroundColor;
-    public int backgroundOpacity = DefaultModConfig.backgroundOpacity;
 
     public boolean displayPosOnDeathScreen = DefaultModConfig.displayPosOnDeathScreen;
     public boolean showDeathPosInChat = DefaultModConfig.displayPosOnDeathScreen;
