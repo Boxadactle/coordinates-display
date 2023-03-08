@@ -23,7 +23,6 @@ import java.util.Locale;
 
 public class ModUtils {
 
-    public static final int TRANSPARENT_GRAY = 0x5c5c5c60;
     public static final int WHITE = 16777215;
     public static final int GRAY = 	11184810;
     public static final int DARK_GRAY = 5592405;

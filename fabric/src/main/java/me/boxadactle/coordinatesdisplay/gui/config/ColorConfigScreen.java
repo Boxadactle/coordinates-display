@@ -111,6 +111,7 @@ public class ColorConfigScreen extends Screen {
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Definition Color"), this.width / 2 - smallButtonW, start + 8, ModUtils.WHITE);
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Data Color"), this.width / 2, start + 8, ModUtils.WHITE);
         drawTextWithShadow(matrices, this.textRenderer, Text.literal("Death Position Color"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtils.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Color (ARGB)"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtils.WHITE);
 
         CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y);
 
@@ -144,14 +145,17 @@ public class ColorConfigScreen extends Screen {
         TextFieldWidget definitionColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
         TextFieldWidget dataColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
         TextFieldWidget deathposColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
+        TextFieldWidget backgroundColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
 
         definitionColor.setMaxLength(6);
         dataColor.setMaxLength(6);
         deathposColor.setMaxLength(6);
+        backgroundColor.setMaxLength(8);
 
         definitionColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor));
         dataColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.dataColor));
         deathposColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.deathPosColor));
+        backgroundColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.backgroundColor));
 
         definitionColor.setChangedListener((txt) -> {
             if (txt.isEmpty()) return;
@@ -183,11 +187,23 @@ public class ColorConfigScreen extends Screen {
             }
         });
 
+        backgroundColor.setChangedListener((txt) -> {
+            if (txt.isEmpty()) return;
+            try {
+                // Need to use parseUnsignedInt in order to get ARGB values over 0x7fffffff to work
+                CoordinatesDisplay.CONFIG.backgroundColor = Integer.parseUnsignedInt(txt.replaceAll("#", ""), 16);
+            } catch (NumberFormatException e) {
+                CoordinatesDisplay.LOGGER.error("Why you put invalid hex code?");
+                CoordinatesDisplay.LOGGER.printStackTrace(e);
+            }
+        });
+
         this.addDrawableChild(definitionColor);
         this.addDrawableChild(dataColor);
         this.addDrawableChild(deathposColor);
+        this.addDrawableChild(backgroundColor);
 
-        this.addDrawableChild(new PressableTextWidget(this.width / 2 + p1, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal("Color Picker..."), (button -> {
+        this.addDrawableChild(new PressableTextWidget(this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 4, smallButtonW, buttonHeight, Text.literal("Color Picker..."), (button -> {
             Util.getOperatingSystem().open("https://htmlcolorcodes.com/color-picker/");
         }), MinecraftClient.getInstance().textRenderer));
 
