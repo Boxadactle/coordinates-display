@@ -52,7 +52,7 @@ public class ColorConfigScreen extends Screen {
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos));
+        this.chunkPos = new ChunkPos(new BlockPos((int)pos.getX(), (int)pos.getY(), (int)pos.getZ()));
         this.cameraYaw  = (float) Math.random() * 180;
 
         version = ModVersion.getVersion();
@@ -104,7 +104,7 @@ public class ColorConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtils.WHITE);
 
         int y = (int) (this.height / 2.3);
 
@@ -117,7 +117,7 @@ public class ColorConfigScreen extends Screen {
 
         Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.deathPosColor));
         Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", posT);
-        drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4), ModUtils.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4), ModUtils.WHITE);
 
         this.renderColorPicker(matrices);
 

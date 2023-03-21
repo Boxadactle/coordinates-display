@@ -16,6 +16,7 @@ import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
 public class VisualConfigScreen extends Screen {
     int p = 2;
@@ -46,7 +47,7 @@ public class VisualConfigScreen extends Screen {
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos));
+        this.chunkPos = new ChunkPos(new BlockPos((int)pos.getX(), (int)pos.getY(), (int)pos.getZ()));
         this.cameraYaw  = (float) Math.random() * 180;
 
         version = ModVersion.getVersion();
@@ -60,7 +61,7 @@ public class VisualConfigScreen extends Screen {
 
         super.render(matrices, mouseX,  mouseY, delta);
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtils.WHITE);
 
         // padding
         drawTextWithShadow(matrices, textRenderer, Text.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 3 + p, ModUtils.WHITE);

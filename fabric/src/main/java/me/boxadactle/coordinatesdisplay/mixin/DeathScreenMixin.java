@@ -53,7 +53,7 @@ public class DeathScreenMixin extends Screen {
 
             Text pos = Text.translatable("message.coordinatesdisplay.location", x, y, z).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.deathPosColor));
             Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", pos).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.definitionColor));
-            drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, 115, ModUtils.WHITE);
+            drawCenteredTextWithShadow(matrices, this.textRenderer, deathPos, this.width / 2, 115, ModUtils.WHITE);
         }
     }
 }

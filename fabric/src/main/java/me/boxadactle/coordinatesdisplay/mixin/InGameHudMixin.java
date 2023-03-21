@@ -33,7 +33,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
                 if (camera == null) return;
 
                 Vec3d pos = camera.getPos();
-                ChunkPos chunkPos = new ChunkPos(new BlockPos(pos));
+                ChunkPos chunkPos = new ChunkPos(new BlockPos((int)pos.getX(), (int)pos.getY(), (int)pos.getZ()));
                 RegistryEntry<Biome> biome = this.client.world.getBiome(camera.getBlockPos());
                 float cameraYaw = camera.getYaw(tickDelta);
 

@@ -34,7 +34,7 @@ public class ChangePositionScreen extends Screen {
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos));
+        this.chunkPos = new ChunkPos(new BlockPos((int)pos.getX(), (int)pos.getY(), (int)pos.getZ()));
         this.cameraYaw  = (float) Math.random() * 180;
 
         x = CoordinatesDisplay.CONFIG.hudX;
@@ -64,12 +64,12 @@ public class ChangePositionScreen extends Screen {
 
         matrices.scale(0.9F, 0.9F, 0.9F);
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.position"), (int) ((this.width / 2) / 0.9), 5, ModUtils.WHITE);
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition"), (int) ((this.width / 2) / 0.9), 20, ModUtils.GRAY);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.position"), (int) ((this.width / 2) / 0.9), 5, ModUtils.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition"), (int) ((this.width / 2) / 0.9), 20, ModUtils.GRAY);
 
         matrices.pop();
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition2"), this.width / 2, this.height - 15, ModUtils.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition2"), this.width / 2, this.height - 15, ModUtils.WHITE);
 
         if (lockHudPos) {
             x = mouseX;
