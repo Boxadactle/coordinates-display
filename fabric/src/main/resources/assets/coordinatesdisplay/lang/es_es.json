@@ -97,7 +97,7 @@
   "button.coordinatesdisplay.send": "Publicar como un mensaje en chat",
   "button.coordinatesdisplay.copytp": "Copiar como un orden de tp",
 
-  "description.coordinatesdisplay.render": "Como será dujado en el HUD",
+  "description.coordinatesdisplay.render": "Como será dibujado en el HUD",
   "description.coordinatesdisplay.colors": "Los colors del HUD",
   "description.coordinatesdisplay.deathpos": "Editar la posición de muerte",
 
