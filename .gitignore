@@ -3,6 +3,8 @@
 .gradle/
 .idea/
 FabricCoordinatesMod.iml
+build/
+run/
 
 *.iml
 *.ipr

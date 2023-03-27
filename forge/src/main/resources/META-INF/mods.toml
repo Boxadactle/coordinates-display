@@ -15,7 +15,7 @@ issueTrackerURL="https://github.com/Boxadactle/coordinates-display/issues" #opti
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]]
 modId="coordinatesdisplay"
-version="2.1.4"
+version="2.2.0"
 displayName="Coordinates Display"
 logoFile="icon.png"
 authors="Boxadactle"
@@ -28,7 +28,7 @@ A simple coordinates display mod for Forge
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[43,)" #mandatory
+    versionRange="[45,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -37,11 +37,11 @@ A simple coordinates display mod for Forge
 [[dependencies.coordinatesdisplay]]
     modId="minecraft"
     mandatory=true
-    versionRange="1.19.3+"
+    versionRange="1.19.4+"
     ordering="NONE"
     side="BOTH"
 [[dependencies.coordinatesdisplay]]
     modId="cloth_config"
     mandatory=true
-    versionRange="[7.0.65, 9.0.94]"
+    versionRange="10.0.96+"
     side="CLIENT"

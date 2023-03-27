@@ -2,7 +2,7 @@ package me.boxadactle.coordinatesdisplay;
 
 import io.github.cottonmc.cotton.config.ConfigManager;
 import me.boxadactle.coordinatesdisplay.init.Keybinds;
-import me.boxadactle.coordinatesdisplay.util.HudOverlay;
+import me.boxadactle.coordinatesdisplay.util.HudRenderer;
 import me.boxadactle.coordinatesdisplay.util.ModConfig;
 import me.boxadactle.coordinatesdisplay.util.ModLogger;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
@@ -19,7 +19,7 @@ public class CoordinatesDisplay implements ClientModInitializer {
 
     public static ModConfig CONFIG;
 
-    public static HudOverlay OVERLAY;
+    public static HudRenderer OVERLAY;
 
     public static boolean hasPlayerSeenUpdateMessage = false;
 
@@ -31,7 +31,7 @@ public class CoordinatesDisplay implements ClientModInitializer {
         CONFIG = ConfigManager.loadConfig(ModConfig.class);
         LOGGER.info("Loaded all config");
 
-        OVERLAY = new HudOverlay(CONFIG);
+        OVERLAY = new HudRenderer(CONFIG);
 
         Keybinds.register();
 

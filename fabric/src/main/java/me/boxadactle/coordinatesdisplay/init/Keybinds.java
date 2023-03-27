@@ -3,7 +3,7 @@ package me.boxadactle.coordinatesdisplay.init;
 import io.github.cottonmc.cotton.config.ConfigManager;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -50,7 +50,7 @@ public class Keybinds {
         }
 
         if (openConfigFileKeybind.wasPressed()) {
-            if (ModUtils.openConfigFile()) {
+            if (ModUtil.openConfigFile()) {
                 CoordinatesDisplay.LOGGER.info("Opened file in native explorer!");
             } else {
                 CoordinatesDisplay.LOGGER.chatError("Sorry I could not open the file. It is saved at: " + FabricLoader.getInstance().getConfigDir().toFile().getAbsolutePath());
@@ -64,20 +64,20 @@ public class Keybinds {
         }
 
         if (copyLocation.wasPressed()) {
-            MinecraftClient.getInstance().keyboard.setClipboard(ModUtils.parseText(CoordinatesDisplay.CONFIG.copyPosMessage));
+            MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.copyPosMessage));
             CoordinatesDisplay.LOGGER.player.info("Copied to clipboard!");
             CoordinatesDisplay.LOGGER.player.info("Copied location to clipboard!");
         }
 
         if (sendLocation.wasPressed()) {
-            CoordinatesDisplay.LOGGER.player.publicChat(ModUtils.parseText(CoordinatesDisplay.CONFIG.posChatMessage));
+            CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.posChatMessage));
             CoordinatesDisplay.LOGGER.info("Sent position as chat message");
         }
 
         if (copyPosTp.wasPressed()) {
             RegistryKey<World> registry = MinecraftClient.getInstance().player.world.getRegistryKey();
 
-            MinecraftClient.getInstance().keyboard.setClipboard(ModUtils.asTpCommand(x, y, z, (registry != null ? registry.getValue().toString() : null)));
+            MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.asTpCommand(x, y, z, (registry != null ? registry.getValue().toString() : null)));
 
             CoordinatesDisplay.LOGGER.player.info("Copied position as command");
         }

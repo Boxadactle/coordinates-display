@@ -19,5 +19,5 @@ public class InvisibleButtonWidget extends PlainTextButton {
     }
 
     @Override
-    public void renderButton(PoseStack matrices, int mouseX, int mouseY, float delta) {}
+    public void renderWidget(PoseStack matrices, int mouseX, int mouseY, float delta) {}
 }

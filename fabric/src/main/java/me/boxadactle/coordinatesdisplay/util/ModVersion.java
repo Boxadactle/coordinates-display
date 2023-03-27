@@ -1,6 +1,8 @@
 package me.boxadactle.coordinatesdisplay.util;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import net.minecraft.SharedConstants;
+
 public class ModVersion {
 
     static String thisVer = "2.1.4";
@@ -11,5 +13,9 @@ public class ModVersion {
 
     public static String getString() {
         return CoordinatesDisplay.MOD_ID + " v" + getVersion();
+    }
+
+    public static String getMCVersion() {
+        return SharedConstants.getGameVersion().getName();
     }
 }

@@ -101,22 +101,5 @@
   "description.coordinatesdisplay.changeposition2": "이 화면에서 나가려면 ESC 키를 누르세요.",
   
   "coordinatesdisplay.true": "예",
-  "coordinatesdisplay.false": "아니오",
-
-  "coordinatesdisplay.color.white": "하얀색",
-  "coordinatesdisplay.color.gray": "은색",
-  "coordinatesdisplay.color.dark_gray": "회색",
-  "coordinatesdisplay.color.black": "검정색",
-  "coordinatesdisplay.color.dark_red": "다크 레드",
-  "coordinatesdisplay.color.red": "빨간색",
-  "coordinatesdisplay.color.gold": "금색",
-  "coordinatesdisplay.color.yellow": "노란색",
-  "coordinatesdisplay.color.dark_green": "다크 그린",
-  "coordinatesdisplay.color.green": "초록색",
-  "coordinatesdisplay.color.aqua": "아쿠아",
-  "coordinatesdisplay.color.dark_aqua": "다크 아쿠아",
-  "coordinatesdisplay.color.blue": "파란색",
-  "coordinatesdisplay.color.dark_blue": "다크 블루",
-  "coordinatesdisplay.color.light_purple": "연보라색",
-  "coordinatesdisplay.color.dark_purple": "다크 퍼플"
+  "coordinatesdisplay.false": "아니오"
 }

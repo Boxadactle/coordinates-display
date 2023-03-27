@@ -3,14 +3,13 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.gui.widget.InvisibleButtonWidget;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 
@@ -23,6 +22,7 @@ public class ChangePositionScreen extends Screen {
     Vec3d pos;
     ChunkPos chunkPos;
     float cameraYaw;
+    float cameraPitch;
 
     boolean lockHudPos = false;
 
@@ -34,8 +34,9 @@ public class ChangePositionScreen extends Screen {
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos));
+        this.chunkPos = new ChunkPos((int)Math.round(this.pos.x), (int)Math.round(this.pos.z));
         this.cameraYaw  = (float) Math.random() * 180;
+        this.cameraPitch  = (float) Math.random() * 180;
 
         x = CoordinatesDisplay.CONFIG.hudX;
         y = CoordinatesDisplay.CONFIG.hudY;
@@ -52,7 +53,7 @@ public class ChangePositionScreen extends Screen {
         double a = 1.2;
         int b = (int) (this.width * a);
 
-        drawTexture(matrices, 0, 0, 0.0F, 0.0F, b, ModUtils.aspectRatio(16, 9, b), b, ModUtils.aspectRatio(16, 9, b));
+        drawTexture(matrices, 0, 0, 0.0F, 0.0F, b, ModUtil.aspectRatio(16, 9, b), b, ModUtil.aspectRatio(16, 9, b));
     }
 
     @Override
@@ -64,19 +65,19 @@ public class ChangePositionScreen extends Screen {
 
         matrices.scale(0.9F, 0.9F, 0.9F);
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.position"), (int) ((this.width / 2) / 0.9), 5, ModUtils.WHITE);
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition"), (int) ((this.width / 2) / 0.9), 20, ModUtils.GRAY);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.position"), (int) ((this.width / 2) / 0.9), 5, ModUtil.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition"), (int) ((this.width / 2) / 0.9), 20, ModUtil.GRAY);
 
         matrices.pop();
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition2"), this.width / 2, this.height - 15, ModUtils.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("description.coordinatesdisplay.changeposition2"), this.width / 2, this.height - 15, ModUtil.WHITE);
 
         if (lockHudPos) {
             x = mouseX;
             y = mouseY;
         }
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, x, y);
+        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, x, y, CoordinatesDisplay.CONFIG.minMode);
 
     }
 

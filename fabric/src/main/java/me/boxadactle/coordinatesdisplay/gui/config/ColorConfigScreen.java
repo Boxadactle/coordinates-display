@@ -2,8 +2,8 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -14,7 +14,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 
@@ -38,6 +37,7 @@ public class ColorConfigScreen extends Screen {
     Vec3d pos;
     ChunkPos chunkPos;
     float cameraYaw;
+    float cameraPitch;
 
     int deathx;
     int deathy;
@@ -52,8 +52,9 @@ public class ColorConfigScreen extends Screen {
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos));
+        this.chunkPos = new ChunkPos((int)Math.round(this.pos.x), (int)Math.round(this.pos.z));
         this.cameraYaw  = (float) Math.random() * 180;
+        this.cameraPitch  = (float) Math.random() * 180;
 
         version = ModVersion.getVersion();
 
@@ -63,23 +64,23 @@ public class ColorConfigScreen extends Screen {
         deathy = (int) Math.round(Math.random() * 100);
         deathz = (int) Math.round(Math.random() * 1000);
 
-        dimension = (String) ModUtils.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
+        dimension = (String) ModUtil.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
 
         CoordinatesDisplay.shouldRenderOnHud = false;
 
     }
 
     private void renderColorPicker(MatrixStack matrices) {
-        float s = 1.3F;
+        float s = 1.2F;
         matrices.push();
         matrices.scale(s, s, s);
 
         int a = (int) (this.width / s);
-        int b = (int) (this.height / s);
+        int b = (int) (this.height / s) + 75;
         int c = (int) (a / 2 + (5 / s));
         int d = (int) (b / 2.3) - 4;
-        int e = (int) (872 / 1.8) / this.nonZeroGuiScale();
-        int f = (int) (586 / 1.8) / this.nonZeroGuiScale();
+        int e = (int) (872 / 1.8) / this.nonZeroGuiScale() / 4;
+        int f = (int) (586 / 1.8) / this.nonZeroGuiScale() /4;
 
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -104,20 +105,20 @@ public class ColorConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtil.WHITE);
 
         int y = (int) (this.height / 2.3);
 
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Definition Color"), this.width / 2 - smallButtonW, start + 8, ModUtils.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Data Color"), this.width / 2, start + 8, ModUtils.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Death Position Color"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtils.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Color (ARGB)"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtils.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Definition Color"), this.width / 2 - smallButtonW, start + 8, ModUtil.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Data Color"), this.width / 2, start + 8, ModUtil.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Death Position Color"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Color (ARGB)"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y);
+        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y + 40, CoordinatesDisplay.CONFIG.minMode);
 
         Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.deathPosColor));
         Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", posT);
-        drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4), ModUtils.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4) + 40, ModUtil.WHITE);
 
         this.renderColorPicker(matrices);
 
@@ -133,10 +134,10 @@ public class ColorConfigScreen extends Screen {
         this.addDrawableChild(new PressableTextWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
             this.client.setScreen(this);
             if (yes) {
-                Util.getOperatingSystem().open(ModUtils.CONFIG_WIKI_COLOR);
+                Util.getOperatingSystem().open(ModUtil.CONFIG_WIKI_COLOR);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtils.CONFIG_WIKI_COLOR, false)), MinecraftClient.getInstance().textRenderer));
+        }, ModUtil.CONFIG_WIKI_COLOR, false)), MinecraftClient.getInstance().textRenderer));
 
         initButtons();
     }

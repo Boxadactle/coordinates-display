@@ -19,9 +19,8 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.util.Locale;
 
-public class ModUtils {
+public class ModUtil {
 
     public static final int WHITE = 16777215;
     public static final int GRAY = 	11184810;
@@ -40,17 +39,6 @@ public class ModUtils {
         TRUE  = "§a" + Text.translatable("coordinatesdisplay.true").getString();
         FALSE = "§c" + Text.translatable("coordinatesdisplay.false").getString();
     }
-
-    // list of colors
-    public static final String[] colors = {
-            "white", "gray", "dark_gray", "black",
-            "dark_red", "red",
-            "gold", "yellow",
-            "dark_green", "green",
-            "aqua", "dark_aqua",
-            "blue", "dark_blue",
-            "light_purple", "dark_purple"
-    };
 
     public static Text colorize(Text text, int color) {
         return text.copy().styled(style -> style.withColor(color));
@@ -94,6 +82,56 @@ public class ModUtils {
         return newtext;
     }
 
+    public static int calculateHudWidth(int p, int tp, Text xtext, Text ytext, Text ztext, Text chunkx, Text chunkz, Text direction, Text biome, Text version) {
+        int a = getLongestTextLength(xtext, ytext, ztext);
+        int b = getLongestTextLength(chunkx, chunkz);
+        int c = a + (CoordinatesDisplay.CONFIG.renderChunkData ? b + tp : 0);
+
+        int d = 0;
+        if (CoordinatesDisplay.CONFIG.renderDirection) {
+            if (getLongestTextLength(direction) > d) d = getLongestTextLength(direction);
+        }
+        if (CoordinatesDisplay.CONFIG.renderBiome) {
+            if (getLongestTextLength(biome) > d) d = getLongestTextLength(biome);
+        }
+        if (CoordinatesDisplay.CONFIG.renderMCVersion) {
+            if (getLongestTextLength(version) > d) d = getLongestTextLength(version);
+        }
+
+        return p + Math.max(c, d) + p;
+    }
+
+    public static int calculateHudHeight(int th, int p, int tp, Text xtext, Text ytext, Text ztext, Text chunkx, Text chunkz, Text direction, Text biome, Text version) {
+        int a = th * 3;
+
+        int b = 0;
+        if (CoordinatesDisplay.CONFIG.renderDirection) {
+            b += th;
+        }
+        if (CoordinatesDisplay.CONFIG.renderBiome) {
+            b += th;
+        }
+        if (CoordinatesDisplay.CONFIG.renderMCVersion) {
+            b += th;
+        }
+
+        boolean c = (CoordinatesDisplay.CONFIG.renderDirection || CoordinatesDisplay.CONFIG.renderBiome || CoordinatesDisplay.CONFIG.renderMCVersion);
+
+        return p + a + (c ? tp : 0) + b + p;
+    }
+
+    public static int calculateHudWidthMin(int p, int th, int dpadding, Text xtext, Text ytext, Text ztext, Text yaw, Text pitch, Text direction, Text biome) {
+        int a = getLongestTextLength(xtext, ytext, ztext, biome);
+        int b = MinecraftClient.getInstance().textRenderer.getWidth("NW");
+
+        return p + a + dpadding + b + p;
+    }
+
+    public static int calculateHudHeightMin(int p, int th) {
+        // this might become a real method later
+        return p + (th * 4) + p;
+    }
+
     public static Object selectRandom(Object ...args) {
         return args[(int) Math.round(Math.random() * (args.length - 1))];
     }
@@ -120,35 +158,6 @@ public class ModUtils {
         ));
 
         return Text.translatable("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.definitionColor));
-    }
-
-    public static int getColorDecimal(String color) {
-        int decimal;
-        String c = color.toLowerCase(Locale.ROOT);
-        int defaultInt = 16777215;
-        switch (c) {
-            case "dark_red" -> decimal = 11141120;
-            case "red" -> decimal = 16733525;
-            case "gold" -> decimal = 16755200;
-            case "yellow" -> decimal = 16777045;
-            case "dark_green" -> decimal = 43520;
-            case "green" -> decimal = 5635925;
-            case "aqua" -> decimal = 5636095;
-            case "dark_aqua" -> decimal = 43690;
-            case "dark_blue" -> decimal = 170;
-            case "blue" -> decimal = 5592575;
-            case "light_purple" -> decimal = 16733695;
-            case "dark_purple" -> decimal = 11141290;
-            case "white" -> decimal = 16777215;
-            case "gray" -> decimal = 11184810;
-            case "dark_gray" -> decimal = 5592405;
-            case "black" -> decimal = 0;
-            default -> {
-                decimal = defaultInt;
-                CoordinatesDisplay.LOGGER.warn("Could not parse color " + color + " so defaulted to " + defaultInt);
-            }
-        }
-        return decimal;
     }
 
     public static boolean openConfigFile() {
@@ -179,29 +188,35 @@ public class ModUtils {
     }
 
     public static void resetConfig() {
-        CoordinatesDisplay.CONFIG.displayPosOnDeathScreen = DefaultModConfig.displayPosOnDeathScreen;
-        CoordinatesDisplay.CONFIG.showDeathPosInChat = DefaultModConfig.showDeathPosInChat;
+        ModConfig c = CoordinatesDisplay.CONFIG;
 
-        CoordinatesDisplay.CONFIG.visible = DefaultModConfig.visible;
-        CoordinatesDisplay.CONFIG.roundPosToTwoDecimals = DefaultModConfig.roundPosToTwoDecimals;
+        c.visible = true;
+        c.roundPosToTwoDecimals = true;
 
-        CoordinatesDisplay.CONFIG.renderBiome = DefaultModConfig.renderBiome;
-        CoordinatesDisplay.CONFIG.renderDirection = DefaultModConfig.renderDirection;
-        CoordinatesDisplay.CONFIG.renderChunkData = DefaultModConfig.renderChunkData;
-        CoordinatesDisplay.CONFIG.renderBackground = DefaultModConfig.renderBackground;
+        c.minMode = false;
+        c.hudX = 0;
+        c.hudY = 0;
 
-        CoordinatesDisplay.CONFIG.definitionColor = DefaultModConfig.definitionColor;
-        CoordinatesDisplay.CONFIG.dataColor = DefaultModConfig.dataColor;
-        CoordinatesDisplay.CONFIG.deathPosColor = DefaultModConfig.deathPosColor;
+        c.renderBackground = true;
+        c.renderChunkData = true;
+        c.renderDirection = true;
+        c.renderBiome = true;
+        c.renderDirectionInt = true;
+        c.renderMCVersion = true;
 
-        CoordinatesDisplay.CONFIG.padding = DefaultModConfig.padding;
-        CoordinatesDisplay.CONFIG.textPadding = DefaultModConfig.textPadding;
+        c.definitionColor = 0x55FF55;
+        c.dataColor = 0xFFFFFF;
+        c.deathPosColor = 0x55FFFF;
+        c.backgroundColor = 0x405c5c5c;
 
-        CoordinatesDisplay.CONFIG.hudX = DefaultModConfig.hudX;
-        CoordinatesDisplay.CONFIG.hudY = DefaultModConfig.hudY;
+        c.displayPosOnDeathScreen = true;
+        c.showDeathPosInChat = true;
 
-        CoordinatesDisplay.CONFIG.posChatMessage = DefaultModConfig.posChatMessage;
-        CoordinatesDisplay.CONFIG.copyPosMessage = DefaultModConfig.copyPosMessage;
+        c.padding = 5;
+        c.textPadding = 15;
+
+        c.posChatMessage = "{x} {y} {z}";
+        c.copyPosMessage = "{x}, {y}, {z}";
 
         ConfigManager.saveConfig(CoordinatesDisplay.CONFIG);
         CoordinatesDisplay.OVERLAY.updateConfig(CoordinatesDisplay.CONFIG);
@@ -220,7 +235,7 @@ public class ModUtils {
         return direction;
     }
 
-    public static int getLongestLength(Text ...text) {
+    public static int getLongestTextLength(Text ...text) {
         int largest = 0;
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         for (Text value : text) {
@@ -234,8 +249,8 @@ public class ModUtils {
         if (id != null) {
             StringBuilder name = new StringBuilder();
 
-            String withoutNamespace = id.split(":")[1];
-            String spaces = withoutNamespace.replaceAll("_", " ");
+            String stripNamespace = id.substring(id.indexOf(":") + 1);
+            String spaces = stripNamespace.replaceAll("_", " ");
             for (String word : spaces.split("\\s")) {
                 String firstLetter = word.substring(0, 1);
                 String theRest = word.substring(1);

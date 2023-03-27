@@ -9,10 +9,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -23,9 +23,10 @@ public class ChangePositionScreen extends Screen {
 
     Screen parent;
 
-    Vec3i pos;
+    Vec3 pos;
     ChunkPos chunkPos;
     float cameraYaw;
+    float cameraPitch;
 
     boolean lockHudPos = false;
 
@@ -36,9 +37,10 @@ public class ChangePositionScreen extends Screen {
         super(Component.translatable("screen.coordinatesdisplay.config.position"));
         this.parent = parent;
 
-        this.pos = new Vec3i(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
-        this.cameraYaw = ModUtil.randomYaw();
+        this.pos = new Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
+        this.chunkPos = new ChunkPos(new BlockPos((int) Math.round(pos.x), (int) Math.round(pos.y), (int) Math.round(pos.z)));
+        this.cameraYaw = ModUtil.randomYawPitch();
+        this.cameraPitch = ModUtil.randomYawPitch();
 
         x = CoordinatesDisplay.CONFIG.get().hudX;
         y = CoordinatesDisplay.CONFIG.get().hudY;
@@ -84,7 +86,7 @@ public class ChangePositionScreen extends Screen {
             y = mouseY;
         }
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, x, y);
+        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, CoordinatesDisplay.CONFIG.get().minMode, x, y);
 
     }
 

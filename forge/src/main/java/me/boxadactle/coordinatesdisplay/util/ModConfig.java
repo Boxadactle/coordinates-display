@@ -9,6 +9,7 @@ public class ModConfig implements ConfigData {
 
     public boolean visible = true;
     public boolean decimalRounding = true;
+    public boolean minMode = false;
     public int hudX = 0;
     public int hudY = 0;
 
@@ -16,6 +17,8 @@ public class ModConfig implements ConfigData {
     public boolean renderChunkData = true;
     public boolean renderDirection = true;
     public boolean renderBiome = true;
+    public boolean renderDirectionInt = true;
+    public boolean renderMCVersion = false;
 
     public String definitionColor = "green";
     public String dataColor = "white";

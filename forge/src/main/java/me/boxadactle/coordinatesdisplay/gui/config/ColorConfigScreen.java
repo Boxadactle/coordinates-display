@@ -10,10 +10,9 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -35,9 +34,10 @@ public class ColorConfigScreen extends Screen {
 
     Screen parent;
 
-    Vec3i pos;
+    Vec3 pos;
     ChunkPos chunkPos;
     float cameraYaw;
+    float cameraPitch;
 
     String deathx;
     String deathy;
@@ -47,9 +47,10 @@ public class ColorConfigScreen extends Screen {
         super(Component.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()));
         this.parent = parent;
 
-        this.pos = new Vec3i(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
-        this.cameraYaw = ModUtil.randomYaw();
+        this.pos = new Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
+        this.chunkPos = new ChunkPos((int) Math.round(pos.x), (int) Math.round(pos.z));
+        this.cameraYaw = ModUtil.randomYawPitch();
+        this.cameraPitch = ModUtil.randomYawPitch();
 
         DecimalFormat d = new DecimalFormat("0.00");
 
@@ -70,7 +71,7 @@ public class ColorConfigScreen extends Screen {
 
         int y = (int) (this.height / 2.3);
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), y);
+        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, CoordinatesDisplay.CONFIG.get().minMode, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), y);
 
         Component pos = Component.translatable("message.coordinatesdisplay.location", deathx, deathy, deathz).withStyle(style -> style.withColor(ModUtil.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
         Component deathPos = Component.translatable("message.coordinatesdisplay.deathpos", pos);

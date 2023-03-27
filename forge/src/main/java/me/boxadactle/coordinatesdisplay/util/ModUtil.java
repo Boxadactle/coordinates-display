@@ -55,7 +55,7 @@ public class ModUtil {
         return int2 * i1;
     }
 
-    public static float randomYaw() {
+    public static float randomYawPitch() {
         return Mth.wrapDegrees((float) Math.random() * 360);
     }
 
@@ -89,6 +89,44 @@ public class ModUtil {
         }
 
         return newTextComponent;
+    }
+
+    public static int calculateHudWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
+        int a = getLongestTextLength(xtext, ytext, ztext);
+        int b = getLongestTextLength(chunkx, chunkz);
+        int c = a + (CoordinatesDisplay.CONFIG.get().renderChunkData ? b + tp : 0);
+
+        int d = 0;
+        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
+            if (getLongestTextLength(direction) > d) d = getLongestTextLength(direction);
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
+            if (getLongestTextLength(biome) > d) d = getLongestTextLength(biome);
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
+            if (getLongestTextLength(version) > d) d = getLongestTextLength(version);
+        }
+
+        return p + Math.max(c, d) + p;
+    }
+
+    public static int calculateHudHeight(int th, int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
+        int a = th * 3;
+
+        int b = 0;
+        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
+            b += th;
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
+            b += th;
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
+            b += th;
+        }
+
+        boolean c = (CoordinatesDisplay.CONFIG.get().renderDirection || CoordinatesDisplay.CONFIG.get().renderBiome || CoordinatesDisplay.CONFIG.get().renderMCVersion);
+
+        return p + a + (c ? tp : 0) + b + p;
     }
 
     public static Object selectRandom(Object ...args) {
@@ -192,6 +230,19 @@ public class ModUtil {
         return decimal;
     }
 
+    public static int calculateHudWidthMin(int p, int th, int dpadding, Component xtext, Component ytext, Component ztext, Component yaw, Component pitch, Component direction, Component biome) {
+        int a = getLongestTextLength(xtext, ytext, ztext, biome);
+        int b = Minecraft.getInstance().font.width("NW");
+
+        return p + a + dpadding + b + p;
+    }
+
+    public static int calculateHudHeightMin(int p, int th) {
+        // this might become a real method later
+        return p + (th * 4) + p;
+    }
+
+
     public static boolean openConfigFile() {
         CoordinatesDisplay.LOGGER.info("Trying to open file in native file explorer...");
         File f = CoordinatesDisplay.configDir;
@@ -242,7 +293,7 @@ public class ModUtil {
         return direction;
     }
 
-    public static int getLongestLength(Component ...text) {
+    public static int getLongestTextLength(Component ...text) {
         int largest = 0;
         for (Component value : text) {
             int t = Minecraft.getInstance().font.width(value.getString());

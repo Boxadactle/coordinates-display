@@ -33,11 +33,12 @@ public abstract class InGameHudMixin extends DrawableHelper {
                 if (camera == null) return;
 
                 Vec3d pos = camera.getPos();
-                ChunkPos chunkPos = new ChunkPos(new BlockPos(pos));
+                ChunkPos chunkPos = new ChunkPos((int)Math.round(pos.x), (int)Math.round(pos.z));
                 RegistryEntry<Biome> biome = this.client.world.getBiome(camera.getBlockPos());
                 float cameraYaw = camera.getYaw(tickDelta);
+                float cameraPitch = camera.getPitch(tickDelta);
 
-                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, biome, CoordinatesDisplay.CONFIG.hudX, CoordinatesDisplay.CONFIG.hudY);
+                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.hudX, CoordinatesDisplay.CONFIG.hudY, CoordinatesDisplay.CONFIG.minMode);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
