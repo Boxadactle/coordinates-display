@@ -5,7 +5,7 @@ import net.minecraft.SharedConstants;
 
 public class ModVersion {
 
-    static String thisVer = "2.1.4";
+    static String thisVer = "2.2.0";
 
     public static String getVersion() {
         return thisVer;
