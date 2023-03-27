@@ -1,8 +1,7 @@
-# Coordinates Display
+# Coordinates Display [![](http://cf.way2muchnoise.eu/full_coordinates-display_downloads.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/coordinates-display) [![](https://raw.githubusercontent.com/Boxadactle/coordinates-display/03d6faccdf955cb040012c252b57703435602a19/img/wiki.svg)](https://github.com/Boxadactle/coordinates-display/wiki) [![](https://raw.githubusercontent.com/Boxadactle/coordinates-display/c47768fbc605863978b6c88ca3c4fcac4a5885da/img/github.svg)](https://github.com/Boxadactle/coordinates-display)
+Coordinates Display is a Client-side mod that adds an HUD to show your position, your chunk position, the direction you are looking in, the name of the biome you are in, and your Minecraft version.
 
-Coordinates Display is a Client-side mod that adds an HUD to show your position, your chunk position, the direction you are looking in, and the name of the biome you are in.
-
-![overlay](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay.png?raw=true)
+![hud1](https://github.com/Boxadactle/coordinates-display/blob/main/img/hud1.png?raw=true)
 
 # Dependencies
 
@@ -10,22 +9,8 @@ Coordinates Display is a Client-side mod that adds an HUD to show your position,
 
 [![Requires Fabric API](https://i.imgur.com/Ol1Tcf8.png)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
 
-I also recommend [Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/) for configuration purposes. It is required to open the Configuration GUI.
+[Mod Menu](https://www.curseforge.com/minecraft/mc-mods/modmenu/) is recommended for configuration purposes. It is required to open the Configuration GUI.
 
 ## Forge
 
-This mod requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) for configuration.
-
-# Customizing
-
-There are many different ways you could make your HUD look. For starters, you can use the key binds to turn on/off the HUD. Here are some examples:
-
-In this image, I have changed the "Keys" options in the color settings to aqua. There are [16 different colors](https://www.digminecraft.com/lists/color_list_pc.php) that you could choose from.
-
-![overlay1](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay1.png?raw=true)
-
-In this image, I have disabled the biome and the chunk location in the rendering settings.
-
-![overlay2](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay2.png?raw=true)
-
-[How to customize](https://github.com/Boxadactle/coordinates-display/wiki/Configuration)
+The Forge version of this mod requires [Cloth Config](https://www.curseforge.com/minecraft/mc-mods/cloth-config) for configuration.
