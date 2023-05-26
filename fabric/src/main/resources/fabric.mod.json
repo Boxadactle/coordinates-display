@@ -30,9 +30,16 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
+<<<<<<< Updated upstream
     "minecraft": "1.19"
   },
   "recommends": {
     "modmenu": ">=4.0.3"
+=======
+    "minecraft": ">=1.19"
+  },
+  "recommends": {
+    "modmenu": ">=4.0.0"
+>>>>>>> Stashed changes
   }
 }

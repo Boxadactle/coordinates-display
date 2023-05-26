@@ -16,6 +16,7 @@
   "hud.coordinatesdisplay.direction": "%s %s",
   "hud.coordinatesdisplay.biome": "생물체: %s",
 
+<<<<<<< Updated upstream
   "hud.coordinatesdisplay.direction.north": "북쪽",
   "hud.coordinatesdisplay.direction.northeast": "북동",
   "hud.coordinatesdisplay.direction.east": "동쪽",
@@ -24,6 +25,30 @@
   "hud.coordinatesdisplay.direction.southwest": "남서",
   "hud.coordinatesdisplay.direction.west": "서쪽",
   "hud.coordinatesdisplay.direction.northwest": "북서",
+=======
+  "hud.coordinatesdisplay.north": "북",
+  "hud.coordinatesdisplay.northeast": "북동",
+  "hud.coordinatesdisplay.east": "동",
+  "hud.coordinatesdisplay.southeast": "남동",
+  "hud.coordinatesdisplay.south": "남",
+  "hud.coordinatesdisplay.southwest": "남서",
+  "hud.coordinatesdisplay.west": "서",
+  "hud.coordinatesdisplay.northwest": "북서",
+
+  "hud.coordinatesdisplay.min.x": "X: %s",
+  "hud.coordinatesdisplay.min.y": "Y: %s",
+  "hud.coordinatesdisplay.min.z": "Z: %s",
+  "hud.coordinatesdisplay.min.direction": "%s",
+  "hud.coordinatesdisplay.min.biome": "%s",
+  "hud.coordinatesdisplay.min.north": "북",
+  "hud.coordinatesdisplay.min.northeast": "북동",
+  "hud.coordinatesdisplay.min.east": "동",
+  "hud.coordinatesdisplay.min.southeast": "남동",
+  "hud.coordinatesdisplay.min.south": "남",
+  "hud.coordinatesdisplay.min.southwest": "남서",
+  "hud.coordinatesdisplay.min.west": "서",
+  "hud.coordinatesdisplay.min.northwest": "북서",
+>>>>>>> Stashed changes
 
   "screen.coordinatesdisplay.config": "%s v%s 환경설정",
   "screen.coordinatesdisplay.confirmreset": "기본값으로 초기화 확인",
@@ -50,11 +75,20 @@
   "button.coordinatesdisplay.render.chunkdata": "청크 데이터: %s",
   "button.coordinatesdisplay.render.direction": "방향: %s",
   "button.coordinatesdisplay.render.biome": "바이옴: %s",
+<<<<<<< Updated upstream
   "button.coordinatesdisplay.deathpos.deathscreen": "화면에 표시: %s",
   "button.coordinatesdisplay.deathpos.chat": "채팅에 넣다: %s",
   "button.coordinatesdisplay.colors.keys": "키값: %s",
   "button.coordinatesdisplay.colors.values": "값: %s",
   "button.coordinatesdisplay.colors.deathpos": "사망 위치 채팅 메시지: %s",
+=======
+  "button.coordinatesdisplay.deathpos.deathscreen": "사망 화면에 표시: %s",
+  "button.coordinatesdisplay.deathpos.chat": "채팅으로 보내기: %s",
+  "button.coordinatesidisplay.colors.definition": "정의의 색상",
+  "button.coordinatesidisplay.colors.data": "값의 색상",
+  "button.coordinatesidisplay.colors.deathpos": "사망 위치의 색상",
+  "button.coordinatesidisplay.colors.background": "배경색(ARGB)",
+>>>>>>> Stashed changes
 
   "button.coordinatesdisplay.configfile": "환경설정 파일 표시...",
   "button.coordinatesdisplay.resetconf": "기본값으로 초기화...",
@@ -77,6 +111,7 @@
   "button.coordinatesdisplay.copy": "클립보드로 복사",
   "button.coordinatesdisplay.copied": "복사됨!",
   "button.coordinatesdisplay.send": "채팅 메시지로 전송",
+<<<<<<< Updated upstream
   "button.coordinatesdisplay.copytp": "순간 이동 명령으로 복사하십시오",
 
   "description.coordinatesdisplay.render": "HUD에 렌더링되어야 하는 것",
@@ -100,6 +135,10 @@
   "description.coordinatesdisplay.changeposition": "HUD를 마우스 위치로 이동하려면 클릭하십시오. 위치를 선택하려면 다시 클릭하십시오.",
   "description.coordinatesdisplay.changeposition2": "저장하려면 \"탈출\"을 누릅니다",
 
+=======
+  "button.coordinatesdisplay.copytp": "순간 이동 명령어로 복사",
+  
+>>>>>>> Stashed changes
   "coordinatesdisplay.true": "예",
   "coordinatesdisplay.false": "아니요",
 

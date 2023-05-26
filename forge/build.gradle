@@ -19,7 +19,11 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'org.spongepowered.mixin'
 
+<<<<<<< Updated upstream
 version = '2.1.2'
+=======
+version = '2.3.0'
+>>>>>>> Stashed changes
 group = 'me.boxadactle' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'coordinatesdisplay'
 

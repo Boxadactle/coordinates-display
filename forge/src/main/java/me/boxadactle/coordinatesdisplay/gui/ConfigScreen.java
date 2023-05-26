@@ -52,6 +52,7 @@ public class ConfigScreen extends Screen {
     }
 
     private void initButtons() {
+<<<<<<< Updated upstream
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.visual"), (button) -> this.minecraft.setScreen(new VisualConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
             if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.visual"), mouseX, mouseY);
@@ -81,11 +82,26 @@ public class ConfigScreen extends Screen {
                 this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.text"), mouseX, mouseY);
             }
         }));
+=======
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.visual"), (button) -> this.minecraft.setScreen(new VisualConfigScreen(this))));
+
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render"), (button) -> this.minecraft.setScreen(new RenderConfigScreen(this))));
+
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.color"), (button) -> this.minecraft.setScreen(new ColorConfigScreen(this))));
+
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.deathpos"), (button) -> this.minecraft.setScreen(new DeathPosConfigScreen(this))));
+
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.text"), (button) -> this.minecraft.setScreen(new TextConfigScreen(this))));
+>>>>>>> Stashed changes
     }
 
     private void initButtonsOpen() {
         // open config file
+<<<<<<< Updated upstream
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.configfile"), (button) -> ModUtils.openConfigFile()));
+=======
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.configfile"), (button) -> ModUtil.openConfigFile()));
+>>>>>>> Stashed changes
 
         // reset to default
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 7, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.minecraft.setScreen(new ConfirmScreen((doIt) -> {
@@ -103,7 +119,11 @@ public class ConfigScreen extends Screen {
                 Util.getPlatform().openUri(ModUtils.CONFIG_WIKI);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
+<<<<<<< Updated upstream
         }, ModUtils.CONFIG_WIKI, false))));
+=======
+        }, ModUtil.CONFIG_WIKI, false))));
+>>>>>>> Stashed changes
     }
 
     private void initButtonsExit() {

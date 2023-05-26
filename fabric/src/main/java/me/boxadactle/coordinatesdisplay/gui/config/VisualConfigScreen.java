@@ -2,7 +2,11 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
+<<<<<<< Updated upstream
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
+=======
+import net.minecraft.client.MinecraftClient;
+>>>>>>> Stashed changes
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -57,7 +61,11 @@ public class VisualConfigScreen extends Screen {
 
         super.render(matrices, mouseX,  mouseY, delta);
 
+<<<<<<< Updated upstream
         drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, version.thisVersion()), this.width / 2, 5, ModUtils.WHITE);
+=======
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtil.WHITE);
+>>>>>>> Stashed changes
 
         // padding
         drawTextWithShadow(matrices, textRenderer, Text.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 3 + p, ModUtils.WHITE);
@@ -65,8 +73,13 @@ public class VisualConfigScreen extends Screen {
         // text padding
         drawTextWithShadow(matrices, textRenderer, Text.translatable("button.coordinatesdisplay.textpadding"), this.width / 2 + p, start + (buttonHeight + p) * 3 + p, ModUtils.WHITE);
 
+<<<<<<< Updated upstream
         if (CoordinatesDisplay.CONFIG.visible) {
             CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 1.8));
+=======
+        if (CoordinatesDisplay.CONFIG.get().visible) {
+            CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 1.8) + 10, CoordinatesDisplay.CONFIG.get().minMode, false);
+>>>>>>> Stashed changes
         }
     }
 
@@ -76,7 +89,11 @@ public class VisualConfigScreen extends Screen {
         this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close()));
 
         // open wiki
+<<<<<<< Updated upstream
         this.addDrawableChild(new ButtonWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmChatLinkScreen((yes) -> {
+=======
+        this.addDrawableChild(new PressableTextWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmChatLinkScreen((yes) -> {
+>>>>>>> Stashed changes
             this.client.setScreen(this);
             if (yes) {
                 Util.getOperatingSystem().open(ModUtils.CONFIG_WIKI_VISUAL);
@@ -90,6 +107,7 @@ public class VisualConfigScreen extends Screen {
 
     private void initButtons() {
         // visible button
+<<<<<<< Updated upstream
         this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.visible ? ModUtils.TRUE : ModUtils.FALSE), (button) -> {
             CoordinatesDisplay.CONFIG.visible = !CoordinatesDisplay.CONFIG.visible;
             button.setMessage(Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.visible ? ModUtils.TRUE : ModUtils.FALSE));
@@ -124,14 +142,46 @@ public class VisualConfigScreen extends Screen {
                 Text.literal(Integer.toString(CoordinatesDisplay.CONFIG.padding)));
         textPadding = new TextFieldWidget(textRenderer, this.width / 2 + p, start + (buttonHeight + p) * 4 - p * 2, smallButtonW, buttonHeight,
                 Text.literal(Integer.toString(CoordinatesDisplay.CONFIG.textPadding)));
+=======
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE), (button) -> {
+            CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
+            button.setMessage(Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE));
+        }));
 
-        padding.setText(Integer.toString(CoordinatesDisplay.CONFIG.padding));
-        textPadding.setText(Integer.toString(CoordinatesDisplay.CONFIG.textPadding));
+        // decimal rounding button
+        ButtonWidget a = new ButtonWidget(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+            CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals = !CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals;
+            button.setMessage(Text.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals ? ModUtil.TRUE : ModUtil.FALSE)));
+        });
+        a.active = !CoordinatesDisplay.CONFIG.get().minMode;
+        this.addDrawableChild(a);
+
+        // minimum mode button
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.minmode", (CoordinatesDisplay.CONFIG.get().minMode ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+            CoordinatesDisplay.CONFIG.get().minMode = !CoordinatesDisplay.CONFIG.get().minMode;
+            button.setMessage(Text.translatable("button.coordinatesdisplay.minmode", (CoordinatesDisplay.CONFIG.get().minMode ? ModUtil.TRUE : ModUtil.FALSE)));
+            a.active = !CoordinatesDisplay.CONFIG.get().minMode;
+        }));
+
+
+        // modify position button
+        this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight,Text.translatable("button.coordinatesdisplay.position"), (button) -> this.client.setScreen(new HudPositionScreen(this))));
+    }
+
+    private void initTextFields() {
+        padding = new TextFieldWidget(textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 5 - p * 2, smallButtonW, buttonHeight,
+                Text.literal(Integer.toString(CoordinatesDisplay.CONFIG.get().padding)));
+        textPadding = new TextFieldWidget(textRenderer, this.width / 2 + p, start + (buttonHeight + p) * 5 - p * 2, smallButtonW, buttonHeight,
+                Text.literal(Integer.toString(CoordinatesDisplay.CONFIG.get().textPadding)));
+>>>>>>> Stashed changes
+
+        padding.setText(Integer.toString(CoordinatesDisplay.CONFIG.get().padding));
+        textPadding.setText(Integer.toString(CoordinatesDisplay.CONFIG.get().textPadding));
 
         padding.setChangedListener((text) -> {
             if (!text.isEmpty()) {
                 try {
-                    CoordinatesDisplay.CONFIG.padding = Integer.parseInt(text);
+                    CoordinatesDisplay.CONFIG.get().padding = Integer.parseInt(text);
 
                 } catch (NumberFormatException e) {
                     CoordinatesDisplay.LOGGER.printStackTrace(e);
@@ -142,7 +192,7 @@ public class VisualConfigScreen extends Screen {
         textPadding.setChangedListener((text) -> {
             if (!text.isEmpty()) {
                 try {
-                    CoordinatesDisplay.CONFIG.textPadding = Integer.parseInt(text);
+                    CoordinatesDisplay.CONFIG.get().textPadding = Integer.parseInt(text);
                 } catch (NumberFormatException e) {
                     CoordinatesDisplay.LOGGER.printStackTrace(e);
                 }

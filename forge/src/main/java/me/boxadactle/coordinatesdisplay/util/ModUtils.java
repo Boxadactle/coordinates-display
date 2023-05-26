@@ -27,12 +27,14 @@ public class ModUtils {
     public static Component TRUE;
     public static Component FALSE;
 
-    public static final String CONFIG_WIKI = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration";
-    public static final String CONFIG_WIKI_VISUAL = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#visual-settings";
-    public static final String CONFIG_WIKI_RENDER = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#render-settings";
-    public static final String CONFIG_WIKI_COLOR = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#color-configuration";
-    public static final String CONFIG_WIKI_DEATH = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#death-position-configuration";
-    public static final String CONFIG_WIKI_TEXTS = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#texts-configuration";
+    public static final String CONFIG_WIKI = "https://boxadactle.github.io/wiki/coordinates-display/";
+    public static final String CONFIG_WIKI_VISUAL = "https://boxadactle.github.io/wiki/coordinates-display/#visual";
+    public static final String CONFIG_WIKI_RENDER = "https://boxadactle.github.io/wiki/coordinates-display/#rendering";
+    public static final String CONFIG_WIKI_COLOR = "https://boxadactle.github.io/wiki/coordinates-display/#color";
+    public static final String CONFIG_WIKI_DEATH = "https://boxadactle.github.io/wiki/coordinates-display/#deathpos";
+    public static final String CONFIG_WIKI_TEXTS = "https://boxadactle.github.io/wiki/coordinates-display/#text";
+
+    public static boolean isMousePressed;
 
     public static void initText() {
         TRUE = Component.translatable("coordinatesdisplay.true").withStyle(style -> style.withColor(0x55FF55));
@@ -113,11 +115,11 @@ public class ModUtils {
 
         Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, getPlayerCurrentDimension()).withStyle((style -> style
                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
-                .withColor(getColorDecimal(CoordinatesDisplay.CONFIG.getConfig().deathPosColor))
+                .withColor((CoordinatesDisplay.CONFIG.getConfig().deathPosColor))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor(getColorDecimal(CoordinatesDisplay.CONFIG.getConfig().definitionColor)));
+        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor((CoordinatesDisplay.CONFIG.getConfig().definitionColor)));
     }
 
     public static int getColorIndex(String color) {
@@ -163,6 +165,7 @@ public class ModUtils {
         return prefix;
     }
 
+<<<<<<< Updated upstream:forge/src/main/java/me/boxadactle/coordinatesdisplay/util/ModUtils.java
     public static int getColorDecimal(String color) {
         int decimal;
         String c = color.toLowerCase(Locale.ROOT);
@@ -192,6 +195,21 @@ public class ModUtils {
         return decimal;
     }
 
+=======
+    public static int calculateHudWidthMin(int p, int th, int dpadding, Component xtext, Component ytext, Component ztext, Component yaw, Component pitch, Component direction, Component biome) {
+        int a = getLongestTextLength(xtext, ytext, ztext, biome);
+        int b = Minecraft.getInstance().font.width("NW");
+
+        return p + a + dpadding + b + p;
+    }
+
+    public static int calculateHudHeightMin(int p, int th) {
+        // this might become a real method later
+        return p + (th * 4) + p;
+    }
+
+
+>>>>>>> Stashed changes:forge/src/main/java/me/boxadactle/coordinatesdisplay/util/ModUtil.java
     public static boolean openConfigFile() {
         CoordinatesDisplay.LOGGER.info("Trying to open file in native file explorer...");
         File f = CoordinatesDisplay.configDir;
@@ -255,7 +273,15 @@ public class ModUtils {
         if (id != null) {
             StringBuilder name = new StringBuilder();
 
-            String withoutNamespace = id.split(":")[1];
+            String withoutNamespace = "plains";
+
+            try {
+                withoutNamespace = id.split(":")[1];
+            } catch (IndexOutOfBoundsException e) {
+                CoordinatesDisplay.LOGGER.error("Invalid biome");
+                e.printStackTrace();
+            }
+
             String spaces = withoutNamespace.replaceAll("_", " ");
             for (String word : spaces.split("\\s")) {
                 String firstLetter = word.substring(0, 1);
@@ -281,5 +307,47 @@ public class ModUtils {
             return "[unregistered " + p_205367_ + "]";
         });
     }
+
+    public static boolean isMousePressed() {
+        return isMousePressed;
+    }
+
+    public static int[] getDistance(int x, int y, int pointX, int pointY) {
+        int distanceX = Math.abs(x - pointX);
+        int distanceY = Math.abs(y - pointY);
+
+        return new int[]{distanceX, distanceY};
+    }
+
+    public static boolean isMouseHovering(int mouseX, int mouseY, int boxX, int boxY, int boxWidth, int boxHeight) {
+        return mouseX >= boxX && mouseX <= boxX + boxWidth &&
+                mouseY >= boxY && mouseY <= boxY + boxHeight;
+    }
+
+    public static int clampToZero(int number) {
+        return Math.max(number, 0);
+    }
+
+    public static int calculatePointDistance(int x, int y, int x1, int y1) {
+        int deltaX = x1 - x;
+        int deltaY = y1 - y;
+
+        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        return (int) distance;
+    }
+
+    public static float calculateMouseScale(int x, int y, int w, int h, int mouseX, int mouseY) {
+        int value1 = calculatePointDistance(x, y, x + w, y + h);
+        int value2 = calculatePointDistance(x, y, mouseX, mouseY);
+        float scaleFactor = (float) value2 / value1;
+
+        scaleFactor = Math.max(0.5f, Math.min(2.0f, scaleFactor));
+
+        scaleFactor = Math.round(scaleFactor * 100.0f) / 100.0f;
+
+        return scaleFactor;
+    }
+
 
 }

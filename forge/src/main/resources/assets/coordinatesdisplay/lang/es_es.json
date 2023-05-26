@@ -1,4 +1,5 @@
 {
+<<<<<<< Updated upstream
   "key.coordinatesdisplay.visible": "Alternar HUD",
   "key.coordinatesdisplay.openfile": "Abrir archivo de configuración",
   "key.coordinatesdisplay.configreload": "Configuración de actualización",
@@ -6,6 +7,16 @@
   "key.coordinatesdisplay.copypos": "Copiar la posición actual al portapapeles",
   "key.coordinatesdisplay.sendpos": "Enviar la posición actual en el chat",
   "key.coordinatesdisplay.copypostp": "Copiar la posición actual como /tp command",
+=======
+  "key.coordinatesdisplay.visible": "Conmutar el HUD",
+  "key.coordinatesdisplay.openfile": "Abrir el archivo de configuración",
+  "key.coordinatesdisplay.configreload": "Recargar configuración",
+  "key.coordinatesdisplay.coordinatesgui": "Abrir GUI de coordenadas",
+  "key.coordinatesdisplay.copypos": "Copiar la posición actual al portapapel",
+  "key.coordinatesdisplay.sendpos": "Enviar la posición actual en chat",
+  "key.coordinatesdisplay.copypostp": "Copiar la posición actual como /tp",
+  "key.coordinatesdisplay.changeHudPos": "Cambiar la posición del HUD",
+>>>>>>> Stashed changes
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.x": "X: %s",
@@ -15,6 +26,10 @@
   "hud.coordinatesdisplay.chunk.z": "Pedazo Z: %s",
   "hud.coordinatesdisplay.direction": "%s %s",
   "hud.coordinatesdisplay.biome": "Bioma: %s",
+<<<<<<< Updated upstream
+=======
+  "hud.coordinatesdisplay.version": "Minecraft %s",
+>>>>>>> Stashed changes
 
   "hud.coordinatesdisplay.direction.north": "Norte",
   "hud.coordinatesdisplay.direction.northeast": "Noreste",
@@ -25,6 +40,7 @@
   "hud.coordinatesdisplay.direction.west": "Oeste",
   "hud.coordinatesdisplay.direction.northwest": "Noroeste",
 
+<<<<<<< Updated upstream
   "screen.coordinatesdisplay.config": "Configuración para %s v%s",
   "screen.coordinatesdisplay.confirmreset": "Confirmar el reinicio al predeterminado",
   "screen.coordinatesdisplay.config.render": "Configuración de element para %s v%s",
@@ -119,4 +135,80 @@
   "coordinatesdisplay.color.dark_blue": "azul oscuro",
   "coordinatesdisplay.color.light_purple": "púrpura claro",
   "coordinatesdisplay.color.dark_purple": "morado oscuro"
+=======
+  "hud.coordinatesdisplay.min.x": "X: %s",
+  "hud.coordinatesdisplay.min.y": "Y: %s",
+  "hud.coordinatesdisplay.min.z": "Z: %s",
+  "hud.coordinatesdisplay.min.direction": "%s",
+  "hud.coordinatesdisplay.min.biome": "%s",
+  "hud.coordinatesdisplay.min.north": "N",
+  "hud.coordinatesdisplay.min.northeast": "NE",
+  "hud.coordinatesdisplay.min.east": "E",
+  "hud.coordinatesdisplay.min.southeast": "SE",
+  "hud.coordinatesdisplay.min.south": "S",
+  "hud.coordinatesdisplay.min.southwest": "SW",
+  "hud.coordinatesdisplay.min.west": "W",
+  "hud.coordinatesdisplay.min.northwest": "NW",
+
+  "screen.coordinatesdisplay.config": "Configuración para %s v%s",
+  "screen.coordinatesdisplay.confirmreset": "Confirmar que quieres restablecer la configuración predeterminada",
+  "screen.coordinatesdisplay.config.render": "Configuración de rederizado de %s v%s",
+  "screen.coordinatesdisplay.config.color": "Configuración de coloración de %s v%s",
+  "screen.coordinatesdisplay.config.deathpos": "Configuración de la posición de muerte de %s v%s",
+  "screen.coordinatesdisplay.config.visual": "Configuración de visualización de %s v%s",
+  "screen.coordinatesdisplay.config.position": "Cambiar la posición del HUD",
+  "screen.coordinatesdisplay.config.text": "Configuración de texto de %s v%s",
+
+  "button.coordinatesdisplay.visual": "Configuración de visualización...",
+  "button.coordinatesdisplay.render": "Configuración de rederizado...",
+  "button.coordinatesdisplay.color": "Configuracion de coloración...",
+  "button.coordinatesdisplay.deathpos": "Configuración de la posición de muerte...",
+  "button.coordinatesdisplay.text": "Configuración de texto...",
+  "button.coordinatesdisplay.position": "Cambiar la posición del HUD...",
+  "button.coordinatesdisplay.padding": "Frontera",
+  "button.coordinatesdisplay.textpadding": "Frontera de texto",
+  "button.coordinatesdisplay.poschatmessage": "Mensaje de chat de coordenadas",
+  "button.coordinatesdisplay.copyposmessage": "Copiar el mensaje de coordenadas",
+  "button.coordinatesdisplay.visible": "Visible: %s",
+  "button.coordinatesdisplay.decimal": "Decimales: %s",
+  "button.coordinatesdisplay.minmode": "Modo compacto: %s",
+  "button.coordinatesdisplay.render.background": "Fondo: %s",
+  "button.coordinatesdisplay.render.chunkdata": "Posición de la pieza del mundo: %s",
+  "button.coordinatesdisplay.render.direction": "Dirección: %s",
+  "button.coordinatesdisplay.render.biome": "Bioma: %s",
+  "button.coordinatesdisplay.render.directionint": "Numero del rotación vertical: %s",
+  "button.coordinatesdisplay.render.mcversion": "Versión de Minecraft: %s",
+  "button.coordinatesdisplay.deathpos.deathscreen": "Es visible en el menú de muerte: %s",
+  "button.coordinatesdisplay.deathpos.chat": "Enviar en chat: %s",
+  "button.coordinatesidisplay.colors.definition": "Color de las definiciónes",
+  "button.coordinatesidisplay.colors.data": "Color de los valores",
+  "button.coordinatesidisplay.colors.deathpos": "Color de la posición de muerte",
+  "button.coordinatesidisplay.colors.background": "Color del fondo (ARGB)",
+
+  "button.coordinatesdisplay.configfile": "Abrir el archivo de configuración...",
+  "button.coordinatesdisplay.resetconf": "Restablecer la configuración predeterminada...",
+
+  "button.coordinatesdisplay.cancel": "Cancelar",
+  "button.coordinatesdisplay.save": "Guardar",
+  "button.coordinatesdisplay.back": "Anterior",
+  "button.coordinatesdisplay.help": "Como usar...",
+  "button.coordinatesdisplay.wiki": "Abrir el documentación...",
+
+  "message.coordinatesdisplay.openfilefailed": "No se ha podido abrir el archivo de configuración",
+  "message.coordinatesdisplay.openfilesuccess": "Se abrió el archivo de configuración",
+  "message.coordinatesdisplay.confirmreset": "¿Quieres Restablecer la configuración predeterminada?",
+  "message.coordinatesdisplay.at": "Posición actual",
+  "message.coordinatesdisplay.location": "X: %d Y: %d Z: %d",
+  "message.coordinatesdisplay.deathlocation": "%d, %d, %d in %s",
+  "message.coordinatesdisplay.deathpos": "Has muerto en %s",
+  "message.coordinatesdisplay.teleport": "Ir a la posición de muerte",
+
+  "button.coordinatesdisplay.copy": "Copiar a portapapel",
+  "button.coordinatesdisplay.copied": "¡Se copió la posición!",
+  "button.coordinatesdisplay.send": "Enviar como un mensaje de chat",
+  "button.coordinatesdisplay.copytp": "Copair como /tp",
+
+  "coordinatesdisplay.true": "sí",
+  "coordinatesdisplay.false": "no"
+>>>>>>> Stashed changes
 }

@@ -6,6 +6,7 @@
   "key.coordinatesdisplay.copypos": "Copy Current Position to Clipboard",
   "key.coordinatesdisplay.sendpos": "Send Current Position in Chat",
   "key.coordinatesdisplay.copypostp": "Copy Current Position as /tp command",
+  "key.coordinatesdisplay.changeHudPos": "Change HUD Position",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.x": "X: %s",
@@ -15,6 +16,10 @@
   "hud.coordinatesdisplay.chunk.z": "Chunk Z: %s",
   "hud.coordinatesdisplay.direction": "%s %s",
   "hud.coordinatesdisplay.biome": "Biome: %s",
+<<<<<<< Updated upstream
+=======
+  "hud.coordinatesdisplay.version": "Minecraft %s",
+>>>>>>> Stashed changes
 
   "hud.coordinatesdisplay.direction.north": "North",
   "hud.coordinatesdisplay.direction.northeast": "Northeast",
@@ -52,9 +57,10 @@
   "button.coordinatesdisplay.render.biome": "Biome: %s",
   "button.coordinatesdisplay.deathpos.deathscreen": "Display on death screen: %s",
   "button.coordinatesdisplay.deathpos.chat": "Send in chat: %s",
-  "button.coordinatesdisplay.colors.keys": "Keys: %s",
-  "button.coordinatesdisplay.colors.values": "Values: %s",
-  "button.coordinatesdisplay.colors.deathpos": "Death Position: %s",
+  "button.coordinatesidisplay.colors.definition": "Definition Color",
+  "button.coordinatesidisplay.colors.data": "Data Color",
+  "button.coordinatesidisplay.colors.deathpos": "Death Position Color",
+  "button.coordinatesidisplay.colors.background": "Background Color (ARGB)",
 
   "button.coordinatesdisplay.configfile": "Show config file...",
   "button.coordinatesdisplay.resetconf": "Reset to Default...",
@@ -79,6 +85,7 @@
   "button.coordinatesdisplay.send": "Send as Chat Message",
   "button.coordinatesdisplay.copytp": "Copy as teleport command",
 
+<<<<<<< Updated upstream
   "description.coordinatesdisplay.render": "What should be rendered on the HUD",
   "description.coordinatesdisplay.colors": "The colors on the HUD",
   "description.coordinatesdisplay.deathpos": "Configure the death position",
@@ -100,23 +107,8 @@
   "description.coordinatesdisplay.changeposition": "Click anywhere to lock the hud to your mouse pointer. Click again to select the position.",
   "description.coordinatesdisplay.changeposition2": "Press escape to exit this screen",
 
+=======
+>>>>>>> Stashed changes
   "coordinatesdisplay.true": "yes",
-  "coordinatesdisplay.false": "no",
-
-  "coordinatesdisplay.color.white": "white",
-  "coordinatesdisplay.color.gray": "silver",
-  "coordinatesdisplay.color.dark_gray": "gray",
-  "coordinatesdisplay.color.black": "black",
-  "coordinatesdisplay.color.dark_red": "dark red",
-  "coordinatesdisplay.color.red": "red",
-  "coordinatesdisplay.color.gold": "gold",
-  "coordinatesdisplay.color.yellow": "yellow",
-  "coordinatesdisplay.color.dark_green": "dark green",
-  "coordinatesdisplay.color.green": "green",
-  "coordinatesdisplay.color.aqua": "aqua",
-  "coordinatesdisplay.color.dark_aqua": "dark aqua",
-  "coordinatesdisplay.color.blue": "blue",
-  "coordinatesdisplay.color.dark_blue": "dark blue",
-  "coordinatesdisplay.color.light_purple": "light purple",
-  "coordinatesdisplay.color.dark_purple": "dark purple"
+  "coordinatesdisplay.false": "no"
 }

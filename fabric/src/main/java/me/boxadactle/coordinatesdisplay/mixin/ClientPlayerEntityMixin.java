@@ -29,7 +29,7 @@ public class ClientPlayerEntityMixin {
 
     @Inject(at = @At("RETURN"), method = "requestRespawn")
     private void requestRespawn(CallbackInfo ci) {
-        if (CoordinatesDisplay.CONFIG.showDeathPosInChat) {
+        if (CoordinatesDisplay.CONFIG.get().showDeathPosInChat) {
             MinecraftClient c = MinecraftClient.getInstance();
 
             int x = (int) Math.round(c.player.getX());

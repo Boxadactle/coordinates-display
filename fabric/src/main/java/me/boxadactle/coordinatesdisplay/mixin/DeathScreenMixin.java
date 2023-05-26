@@ -25,7 +25,11 @@ public class DeathScreenMixin extends Screen {
 
     @Inject(at = @At("RETURN"), method = "init")
     private void init(CallbackInfo ci) {
+<<<<<<< Updated upstream
         if (CoordinatesDisplay.CONFIG.displayPosOnDeathScreen) {
+=======
+        if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
+>>>>>>> Stashed changes
             this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, this.height / 4 + 120, 200, 20, Text.translatable("button.coordinatesdisplay.copy"), (button) -> {
                 button.setMessage(Text.translatable("button.coordinatesdisplay.copied"));
                 button.active = false;
@@ -42,7 +46,7 @@ public class DeathScreenMixin extends Screen {
 
     @Inject(at = @At("RETURN"), method = "render")
     private void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if (CoordinatesDisplay.CONFIG.displayPosOnDeathScreen) {
+        if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
             MinecraftClient c = MinecraftClient.getInstance();
 
             DecimalFormat d = new DecimalFormat("0.00");
@@ -51,9 +55,15 @@ public class DeathScreenMixin extends Screen {
             String y = d.format(c.player.getY());
             String z = d.format(c.player.getZ());
 
+<<<<<<< Updated upstream
             Text pos = Text.translatable("message.coordinatesdisplay.location", x, y, z).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.deathPosColor));
             Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", pos).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.definitionColor));
             drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, 115, ModUtils.WHITE);
+=======
+            Text pos = Text.translatable("message.coordinatesdisplay.location", x, y, z).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
+            Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", pos).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.get().definitionColor));
+            drawCenteredText(matrices, this.textRenderer, deathPos, this.width / 2, 115, ModUtil.WHITE);
+>>>>>>> Stashed changes
         }
     }
 }

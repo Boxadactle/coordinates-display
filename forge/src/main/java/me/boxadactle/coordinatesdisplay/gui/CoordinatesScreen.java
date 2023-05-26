@@ -45,18 +45,30 @@ public class CoordinatesScreen extends Screen {
         int bstart = this.height / 2 - 20;
 
         this.addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh, Component.translatable("button.coordinatesdisplay.copy"), button -> {
+<<<<<<< Updated upstream
             this.minecraft.keyboardHandler.setClipboard(ModUtils.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
+=======
+            this.minecraft.keyboardHandler.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
+>>>>>>> Stashed changes
             CoordinatesDisplay.LOGGER.player.info("Copied coordinates to clipboard");
             onClose();
         }));
 
         this.addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh, Component.translatable("button.coordinatesdisplay.send"), button -> {
+<<<<<<< Updated upstream
             CoordinatesDisplay.LOGGER.player.publicChat(ModUtils.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
+=======
+            CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
+>>>>>>> Stashed changes
             onClose();
         }));
 
         this.addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh, Component.translatable("button.coordinatesdisplay.copytp"), button -> {
+<<<<<<< Updated upstream
             this.minecraft.keyboardHandler.setClipboard(ModUtils.asTpCommand(x, y, z, ModUtils.getPlayerCurrentDimension()));
+=======
+            this.minecraft.keyboardHandler.setClipboard(ModUtil.asTpCommand(x, y, z, ModUtil.getPlayerCurrentDimension()));
+>>>>>>> Stashed changes
             CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             onClose();
         }));

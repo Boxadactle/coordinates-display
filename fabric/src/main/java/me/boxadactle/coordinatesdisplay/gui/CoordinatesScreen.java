@@ -52,19 +52,31 @@ public class CoordinatesScreen extends Screen {
         int bstart = this.height / 2 - 20;
 
         this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh, Text.translatable("button.coordinatesdisplay.copy"), button -> {
+<<<<<<< Updated upstream
             this.client.keyboard.setClipboard(ModUtils.parseText(CoordinatesDisplay.CONFIG.copyPosMessage));
+=======
+            this.client.keyboard.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
+>>>>>>> Stashed changes
             CoordinatesDisplay.LOGGER.player.info("Copied coordinates to clipboard");
             resume();
         }));
 
         this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh, Text.translatable("button.coordinatesdisplay.send"), button -> {
+<<<<<<< Updated upstream
             CoordinatesDisplay.LOGGER.player.publicChat(ModUtils.parseText(CoordinatesDisplay.CONFIG.posChatMessage));
+=======
+            CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
+>>>>>>> Stashed changes
             CoordinatesDisplay.LOGGER.player.info("Put Coordinates in Chat");
             resume();
         }));
 
         this.addDrawableChild(new ButtonWidget(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh, Text.translatable("button.coordinatesdisplay.copytp"), button -> {
+<<<<<<< Updated upstream
             this.client.keyboard.setClipboard(ModUtils.asTpCommand(x, y, z, ModUtils.getPlayerCurrentDimension()));
+=======
+            this.client.keyboard.setClipboard(ModUtil.asTpCommand(x, y, z, ModUtil.getPlayerCurrentDimension()));
+>>>>>>> Stashed changes
             CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             resume();
         }));

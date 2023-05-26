@@ -51,9 +51,15 @@ public class DeathPosConfigScreen extends Screen {
 
         drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()), this.width / 2, 5, ModUtils.WHITE);
 
+<<<<<<< Updated upstream
         Component pos = Component.translatable("message.coordinatesdisplay.location", deathx, deathy, deathz).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
         Component deathPos = Component.translatable("message.coordinatesdisplay.deathpos", pos).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().definitionColor)));
         drawCenteredString(matrices, this.font, deathPos, this.width / 2, (int) (this.width / 1.5), ModUtils.WHITE);
+=======
+        Component pos = Component.translatable("message.coordinatesdisplay.location", deathx, deathy, deathz).withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
+        Component deathPos = Component.translatable("message.coordinatesdisplay.deathpos", pos).withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().definitionColor));
+        drawCenteredString(matrices, this.font, deathPos, this.width / 2, (int) (this.width / 1.5), ModUtil.WHITE);
+>>>>>>> Stashed changes
 
         super.render(matrices, mouseX,  mouseY, delta);
     }
@@ -68,6 +74,7 @@ public class DeathPosConfigScreen extends Screen {
 
     private void initButtons() {
         // show death pos in chat
+<<<<<<< Updated upstream
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtils.TRUE : ModUtils.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen = !CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen;
             button.setMessage(Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtils.TRUE : ModUtils.FALSE)));
@@ -85,6 +92,17 @@ public class DeathPosConfigScreen extends Screen {
             if (button.isHoveredOrFocused()) {
                 this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.deathpos.chat"), mouseX, mouseY);
             }
+=======
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+            CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen = !CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen;
+            button.setMessage(Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtil.TRUE : ModUtil.FALSE)));
+        }));
+
+        // chunk data
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.get().showDeathPosInChat ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+            CoordinatesDisplay.CONFIG.get().showDeathPosInChat = !CoordinatesDisplay.CONFIG.get().showDeathPosInChat;
+            button.setMessage(Component.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.get().showDeathPosInChat ? ModUtil.TRUE : ModUtil.FALSE)));
+>>>>>>> Stashed changes
         }));
 
         // open wiki

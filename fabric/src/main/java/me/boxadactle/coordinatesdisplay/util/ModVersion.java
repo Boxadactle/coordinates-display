@@ -17,7 +17,11 @@ import java.net.URL;
 
 public class ModVersion {
 
+<<<<<<< Updated upstream
     private static ModVersion version;
+=======
+    static String thisVer = "2.3.0";
+>>>>>>> Stashed changes
 
     boolean isMostRecent;
     String mostRecentVer;

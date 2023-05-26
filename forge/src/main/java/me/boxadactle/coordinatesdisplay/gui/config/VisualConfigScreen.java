@@ -60,7 +60,11 @@ public class VisualConfigScreen extends Screen {
         drawString(matrices, this.font, Component.translatable("button.coordinatesdisplay.textpadding"), this.width / 2 + p, start + (buttonHeight + p) * 3 + p, ModUtils.WHITE);
 
         if (CoordinatesDisplay.CONFIG.get().visible) {
+<<<<<<< Updated upstream
             CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 1.8));
+=======
+            CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 1.8) + 10, CoordinatesDisplay.CONFIG.get().minMode, false);
+>>>>>>> Stashed changes
         }
     }
 
@@ -75,6 +79,7 @@ public class VisualConfigScreen extends Screen {
 
     private void initButtons() {
         // visible button
+<<<<<<< Updated upstream
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtils.TRUE : ModUtils.FALSE), (button) -> {
             CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
             button.setMessage(Component.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtils.TRUE : ModUtils.FALSE));
@@ -100,6 +105,31 @@ public class VisualConfigScreen extends Screen {
                 this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.position"), mouseX, mouseY);
             }
         }));
+=======
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE), (button) -> {
+            CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
+            button.setMessage(Component.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE));
+        }));
+
+        // decimal rounding button
+        Button decimal = new Button(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight,Component.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+            CoordinatesDisplay.CONFIG.get().decimalRounding = !CoordinatesDisplay.CONFIG.get().decimalRounding;
+            button.setMessage(Component.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtil.TRUE : ModUtil.FALSE)));
+        });
+        decimal.active = !CoordinatesDisplay.CONFIG.get().minMode;
+        this.addRenderableWidget(decimal);
+
+        // min mode
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.minmode", (CoordinatesDisplay.CONFIG.get().minMode ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+            CoordinatesDisplay.CONFIG.get().minMode = !CoordinatesDisplay.CONFIG.get().minMode;
+            button.setMessage(Component.translatable("button.coordinatesdisplay.minmode", (CoordinatesDisplay.CONFIG.get().minMode ? ModUtil.TRUE : ModUtil.FALSE)));
+            decimal.active = !CoordinatesDisplay.CONFIG.get().minMode;
+        }));
+
+
+        // modify position button
+        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.position"), (button) -> this.minecraft.setScreen(new ChangePositionScreen(this))));
+>>>>>>> Stashed changes
 
         // open wiki
         this.addRenderableWidget(new Button(5, 5, tinyButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {

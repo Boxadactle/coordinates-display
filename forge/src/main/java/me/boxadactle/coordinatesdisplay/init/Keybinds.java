@@ -2,7 +2,12 @@ package me.boxadactle.coordinatesdisplay.init;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
+<<<<<<< Updated upstream
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
+=======
+import me.boxadactle.coordinatesdisplay.gui.config.ChangePositionScreen;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
+>>>>>>> Stashed changes
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -22,6 +27,8 @@ public class Keybinds {
     static KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", GLFW.GLFW_KEY_X, "category.coordinatesdisplay");
     static KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", GLFW.GLFW_KEY_N, "category.coordinatesdisplay");
 
+    static KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, "category.coordinatesdisplay");
+
     public static void register(RegisterKeyMappingsEvent e) {
         e.register(visibleKeybind);
         e.register(coordinatesGUIKeybind);
@@ -32,6 +39,8 @@ public class Keybinds {
         e.register(copyLocation);
         e.register(sendLocation);
         e.register(copyPosTp);
+
+        e.register(changeHudPosition);
     }
 
     public static void checkBindings(double x, double y, double z) {
@@ -74,6 +83,10 @@ public class Keybinds {
             Minecraft.getInstance().keyboardHandler.setClipboard(ModUtils.asTpCommand(x, y, z, ModUtils.getPlayerCurrentDimension()));
 
             CoordinatesDisplay.LOGGER.player.info("Copied position as teleport command!");
+        }
+
+        if (changeHudPosition.consumeClick()) {
+            Minecraft.getInstance().setScreen(new ChangePositionScreen(null));
         }
     }
 

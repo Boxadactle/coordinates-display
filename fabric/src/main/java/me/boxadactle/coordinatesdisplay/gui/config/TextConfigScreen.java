@@ -2,7 +2,11 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
+<<<<<<< Updated upstream
 import me.boxadactle.coordinatesdisplay.util.ModUtils;
+=======
+import net.minecraft.client.MinecraftClient;
+>>>>>>> Stashed changes
 import net.minecraft.client.gui.screen.ConfirmChatLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -41,11 +45,19 @@ public class TextConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
+<<<<<<< Updated upstream
         drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, version.thisVersion()), this.width / 2, 5, ModUtils.WHITE);
 
         drawCenteredText(matrices, this.textRenderer, Text.translatable("button.coordinatesdisplay.poschatmessage"), this.width / 2, start, ModUtils.WHITE);
 
         drawCenteredText(matrices, this.textRenderer, Text.translatable("button.coordinatesdisplay.copyposmessage"), this.width / 2, start + (10 + p) + (buttonHeight + p), ModUtils.WHITE);
+=======
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtil.WHITE);
+
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("button.coordinatesdisplay.poschatmessage"), this.width / 2, start, ModUtil.WHITE);
+
+        drawCenteredText(matrices, this.textRenderer, Text.translatable("button.coordinatesdisplay.copyposmessage"), this.width / 2, start + (10 + p) + (buttonHeight + p), ModUtil.WHITE);
+>>>>>>> Stashed changes
 
         super.render(matrices, mouseX,  mouseY, delta);
     }
@@ -56,7 +68,11 @@ public class TextConfigScreen extends Screen {
         this.addDrawableChild(new ButtonWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close()));
 
         // open wiki
+<<<<<<< Updated upstream
         this.addDrawableChild(new ButtonWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmChatLinkScreen((yes) -> {
+=======
+        this.addDrawableChild(new PressableTextWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmChatLinkScreen((yes) -> {
+>>>>>>> Stashed changes
             this.client.setScreen(this);
             if (yes) {
                 Util.getOperatingSystem().open(ModUtils.CONFIG_WIKI_TEXTS);
@@ -64,15 +80,15 @@ public class TextConfigScreen extends Screen {
             }
         }, ModUtils.CONFIG_WIKI_TEXTS, false))));
 
-        TextFieldWidget posChatMessage = new TextFieldWidget(this.textRenderer, this.width / 2 - largeButtonW / 2, start + (10 + p), largeButtonW, buttonHeight, Text.of(CoordinatesDisplay.CONFIG.posChatMessage));
-        posChatMessage.setChangedListener((message) -> CoordinatesDisplay.CONFIG.posChatMessage = message);
+        TextFieldWidget posChatMessage = new TextFieldWidget(this.textRenderer, this.width / 2 - largeButtonW / 2, start + (10 + p), largeButtonW, buttonHeight, Text.of(CoordinatesDisplay.CONFIG.get().posChatMessage));
+        posChatMessage.setChangedListener((message) -> CoordinatesDisplay.CONFIG.get().posChatMessage = message);
         posChatMessage.setMaxLength(50);
-        posChatMessage.setText(CoordinatesDisplay.CONFIG.posChatMessage);
+        posChatMessage.setText(CoordinatesDisplay.CONFIG.get().posChatMessage);
 
-        TextFieldWidget copyPosMessage = new TextFieldWidget(this.textRenderer, this.width / 2 - largeButtonW / 2, start + (10 + p) * 2 + (buttonHeight + p), largeButtonW, buttonHeight, Text.of(CoordinatesDisplay.CONFIG.posChatMessage));
-        copyPosMessage.setChangedListener((message) -> CoordinatesDisplay.CONFIG.copyPosMessage = message);
+        TextFieldWidget copyPosMessage = new TextFieldWidget(this.textRenderer, this.width / 2 - largeButtonW / 2, start + (10 + p) * 2 + (buttonHeight + p), largeButtonW, buttonHeight, Text.of(CoordinatesDisplay.CONFIG.get().posChatMessage));
+        copyPosMessage.setChangedListener((message) -> CoordinatesDisplay.CONFIG.get().copyPosMessage = message);
         copyPosMessage.setMaxLength(50);
-        copyPosMessage.setText(CoordinatesDisplay.CONFIG.copyPosMessage);
+        copyPosMessage.setText(CoordinatesDisplay.CONFIG.get().copyPosMessage);
 
         this.addDrawableChild(posChatMessage);
         this.addDrawableChild(copyPosMessage);

@@ -18,6 +18,7 @@ public class ModVersion {
 
     private static ModVersion version;
 
+<<<<<<< Updated upstream
     boolean isMostRecent;
     String mostRecentVer;
     static String currentVer = "2.1.2";
@@ -25,6 +26,10 @@ public class ModVersion {
     public ModVersion(boolean isMostRecent, String mostRecentVer) {
         this.isMostRecent = isMostRecent;
         this.mostRecentVer = mostRecentVer;
+=======
+    public ModVersion() {
+        currentVer = "2.3.0";
+>>>>>>> Stashed changes
     }
 
     public boolean isMostRecent() {

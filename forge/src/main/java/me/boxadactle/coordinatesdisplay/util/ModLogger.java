@@ -26,15 +26,15 @@ public class ModLogger {
         player = new PlayerChat(client);
     }
 
-    public void error(String msg, Object... data) {
+    public void error(Object msg, Object... data) {
         logger.log(Level.ERROR, prefix + msg, data);
     }
 
-    public void warn(String msg, Object... data) {
+    public void warn(Object msg, Object... data) {
         logger.log(Level.WARN, prefix + msg, data);
     }
 
-    public void info(String msg, Object... data) {
+    public void info(Object msg, Object... data) {
         logger.log(Level.INFO, prefix + msg, data);
     }
 
@@ -90,7 +90,11 @@ public class ModLogger {
 
         public void publicChat(String msg) {
             if (this.client.player != null) {
+<<<<<<< Updated upstream
                 this.client.player.chat(msg);
+=======
+                Minecraft.getInstance().player.chat(msg);
+>>>>>>> Stashed changes
             }
         }
     }
