@@ -1,6 +1,7 @@
 package me.boxadactle.coordinatesdisplay.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3d;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -10,7 +11,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
@@ -40,7 +40,7 @@ public class HudRenderer extends GuiComponent {
         return ModUtil.isMouseHovering(Math.round(mouseX / scale), Math.round(mouseY / scale), scaleX, scaleY, scaleX + scaleSize, scaleY + scaleSize);
     }
 
-    public void render(PoseStack matrices, Vec3 pos, ChunkPos chunkPos, float cameraYaw, float cameraPitch, Holder<Biome> biome, int x, int y, boolean minMode, boolean moveOverlay) {
+    public void render(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, float cameraPitch, Holder<Biome> biome, int x, int y, boolean minMode, boolean moveOverlay) {
         try {
             if (!minMode) {
                 renderOverlay(matrices, pos, chunkPos, cameraYaw, biome, x, y);
@@ -56,7 +56,7 @@ public class HudRenderer extends GuiComponent {
         }
     }
 
-    public void render(PoseStack matrices, Vec3 pos, ChunkPos chunkPos, float cameraYaw, float cameraPitch, Holder<Biome> biome, int x, int y, boolean minMode, boolean moveOverlay, float scale) {
+    public void render(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, float cameraPitch, Holder<Biome> biome, int x, int y, boolean minMode, boolean moveOverlay, float scale) {
         try {
             matrices.pushPose();
 
@@ -88,7 +88,7 @@ public class HudRenderer extends GuiComponent {
         return h;
     }
 
-    private void renderOverlay(PoseStack matrices, Vec3 pos, ChunkPos chunkPos, float cameraYaw, @Nullable Holder<Biome> biome, int x, int y) throws NullPointerException {
+    private void renderOverlay(PoseStack matrices, Vector3d pos, ChunkPos chunkPos, float cameraYaw, @Nullable Holder<Biome> biome, int x, int y) throws NullPointerException {
         this.x = x;
         this.y = y;
 
@@ -121,7 +121,7 @@ public class HudRenderer extends GuiComponent {
         else
             biomeComponent = Component.translatable("hud.coordinatesdisplay.biome",  Component.literal("Plains").withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
 
-        Component minecraftVersion = Component.translatable("hud.coordinatesdisplay.version", CoordinatesDisplay.MOD_VERSION.getMCVersion());
+        Component minecraftVersion = Component.translatable("hud.coordinatesdisplay.version", ModVersion.getMCVersion());
 
         int th = 10;
         int p = CoordinatesDisplay.CONFIG.get().padding;
@@ -161,7 +161,7 @@ public class HudRenderer extends GuiComponent {
         }
     }
 
-    private void renderOverlayMin(PoseStack matrices, Vec3 pos, float cameraYaw, float cameraPitch, @Nullable Holder<Biome> biome, int x, int y) throws NullPointerException {
+    private void renderOverlayMin(PoseStack matrices, Vector3d pos, float cameraYaw, float cameraPitch, @Nullable Holder<Biome> biome, int x, int y) throws NullPointerException {
         this.x = x;
         this.y = y;
 

@@ -15,17 +15,8 @@
   "hud.coordinatesdisplay.chunk.z": "청크 Z: %s",
   "hud.coordinatesdisplay.direction": "%s %s",
   "hud.coordinatesdisplay.biome": "생물체: %s",
+  "hud.coordinatesdisplay.version": "Minecraft %s",
 
-<<<<<<< Updated upstream
-  "hud.coordinatesdisplay.direction.north": "북쪽",
-  "hud.coordinatesdisplay.direction.northeast": "북동",
-  "hud.coordinatesdisplay.direction.east": "동쪽",
-  "hud.coordinatesdisplay.direction.southeast": "남동",
-  "hud.coordinatesdisplay.direction.south": "남쪽",
-  "hud.coordinatesdisplay.direction.southwest": "남서",
-  "hud.coordinatesdisplay.direction.west": "서쪽",
-  "hud.coordinatesdisplay.direction.northwest": "북서",
-=======
   "hud.coordinatesdisplay.north": "북",
   "hud.coordinatesdisplay.northeast": "북동",
   "hud.coordinatesdisplay.east": "동",
@@ -48,7 +39,6 @@
   "hud.coordinatesdisplay.min.southwest": "남서",
   "hud.coordinatesdisplay.min.west": "서",
   "hud.coordinatesdisplay.min.northwest": "북서",
->>>>>>> Stashed changes
 
   "screen.coordinatesdisplay.config": "%s v%s 환경설정",
   "screen.coordinatesdisplay.confirmreset": "기본값으로 초기화 확인",
@@ -75,20 +65,12 @@
   "button.coordinatesdisplay.render.chunkdata": "청크 데이터: %s",
   "button.coordinatesdisplay.render.direction": "방향: %s",
   "button.coordinatesdisplay.render.biome": "바이옴: %s",
-<<<<<<< Updated upstream
-  "button.coordinatesdisplay.deathpos.deathscreen": "화면에 표시: %s",
-  "button.coordinatesdisplay.deathpos.chat": "채팅에 넣다: %s",
-  "button.coordinatesdisplay.colors.keys": "키값: %s",
-  "button.coordinatesdisplay.colors.values": "값: %s",
-  "button.coordinatesdisplay.colors.deathpos": "사망 위치 채팅 메시지: %s",
-=======
   "button.coordinatesdisplay.deathpos.deathscreen": "사망 화면에 표시: %s",
   "button.coordinatesdisplay.deathpos.chat": "채팅으로 보내기: %s",
   "button.coordinatesidisplay.colors.definition": "정의의 색상",
   "button.coordinatesidisplay.colors.data": "값의 색상",
   "button.coordinatesidisplay.colors.deathpos": "사망 위치의 색상",
   "button.coordinatesidisplay.colors.background": "배경색(ARGB)",
->>>>>>> Stashed changes
 
   "button.coordinatesdisplay.configfile": "환경설정 파일 표시...",
   "button.coordinatesdisplay.resetconf": "기본값으로 초기화...",
@@ -111,51 +93,8 @@
   "button.coordinatesdisplay.copy": "클립보드로 복사",
   "button.coordinatesdisplay.copied": "복사됨!",
   "button.coordinatesdisplay.send": "채팅 메시지로 전송",
-<<<<<<< Updated upstream
-  "button.coordinatesdisplay.copytp": "순간 이동 명령으로 복사하십시오",
-
-  "description.coordinatesdisplay.render": "HUD에 렌더링되어야 하는 것",
-  "description.coordinatesdisplay.colors": "HUD의 색상",
-  "description.coordinatesdisplay.deathpos": "사망 위치 구성",
-
-  "description.coordinatesdisplay.visual": "How the HUD will look",
-  "description.coordinatesdisplay.visible": "HUD를 렌더링합니다.",
-  "description.coordinatesdisplay.decimal": "소수점 2번째 자리까지 표시하는 어림수",
-  "description.coordinatesdisplay.text": "모드가 사용하는 다른 텍스트",
-  "description.coordinatesdisplay.render.background": "회색 배경을 렌더링합니다.",
-  "description.coordinatesdisplay.render.chunkdata": "청크 X, Z를 표시합니다.",
-  "description.coordinatesdisplay.render.direction": "플레이어가 바라보는 방향을 표시합니다.",
-  "description.coordinatesdisplay.render.biome": "플레이어가 있는 바이옴을 표시합니다.",
-  "description.coordinatesdisplay.deathpos.deathscreen": "사망 화면에 사망 위치 표시",
-  "description.coordinatesdisplay.deathpos.chat": "채팅 메시지로 사망 위치 보내기(당신에게만)",
-  "description.coordinatesdisplay.colors.key": "정의값 색상",
-  "description.coordinatesdisplay.colors.value": "데이터 색상",
-  "description.coordinatesdisplay.colors.deathpos": "당신이 죽은 위치의 색상",
-  "description.coordinatesdisplay.position": "HUD는 어디에 렌더링됩니다",
-  "description.coordinatesdisplay.changeposition": "HUD를 마우스 위치로 이동하려면 클릭하십시오. 위치를 선택하려면 다시 클릭하십시오.",
-  "description.coordinatesdisplay.changeposition2": "저장하려면 \"탈출\"을 누릅니다",
-
-=======
   "button.coordinatesdisplay.copytp": "순간 이동 명령어로 복사",
   
->>>>>>> Stashed changes
   "coordinatesdisplay.true": "예",
   "coordinatesdisplay.false": "아니요",
-
-  "coordinatesdisplay.color.white": "화이트",
-  "coordinatesdisplay.color.gray": "은",
-  "coordinatesdisplay.color.dark_gray": "회색",
-  "coordinatesdisplay.color.black": "검은",
-  "coordinatesdisplay.color.dark_red": "진한 빨강",
-  "coordinatesdisplay.color.red": "빨간",
-  "coordinatesdisplay.color.gold": "금",
-  "coordinatesdisplay.color.yellow": "노랑",
-  "coordinatesdisplay.color.dark_green": "짙은 녹색",
-  "coordinatesdisplay.color.green": "녹색",
-  "coordinatesdisplay.color.aqua": "아쿠아",
-  "coordinatesdisplay.color.dark_aqua": "다크 아쿠아",
-  "coordinatesdisplay.color.blue": "푸른",
-  "coordinatesdisplay.color.dark_blue": "진한 파란색",
-  "coordinatesdisplay.color.light_purple": "연한 자주색",
-  "coordinatesdisplay.color.dark_purple": "어두운 보라색"
 }

@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.gui.config.*;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
@@ -28,17 +28,17 @@ public class ConfigScreen extends Screen {
     Screen parent;
 
     public ConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()));
+        super(Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
         this.parent = parent;
 
-        ModUtils.initText();
+        ModUtil.initText();
     }
     
     @Override
     public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion().thisVersion()).getString(), this.width / 2, 5, ModUtils.WHITE);
+        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
 
         super.render(matrices, mouseX,  mouseY, delta);
     }
@@ -52,37 +52,6 @@ public class ConfigScreen extends Screen {
     }
 
     private void initButtons() {
-<<<<<<< Updated upstream
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.visual"), (button) -> this.minecraft.setScreen(new VisualConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.visual"), mouseX, mouseY);
-            }
-        }));
-
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render"), (button) -> this.minecraft.setScreen(new RenderConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.render"), mouseX, mouseY);
-            }
-        }));
-
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.color"), (button) -> this.minecraft.setScreen(new ColorConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.colors"), mouseX, mouseY);
-            }
-        }));
-
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.deathpos"), (button) -> this.minecraft.setScreen(new DeathPosConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.deathpos"), mouseX, mouseY);
-            }
-        }));
-
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.text"), (button) -> this.minecraft.setScreen(new TextConfigScreen(this)), (button, matrices, mouseX, mouseY) -> {
-            if (button.isHoveredOrFocused()) {
-                this.renderTooltip(matrices, Component.translatable("description.coordinatesdisplay.text"), mouseX, mouseY);
-            }
-        }));
-=======
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.visual"), (button) -> this.minecraft.setScreen(new VisualConfigScreen(this))));
 
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.render"), (button) -> this.minecraft.setScreen(new RenderConfigScreen(this))));
@@ -92,21 +61,16 @@ public class ConfigScreen extends Screen {
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.deathpos"), (button) -> this.minecraft.setScreen(new DeathPosConfigScreen(this))));
 
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.text"), (button) -> this.minecraft.setScreen(new TextConfigScreen(this))));
->>>>>>> Stashed changes
     }
 
     private void initButtonsOpen() {
         // open config file
-<<<<<<< Updated upstream
-        this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.configfile"), (button) -> ModUtils.openConfigFile()));
-=======
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.configfile"), (button) -> ModUtil.openConfigFile()));
->>>>>>> Stashed changes
 
         // reset to default
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 7, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.minecraft.setScreen(new ConfirmScreen((doIt) -> {
             if (doIt) {
-                ModUtils.resetConfig();
+                ModUtil.resetConfig();
                 this.minecraft.setScreen(new ConfigScreen(parent));
             } else {
                 this.minecraft.setScreen(this);
@@ -116,14 +80,10 @@ public class ConfigScreen extends Screen {
         this.addRenderableWidget(new Button(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 8, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.wiki"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
             this.minecraft.setScreen(this);
             if (yes) {
-                Util.getPlatform().openUri(ModUtils.CONFIG_WIKI);
+                Util.getPlatform().openUri(ModUtil.CONFIG_WIKI);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-<<<<<<< Updated upstream
-        }, ModUtils.CONFIG_WIKI, false))));
-=======
         }, ModUtil.CONFIG_WIKI, false))));
->>>>>>> Stashed changes
     }
 
     private void initButtonsExit() {

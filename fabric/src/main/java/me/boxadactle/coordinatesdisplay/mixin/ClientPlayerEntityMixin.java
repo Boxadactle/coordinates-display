@@ -2,7 +2,7 @@ package me.boxadactle.coordinatesdisplay.mixin;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import org.spongepowered.asm.mixin.Final;
@@ -17,16 +17,6 @@ public class ClientPlayerEntityMixin {
 
     @Shadow @Final protected MinecraftClient client;
 
-    ModVersion version = ModVersion.getVersion();
-
-    @Inject(at = @At("RETURN"), method = "tick")
-    private void tick(CallbackInfo ci) {
-        if (!CoordinatesDisplay.hasPlayerSeenUpdateMessage && !version.isMostRecent()) {
-            CoordinatesDisplay.LOGGER.player.chat(version.getUpdateText());
-            CoordinatesDisplay.hasPlayerSeenUpdateMessage = true;
-        }
-    }
-
     @Inject(at = @At("RETURN"), method = "requestRespawn")
     private void requestRespawn(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().showDeathPosInChat) {
@@ -36,7 +26,7 @@ public class ClientPlayerEntityMixin {
             int y = (int) Math.round(c.player.getY());
             int z = (int) Math.round(c.player.getZ());
 
-            CoordinatesDisplay.LOGGER.player.chat(ModUtils.makeDeathPositionText(x, y, z));
+            CoordinatesDisplay.LOGGER.player.chat(ModUtil.makeDeathPositionText(x, y, z));
         }
     }
 }

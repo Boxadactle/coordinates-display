@@ -1,14 +1,4 @@
 modLoader="javafml" #mandatory
-<<<<<<< Updated upstream
-loaderVersion="[41,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
-license="MIT"
-[[mods]] #mandatory
-modId="coordinatesdisplay" #mandatory
-version="2.1.2" #mandatory
-displayName="Coordinates Display" #mandatory
-logoFile="icon.png" #optional
-authors="Boxadactle" #optional
-=======
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
 loaderVersion="[41,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
@@ -23,39 +13,25 @@ version="2.3.0"
 displayName="Coordinates Display"
 logoFile="icon.png"
 authors="Boxadactle"
->>>>>>> Stashed changes
 description='''
 A Coordinates Display mod for Forge
 '''
 [[dependencies.coordinatesdisplay]] #optional
     modId="forge" #mandatory
     mandatory=true #mandatory
-<<<<<<< Updated upstream
-    versionRange="[41,)" #mandatory
-=======
     # The version range of the dependency
     versionRange="[41,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
->>>>>>> Stashed changes
     ordering="NONE"
     side="BOTH"
 [[dependencies.coordinatesdisplay]]
     modId="minecraft"
     mandatory=true
-<<<<<<< Updated upstream
-    versionRange="[1.19]"
-=======
     versionRange="1.19+"
->>>>>>> Stashed changes
     ordering="NONE"
     side="BOTH"
 [[dependencies.coordinatesdisplay]]
     modId="cloth_config"
     mandatory=true
-<<<<<<< Updated upstream
-    versionRange="[7.0.65, 8.0.75]"
-    side="CLIENT"
-=======
     versionRange="7.0.67+"
     side="CLIENT"
->>>>>>> Stashed changes

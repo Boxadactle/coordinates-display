@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
-public class ModUtils {
+public class ModUtil {
 
     public static final int TRANSPARENT_GRAY = 0x5c5c5c60;
     public static final int WHITE = 16777215;
@@ -165,37 +165,45 @@ public class ModUtils {
         return prefix;
     }
 
-<<<<<<< Updated upstream:forge/src/main/java/me/boxadactle/coordinatesdisplay/util/ModUtils.java
-    public static int getColorDecimal(String color) {
-        int decimal;
-        String c = color.toLowerCase(Locale.ROOT);
-        int defaultInt = 16777215;
-        switch (c) {
-            case "dark_red" -> decimal = 11141120;
-            case "red" -> decimal = 16733525;
-            case "gold" -> decimal = 16755200;
-            case "yellow" -> decimal = 16777045;
-            case "dark_green" -> decimal = 43520;
-            case "green" -> decimal = 5635925;
-            case "aqua" -> decimal = 5636095;
-            case "dark_aqua" -> decimal = 43690;
-            case "dark_blue" -> decimal = 170;
-            case "blue" -> decimal = 5592575;
-            case "light_purple" -> decimal = 16733695;
-            case "dark_purple" -> decimal = 11141290;
-            case "white" -> decimal = 16777215;
-            case "gray" -> decimal = 11184810;
-            case "dark_gray" -> decimal = 5592405;
-            case "black" -> decimal = 0;
-            default -> {
-                decimal = defaultInt;
-                CoordinatesDisplay.LOGGER.warn("Could not parse color " + color + " so defaulted to " + defaultInt);
-            }
+    public static int calculateHudWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
+        int a = getLongestTextLength(xtext, ytext, ztext);
+        int b = getLongestTextLength(chunkx, chunkz);
+        int c = a + (CoordinatesDisplay.CONFIG.get().renderChunkData ? b + tp : 0);
+
+        int d = 0;
+        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
+            if (getLongestTextLength(direction) > d) d = getLongestTextLength(direction);
         }
-        return decimal;
+        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
+            if (getLongestTextLength(biome) > d) d = getLongestTextLength(biome);
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
+            if (getLongestTextLength(version) > d) d = getLongestTextLength(version);
+        }
+
+        return p + Math.max(c, d) + p;
     }
 
-=======
+    public static int calculateHudHeight(int th, int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
+        int a = th * 3;
+
+        int b = 0;
+        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
+            b += th;
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
+            b += th;
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
+            b += th;
+        }
+
+        boolean c = (CoordinatesDisplay.CONFIG.get().renderDirection || CoordinatesDisplay.CONFIG.get().renderBiome || CoordinatesDisplay.CONFIG.get().renderMCVersion);
+
+        return p + a + (c ? tp : 0) + b + p;
+    }
+
+
     public static int calculateHudWidthMin(int p, int th, int dpadding, Component xtext, Component ytext, Component ztext, Component yaw, Component pitch, Component direction, Component biome) {
         int a = getLongestTextLength(xtext, ytext, ztext, biome);
         int b = Minecraft.getInstance().font.width("NW");
@@ -209,7 +217,6 @@ public class ModUtils {
     }
 
 
->>>>>>> Stashed changes:forge/src/main/java/me/boxadactle/coordinatesdisplay/util/ModUtil.java
     public static boolean openConfigFile() {
         CoordinatesDisplay.LOGGER.info("Trying to open file in native file explorer...");
         File f = CoordinatesDisplay.configDir;
@@ -260,7 +267,7 @@ public class ModUtils {
         return direction;
     }
 
-    public static int getLongestLength(Component ...text) {
+    public static int getLongestTextLength(Component ...text) {
         int largest = 0;
         for (Component value : text) {
             int t = Minecraft.getInstance().font.width(value.getString());
@@ -348,6 +355,7 @@ public class ModUtils {
 
         return scaleFactor;
     }
+
 
 
 }

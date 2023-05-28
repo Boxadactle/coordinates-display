@@ -29,20 +29,11 @@ public class CoordinatesDisplay {
 
     public static ConfigHolder<ModConfig> CONFIG;
 
-    public static HudOverlay OVERLAY;
-
-    public static final String UPDATE_URL = "https://boxadactle.github.io/update-urls/coordinates-display/forge.json";
-
-    public static String UPDATE_MOD_URL;
-
-    public static String MINECRAFT_VERSION;
-
-    public static boolean hasPlayerSeenUpdateMessage = false;
+    public static HudRenderer OVERLAY;
 
     public CoordinatesDisplay() {
-        ModVersion version = ModVersion.getVersion();
 
-        LOGGER.info("Loading " + version);
+        LOGGER.info("Loading " + ModVersion.getString());
 
         AutoConfig.register(ModConfig.class, JanksonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(ModConfig.class);
@@ -52,7 +43,7 @@ public class CoordinatesDisplay {
                 new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen)));
 
         LOGGER.info("Creating instance of HUD overlay");
-        OVERLAY = new HudOverlay();
+        OVERLAY = new HudRenderer();
 
         MinecraftForge.EVENT_BUS.register(this);
     }

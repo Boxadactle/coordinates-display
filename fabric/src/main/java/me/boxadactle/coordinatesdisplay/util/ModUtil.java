@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Locale;
 
-public class ModUtils {
+public class ModUtil {
 
     public static final int TRANSPARENT_GRAY = 0x5c5c5c60;
     public static final int WHITE = 16777215;
@@ -44,17 +44,6 @@ public class ModUtils {
         TRUE  = "§a" + Text.translatable("coordinatesdisplay.true").getString();
         FALSE = "§c" + Text.translatable("coordinatesdisplay.false").getString();
     }
-
-    // list of colors
-    public static final String[] colors = {
-            "white", "gray", "dark_gray", "black",
-            "dark_red", "red",
-            "gold", "yellow",
-            "dark_green", "green",
-            "aqua", "dark_aqua",
-            "blue", "dark_blue",
-            "light_purple", "dark_purple"
-    };
 
     public static Text colorize(Text text, int color) {
         return text.copy().styled(style -> style.withColor(color));
@@ -98,8 +87,6 @@ public class ModUtils {
         return newtext;
     }
 
-<<<<<<< Updated upstream:fabric/src/main/java/me/boxadactle/coordinatesdisplay/util/ModUtils.java
-=======
     public static int calculateHudWidth(int p, int tp, Text xtext, Text ytext, Text ztext, Text chunkx, Text chunkz, Text direction, Text biome, Text version) {
         int a = getLongestTextLength(xtext, ytext, ztext);
         int b = getLongestTextLength(chunkx, chunkz);
@@ -150,7 +137,6 @@ public class ModUtils {
         return p + (th * 4) + p;
     }
 
->>>>>>> Stashed changes:fabric/src/main/java/me/boxadactle/coordinatesdisplay/util/ModUtil.java
     public static Object selectRandom(Object ...args) {
         return args[(int) Math.round(Math.random() * (args.length - 1))];
     }
@@ -235,38 +221,6 @@ public class ModUtils {
         return worked;
     }
 
-<<<<<<< Updated upstream:fabric/src/main/java/me/boxadactle/coordinatesdisplay/util/ModUtils.java
-    public static void resetConfig() {
-        CoordinatesDisplay.CONFIG.displayPosOnDeathScreen = DefaultModConfig.displayPosOnDeathScreen;
-        CoordinatesDisplay.CONFIG.showDeathPosInChat = DefaultModConfig.showDeathPosInChat;
-
-        CoordinatesDisplay.CONFIG.visible = DefaultModConfig.visible;
-        CoordinatesDisplay.CONFIG.roundPosToTwoDecimals = DefaultModConfig.roundPosToTwoDecimals;
-
-        CoordinatesDisplay.CONFIG.renderBiome = DefaultModConfig.renderBiome;
-        CoordinatesDisplay.CONFIG.renderDirection = DefaultModConfig.renderDirection;
-        CoordinatesDisplay.CONFIG.renderChunkData = DefaultModConfig.renderChunkData;
-        CoordinatesDisplay.CONFIG.renderBackground = DefaultModConfig.renderBackground;
-
-        CoordinatesDisplay.CONFIG.definitionColor = DefaultModConfig.definitionColor;
-        CoordinatesDisplay.CONFIG.dataColor = DefaultModConfig.dataColor;
-        CoordinatesDisplay.CONFIG.deathPosColor = DefaultModConfig.deathPosColor;
-
-        CoordinatesDisplay.CONFIG.padding = DefaultModConfig.padding;
-        CoordinatesDisplay.CONFIG.textPadding = DefaultModConfig.textPadding;
-
-        CoordinatesDisplay.CONFIG.hudX = DefaultModConfig.hudX;
-        CoordinatesDisplay.CONFIG.hudY = DefaultModConfig.hudY;
-
-        CoordinatesDisplay.CONFIG.posChatMessage = DefaultModConfig.posChatMessage;
-        CoordinatesDisplay.CONFIG.copyPosMessage = DefaultModConfig.copyPosMessage;
-
-        ConfigManager.saveConfig(CoordinatesDisplay.CONFIG);
-        CoordinatesDisplay.OVERLAY.updateConfig(CoordinatesDisplay.CONFIG);
-    }
-
-=======
->>>>>>> Stashed changes:fabric/src/main/java/me/boxadactle/coordinatesdisplay/util/ModUtil.java
     // method to turn an angle into a direction string
     public static String getDirectionFromYaw(float degrees) {
         String direction;
@@ -281,6 +235,16 @@ public class ModUtils {
     }
 
     public static int getLongestLength(Text ...text) {
+        int largest = 0;
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        for (Text value : text) {
+            int t = textRenderer.getWidth(value);
+            if (t > largest) largest = t;
+        }
+        return largest;
+    }
+
+    public static int getLongestTextLength(Text ...text) {
         int largest = 0;
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         for (Text value : text) {

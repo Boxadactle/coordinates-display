@@ -2,7 +2,7 @@ package me.boxadactle.coordinatesdisplay.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DeathScreen;
@@ -48,14 +48,8 @@ public class DeathScreenMixin extends Screen {
             String x = d.format(client.player.getX());
             String y = d.format(client.player.getY());
             String z = d.format(client.player.getZ());
-
-<<<<<<< Updated upstream
-            Component pos = Component.translatable("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.withColor(ModUtils.getColorDecimal(CoordinatesDisplay.CONFIG.get().deathPosColor)));
-            drawCenteredString(matrices, this.font, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, ModUtils.WHITE);
-=======
             Component pos = Component.translatable("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
             drawCenteredString(matrices, this.font, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, ModUtil.WHITE);
->>>>>>> Stashed changes
         }
     }
 }

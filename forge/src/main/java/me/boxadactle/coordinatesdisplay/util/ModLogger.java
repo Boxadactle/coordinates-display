@@ -50,8 +50,8 @@ public class ModLogger {
 
         private Minecraft client;
 
-        private Component prefix = ModUtils.colorize(ComponentUtils.wrapInSquareBrackets(
-                ModUtils.colorize(Component.literal("Coordinates Display"), 5636095)
+        private Component prefix = ModUtil.colorize(ComponentUtils.wrapInSquareBrackets(
+                ModUtil.colorize(Component.literal("Coordinates Display"), 5636095)
         ), 43690).copy().append(" ");
 
         public PlayerChat(Minecraft minecraft) {
@@ -61,7 +61,7 @@ public class ModLogger {
         public void error(String msg, Object... data) {
             if (this.client.player != null) {
                 this.client.player.sendSystemMessage(
-                        prefix.copy().append(ModUtils.colorize(Component.literal(String.format(msg, data)), 0x2f2d2d))
+                        prefix.copy().append(ModUtil.colorize(Component.literal(String.format(msg, data)), 0x2f2d2d))
                 );
             }
         }
@@ -69,7 +69,7 @@ public class ModLogger {
         public void warn(String msg, Object... data) {
             if (this.client.player != null) {
                 this.client.player.sendSystemMessage(
-                        prefix.copy().append(ModUtils.colorize(Component.literal(String.format(msg, data)), 0xff9966))
+                        prefix.copy().append(ModUtil.colorize(Component.literal(String.format(msg, data)), 0xff9966))
                 );
             }
         }
@@ -77,7 +77,7 @@ public class ModLogger {
         public void info(String msg, Object... data) {
             if (this.client.player != null) {
                 this.client.player.sendSystemMessage(
-                        prefix.copy().append(ModUtils.colorize(Component.literal(String.format(msg, data)), 5635925))
+                        prefix.copy().append(ModUtil.colorize(Component.literal(String.format(msg, data)), 5635925))
                 );
             }
         }
@@ -90,11 +90,7 @@ public class ModLogger {
 
         public void publicChat(String msg) {
             if (this.client.player != null) {
-<<<<<<< Updated upstream
-                this.client.player.chat(msg);
-=======
                 Minecraft.getInstance().player.chat(msg);
->>>>>>> Stashed changes
             }
         }
     }

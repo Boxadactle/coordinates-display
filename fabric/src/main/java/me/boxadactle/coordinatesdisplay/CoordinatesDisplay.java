@@ -1,17 +1,10 @@
 package me.boxadactle.coordinatesdisplay;
 
 import me.boxadactle.coordinatesdisplay.init.Keybinds;
-<<<<<<< Updated upstream
-import me.boxadactle.coordinatesdisplay.util.HudOverlay;
-import me.boxadactle.coordinatesdisplay.util.ModConfig;
-import me.boxadactle.coordinatesdisplay.util.ModLogger;
-import me.boxadactle.coordinatesdisplay.util.ModVersion;
-=======
 import me.boxadactle.coordinatesdisplay.util.*;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
->>>>>>> Stashed changes
 import net.fabricmc.api.ClientModInitializer;
 public class CoordinatesDisplay implements ClientModInitializer {
 
@@ -24,28 +17,16 @@ public class CoordinatesDisplay implements ClientModInitializer {
 
     public static ConfigHolder<ModConfig> CONFIG;
 
-    public static HudOverlay OVERLAY;
-
-    public static final String UPDATE_URL = "https://boxadactle.github.io/update-urls/coordinates-display/fabric.json";
-
-    public static String UPDATE_MOD_URL;
-
-    public static String MINECRAFT_VERSION;
+    public static HudRenderer OVERLAY;
 
     @Override
     public void onInitializeClient() {
-        ModVersion version = ModVersion.getVersion();
-
-        LOGGER.info("Initializing %s...", version.toString());
+        LOGGER.info("Initializing %s...", ModVersion.getString());
 
         AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(ModConfig.class);
 
-<<<<<<< Updated upstream
-        OVERLAY = new HudOverlay(CONFIG);
-=======
         OVERLAY = new HudRenderer();
->>>>>>> Stashed changes
 
         Keybinds.register();
 

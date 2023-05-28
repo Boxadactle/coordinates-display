@@ -2,12 +2,8 @@ package me.boxadactle.coordinatesdisplay.init;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
-<<<<<<< Updated upstream
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
-=======
-import me.boxadactle.coordinatesdisplay.gui.config.ChangePositionScreen;
+import me.boxadactle.coordinatesdisplay.gui.config.HudPositionScreen;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
->>>>>>> Stashed changes
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
@@ -56,7 +52,7 @@ public class Keybinds {
         }
 
         if (openConfigFileKeybind.consumeClick()) {
-            if (ModUtils.openConfigFile()) {
+            if (ModUtil.openConfigFile()) {
                 CoordinatesDisplay.LOGGER.info("Opened file in native explorer!");
             } else {
                 CoordinatesDisplay.LOGGER.player.warn("Sorry I could not open the file. It is saved at: " + CoordinatesDisplay.configDir.getAbsolutePath());
@@ -64,29 +60,29 @@ public class Keybinds {
         }
 
         if (reloadConfigKeybind.consumeClick()) {
-            ModUtils.reloadConfig();
+            ModUtil.reloadConfig();
             CoordinatesDisplay.LOGGER.player.info("Config reloaded!");
         }
 
         if (copyLocation.consumeClick()) {
-            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtils.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
+            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
             CoordinatesDisplay.LOGGER.player.info("Copied to clipboard!");
             CoordinatesDisplay.LOGGER.info("Copied location to clipboard");
         }
 
         if (sendLocation.consumeClick()) {
-            CoordinatesDisplay.LOGGER.player.info(ModUtils.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
+            CoordinatesDisplay.LOGGER.player.info(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
             CoordinatesDisplay.LOGGER.info("Sent position as chat message");
         }
 
         if (copyPosTp.consumeClick()) {
-            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtils.asTpCommand(x, y, z, ModUtils.getPlayerCurrentDimension()));
+            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.asTpCommand(x, y, z, ModUtil.getPlayerCurrentDimension()));
 
             CoordinatesDisplay.LOGGER.player.info("Copied position as teleport command!");
         }
 
         if (changeHudPosition.consumeClick()) {
-            Minecraft.getInstance().setScreen(new ChangePositionScreen(null));
+            Minecraft.getInstance().setScreen(new HudPositionScreen(null));
         }
     }
 

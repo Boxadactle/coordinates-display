@@ -110,7 +110,7 @@ public class HudRenderer extends DrawableHelper {
         Text biometext;
         if (this.client.world != null) {
             String biomestring = biome != null ? ModUtil.parseIdentifier(ModUtil.getBiomeString(biome)) : "Plains";
-            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), BiomeColors.getBiomeColor(ModUtil.parseIdentifier(biomestring), CoordinatesDisplay.CONFIG.get().dataColor)) :
+            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
                     Text.literal("");
         } else
             biometext = Text.literal("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
@@ -177,7 +177,7 @@ public class HudRenderer extends DrawableHelper {
         Text biometext;
         if (this.client.world != null) {
             String biomestring = biome != null ? ModUtil.parseIdentifier(ModUtil.getBiomeString(biome)) : "Plains";
-            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), BiomeColors.getBiomeColor(ModUtil.parseIdentifier(biomestring), CoordinatesDisplay.CONFIG.get().dataColor)) :
+            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
                     Text.literal("");
         } else
             biometext = Text.literal("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
