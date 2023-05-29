@@ -1,31 +1,37 @@
 package me.boxadactle.coordinatesdisplay.util;
 
-import io.github.cottonmc.cotton.config.annotations.ConfigFile;
-import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
 
-@ConfigFile(name = "./" + CoordinatesDisplay.MOD_ID, extension = ".json")
-public class ModConfig {
+@Config(name = "coordinates-display")
+public class ModConfig implements ConfigData {
 
-    public boolean visible = DefaultModConfig.visible;
-    public boolean roundPosToTwoDecimals = DefaultModConfig.roundPosToTwoDecimals;
-    public int hudX = DefaultModConfig.hudX;
-    public int hudY = DefaultModConfig.hudY;
+    public boolean visible = true;
+    public boolean roundPosToTwoDecimals = true;
 
-    public boolean renderBackground = DefaultModConfig.renderBackground;
-    public boolean renderChunkData = DefaultModConfig.renderChunkData;
-    public boolean renderDirection = DefaultModConfig.renderDirection;
-    public boolean renderBiome = DefaultModConfig.renderBiome;
+    public boolean minMode = false;
+    public int hudX = 0;
+    public int hudY = 0;
+    public float hudScale = 1.0f;
 
-    public int definitionColor = DefaultModConfig.definitionColor;
-    public int dataColor = DefaultModConfig.dataColor;
-    public int deathPosColor = DefaultModConfig.deathPosColor;
 
-    public boolean displayPosOnDeathScreen = DefaultModConfig.displayPosOnDeathScreen;
-    public boolean showDeathPosInChat = DefaultModConfig.displayPosOnDeathScreen;
+    public boolean renderBackground = true;
+    public boolean renderChunkData = true;
+    public boolean renderDirection = true;
+    public boolean renderBiome = true;
+    public boolean renderDirectionInt = true;
+    public boolean renderMCVersion = true;
 
-    public int padding = DefaultModConfig.padding;
-    public int textPadding = DefaultModConfig.textPadding;
+    public int definitionColor = 0x55FF55;
+    public int dataColor = 0xFFFFFF;
+    public int deathPosColor = 0x55FFFF;
+    public int backgroundColor = 0x405c5c5c;
 
-    public String posChatMessage = DefaultModConfig.posChatMessage;
-    public String copyPosMessage = DefaultModConfig.copyPosMessage;
-}
+    public boolean displayPosOnDeathScreen = true;
+    public boolean showDeathPosInChat = true;
+
+    public int padding = 5;
+    public int textPadding = 15;
+
+    public String posChatMessage = "{x} {y} {z}";
+    public String copyPosMessage = "{x}, {y}, {z}";}

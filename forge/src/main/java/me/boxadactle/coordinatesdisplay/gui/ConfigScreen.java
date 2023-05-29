@@ -2,8 +2,9 @@ package me.boxadactle.coordinatesdisplay.gui;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import me.boxadactle.coordinatesdisplay.util.ModUtil;
+import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.gui.config.*;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
@@ -27,7 +28,7 @@ public class ConfigScreen extends Screen {
     Screen parent;
 
     public ConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()));
+        super(Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
         this.parent = parent;
 
         ModUtil.initText();
@@ -37,7 +38,7 @@ public class ConfigScreen extends Screen {
     public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
+        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
 
         super.render(matrices, mouseX,  mouseY, delta);
     }

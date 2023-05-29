@@ -1,7 +1,5 @@
 package me.boxadactle.coordinatesdisplay.util;
 
-import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-
 public class BiomeColors {
 
     public static int getBiomeColor(String name, int defaultColor) {

@@ -2,18 +2,17 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -33,16 +32,17 @@ public class VisualConfigScreen extends Screen {
 
     Screen parent;
 
-    Vec3i pos;
+    Vec3 pos;
     ChunkPos chunkPos;
     float cameraYaw;
+    float cameraPitch;
 
     public VisualConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()));
+        super(Component.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
         this.parent = parent;
 
-        this.pos = new Vec3i(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
+        this.pos = new Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
+        this.chunkPos = new ChunkPos(new BlockPos(pos.x, pos.y, pos.z));
         this.cameraYaw = ModUtil.randomYaw();
     }
 
@@ -52,23 +52,23 @@ public class VisualConfigScreen extends Screen {
 
         super.render(matrices, mouseX,  mouseY, delta);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, CoordinatesDisplay.MOD_VERSION.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
 
         // padding
-        drawString(matrices, this.font, Component.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 3 + p, ModUtil.WHITE);
+        drawString(matrices, this.font, Component.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 4 + p, ModUtil.WHITE);
 
         // text padding
-        drawString(matrices, this.font, Component.translatable("button.coordinatesdisplay.textpadding"), this.width / 2 + p, start + (buttonHeight + p) * 3 + p, ModUtil.WHITE);
+        drawString(matrices, this.font, Component.translatable("button.coordinatesdisplay.textpadding"), this.width / 2 + p, start + (buttonHeight + p) * 4 + p, ModUtil.WHITE);
 
         if (CoordinatesDisplay.CONFIG.get().visible) {
-            CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 1.8));
+            CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 1.8) + 10, CoordinatesDisplay.CONFIG.get().minMode, false);
         }
     }
 
     protected void init() {
         super.init();
 
-        this.addRenderableWidget(new PlainTextButton(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.back"), (button) -> this.minecraft.setScreen(parent), Minecraft.getInstance().font));
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.back"), (button) -> this.minecraft.setScreen(parent)).bounds(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight).build());
 
         initButtons();
         initTextFields();
@@ -82,28 +82,38 @@ public class VisualConfigScreen extends Screen {
         }).bounds(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).build());
 
         // decimal rounding button
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+        Button decimal = new Button.Builder(Component.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
             CoordinatesDisplay.CONFIG.get().decimalRounding = !CoordinatesDisplay.CONFIG.get().decimalRounding;
             button.setMessage(Component.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().decimalRounding ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight).build());
+        }).bounds(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight).build();
+        decimal.active = !CoordinatesDisplay.CONFIG.get().minMode;
+        this.addRenderableWidget(decimal);
+
+        // min mode
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.minmode", (CoordinatesDisplay.CONFIG.get().minMode ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+            CoordinatesDisplay.CONFIG.get().minMode = !CoordinatesDisplay.CONFIG.get().minMode;
+            button.setMessage(Component.translatable("button.coordinatesdisplay.minmode", (CoordinatesDisplay.CONFIG.get().minMode ? ModUtil.TRUE : ModUtil.FALSE)));
+            decimal.active = !CoordinatesDisplay.CONFIG.get().minMode;
+        }).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).build());
+
 
         // modify position button
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.position"), (button) -> this.minecraft.setScreen(new ChangePositionScreen(this))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).build());
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.position"), (button) -> this.minecraft.setScreen(new HudPositionScreen(this))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight).build());
 
         // open wiki
-        this.addRenderableWidget(new PlainTextButton(5, 5, tinyButtonW, buttonHeight, Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
+        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
             this.minecraft.setScreen(this);
             if (yes) {
                 Util.getPlatform().openUri(ModUtil.CONFIG_WIKI_VISUAL);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtil.CONFIG_WIKI_VISUAL, false)), Minecraft.getInstance().font));
+        }, ModUtil.CONFIG_WIKI_VISUAL, false))).bounds(5, 5, tinyButtonW, buttonHeight).build());
     }
 
     private void initTextFields() {
-        EditBox padding = new EditBox(this.font, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 4 - p * 2, smallButtonW, buttonHeight,
+        EditBox padding = new EditBox(this.font, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 5 - p * 2, smallButtonW, buttonHeight,
                 Component.translatable(Integer.toString(CoordinatesDisplay.CONFIG.get().padding)));
-        EditBox textPadding = new EditBox(this.font, this.width / 2 + p, start + (buttonHeight + p) * 4 - p * 2, smallButtonW, buttonHeight,
+        EditBox textPadding = new EditBox(this.font, this.width / 2 + p, start + (buttonHeight + p) * 5 - p * 2, smallButtonW, buttonHeight,
                 Component.translatable(Integer.toString(CoordinatesDisplay.CONFIG.get().textPadding)));
 
         padding.setValue(Integer.toString(CoordinatesDisplay.CONFIG.get().padding));

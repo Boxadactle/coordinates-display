@@ -1,6 +1,8 @@
 package me.boxadactle.coordinatesdisplay;
 
+import me.boxadactle.coordinatesdisplay.event.ClientEvents;
 import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
+import me.boxadactle.coordinatesdisplay.init.Keybinds;
 import me.boxadactle.coordinatesdisplay.util.*;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -29,17 +31,14 @@ public class CoordinatesDisplay {
 
     public static HudRenderer OVERLAY;
 
-    public static ModVersion MOD_VERSION;
-
     public CoordinatesDisplay() {
-        MOD_VERSION = new ModVersion();
 
-        LOGGER.info("Loading " + MOD_VERSION);
+        LOGGER.info("Loading " + ModVersion.getString());
 
         AutoConfig.register(ModConfig.class, JanksonConfigSerializer::new);
         CONFIG = AutoConfig.getConfigHolder(ModConfig.class);
 
-        // what a pain forge why
+        // what a pain
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
                 new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen)));
 

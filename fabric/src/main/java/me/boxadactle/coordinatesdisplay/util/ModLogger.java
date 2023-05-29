@@ -28,15 +28,15 @@ public class ModLogger {
         player = new PlayerLogging(client);
     }
 
-    public void error(String msg, Object... data) {
+    public void error(Object msg, Object... data) {
         logger.log(Level.ERROR, prefix + msg, data);
     }
 
-    public void warn(String msg, Object... data) {
+    public void warn(Object msg, Object... data) {
         logger.log(Level.WARN, prefix + msg, data);
     }
 
-    public void info(String msg, Object... data) {
+    public void info(Object msg, Object... data) {
         logger.log(Level.INFO, prefix + msg, data);
     }
 
@@ -70,8 +70,8 @@ public class ModLogger {
 
     public class PlayerLogging {
 
-        private Text prefix = ModUtils.colorize(Texts.bracketed(
-                ModUtils.colorize(Text.literal("Coordinates Display"), 5636095)
+        private Text prefix = ModUtil.colorize(Texts.bracketed(
+                ModUtil.colorize(Text.literal("Coordinates Display"), 5636095)
         ), 43690).copy().append(" ");
 
         private MinecraftClient client;
@@ -83,7 +83,7 @@ public class ModLogger {
         public void error(String msg, Object... data) {
             if (this.client.player != null) {
                 this.client.player.sendMessage(
-                        prefix.copy().append(ModUtils.colorize(Text.literal(String.format(msg, data)), 0x2f2d2d))
+                        prefix.copy().append(ModUtil.colorize(Text.literal(String.format(msg, data)), 0x2f2d2d))
                 );
             }
         }
@@ -91,7 +91,7 @@ public class ModLogger {
         public void warn(String msg, Object... data) {
             if (this.client.player != null) {
                 this.client.player.sendMessage(
-                        prefix.copy().append(ModUtils.colorize(Text.literal(String.format(msg, data)), 0xff9966))
+                        prefix.copy().append(ModUtil.colorize(Text.literal(String.format(msg, data)), 0xff9966))
                 );
             }
         }
@@ -99,7 +99,7 @@ public class ModLogger {
         public void info(String msg, Object... data) {
             if (this.client.player != null) {
                 this.client.player.sendMessage(
-                        prefix.copy().append(ModUtils.colorize(Text.literal(String.format(msg, data)), 5635925))
+                        prefix.copy().append(ModUtil.colorize(Text.literal(String.format(msg, data)), 5635925))
                 );
             }
         }

@@ -23,7 +23,7 @@ A brief description of what you think should have happened.
 **Screenshots**
 Optional, but it would make understanding the bug easier
 
-**Version**
+**Version of Mod (please fill out so I know which version to look for the bug)**
 Mod Version:
 Mod Loader:
 Minecraft Version:

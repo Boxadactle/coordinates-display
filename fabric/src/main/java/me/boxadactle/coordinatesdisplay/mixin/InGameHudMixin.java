@@ -26,7 +26,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
     // need to render the overlay in the render method
     @Inject(at = @At("RETURN"), method = "render")
     private void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-        if (!this.client.options.hudHidden && CoordinatesDisplay.CONFIG.visible && !this.client.options.debugEnabled && CoordinatesDisplay.shouldRenderOnHud) {
+        if (!this.client.options.hudHidden && CoordinatesDisplay.CONFIG.get().visible && !this.client.options.debugEnabled && CoordinatesDisplay.shouldRenderOnHud) {
             try {
                 Entity camera = this.client.getCameraEntity();
 
@@ -36,8 +36,9 @@ public abstract class InGameHudMixin extends DrawableHelper {
                 ChunkPos chunkPos = new ChunkPos(new BlockPos(pos));
                 RegistryEntry<Biome> biome = this.client.world.getBiome(camera.getBlockPos());
                 float cameraYaw = camera.getYaw(tickDelta);
+                float cameraPitch = camera.getPitch(tickDelta);
 
-                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, biome, CoordinatesDisplay.CONFIG.hudX, CoordinatesDisplay.CONFIG.hudY);
+                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY, CoordinatesDisplay.CONFIG.get().minMode, false, CoordinatesDisplay.CONFIG.get().hudScale);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

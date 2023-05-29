@@ -5,10 +5,10 @@ import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Vec3i;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.gui.overlay.ForgeGui;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -28,12 +28,18 @@ public class ForgeGuiMixin {
 
                 if (camera == null) return;
 
-                Vec3i pos = new Vec3i(camera.getX(), camera.getY(), camera.getZ());
-                ChunkPos chunkPos = new ChunkPos(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
-                Holder<Biome> biome = this.minecraft.level.getBiome(new BlockPos(pos.getX(), pos.getY(), pos.getZ()));
-                float cameraYaw = camera.getYHeadRot();
+                Vec3 pos = new Vec3(camera.getX(), camera.getY(), camera.getZ());
 
-                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY);
+                BlockPos p45587 = new BlockPos(pos.x, pos.y, pos.z);
+
+                ChunkPos chunkPos = new ChunkPos(p45587);
+                Holder<Biome> biome = this.minecraft.level.getBiome(p45587);
+                float cameraYaw = camera.getYHeadRot();
+                float cameraPitch = camera.getXRot();
+
+                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY, CoordinatesDisplay.CONFIG.get().minMode, false, CoordinatesDisplay.CONFIG.get().hudScale);
+
+                matrices.pushPose();
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

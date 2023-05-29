@@ -11,7 +11,7 @@
     "homepage": "https://github.com/Boxadactle",
     "sources": "https://github.com/Boxadactle/coordinates-display",
     "issues": "https://github.com/Boxadactle/coordinates-display/issues",
-    "wiki": "https://github.com/Boxadactle/coordinates-display/wiki"
+    "wiki": "https://boxadactle.github.io/wiki/coordinates-display/"
   },
   "license": "MIT",
   "icon": "assets/coordinatesdisplay/icon.png",
@@ -30,7 +30,7 @@
   "depends": {
     "fabricloader": ">=0.14.8",
     "fabric": "*",
-    "minecraft": ">=1.19.3"
+    "minecraft": "1.19.3"
   },
   "recommends": {
     "modmenu": ">=5.0.0"

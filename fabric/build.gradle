@@ -7,14 +7,8 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
-    maven {
-        name = "CottonMC"
-        url = "https://server.bbkr.space/artifactory/libs-release"
-    }
-    maven {
-        name = "Terraformers"
-        url = "https://maven.terraformersmc.com/releases/"
-    }
+    maven { url = "https://maven.shedaniel.me/" }
+    maven { url = "https://maven.terraformersmc.com/releases/" }
 }
 
 dependencies {
@@ -25,14 +19,16 @@ dependencies {
 
     // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    modImplementation "io.github.cottonmc.cotton:cotton-config:1.0.0-rc.7"
     modImplementation("com.terraformersmc:modmenu:${project.modmenu_version}") {
         transitive = false
     }
 
-    include "io.github.cottonmc:Jankson-Fabric:3.0.0+j1.2.0"
-    include "io.github.cottonmc.cotton:cotton-config:1.0.0-rc.7"
-    include "io.github.cottonmc.cotton:cotton-logging:1.0.0-rc.4"
+    modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
+    include("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+        exclude(group: "net.fabricmc.fabric-api")
+    }
 }
 
 processResources {

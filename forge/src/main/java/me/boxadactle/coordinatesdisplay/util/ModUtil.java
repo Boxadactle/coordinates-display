@@ -27,12 +27,14 @@ public class ModUtil {
     public static Component TRUE;
     public static Component FALSE;
 
-    public static final String CONFIG_WIKI = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration";
-    public static final String CONFIG_WIKI_VISUAL = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#visual-settings";
-    public static final String CONFIG_WIKI_RENDER = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#render-settings";
-    public static final String CONFIG_WIKI_COLOR = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#color-configuration";
-    public static final String CONFIG_WIKI_DEATH = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#death-position-configuration";
-    public static final String CONFIG_WIKI_TEXTS = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#texts-configuration";
+    public static final String CONFIG_WIKI = "https://boxadactle.github.io/wiki/coordinates-display/";
+    public static final String CONFIG_WIKI_VISUAL = "https://boxadactle.github.io/wiki/coordinates-display/#visual";
+    public static final String CONFIG_WIKI_RENDER = "https://boxadactle.github.io/wiki/coordinates-display/#rendering";
+    public static final String CONFIG_WIKI_COLOR = "https://boxadactle.github.io/wiki/coordinates-display/#color";
+    public static final String CONFIG_WIKI_DEATH = "https://boxadactle.github.io/wiki/coordinates-display/#deathpos";
+    public static final String CONFIG_WIKI_TEXTS = "https://boxadactle.github.io/wiki/coordinates-display/#text";
+
+    public static boolean isMousePressed;
 
     public static void initText() {
         TRUE = Component.translatable("coordinatesdisplay.true").withStyle(style -> style.withColor(0x55FF55));
@@ -113,11 +115,11 @@ public class ModUtil {
 
         Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, getPlayerCurrentDimension()).withStyle((style -> style
                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
-                .withColor(getColorDecimal(CoordinatesDisplay.CONFIG.getConfig().deathPosColor))
+                .withColor((CoordinatesDisplay.CONFIG.getConfig().deathPosColor))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor(getColorDecimal(CoordinatesDisplay.CONFIG.getConfig().definitionColor)));
+        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor((CoordinatesDisplay.CONFIG.getConfig().definitionColor)));
     }
 
     public static int getColorIndex(String color) {
@@ -163,34 +165,57 @@ public class ModUtil {
         return prefix;
     }
 
-    public static int getColorDecimal(String color) {
-        int decimal;
-        String c = color.toLowerCase(Locale.ROOT);
-        int defaultInt = 16777215;
-        switch (c) {
-            case "dark_red" -> decimal = 11141120;
-            case "red" -> decimal = 16733525;
-            case "gold" -> decimal = 16755200;
-            case "yellow" -> decimal = 16777045;
-            case "dark_green" -> decimal = 43520;
-            case "green" -> decimal = 5635925;
-            case "aqua" -> decimal = 5636095;
-            case "dark_aqua" -> decimal = 43690;
-            case "dark_blue" -> decimal = 170;
-            case "blue" -> decimal = 5592575;
-            case "light_purple" -> decimal = 16733695;
-            case "dark_purple" -> decimal = 11141290;
-            case "white" -> decimal = 16777215;
-            case "gray" -> decimal = 11184810;
-            case "dark_gray" -> decimal = 5592405;
-            case "black" -> decimal = 0;
-            default -> {
-                decimal = defaultInt;
-                CoordinatesDisplay.LOGGER.warn("Could not parse color " + color + " so defaulted to " + defaultInt);
-            }
+    public static int calculateHudWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
+        int a = getLongestTextLength(xtext, ytext, ztext);
+        int b = getLongestTextLength(chunkx, chunkz);
+        int c = a + (CoordinatesDisplay.CONFIG.get().renderChunkData ? b + tp : 0);
+
+        int d = 0;
+        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
+            if (getLongestTextLength(direction) > d) d = getLongestTextLength(direction);
         }
-        return decimal;
+        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
+            if (getLongestTextLength(biome) > d) d = getLongestTextLength(biome);
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
+            if (getLongestTextLength(version) > d) d = getLongestTextLength(version);
+        }
+
+        return p + Math.max(c, d) + p;
     }
+
+    public static int calculateHudHeight(int th, int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
+        int a = th * 3;
+
+        int b = 0;
+        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
+            b += th;
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
+            b += th;
+        }
+        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
+            b += th;
+        }
+
+        boolean c = (CoordinatesDisplay.CONFIG.get().renderDirection || CoordinatesDisplay.CONFIG.get().renderBiome || CoordinatesDisplay.CONFIG.get().renderMCVersion);
+
+        return p + a + (c ? tp : 0) + b + p;
+    }
+
+
+    public static int calculateHudWidthMin(int p, int th, int dpadding, Component xtext, Component ytext, Component ztext, Component yaw, Component pitch, Component direction, Component biome) {
+        int a = getLongestTextLength(xtext, ytext, ztext, biome);
+        int b = Minecraft.getInstance().font.width("NW");
+
+        return p + a + dpadding + b + p;
+    }
+
+    public static int calculateHudHeightMin(int p, int th) {
+        // this might become a real method later
+        return p + (th * 4) + p;
+    }
+
 
     public static boolean openConfigFile() {
         CoordinatesDisplay.LOGGER.info("Trying to open file in native file explorer...");
@@ -242,7 +267,7 @@ public class ModUtil {
         return direction;
     }
 
-    public static int getLongestLength(Component ...text) {
+    public static int getLongestTextLength(Component ...text) {
         int largest = 0;
         for (Component value : text) {
             int t = Minecraft.getInstance().font.width(value.getString());
@@ -255,7 +280,15 @@ public class ModUtil {
         if (id != null) {
             StringBuilder name = new StringBuilder();
 
-            String withoutNamespace = id.split(":")[1];
+            String withoutNamespace = "plains";
+
+            try {
+                withoutNamespace = id.split(":")[1];
+            } catch (IndexOutOfBoundsException e) {
+                CoordinatesDisplay.LOGGER.error("Invalid biome");
+                e.printStackTrace();
+            }
+
             String spaces = withoutNamespace.replaceAll("_", " ");
             for (String word : spaces.split("\\s")) {
                 String firstLetter = word.substring(0, 1);
@@ -281,5 +314,48 @@ public class ModUtil {
             return "[unregistered " + p_205367_ + "]";
         });
     }
+
+    public static boolean isMousePressed() {
+        return isMousePressed;
+    }
+
+    public static int[] getDistance(int x, int y, int pointX, int pointY) {
+        int distanceX = Math.abs(x - pointX);
+        int distanceY = Math.abs(y - pointY);
+
+        return new int[]{distanceX, distanceY};
+    }
+
+    public static boolean isMouseHovering(int mouseX, int mouseY, int boxX, int boxY, int boxWidth, int boxHeight) {
+        return mouseX >= boxX && mouseX <= boxX + boxWidth &&
+                mouseY >= boxY && mouseY <= boxY + boxHeight;
+    }
+
+    public static int clampToZero(int number) {
+        return Math.max(number, 0);
+    }
+
+    public static int calculatePointDistance(int x, int y, int x1, int y1) {
+        int deltaX = x1 - x;
+        int deltaY = y1 - y;
+
+        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        return (int) distance;
+    }
+
+    public static float calculateMouseScale(int x, int y, int w, int h, int mouseX, int mouseY) {
+        int value1 = calculatePointDistance(x, y, x + w, y + h);
+        int value2 = calculatePointDistance(x, y, mouseX, mouseY);
+        float scaleFactor = (float) value2 / value1;
+
+        scaleFactor = Math.max(0.5f, Math.min(2.0f, scaleFactor));
+
+        scaleFactor = Math.round(scaleFactor * 100.0f) / 100.0f;
+
+        return scaleFactor;
+    }
+
+
 
 }

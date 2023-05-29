@@ -1,9 +1,9 @@
 package me.boxadactle.coordinatesdisplay.init;
 
-import io.github.cottonmc.cotton.config.ConfigManager;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
-import me.boxadactle.coordinatesdisplay.util.ModUtils;
+import me.boxadactle.coordinatesdisplay.gui.config.HudPositionScreen;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 
@@ -26,6 +26,7 @@ public class Keybinds {
     static KeyBinding copyLocation = new KeyBinding("key.coordinatesdisplay.copypos", GLFW.GLFW_KEY_B, "category.coordinatesdisplay");
     static KeyBinding sendLocation = new KeyBinding("key.coordinatesdisplay.sendpos", GLFW.GLFW_KEY_X, "category.coordinatesdisplay");
     static KeyBinding copyPosTp = new KeyBinding("key.coordinatesdisplay.copypostp", GLFW.GLFW_KEY_N, "category.coordinatesdisplay");
+    static KeyBinding changeHudPos = new KeyBinding("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, "category.coordinatesdisplay");
 
     public static void register() {
         KeyBindingHelper.registerKeyBinding(visibleKeybind);
@@ -35,13 +36,14 @@ public class Keybinds {
         KeyBindingHelper.registerKeyBinding(copyLocation);
         KeyBindingHelper.registerKeyBinding(sendLocation);
         KeyBindingHelper.registerKeyBinding(copyPosTp);
+        KeyBindingHelper.registerKeyBinding(changeHudPos);
     }
 
     public static void checkBindings(int x, int y, int z) {
 
         if (visibleKeybind.wasPressed()) {
-            CoordinatesDisplay.CONFIG.visible = !CoordinatesDisplay.CONFIG.visible;
-            ConfigManager.saveConfig(CoordinatesDisplay.CONFIG);
+            CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
+            CoordinatesDisplay.CONFIG.save();
             CoordinatesDisplay.LOGGER.info("Updated visible property in config file");
         }
 
@@ -50,7 +52,7 @@ public class Keybinds {
         }
 
         if (openConfigFileKeybind.wasPressed()) {
-            if (ModUtils.openConfigFile()) {
+            if (ModUtil.openConfigFile()) {
                 CoordinatesDisplay.LOGGER.info("Opened file in native explorer!");
             } else {
                 CoordinatesDisplay.LOGGER.chatError("Sorry I could not open the file. It is saved at: " + FabricLoader.getInstance().getConfigDir().toFile().getAbsolutePath());
@@ -58,28 +60,34 @@ public class Keybinds {
         }
 
         if (reloadConfigKeybind.wasPressed()) {
-            CoordinatesDisplay.reloadConfig();
+            CoordinatesDisplay.resetConfig();
             CoordinatesDisplay.LOGGER.player.info("Config reloaded!");
             CoordinatesDisplay.LOGGER.info("Reloaded all config");
         }
 
         if (copyLocation.wasPressed()) {
-            MinecraftClient.getInstance().keyboard.setClipboard(ModUtils.parseText(CoordinatesDisplay.CONFIG.copyPosMessage));
+            MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
             CoordinatesDisplay.LOGGER.player.info("Copied to clipboard!");
             CoordinatesDisplay.LOGGER.player.info("Copied location to clipboard!");
         }
 
         if (sendLocation.wasPressed()) {
-            CoordinatesDisplay.LOGGER.player.publicChat(ModUtils.parseText(CoordinatesDisplay.CONFIG.posChatMessage));
+            CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
             CoordinatesDisplay.LOGGER.info("Sent position as chat message");
         }
 
         if (copyPosTp.wasPressed()) {
             RegistryKey<World> registry = MinecraftClient.getInstance().player.world.getRegistryKey();
 
-            MinecraftClient.getInstance().keyboard.setClipboard(ModUtils.asTpCommand(x, y, z, (registry != null ? registry.getValue().toString() : null)));
+            MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.asTpCommand(x, y, z, (registry != null ? registry.getValue().toString() : null)));
 
             CoordinatesDisplay.LOGGER.player.info("Copied position as command");
+        }
+
+        if (changeHudPos.wasPressed()) {
+
+            MinecraftClient.getInstance().setScreen(new HudPositionScreen(null));
+
         }
     }
 }

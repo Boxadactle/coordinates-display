@@ -4,9 +4,10 @@
   "package": "me.boxadactle.coordinatesdisplay.mixin",
   "compatibilityLevel": "JAVA_17",
   "client": [
-    "InGameHudMixin",
+    "ClientPlayerEntityMixin",
     "DeathScreenMixin",
-    "ClientPlayerEntityMixin"
+    "InGameHudMixin",
+    "MouseMixin"
   ],
   "injectors": {
     "defaultRequire": 1
