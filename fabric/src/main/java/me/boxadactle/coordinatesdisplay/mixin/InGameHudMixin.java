@@ -2,6 +2,7 @@ package me.boxadactle.coordinatesdisplay.mixin;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.init.Keybinds;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -26,19 +27,19 @@ public abstract class InGameHudMixin extends DrawableHelper {
     // need to render the overlay in the render method
     @Inject(at = @At("RETURN"), method = "render")
     private void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-        if (!this.client.options.hudHidden && CoordinatesDisplay.CONFIG.visible && !this.client.options.debugEnabled && CoordinatesDisplay.shouldRenderOnHud) {
+        if (!this.client.options.hudHidden && CoordinatesDisplay.CONFIG.get().visible && !this.client.options.debugEnabled && CoordinatesDisplay.shouldRenderOnHud) {
             try {
                 Entity camera = this.client.getCameraEntity();
 
                 if (camera == null) return;
 
                 Vec3d pos = camera.getPos();
-                ChunkPos chunkPos = new ChunkPos((int)Math.round(pos.x), (int)Math.round(pos.z));
+                ChunkPos chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(pos)));
                 RegistryEntry<Biome> biome = this.client.world.getBiome(camera.getBlockPos());
                 float cameraYaw = camera.getYaw(tickDelta);
                 float cameraPitch = camera.getPitch(tickDelta);
 
-                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.hudX, CoordinatesDisplay.CONFIG.hudY, CoordinatesDisplay.CONFIG.minMode);
+                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY, CoordinatesDisplay.CONFIG.get().minMode, false, CoordinatesDisplay.CONFIG.get().hudScale);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

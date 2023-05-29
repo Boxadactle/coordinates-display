@@ -2,6 +2,7 @@ package me.boxadactle.coordinatesdisplay.mixin;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -29,12 +30,17 @@ public class ForgeGuiMixin {
                 if (camera == null) return;
 
                 Vec3 pos = new Vec3(camera.getX(), camera.getY(), camera.getZ());
-                ChunkPos chunkPos = new ChunkPos((int) Math.round(pos.x), (int) Math.round(pos.z));
-                Holder<Biome> biome = this.minecraft.level.getBiome(new BlockPos((int) Math.round(pos.x), (int) Math.round(pos.y), (int) Math.round(pos.z)));
+
+                BlockPos p45587 = new BlockPos(ModUtil.doubleVecToIntVec(pos));
+
+                ChunkPos chunkPos = new ChunkPos(p45587);
+                Holder<Biome> biome = this.minecraft.level.getBiome(p45587);
                 float cameraYaw = camera.getYHeadRot();
                 float cameraPitch = camera.getXRot();
 
-                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().minMode, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY);
+                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY, CoordinatesDisplay.CONFIG.get().minMode, false, CoordinatesDisplay.CONFIG.get().hudScale);
+
+                matrices.pushPose();
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

@@ -1,6 +1,7 @@
 package me.boxadactle.coordinatesdisplay.mixin;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -18,7 +19,7 @@ public class ClientPlayerEntityMixin {
 
     @Inject(at = @At("RETURN"), method = "requestRespawn")
     private void requestRespawn(CallbackInfo ci) {
-        if (CoordinatesDisplay.CONFIG.showDeathPosInChat) {
+        if (CoordinatesDisplay.CONFIG.get().showDeathPosInChat) {
             MinecraftClient c = MinecraftClient.getInstance();
 
             int x = (int) Math.round(c.player.getX());

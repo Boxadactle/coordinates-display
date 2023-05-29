@@ -5,21 +5,17 @@ import net.minecraft.SharedConstants;
 
 public class ModVersion {
 
-    static String currentVer;
+    static String thisVer = "2.3.2";
 
-    public ModVersion() {
-        currentVer = "2.2.0";
+    public static String getVersion() {
+        return thisVer;
     }
 
-    public String getVersion() {
-        return currentVer;
+    public static String getString() {
+        return CoordinatesDisplay.MOD_ID + " v" + getVersion();
     }
 
-    public String toString() {
-        return CoordinatesDisplay.MOD_ID + " v" + this.getVersion();
-    }
-
-    public String getMCVersion() {
+    public static String getMCVersion() {
         return SharedConstants.getCurrentVersion().getName();
     }
 }

@@ -50,13 +50,13 @@ public class CoordinatesScreen extends Screen {
         int bstart = this.height / 2 - 20;
 
         this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.copy"), button -> {
-            this.client.keyboard.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.copyPosMessage));
+            this.client.keyboard.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage));
             CoordinatesDisplay.LOGGER.player.info("Copied coordinates to clipboard");
             resume();
         }).dimensions(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh).build());
 
         this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.send"), button -> {
-            CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.posChatMessage));
+            CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage));
             CoordinatesDisplay.LOGGER.player.info("Put Coordinates in Chat");
             resume();
         }).dimensions(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh).build());

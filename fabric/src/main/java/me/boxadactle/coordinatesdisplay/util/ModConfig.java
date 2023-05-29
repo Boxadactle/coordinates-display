@@ -1,10 +1,10 @@
 package me.boxadactle.coordinatesdisplay.util;
 
-import io.github.cottonmc.cotton.config.annotations.ConfigFile;
-import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.shedaniel.autoconfig.ConfigData;
+import me.shedaniel.autoconfig.annotation.Config;
 
-@ConfigFile(name = "./" + CoordinatesDisplay.MOD_ID, extension = ".json")
-public class ModConfig {
+@Config(name = "coordinates-display")
+public class ModConfig implements ConfigData {
 
     public boolean visible = true;
     public boolean roundPosToTwoDecimals = true;
@@ -12,6 +12,8 @@ public class ModConfig {
     public boolean minMode = false;
     public int hudX = 0;
     public int hudY = 0;
+    public float hudScale = 1.0f;
+
 
     public boolean renderBackground = true;
     public boolean renderChunkData = true;
@@ -32,5 +34,4 @@ public class ModConfig {
     public int textPadding = 15;
 
     public String posChatMessage = "{x} {y} {z}";
-    public String copyPosMessage = "{x}, {y}, {z}";
-}
+    public String copyPosMessage = "{x}, {y}, {z}";}

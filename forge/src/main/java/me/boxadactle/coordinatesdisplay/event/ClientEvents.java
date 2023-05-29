@@ -2,11 +2,13 @@ package me.boxadactle.coordinatesdisplay.event;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.init.Keybinds;
+import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -21,6 +23,21 @@ public class ClientEvents {
                 Keybinds.checkBindings(p.getX(), p.getY(), p.getBlockZ());
             }
         }
+
+        @SubscribeEvent
+        public static void mouseDown(ScreenEvent.MouseButtonPressed e) {
+            if (e.getButton() == 0) {
+                ModUtil.isMousePressed = true;
+            }
+        }
+
+        @SubscribeEvent
+        public static void mouseUp(ScreenEvent.MouseButtonReleased e) {
+            if (e.getButton() == 0) {
+                ModUtil.isMousePressed = false;
+            }
+        }
+
     }
 
     @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)

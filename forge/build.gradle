@@ -19,7 +19,7 @@ plugins {
 
 apply plugin: 'org.spongepowered.mixin'
 
-version = '2.2.0'
+version = '2.3.2'
 group = 'me.boxadactle.coordinatesdisplay' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'coordinatesdisplay'
 

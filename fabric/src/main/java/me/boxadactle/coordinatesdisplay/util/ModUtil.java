@@ -1,7 +1,6 @@
 package me.boxadactle.coordinatesdisplay.util;
 
 import com.mojang.datafixers.util.Pair;
-import io.github.cottonmc.cotton.config.ConfigManager;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
@@ -10,6 +9,8 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.*;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.apache.commons.lang3.SystemUtils;
@@ -19,21 +20,27 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 public class ModUtil {
 
+    public static final int TRANSPARENT_GRAY = 0x5c5c5c60;
     public static final int WHITE = 16777215;
     public static final int GRAY = 	11184810;
     public static final int DARK_GRAY = 5592405;
     public static String TRUE;
     public static String FALSE;
 
-    public static final String CONFIG_WIKI = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration";
-    public static final String CONFIG_WIKI_VISUAL = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#visual-settings";
-    public static final String CONFIG_WIKI_RENDER = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#render-settings";
-    public static final String CONFIG_WIKI_COLOR = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#color-configuration";
-    public static final String CONFIG_WIKI_DEATH = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#death-position-configuration";
-    public static final String CONFIG_WIKI_TEXTS = "https://github.com/Boxadactle/coordinates-display/wiki/Configuration#texts-configuration";
+    public static final String CONFIG_WIKI = "https://boxadactle.github.io/wiki/coordinates-display/";
+    public static final String CONFIG_WIKI_VISUAL = "https://boxadactle.github.io/wiki/coordinates-display/#visual";
+    public static final String CONFIG_WIKI_RENDER = "https://boxadactle.github.io/wiki/coordinates-display/#rendering";
+    public static final String CONFIG_WIKI_COLOR = "https://boxadactle.github.io/wiki/coordinates-display/#color";
+    public static final String CONFIG_WIKI_DEATH = "https://boxadactle.github.io/wiki/coordinates-display/#deathpos";
+    public static final String CONFIG_WIKI_TEXTS = "https://boxadactle.github.io/wiki/coordinates-display/#text";
+
+    public static final int CONFIG_CONTENT_COLOR = 0x40363636;
+
+    public static boolean isMousePressed;
 
     public static void initText() {
         TRUE  = "§a" + Text.translatable("coordinatesdisplay.true").getString();
@@ -59,7 +66,7 @@ public class ModUtil {
         MinecraftClient c = MinecraftClient.getInstance();
         String newtext = text;
 
-        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.roundPosToTwoDecimals ? "0.00" : "0");
+        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals ? "0.00" : "0");
 
         String x = decimalFormat.format(c.player.getX());
         String y = decimalFormat.format(c.player.getY());
@@ -85,16 +92,16 @@ public class ModUtil {
     public static int calculateHudWidth(int p, int tp, Text xtext, Text ytext, Text ztext, Text chunkx, Text chunkz, Text direction, Text biome, Text version) {
         int a = getLongestTextLength(xtext, ytext, ztext);
         int b = getLongestTextLength(chunkx, chunkz);
-        int c = a + (CoordinatesDisplay.CONFIG.renderChunkData ? b + tp : 0);
+        int c = a + (CoordinatesDisplay.CONFIG.get().renderChunkData ? b + tp : 0);
 
         int d = 0;
-        if (CoordinatesDisplay.CONFIG.renderDirection) {
+        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
             if (getLongestTextLength(direction) > d) d = getLongestTextLength(direction);
         }
-        if (CoordinatesDisplay.CONFIG.renderBiome) {
+        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
             if (getLongestTextLength(biome) > d) d = getLongestTextLength(biome);
         }
-        if (CoordinatesDisplay.CONFIG.renderMCVersion) {
+        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
             if (getLongestTextLength(version) > d) d = getLongestTextLength(version);
         }
 
@@ -105,17 +112,17 @@ public class ModUtil {
         int a = th * 3;
 
         int b = 0;
-        if (CoordinatesDisplay.CONFIG.renderDirection) {
+        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
             b += th;
         }
-        if (CoordinatesDisplay.CONFIG.renderBiome) {
+        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
             b += th;
         }
-        if (CoordinatesDisplay.CONFIG.renderMCVersion) {
+        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
             b += th;
         }
 
-        boolean c = (CoordinatesDisplay.CONFIG.renderDirection || CoordinatesDisplay.CONFIG.renderBiome || CoordinatesDisplay.CONFIG.renderMCVersion);
+        boolean c = (CoordinatesDisplay.CONFIG.get().renderDirection || CoordinatesDisplay.CONFIG.get().renderBiome || CoordinatesDisplay.CONFIG.get().renderMCVersion);
 
         return p + a + (c ? tp : 0) + b + p;
     }
@@ -153,11 +160,40 @@ public class ModUtil {
 
         Text position = Texts.bracketed(pos).styled((style -> style
             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("message.coordinatesdisplay.teleport")))
-            .withColor(CoordinatesDisplay.CONFIG.deathPosColor)
+            .withColor(CoordinatesDisplay.CONFIG.get().deathPosColor)
             .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return Text.translatable("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.definitionColor));
+        return Text.translatable("message.coordinatesdisplay.deathpos", position).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.get().definitionColor));
+    }
+
+    public static int getColorDecimal(String color) {
+        int decimal;
+        String c = color.toLowerCase(Locale.ROOT);
+        int defaultInt = 16777215;
+        switch (c) {
+            case "dark_red" -> decimal = 11141120;
+            case "red" -> decimal = 16733525;
+            case "gold" -> decimal = 16755200;
+            case "yellow" -> decimal = 16777045;
+            case "dark_green" -> decimal = 43520;
+            case "green" -> decimal = 5635925;
+            case "aqua" -> decimal = 5636095;
+            case "dark_aqua" -> decimal = 43690;
+            case "dark_blue" -> decimal = 170;
+            case "blue" -> decimal = 5592575;
+            case "light_purple" -> decimal = 16733695;
+            case "dark_purple" -> decimal = 11141290;
+            case "white" -> decimal = 16777215;
+            case "gray" -> decimal = 11184810;
+            case "dark_gray" -> decimal = 5592405;
+            case "black" -> decimal = 0;
+            default -> {
+                decimal = defaultInt;
+                CoordinatesDisplay.LOGGER.warn("Could not parse color " + color + " so defaulted to " + defaultInt);
+            }
+        }
+        return decimal;
     }
 
     public static boolean openConfigFile() {
@@ -187,41 +223,6 @@ public class ModUtil {
         return worked;
     }
 
-    public static void resetConfig() {
-        ModConfig c = CoordinatesDisplay.CONFIG;
-
-        c.visible = true;
-        c.roundPosToTwoDecimals = true;
-
-        c.minMode = false;
-        c.hudX = 0;
-        c.hudY = 0;
-
-        c.renderBackground = true;
-        c.renderChunkData = true;
-        c.renderDirection = true;
-        c.renderBiome = true;
-        c.renderDirectionInt = true;
-        c.renderMCVersion = true;
-
-        c.definitionColor = 0x55FF55;
-        c.dataColor = 0xFFFFFF;
-        c.deathPosColor = 0x55FFFF;
-        c.backgroundColor = 0x405c5c5c;
-
-        c.displayPosOnDeathScreen = true;
-        c.showDeathPosInChat = true;
-
-        c.padding = 5;
-        c.textPadding = 15;
-
-        c.posChatMessage = "{x} {y} {z}";
-        c.copyPosMessage = "{x}, {y}, {z}";
-
-        ConfigManager.saveConfig(CoordinatesDisplay.CONFIG);
-        CoordinatesDisplay.OVERLAY.updateConfig(CoordinatesDisplay.CONFIG);
-    }
-
     // method to turn an angle into a direction string
     public static String getDirectionFromYaw(float degrees) {
         String direction;
@@ -233,6 +234,16 @@ public class ModUtil {
             direction = directions[8 - index];
         }
         return direction;
+    }
+
+    public static int getLongestLength(Text ...text) {
+        int largest = 0;
+        TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+        for (Text value : text) {
+            int t = textRenderer.getWidth(value);
+            if (t > largest) largest = t;
+        }
+        return largest;
     }
 
     public static int getLongestTextLength(Text ...text) {
@@ -249,8 +260,8 @@ public class ModUtil {
         if (id != null) {
             StringBuilder name = new StringBuilder();
 
-            String stripNamespace = id.substring(id.indexOf(":") + 1);
-            String spaces = stripNamespace.replaceAll("_", " ");
+            String withoutNamespace = id.split(":")[1];
+            String spaces = withoutNamespace.replaceAll("_", " ");
             for (String word : spaces.split("\\s")) {
                 String firstLetter = word.substring(0, 1);
                 String theRest = word.substring(1);
@@ -266,6 +277,51 @@ public class ModUtil {
     // copy + pasted from DebugHud.class
     public static String getBiomeString(RegistryEntry<Biome> biome) {
         return biome.getKeyOrValue().map((biomeKey) -> biomeKey.getValue().toString(), (biome_) -> "[unregistered " + biome_ + "]");
+    }
+
+    public static boolean isMousePressed() {
+        return isMousePressed;
+    }
+
+    public static int[] getDistance(int x, int y, int pointX, int pointY) {
+        int distanceX = Math.abs(x - pointX);
+        int distanceY = Math.abs(y - pointY);
+
+        return new int[]{distanceX, distanceY};
+    }
+
+    public static boolean isMouseHovering(int mouseX, int mouseY, int boxX, int boxY, int boxWidth, int boxHeight) {
+        return mouseX >= boxX && mouseX <= boxX + boxWidth &&
+                mouseY >= boxY && mouseY <= boxY + boxHeight;
+    }
+
+    public static int clampToZero(int number) {
+        return Math.max(number, 0);
+    }
+
+    public static int calculatePointDistance(int x, int y, int x1, int y1) {
+        int deltaX = x1 - x;
+        int deltaY = y1 - y;
+
+        double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        return (int) distance;
+    }
+
+    public static float calculateMouseScale(int x, int y, int w, int h, int mouseX, int mouseY) {
+        int value1 = calculatePointDistance(x, y, x + w, y + h);
+        int value2 = calculatePointDistance(x, y, mouseX, mouseY);
+        float scaleFactor = (float) value2 / value1;
+
+        scaleFactor = Math.max(0.5f, Math.min(2.0f, scaleFactor));
+
+        scaleFactor = Math.round(scaleFactor * 100.0f) / 100.0f;
+
+        return scaleFactor;
+    }
+
+    public static Vec3i doubleVecToIntVec(Vec3d vec) {
+        return new Vec3i((int)Math.round(vec.x), (int)Math.round(vec.y), (int)Math.round(vec.z));
     }
 
 }

@@ -12,17 +12,20 @@ public class ModConfig implements ConfigData {
     public boolean minMode = false;
     public int hudX = 0;
     public int hudY = 0;
+    public float hudScale = 1.0f;
+
 
     public boolean renderBackground = true;
     public boolean renderChunkData = true;
     public boolean renderDirection = true;
-    public boolean renderBiome = true;
     public boolean renderDirectionInt = true;
-    public boolean renderMCVersion = false;
+    public boolean renderBiome = true;
+    public boolean renderMCVersion = true;
 
-    public String definitionColor = "green";
-    public String dataColor = "white";
-    public String deathPosColor = "aqua";
+    public int definitionColor = 0x55FF55;
+    public int dataColor = 0xFFFFFF;
+    public int deathPosColor = 0x55FFFF;
+    public int backgroundColor = 0x405c5c5c;
 
     public boolean displayPosOnDeathScreen = true;
     public boolean showDeathPosInChat = true;

@@ -4,22 +4,23 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.PressableTextWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 
 import java.text.DecimalFormat;
 
-public class ColorConfigScreen extends Screen {
+public class ColorScreen extends Screen {
     int p = 2;
     int p1 = p / 2;
     int th = 10;
@@ -45,18 +46,14 @@ public class ColorConfigScreen extends Screen {
 
     String dimension;
 
-    String version;
-
-    public ColorConfigScreen(Screen parent) {
+    public ColorScreen(Screen parent) {
         super(Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
         this.parent = parent;
 
         this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos((int)Math.round(this.pos.x), (int)Math.round(this.pos.z));
+        this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
         this.cameraYaw  = (float) Math.random() * 180;
         this.cameraPitch  = (float) Math.random() * 180;
-
-        version = ModVersion.getVersion();
 
         DecimalFormat d = new DecimalFormat("0.00");
 
@@ -71,7 +68,7 @@ public class ColorConfigScreen extends Screen {
     }
 
     private void renderColorPicker(MatrixStack matrices) {
-        float s = 1.2F;
+        float s = 1.3F;
         matrices.push();
         matrices.scale(s, s, s);
 
@@ -105,18 +102,18 @@ public class ColorConfigScreen extends Screen {
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
         this.renderBackground(matrices);
 
-        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, version), this.width / 2, 5, ModUtil.WHITE);
+        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
 
         int y = (int) (this.height / 2.3);
 
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Definition Color"), this.width / 2 - smallButtonW, start + 8, ModUtil.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Data Color"), this.width / 2, start + 8, ModUtil.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Death Position Color"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.literal("Background Color (ARGB)"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.definition"), this.width / 2 - smallButtonW, start + 8, ModUtil.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.data"), this.width / 2, start + 8, ModUtil.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.deathpos"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
+        drawTextWithShadow(matrices, this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.background"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y + 40, CoordinatesDisplay.CONFIG.minMode);
+        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y + 40, CoordinatesDisplay.CONFIG.get().minMode, false);
 
-        Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.deathPosColor));
+        Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
         Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", posT);
         drawCenteredTextWithShadow(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4) + 40, ModUtil.WHITE);
 
@@ -128,40 +125,39 @@ public class ColorConfigScreen extends Screen {
     protected void init() {
         super.init();
 
-        this.addDrawableChild(new PressableTextWidget(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close(), MinecraftClient.getInstance().textRenderer));
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.back"), (button) -> this.close()).dimensions(this.width / 2 - largeButtonW / 2, this.height - buttonHeight - p, largeButtonW, buttonHeight).build());
 
         // open wiki
-        this.addDrawableChild(new PressableTextWidget(5, 5, tinyButtonW, buttonHeight, Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.help"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
             this.client.setScreen(this);
             if (yes) {
                 Util.getOperatingSystem().open(ModUtil.CONFIG_WIKI_COLOR);
                 CoordinatesDisplay.LOGGER.info("Opened link");
             }
-        }, ModUtil.CONFIG_WIKI_COLOR, false)), MinecraftClient.getInstance().textRenderer));
+        }, ModUtil.CONFIG_WIKI_COLOR, false))).dimensions(5, 5, tinyButtonW, buttonHeight).build());
 
         initButtons();
     }
 
     private void initButtons() {
-        TextFieldWidget definitionColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
-        TextFieldWidget dataColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
-        TextFieldWidget deathposColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
-        TextFieldWidget backgroundColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor)));
+        TextFieldWidget definitionColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.get().definitionColor)));
+        TextFieldWidget dataColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.get().definitionColor)));
+        TextFieldWidget deathposColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.get().definitionColor)));
+        TextFieldWidget backgroundColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.get().definitionColor)));
 
         definitionColor.setMaxLength(6);
         dataColor.setMaxLength(6);
         deathposColor.setMaxLength(6);
-        backgroundColor.setMaxLength(8);
 
-        definitionColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.definitionColor));
-        dataColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.dataColor));
-        deathposColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.deathPosColor));
-        backgroundColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.backgroundColor));
+        definitionColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.get().definitionColor));
+        dataColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.get().dataColor));
+        deathposColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.get().deathPosColor));
+        backgroundColor.setText(Integer.toHexString(CoordinatesDisplay.CONFIG.get().backgroundColor));
 
         definitionColor.setChangedListener((txt) -> {
             if (txt.isEmpty()) return;
             try {
-                CoordinatesDisplay.CONFIG.definitionColor = Integer.valueOf(txt.replaceAll("#", ""), 16);
+                CoordinatesDisplay.CONFIG.get().definitionColor = Integer.valueOf(txt.replaceAll("#", ""), 16);
             } catch (NumberFormatException e) {
                 CoordinatesDisplay.LOGGER.error("Why you put invalid hex code?");
                 CoordinatesDisplay.LOGGER.printStackTrace(e);
@@ -171,7 +167,7 @@ public class ColorConfigScreen extends Screen {
         dataColor.setChangedListener((txt) -> {
             if (txt.isEmpty()) return;
             try {
-                CoordinatesDisplay.CONFIG.dataColor = Integer.valueOf(txt.replaceAll("#", ""), 16);
+                CoordinatesDisplay.CONFIG.get().dataColor = Integer.valueOf(txt.replaceAll("#", ""), 16);
             } catch (NumberFormatException e) {
                 CoordinatesDisplay.LOGGER.error("Why you put invalid hex code?");
                 CoordinatesDisplay.LOGGER.printStackTrace(e);
@@ -181,7 +177,7 @@ public class ColorConfigScreen extends Screen {
         deathposColor.setChangedListener((txt) -> {
             if (txt.isEmpty()) return;
             try {
-                CoordinatesDisplay.CONFIG.deathPosColor = Integer.valueOf(txt.replaceAll("#", ""), 16);
+                CoordinatesDisplay.CONFIG.get().deathPosColor = Integer.valueOf(txt.replaceAll("#", ""), 16);
             } catch (NumberFormatException e) {
                 CoordinatesDisplay.LOGGER.error("Why you put invalid hex code?");
                 CoordinatesDisplay.LOGGER.printStackTrace(e);
@@ -192,7 +188,7 @@ public class ColorConfigScreen extends Screen {
             if (txt.isEmpty()) return;
             try {
                 // Need to use parseUnsignedInt in order to get ARGB values over 0x7fffffff to work
-                CoordinatesDisplay.CONFIG.backgroundColor = Integer.parseUnsignedInt(txt.replaceAll("#", ""), 16);
+                CoordinatesDisplay.CONFIG.get().backgroundColor = Integer.parseUnsignedInt(txt.replaceAll("#", ""), 16);
             } catch (NumberFormatException e) {
                 CoordinatesDisplay.LOGGER.error("Why you put invalid hex code?");
                 CoordinatesDisplay.LOGGER.printStackTrace(e);
@@ -202,11 +198,10 @@ public class ColorConfigScreen extends Screen {
         this.addDrawableChild(definitionColor);
         this.addDrawableChild(dataColor);
         this.addDrawableChild(deathposColor);
-        this.addDrawableChild(backgroundColor);
 
-        this.addDrawableChild(new PressableTextWidget(this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 4, smallButtonW, buttonHeight, Text.literal("Color Picker..."), (button -> {
+        this.addDrawableChild(new ButtonWidget.Builder(Text.literal("Color Picker..."), (button -> {
             Util.getOperatingSystem().open("https://htmlcolorcodes.com/color-picker/");
-        }), MinecraftClient.getInstance().textRenderer));
+        })).dimensions(this.width / 2 + p1, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight).build());
 
     }
 
