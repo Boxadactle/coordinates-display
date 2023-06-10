@@ -6,6 +6,7 @@ import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.gui.config.*;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.ConfirmScreen;
@@ -35,12 +36,12 @@ public class ConfigScreen extends Screen {
     }
     
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(guiGraphics);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
 
-        super.render(matrices, mouseX,  mouseY, delta);
+        super.render(guiGraphics, mouseX,  mouseY, delta);
     }
 
     protected void init() {

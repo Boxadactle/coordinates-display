@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.world.entity.Entity;
@@ -22,7 +23,7 @@ public class ForgeGuiMixin {
     private Minecraft minecraft = Minecraft.getInstance();
 
     @Inject(at = @At("RETURN"), method = "render")
-    private void render(PoseStack matrices, float tickDelta, CallbackInfo ci) {
+    private void render(GuiGraphics guiGraphics, float tickDelta, CallbackInfo ci) {
         if (!this.minecraft.options.hideGui && CoordinatesDisplay.CONFIG.get().visible && !this.minecraft.options.renderDebug && CoordinatesDisplay.shouldRenderOnHud) {
             try {
                 Entity camera = this.minecraft.getCameraEntity();
@@ -38,9 +39,7 @@ public class ForgeGuiMixin {
                 float cameraYaw = camera.getYHeadRot();
                 float cameraPitch = camera.getXRot();
 
-                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY, CoordinatesDisplay.CONFIG.get().minMode, false, CoordinatesDisplay.CONFIG.get().hudScale);
-
-                matrices.pushPose();
+                CoordinatesDisplay.OVERLAY.render(guiGraphics, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY, CoordinatesDisplay.CONFIG.get().minMode, false, CoordinatesDisplay.CONFIG.get().hudScale);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

@@ -1,10 +1,10 @@
 package me.boxadactle.coordinatesdisplay.gui.config;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -42,18 +42,19 @@ public class RenderConfigScreen extends Screen {
 
         this.pos = new Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
         this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
-        this.cameraYaw = ModUtil.randomYaw();
+        this.cameraYaw = ModUtil.randomDegrees();
+        this.cameraPitch = ModUtil.randomDegrees();
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(guiGraphics);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) ((this.height / 2.1) + 35), CoordinatesDisplay.CONFIG.get().minMode, false);
+        CoordinatesDisplay.OVERLAY.render(guiGraphics, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) ((this.height / 2.1) + 35), CoordinatesDisplay.CONFIG.get().minMode, false);
 
-        super.render(matrices, mouseX,  mouseY, delta);
+        super.render(guiGraphics, mouseX,  mouseY, delta);
     }
 
     protected void init() {

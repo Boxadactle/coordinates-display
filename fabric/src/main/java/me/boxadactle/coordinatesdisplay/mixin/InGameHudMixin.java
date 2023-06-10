@@ -4,9 +4,8 @@ import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.init.Keybinds;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.math.BlockPos;
@@ -21,12 +20,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
-public abstract class InGameHudMixin extends DrawableHelper {
+public abstract class InGameHudMixin {
     @Shadow @Final private MinecraftClient client;
 
     // need to render the overlay in the render method
     @Inject(at = @At("RETURN"), method = "render")
-    private void render(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
+    private void render(DrawContext drawContext, float tickDelta, CallbackInfo ci) {
         if (!this.client.options.hudHidden && CoordinatesDisplay.CONFIG.get().visible && !this.client.options.debugEnabled && CoordinatesDisplay.shouldRenderOnHud) {
             try {
                 Entity camera = this.client.getCameraEntity();
@@ -39,7 +38,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
                 float cameraYaw = camera.getYaw(tickDelta);
                 float cameraPitch = camera.getPitch(tickDelta);
 
-                CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY, CoordinatesDisplay.CONFIG.get().minMode, false, CoordinatesDisplay.CONFIG.get().hudScale);
+                CoordinatesDisplay.OVERLAY.render(drawContext, pos, chunkPos, cameraYaw, cameraPitch, biome, CoordinatesDisplay.CONFIG.get().hudX, CoordinatesDisplay.CONFIG.get().hudY, CoordinatesDisplay.CONFIG.get().minMode, false, CoordinatesDisplay.CONFIG.get().hudScale);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }

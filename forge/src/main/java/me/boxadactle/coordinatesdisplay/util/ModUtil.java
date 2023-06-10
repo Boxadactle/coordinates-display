@@ -59,7 +59,7 @@ public class ModUtil {
         return int2 * i1;
     }
 
-    public static float randomYaw() {
+    public static float randomDegrees() {
         return Mth.wrapDegrees((float) Math.random() * 360);
     }
 

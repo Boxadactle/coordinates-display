@@ -3,6 +3,7 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -46,14 +47,14 @@ public class RenderScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
 
-        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        drawContext.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 2.1) + 35, CoordinatesDisplay.CONFIG.get().minMode, false);
+        CoordinatesDisplay.OVERLAY.render(drawContext, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 2.1) + 35, CoordinatesDisplay.CONFIG.get().minMode, false);
 
-        super.render(matrices, mouseX,  mouseY, delta);
+        super.render(drawContext, mouseX,  mouseY, delta);
     }
 
     protected void init() {

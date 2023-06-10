@@ -3,6 +3,7 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -50,21 +51,21 @@ public class VisualScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
 
-        super.render(matrices, mouseX,  mouseY, delta);
+        super.render(drawContext, mouseX,  mouseY, delta);
 
-        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        drawContext.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
 
         // padding
-        drawTextWithShadow(matrices, textRenderer, Text.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 4 + p, ModUtil.WHITE);
+        drawContext.drawTextWithShadow(textRenderer, Text.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 5 + p, ModUtil.WHITE);
 
         // text padding
-        drawTextWithShadow(matrices, textRenderer, Text.translatable("button.coordinatesdisplay.textpadding"), this.width / 2 + p, start + (buttonHeight + p) * 4 + p, ModUtil.WHITE);
+        drawContext.drawTextWithShadow(textRenderer, Text.translatable("button.coordinatesdisplay.textpadding"), this.width / 2 + p, start + (buttonHeight + p) * 5 + p, ModUtil.WHITE);
 
         if (CoordinatesDisplay.CONFIG.get().visible) {
-            CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 1.8) + 10, CoordinatesDisplay.CONFIG.get().minMode, false);
+            CoordinatesDisplay.OVERLAY.render(drawContext, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) (this.height / 1.8) + 40, CoordinatesDisplay.CONFIG.get().minMode, false);
         }
     }
 
@@ -108,16 +109,22 @@ public class VisualScreen extends Screen {
             a.active = !CoordinatesDisplay.CONFIG.get().minMode;
         }).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).build());
 
+        // text shadow button
+        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.textshadow", (CoordinatesDisplay.CONFIG.get().hudTextShadow ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
+            CoordinatesDisplay.CONFIG.get().hudTextShadow = !CoordinatesDisplay.CONFIG.get().hudTextShadow;
+            button.setMessage(Text.translatable("button.coordinatesdisplay.textshadow", (CoordinatesDisplay.CONFIG.get().hudTextShadow ? ModUtil.TRUE : ModUtil.FALSE)));
+        }).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight).build());
+
 
         // modify position button
         this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.position"), (button) -> this.client.setScreen(new HudPositionScreen(this)))
-                .dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight).build());
+                .dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight).build());
     }
 
     private void initTextFields() {
-        padding = new TextFieldWidget(textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 5 - p * 2, smallButtonW, buttonHeight,
+        padding = new TextFieldWidget(textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 6 - p * 2, smallButtonW, buttonHeight,
                 Text.literal(Integer.toString(CoordinatesDisplay.CONFIG.get().padding)));
-        textPadding = new TextFieldWidget(textRenderer, this.width / 2 + p, start + (buttonHeight + p) * 5 - p * 2, smallButtonW, buttonHeight,
+        textPadding = new TextFieldWidget(textRenderer, this.width / 2 + p, start + (buttonHeight + p) * 6 - p * 2, smallButtonW, buttonHeight,
                 Text.literal(Integer.toString(CoordinatesDisplay.CONFIG.get().textPadding)));
 
         padding.setText(Integer.toString(CoordinatesDisplay.CONFIG.get().padding));

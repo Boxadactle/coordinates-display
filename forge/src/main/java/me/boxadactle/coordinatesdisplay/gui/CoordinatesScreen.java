@@ -3,6 +3,7 @@ package me.boxadactle.coordinatesdisplay.gui;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -29,13 +30,13 @@ public class CoordinatesScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(guiGraphics);
 
-        drawCenteredString(matrices, this.font, Component.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, white);
-        drawCenteredString(matrices, this.font, Component.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), white);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, white);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), white);
 
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override

@@ -3,7 +3,7 @@ package me.boxadactle.coordinatesdisplay.util;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
@@ -15,7 +15,7 @@ import net.minecraft.world.biome.Biome;
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 
-public class HudRenderer extends DrawableHelper {
+public class HudRenderer {
 
     private final MinecraftClient client = MinecraftClient.getInstance();
 
@@ -41,24 +41,26 @@ public class HudRenderer extends DrawableHelper {
         return ModUtil.isMouseHovering(Math.round(mouseX / scale), Math.round(mouseY / scale), scaleX, scaleY, scaleX + scaleSize, scaleY + scaleSize);
     }
 
-    public void render(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, float cameraPitch, RegistryEntry<Biome> biome, int x, int y, boolean minMode, boolean moveOverlay) {
+    public void render(DrawContext drawContext, Vec3d pos, ChunkPos chunkPos, float cameraYaw, float cameraPitch, RegistryEntry<Biome> biome, int x, int y, boolean minMode, boolean moveOverlay) {
         try {
             if (!minMode) {
-                renderOverlay(matrices, pos, chunkPos, cameraYaw, biome, x, y);
+                renderOverlay(drawContext, pos, chunkPos, cameraYaw, biome, x, y);
             } else {
-                renderOverlayMin(matrices, pos, cameraYaw, cameraPitch, biome, x, y);
+                renderOverlayMin(drawContext, pos, cameraYaw, cameraPitch, biome, x, y);
             }
 
             if (moveOverlay) {
-                renderMoveOverlay(matrices, x, y);
+                renderMoveOverlay(drawContext, x, y);
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
 
-    public void render(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, float cameraPitch, RegistryEntry<Biome> biome, int x, int y, boolean minMode, boolean moveOverlay, float scale) {
+    public void render(DrawContext drawContext, Vec3d pos, ChunkPos chunkPos, float cameraYaw, float cameraPitch, RegistryEntry<Biome> biome, int x, int y, boolean minMode, boolean moveOverlay, float scale) {
         try {
+            MatrixStack matrices = drawContext.getMatrices();
+
             matrices.push();
 
             matrices.scale(scale, scale, scale);
@@ -66,13 +68,13 @@ public class HudRenderer extends DrawableHelper {
             this.scale = scale;
 
             if (!minMode) {
-                renderOverlay(matrices, pos, chunkPos, cameraYaw, biome, x, y);
+                renderOverlay(drawContext, pos, chunkPos, cameraYaw, biome, x, y);
             } else {
-                renderOverlayMin(matrices, pos, cameraYaw, cameraPitch, biome, x, y);
+                renderOverlayMin(drawContext, pos, cameraYaw, cameraPitch, biome, x, y);
             }
 
             if (moveOverlay) {
-                renderMoveOverlay(matrices, x, y);
+                renderMoveOverlay(drawContext, x, y);
             }
 
             matrices.pop();
@@ -89,7 +91,7 @@ public class HudRenderer extends DrawableHelper {
         return h;
     }
 
-    private void renderOverlay(MatrixStack matrices, Vec3d pos, ChunkPos chunkPos, float cameraYaw, @Nullable RegistryEntry<Biome> biome, int x, int y) throws NullPointerException {
+    private void renderOverlay(DrawContext drawContext, Vec3d pos, ChunkPos chunkPos, float cameraYaw, @Nullable RegistryEntry<Biome> biome, int x, int y) throws NullPointerException {
 
         this.x = x;
         this.y = y;
@@ -108,7 +110,7 @@ public class HudRenderer extends DrawableHelper {
         Text biometext;
         if (this.client.world != null) {
             String biomestring = biome != null ? ModUtil.parseIdentifier(ModUtil.getBiomeString(biome)) : "Plains";
-            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
+            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
                     Text.literal("");
         } else
             biometext = Text.literal("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
@@ -138,33 +140,33 @@ public class HudRenderer extends DrawableHelper {
 
         // rendering
         if (CoordinatesDisplay.CONFIG.get().renderBackground) {
-            fill(matrices, x, y, x + w, y + h, CoordinatesDisplay.CONFIG.get().backgroundColor);
+            drawContext.fill(x, y, x + w, y + h, CoordinatesDisplay.CONFIG.get().backgroundColor);
         }
 
 
-        this.getTextRenderer().drawWithShadow(matrices, xText, x + p, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-        this.getTextRenderer().drawWithShadow(matrices, yText, x + p, y + p + th, CoordinatesDisplay.CONFIG.get().definitionColor);
-        this.getTextRenderer().drawWithShadow(matrices, zText, x + p, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(drawContext, xText, x + p, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(drawContext, yText, x + p, y + p + th, CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(drawContext, zText, x + p, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
 
         if (CoordinatesDisplay.CONFIG.get().renderChunkData) {
-            this.getTextRenderer().drawWithShadow(matrices, chunkX, x + p + ModUtil.getLongestTextLength(xText, yText, zText) + tp, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-            this.getTextRenderer().drawWithShadow(matrices, chunkZ, x + p + ModUtil.getLongestTextLength(xText, yText, zText) + tp, y + p + (th), CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(drawContext, chunkX, x + p + ModUtil.getLongestTextLength(xText, yText, zText) + tp, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(drawContext, chunkZ, x + p + ModUtil.getLongestTextLength(xText, yText, zText) + tp, y + p + (th), CoordinatesDisplay.CONFIG.get().definitionColor);
         }
 
         if (CoordinatesDisplay.CONFIG.get().renderDirection) {
-            this.getTextRenderer().drawWithShadow(matrices, directionText, x + p, y + p + (th * 3) + tp, CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(drawContext, directionText, x + p, y + p + (th * 3) + tp, CoordinatesDisplay.CONFIG.get().definitionColor);
         }
 
         if (CoordinatesDisplay.CONFIG.get().renderBiome) {
-            this.getTextRenderer().drawWithShadow(matrices, biomeText, x + p, y + p + (th * 3) + tp + (CoordinatesDisplay.CONFIG.get().renderDirection ? th : 0), CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(drawContext, biomeText, x + p, y + p + (th * 3) + tp + (CoordinatesDisplay.CONFIG.get().renderDirection ? th : 0), CoordinatesDisplay.CONFIG.get().definitionColor);
         }
 
         if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
-            this.getTextRenderer().drawWithShadow(matrices, minecraftVersion, x + p, y + p + (th * 3) + tp + (CoordinatesDisplay.CONFIG.get().renderDirection ? th : 0) + (CoordinatesDisplay.CONFIG.get().renderBiome ? th : 0), CoordinatesDisplay.CONFIG.get().dataColor);
+            drawInfo(drawContext, minecraftVersion, x + p, y + p + (th * 3) + tp + (CoordinatesDisplay.CONFIG.get().renderDirection ? th : 0) + (CoordinatesDisplay.CONFIG.get().renderBiome ? th : 0), CoordinatesDisplay.CONFIG.get().dataColor);
         }
     }
 
-    private void renderOverlayMin(MatrixStack matrices, Vec3d pos, float cameraYaw, float cameraPitch, @Nullable RegistryEntry<Biome> biome, int x, int y) throws NullPointerException {
+    private void renderOverlayMin(DrawContext drawContext, Vec3d pos, float cameraYaw, float cameraPitch, @Nullable RegistryEntry<Biome> biome, int x, int y) throws NullPointerException {
         this.x = x;
         this.y = y;
 
@@ -175,7 +177,7 @@ public class HudRenderer extends DrawableHelper {
         Text biometext;
         if (this.client.world != null) {
             String biomestring = biome != null ? ModUtil.parseIdentifier(ModUtil.getBiomeString(biome)) : "Plains";
-            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
+            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
                     Text.literal("");
         } else
             biometext = Text.literal("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
@@ -203,37 +205,37 @@ public class HudRenderer extends DrawableHelper {
 
         // rendering
         if (CoordinatesDisplay.CONFIG.get().renderBackground) {
-            fill(matrices, x, y, x + w, y + h, CoordinatesDisplay.CONFIG.get().backgroundColor);
+            drawContext.fill(x, y, x + w, y + h, CoordinatesDisplay.CONFIG.get().backgroundColor);
         }
 
-        this.getTextRenderer().drawWithShadow(matrices, xText, x + p, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-        this.getTextRenderer().drawWithShadow(matrices, yText, x + p, y + p + th, CoordinatesDisplay.CONFIG.get().definitionColor);
-        this.getTextRenderer().drawWithShadow(matrices, zText, x + p, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(drawContext, xText, x + p, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(drawContext, yText, x + p, y + p + th, CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(drawContext, zText, x + p, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
 
-        this.getTextRenderer().drawWithShadow(matrices, biomeText, x + p, y + p + (th * 3), CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(drawContext, biomeText, x + p, y + p + (th * 3), CoordinatesDisplay.CONFIG.get().definitionColor);
         {
             int dstart = (x + w) - p - this.getTextRenderer().getWidth(directionText);
             int ypstart = (x + w) - p - this.getTextRenderer().getWidth(yawText);
 
-            this.getTextRenderer().drawWithShadow(matrices, pitchText, ypstart, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-            this.getTextRenderer().drawWithShadow(matrices, directionText, dstart, y + p + th, CoordinatesDisplay.CONFIG.get().dataColor);
-            this.getTextRenderer().drawWithShadow(matrices, yawText, ypstart, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(drawContext, pitchText, ypstart, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(drawContext, directionText, dstart, y + p + th, CoordinatesDisplay.CONFIG.get().dataColor);
+            drawInfo(drawContext, yawText, ypstart, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
         }
 
     }
 
-    private void renderMoveOverlay(MatrixStack matrices, int x, int y) {
+    private void renderMoveOverlay(DrawContext drawContext, int x, int y) {
         int color = 0x50c7c7c7;
         scaleSize = 5;
         int scaleColor = 0x99d9fffa;
 
         // overlay color
-        fill(matrices, x, y, x + w, y + h, color);
+        drawContext.fill(x, y, x + w, y + h, color);
 
         // scale square
         int scaleX = x + w - scaleSize;
         int scaleY = y + h - scaleSize;
-        fill(matrices, scaleX, scaleY, scaleX + scaleSize, scaleY + scaleSize, scaleColor);
+        drawContext.fill(scaleX, scaleY, scaleX + scaleSize, scaleY + scaleSize, scaleColor);
     }
 
     public TextRenderer getTextRenderer() {
@@ -246,5 +248,9 @@ public class HudRenderer extends DrawableHelper {
 
     public int getY() {
         return y;
+    }
+
+    private void drawInfo(DrawContext drawContext, Text text, int x, int y, int color) {
+            drawContext.drawText(this.getTextRenderer(), text, x, y, color, CoordinatesDisplay.CONFIG.get().hudTextShadow);
     }
 }

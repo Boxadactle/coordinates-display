@@ -3,6 +3,7 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
@@ -55,9 +56,9 @@ public class HudPositionScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
+        super.render(drawContext, mouseX, mouseY, delta);
 
         if (ModUtil.isMousePressed() && delay == 0) {
             if (CoordinatesDisplay.OVERLAY.isScaleButtonHovered(mouseX, mouseY) && !scaleDelta && !moveDelta) scaleDelta = true;
@@ -106,7 +107,7 @@ public class HudPositionScreen extends Screen {
             moveDelta = false;
         }
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, x , y, CoordinatesDisplay.CONFIG.get().minMode, CoordinatesDisplay.OVERLAY.isHovered(mouseX, mouseY), scale);
+        CoordinatesDisplay.OVERLAY.render(drawContext, pos, chunkPos, cameraYaw, cameraPitch, null, x , y, CoordinatesDisplay.CONFIG.get().minMode, CoordinatesDisplay.OVERLAY.isHovered(mouseX, mouseY), scale);
 
     }
 

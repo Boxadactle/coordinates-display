@@ -7,6 +7,7 @@ import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.PlainTextButton;
@@ -52,8 +53,8 @@ public class ColorConfigScreen extends Screen {
 
         this.pos = new Vec3(Math.random() * 1000d, Math.random() * 5d, Math.random() * 1000d);
         this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
-        this.cameraYaw  = (float) Math.random() * 180;
-        this.cameraPitch  = (float) Math.random() * 180;
+        this.cameraYaw = ModUtil.randomDegrees();
+        this.cameraPitch = ModUtil.randomDegrees();
 
         deathx = (int) Math.round(Math.random() * 1000);
         deathy = (int) Math.round(Math.random() * 100);
@@ -65,8 +66,9 @@ public class ColorConfigScreen extends Screen {
 
     }
 
-    private void renderColorPicker(PoseStack matrices) {
+    private void renderColorPicker(GuiGraphics guiGraphics) {
         float s = 1.2F;
+        PoseStack matrices = guiGraphics.pose();
         matrices.pushPose();
         matrices.scale(s, s, s);
 
@@ -77,11 +79,7 @@ public class ColorConfigScreen extends Screen {
         int e = (int) (872 / 1.8) / this.nonZeroGuiScale() / 4;
         int f = (int) (586 / 1.8) / this.nonZeroGuiScale() / 4;
 
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation("coordinatesdisplay", "textures/color_picker.png"));
-
-        blit(matrices, c, d, 0.0F, 0.0F, e, f, e, f);
+        guiGraphics.blit(new ResourceLocation("coordinatesdisplay", "textures/color_picker.png"), c, d, 0.0F, 0.0F, e, f, e, f);
 
         matrices.popPose();
     }
@@ -97,27 +95,27 @@ public class ColorConfigScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(guiGraphics);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
 
         int y = (int) (this.height / 2.3);
 
-        drawString(matrices, this.font, Component.translatable("button.coordinatesidisplay.colors.definition"), this.width / 2 - smallButtonW, start + 8, ModUtil.WHITE);
-        drawString(matrices, this.font, Component.translatable("button.coordinatesidisplay.colors.data"), this.width / 2, start + 8, ModUtil.WHITE);
-        drawString(matrices, this.font, Component.translatable("button.coordinatesidisplay.colors.deathpos"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
-        drawString(matrices, this.font, Component.translatable("button.coordinatesidisplay.colors.background"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
+        guiGraphics.drawString(this.font, Component.translatable("button.coordinatesidisplay.colors.definition"), this.width / 2 - smallButtonW, start + 8, ModUtil.WHITE);
+        guiGraphics.drawString(this.font, Component.translatable("button.coordinatesidisplay.colors.data"), this.width / 2, start + 8, ModUtil.WHITE);
+        guiGraphics.drawString(this.font, Component.translatable("button.coordinatesidisplay.colors.deathpos"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
+        guiGraphics.drawString(this.font, Component.translatable("button.coordinatesidisplay.colors.background"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y + 40, CoordinatesDisplay.CONFIG.get().minMode, false);
+        CoordinatesDisplay.OVERLAY.render(guiGraphics, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y + 40, CoordinatesDisplay.CONFIG.get().minMode, false);
 
         Component posT = ModUtil.colorize(ComponentUtils.wrapInSquareBrackets(Component.translatable("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)), CoordinatesDisplay.CONFIG.get().deathPosColor);
         Component deathPos = Component.translatable("message.coordinatesdisplay.deathpos", posT);
-        drawCenteredString(matrices, this.font, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4) + 40, ModUtil.WHITE);
+        guiGraphics.drawCenteredString(this.font, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4) + 40, ModUtil.WHITE);
 
-        this.renderColorPicker(matrices);
+        this.renderColorPicker(guiGraphics);
 
-        super.render(matrices, mouseX,  mouseY, delta);
+        super.render(guiGraphics, mouseX,  mouseY, delta);
     }
 
     protected void init() {

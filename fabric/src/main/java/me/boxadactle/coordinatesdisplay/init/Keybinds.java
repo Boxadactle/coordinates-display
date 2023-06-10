@@ -77,7 +77,7 @@ public class Keybinds {
         }
 
         if (copyPosTp.wasPressed()) {
-            RegistryKey<World> registry = MinecraftClient.getInstance().player.world.getRegistryKey();
+            RegistryKey<World> registry = MinecraftClient.getInstance().player.clientWorld.getRegistryKey();
 
             MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.asTpCommand(x, y, z, (registry != null ? registry.getValue().toString() : null)));
 

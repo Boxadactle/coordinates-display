@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ChunkPos;
@@ -41,8 +42,8 @@ public class HudPositionScreen extends Screen {
 
         this.pos = new Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
         this.chunkPos = new ChunkPos((int)Math.round(this.pos.x), (int)Math.round(this.pos.z));
-        this.cameraYaw  = (float) Math.random() * 180;
-        this.cameraPitch = (float) Math.random() * 180;
+        this.cameraYaw = ModUtil.randomDegrees();
+        this.cameraPitch = ModUtil.randomDegrees();
 
         x = CoordinatesDisplay.CONFIG.get().hudX;
         y = CoordinatesDisplay.CONFIG.get().hudY;
@@ -54,9 +55,9 @@ public class HudPositionScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, delta);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(guiGraphics);
+        super.render(guiGraphics, mouseX, mouseY, delta);
 
         if (ModUtil.isMousePressed() && delay == 0) {
             if (CoordinatesDisplay.OVERLAY.isScaleButtonHovered(mouseX, mouseY) && !scaleDelta && !moveDelta) scaleDelta = true;
@@ -104,7 +105,7 @@ public class HudPositionScreen extends Screen {
             moveDelta = false;
         }
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, x , y, CoordinatesDisplay.CONFIG.get().minMode, CoordinatesDisplay.OVERLAY.isHovered(mouseX, mouseY), scale);
+        CoordinatesDisplay.OVERLAY.render(guiGraphics, pos, chunkPos, cameraYaw, cameraPitch, null, x , y, CoordinatesDisplay.CONFIG.get().minMode, CoordinatesDisplay.OVERLAY.isHovered(mouseX, mouseY), scale);
 
     }
 

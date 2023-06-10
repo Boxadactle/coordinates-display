@@ -1,6 +1,6 @@
 modLoader="javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[43,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[46,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
 # The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
 # Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
 license="MIT"
@@ -9,7 +9,7 @@ issueTrackerURL="https://github.com/Boxadactle/coordinates-display/issues" #opti
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]]
 modId="coordinatesdisplay"
-version="2.3.2"
+version="2.3.3"
 displayName="Coordinates Display"
 logoFile="icon.png"
 authors="Boxadactle"
@@ -20,18 +20,18 @@ A Coordinates Display mod for Forge
     modId="forge" #mandatory
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[45,)" #mandatory
+    versionRange="[46,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     side="BOTH"
 [[dependencies.coordinatesdisplay]]
     modId="minecraft"
     mandatory=true
-    versionRange="1.19.4+"
+    versionRange="1.20+"
     ordering="NONE"
     side="BOTH"
 [[dependencies.coordinatesdisplay]]
     modId="cloth_config"
     mandatory=true
-    versionRange="10.0.96+"
+    versionRange="11.0.99+"
     side="CLIENT"

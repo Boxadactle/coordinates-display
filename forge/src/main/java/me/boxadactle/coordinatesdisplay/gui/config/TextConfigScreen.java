@@ -5,6 +5,7 @@ import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
@@ -30,20 +31,19 @@ public class TextConfigScreen extends Screen {
     public TextConfigScreen(Screen parent) {
         super(Component.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
         this.parent = parent;
-
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(guiGraphics);
 
-        drawCenteredString(matrices, this.font, Component.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
 
-        drawCenteredString(matrices, this.font, Component.translatable("button.coordinatesdisplay.poschatmessage"), this.width / 2, start, ModUtil.WHITE);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("button.coordinatesdisplay.poschatmessage"), this.width / 2, start, ModUtil.WHITE);
 
-        drawCenteredString(matrices, this.font, Component.translatable("button.coordinatesdisplay.copyposmessage"), this.width / 2, start + (10 + p) + (buttonHeight + p), ModUtil.WHITE);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("button.coordinatesdisplay.copyposmessage"), this.width / 2, start + (10 + p) + (buttonHeight + p), ModUtil.WHITE);
 
-        super.render(matrices, mouseX,  mouseY, delta);
+        super.render(guiGraphics, mouseX,  mouseY, delta);
     }
 
     protected void init() {

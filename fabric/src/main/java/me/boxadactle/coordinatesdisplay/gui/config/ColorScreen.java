@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -67,8 +68,9 @@ public class ColorScreen extends Screen {
 
     }
 
-    private void renderColorPicker(MatrixStack matrices) {
+    private void renderColorPicker(DrawContext drawContext) {
         float s = 1.3F;
+        MatrixStack matrices = drawContext.getMatrices();
         matrices.push();
         matrices.scale(s, s, s);
 
@@ -79,11 +81,7 @@ public class ColorScreen extends Screen {
         int e = (int) (872 / 1.8) / this.nonZeroGuiScale() / 4;
         int f = (int) (586 / 1.8) / this.nonZeroGuiScale() /4;
 
-        RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new Identifier("coordinatesdisplay", "textures/color_picker.png"));
-
-        drawTexture(matrices, c, d, 0.0F, 0.0F, e, f, e, f);
+        drawContext.drawTexture(new Identifier("coordinatesdisplay", "textures/color_picker.png"), c, d, 0.0F, 0.0F, e, f, e, f);
 
         matrices.pop();
     }
@@ -99,27 +97,27 @@ public class ColorScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
 
-        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        drawContext.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
 
         int y = (int) (this.height / 2.3);
 
-        drawTextWithShadow(matrices, this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.definition"), this.width / 2 - smallButtonW, start + 8, ModUtil.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.data"), this.width / 2, start + 8, ModUtil.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.deathpos"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
-        drawTextWithShadow(matrices, this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.background"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
+        drawContext.drawTextWithShadow(this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.definition"), this.width / 2 - smallButtonW, start + 8, ModUtil.WHITE);
+        drawContext.drawTextWithShadow(this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.data"), this.width / 2, start + 8, ModUtil.WHITE);
+        drawContext.drawTextWithShadow(this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.deathpos"), this.width / 2 - smallButtonW - p, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
+        drawContext.drawTextWithShadow(this.textRenderer, Text.translatable("button.coordinatesidisplay.colors.background"), this.width / 2, start + 8 + (buttonHeight + p) * 2, ModUtil.WHITE);
 
-        CoordinatesDisplay.OVERLAY.render(matrices, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y + 40, CoordinatesDisplay.CONFIG.get().minMode, false);
+        CoordinatesDisplay.OVERLAY.render(drawContext, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - CoordinatesDisplay.OVERLAY.getWidth() - 5, y + 40, CoordinatesDisplay.CONFIG.get().minMode, false);
 
         Text posT = Texts.bracketed(Text.translatable("message.coordinatesdisplay.deathlocation", deathx, deathy, deathz, dimension)).styled(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
         Text deathPos = Text.translatable("message.coordinatesdisplay.deathpos", posT);
-        drawCenteredTextWithShadow(matrices, this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4) + 40, ModUtil.WHITE);
+        drawContext.drawCenteredTextWithShadow(this.textRenderer, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4) + 40, ModUtil.WHITE);
 
-        this.renderColorPicker(matrices);
+        this.renderColorPicker(drawContext);
 
-        super.render(matrices, mouseX,  mouseY, delta);
+        super.render(drawContext, mouseX,  mouseY, delta);
     }
 
     protected void init() {

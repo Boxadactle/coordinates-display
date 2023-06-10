@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -41,7 +42,7 @@ public class DeathScreenMixin extends Screen {
     }
 
     @Inject(at = @At("RETURN"), method = "render")
-    private void render(PoseStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
             DecimalFormat d = new DecimalFormat("0.00");
 
@@ -49,7 +50,7 @@ public class DeathScreenMixin extends Screen {
             String y = d.format(client.player.getY());
             String z = d.format(client.player.getZ());
             Component pos = Component.translatable("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
-            drawCenteredString(matrices, this.font, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, ModUtil.WHITE);
+            guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, ModUtil.WHITE);
         }
     }
 }

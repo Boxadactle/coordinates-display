@@ -57,7 +57,7 @@ public class ModUtil {
     }
 
     public static String getPlayerCurrentDimension() {
-        RegistryKey<World> registry = MinecraftClient.getInstance().player.world.getRegistryKey();
+        RegistryKey<World> registry = MinecraftClient.getInstance().player.clientWorld.getRegistryKey();
 
         return (registry != null ? registry.getValue().toString() : null);
     }

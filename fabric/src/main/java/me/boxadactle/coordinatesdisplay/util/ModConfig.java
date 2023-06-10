@@ -13,7 +13,7 @@ public class ModConfig implements ConfigData {
     public int hudX = 0;
     public int hudY = 0;
     public float hudScale = 1.0f;
-
+    public boolean hudTextShadow = true;
 
     public boolean renderBackground = true;
     public boolean renderChunkData = true;

@@ -63,6 +63,7 @@
   "button.coordinatesdisplay.visible": "Visible: %s",
   "button.coordinatesdisplay.decimal": "Round with Decimals: %s",
   "button.coordinatesdisplay.minmode": "Minimum Mode: %s",
+  "button.coordinatesdisplay.textshadow": "Text Shadow: %s",
   "button.coordinatesdisplay.render.background": "Background: %s",
   "button.coordinatesdisplay.render.chunkdata": "Chunk Location: %s",
   "button.coordinatesdisplay.render.direction": "Direction: %s",

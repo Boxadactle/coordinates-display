@@ -2,6 +2,7 @@ package me.boxadactle.coordinatesdisplay.gui;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -29,13 +30,13 @@ public class CoordinatesScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        this.renderBackground(matrices);
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
+        this.renderBackground(drawContext);
 
-        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, white);
-        drawCenteredTextWithShadow(matrices, this.textRenderer, Text.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), white);
+        drawContext.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, white);
+        drawContext.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), white);
 
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(drawContext, mouseX, mouseY, delta);
     }
 
     private void resume() {
