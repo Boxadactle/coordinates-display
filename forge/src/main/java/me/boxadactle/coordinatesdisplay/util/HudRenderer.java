@@ -116,12 +116,17 @@ public class HudRenderer {
                 CoordinatesDisplay.CONFIG.get().renderDirectionInt ? Component.literal("(").append(Component.literal(decimalFormat.format(yaw))).append(Component.literal(")")) : Component.literal(""));
 
         Component biomeComponent;
-        if (biome != null && client.level != null) {
-            biomeComponent = CoordinatesDisplay.CONFIG.get().renderBiome ? Component.translatable("hud.coordinatesdisplay.biome", ModUtil.colorize(Component.literal(ModUtil.parseIdentifier(ModUtil.printBiome(biome))), CoordinatesDisplay.BiomeColors.getBiomeColor(ModUtil.parseIdentifier(ModUtil.printBiome(biome)), CoordinatesDisplay.CONFIG.get().dataColor))) :
-                    Component.literal("");
+        if (client.level != null) {
+            String biomestring = biome != null ? ModUtil.parseIdentifier(ModUtil.printBiome(biome)) : "Plains";
+            biomeComponent = CoordinatesDisplay.CONFIG.get().biomeColors ?
+                    ModUtil.colorize(Component.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor))) :
+                    ModUtil.colorize(Component.literal(biomestring), CoordinatesDisplay.CONFIG.get().dataColor);
+        } else {
+            String biomestring = "Plains";
+            biomeComponent = CoordinatesDisplay.CONFIG.get().biomeColors ?
+                    ModUtil.colorize(Component.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor))) :
+                    ModUtil.colorize(Component.literal(biomestring), CoordinatesDisplay.CONFIG.get().dataColor);
         }
-        else
-            biomeComponent = Component.translatable("hud.coordinatesdisplay.biome",  Component.literal("Plains").withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
 
         Component minecraftVersion = Component.translatable("hud.coordinatesdisplay.version", ModVersion.getMCVersion());
 
@@ -173,11 +178,15 @@ public class HudRenderer {
         Component ypos = ModUtil.colorize(Component.literal(Long.toString(Math.round(pos.y))), CoordinatesDisplay.CONFIG.get().dataColor);
         Component zpos = ModUtil.colorize(Component.literal(Long.toString(Math.round(pos.z))), CoordinatesDisplay.CONFIG.get().dataColor);
 
-        Component biomeC = Component.literal("Plains");
+        Component biomeC;
         if (client.level != null) {
             String biomestring = biome != null ? ModUtil.parseIdentifier(ModUtil.printBiome(biome)) : "Plains";
-            biomeC = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Component.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
-                    Component.literal("");
+            biomeC = CoordinatesDisplay.CONFIG.get().biomeColors ? ModUtil.colorize(Component.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
+                    Component.literal(biomestring);
+        } else {
+            String biomestring = "Plains";
+            biomeC = CoordinatesDisplay.CONFIG.get().biomeColors ? ModUtil.colorize(Component.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
+                    Component.literal(biomestring);
         }
 
         float yaw = Mth.wrapDegrees(cameraYaw);

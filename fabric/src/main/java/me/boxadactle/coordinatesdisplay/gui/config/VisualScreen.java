@@ -1,6 +1,8 @@
 package me.boxadactle.coordinatesdisplay.gui.config;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
+import me.boxadactle.coordinatesdisplay.gui.widget.ConfigBooleanWidget;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import net.minecraft.client.gui.DrawContext;
@@ -8,55 +10,32 @@ import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 
-public class VisualScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
-    int th = 10;
-    int tp = 4;
-
-    int largeButtonW = 300;
-    int smallButtonW = 150 - p;
-    int tinyButtonW = 75;
-    int buttonHeight = 20;
-
-    int start = 20;
-
-    Screen parent;
-
-    Vec3d pos;
-    ChunkPos chunkPos;
-    float cameraYaw;
-    float cameraPitch;
-
+public class VisualScreen extends ConfigScreen {
     TextFieldWidget padding;
     TextFieldWidget textPadding;
 
     public VisualScreen(Screen parent) {
-        super(Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
+        super(parent);
         this.parent = parent;
 
-        this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
-        this.cameraYaw  = (float) Math.random() * 180;
-        this.cameraPitch  = (float) Math.random() * 180;
+        super.generatePositionData();
+        super.setTitle(Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
 
         CoordinatesDisplay.shouldRenderOnHud = false;
     }
 
-    @Override
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         this.renderBackground(drawContext);
 
         super.render(drawContext, mouseX,  mouseY, delta);
 
-        drawContext.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.visual", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        super.drawTitle(drawContext);
 
         // padding
         drawContext.drawTextWithShadow(textRenderer, Text.translatable("button.coordinatesdisplay.padding"), this.width / 2 - smallButtonW, start + (buttonHeight + p) * 5 + p, ModUtil.WHITE);
@@ -83,42 +62,65 @@ public class VisualScreen extends Screen {
             }
         }, ModUtil.CONFIG_WIKI_VISUAL, false))).dimensions(5, 5, tinyButtonW, buttonHeight).build());
 
-        initButtons();
-        initTextFields();
+        this.initConfigScreen();
     }
 
-    private void initButtons() {
+    public void initConfigScreen() {
         // visible button
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE), (button) -> {
-            CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
-            button.setMessage(Text.translatable("button.coordinatesdisplay.visible", CoordinatesDisplay.CONFIG.get().visible ? ModUtil.TRUE : ModUtil.FALSE));
-        }).dimensions(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).build());
+        this.addDrawableChild(new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start,
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.visible",
+                CoordinatesDisplay.CONFIG.get().visible,
+                newValue -> CoordinatesDisplay.CONFIG.get().visible = newValue
+        ));
 
         // decimal rounding button
-        ButtonWidget a = new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals = !CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals;
-            button.setMessage(Text.translatable("button.coordinatesdisplay.decimal", (CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).dimensions(this.width / 2 - largeButtonW / 2, start + buttonHeight + p, largeButtonW, buttonHeight).build();
+        ButtonWidget a = new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start + buttonHeight + p,
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.decimal",
+                CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals,
+                newValue -> CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals = newValue
+        );
         a.active = !CoordinatesDisplay.CONFIG.get().minMode;
         this.addDrawableChild(a);
 
         // minimum mode button
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.minmode", (CoordinatesDisplay.CONFIG.get().minMode ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().minMode = !CoordinatesDisplay.CONFIG.get().minMode;
-            button.setMessage(Text.translatable("button.coordinatesdisplay.minmode", (CoordinatesDisplay.CONFIG.get().minMode ? ModUtil.TRUE : ModUtil.FALSE)));
-            a.active = !CoordinatesDisplay.CONFIG.get().minMode;
-        }).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).build());
+        this.addDrawableChild(new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start + (buttonHeight + p) * 2,
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.minmode",
+                CoordinatesDisplay.CONFIG.get().minMode,
+                newValue -> {
+                    CoordinatesDisplay.CONFIG.get().minMode = newValue;
+                    a.active = !newValue;
+                }
+        ));
 
         // text shadow button
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.textshadow", (CoordinatesDisplay.CONFIG.get().hudTextShadow ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().hudTextShadow = !CoordinatesDisplay.CONFIG.get().hudTextShadow;
-            button.setMessage(Text.translatable("button.coordinatesdisplay.textshadow", (CoordinatesDisplay.CONFIG.get().hudTextShadow ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight).build());
+        this.addDrawableChild(new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start + (buttonHeight + p) * 3,
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.textshadow",
+                CoordinatesDisplay.CONFIG.get().hudTextShadow,
+                newValue -> CoordinatesDisplay.CONFIG.get().hudTextShadow = newValue
+        ));
 
 
         // modify position button
         this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.position"), (button) -> this.client.setScreen(new HudPositionScreen(this)))
                 .dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight).build());
+
+        this.initTextFields();
     }
 
     private void initTextFields() {
@@ -155,7 +157,6 @@ public class VisualScreen extends Screen {
         this.addDrawableChild(textPadding);
     }
 
-    @Override
     public void close() {
         this.client.setScreen(parent);
         CoordinatesDisplay.shouldRenderOnHud = true;

@@ -9,7 +9,7 @@ issueTrackerURL="https://github.com/Boxadactle/coordinates-display/issues" #opti
 # A list of mods - how many allowed here is determined by the individual mod loader
 [[mods]]
 modId="coordinatesdisplay"
-version="2.3.3"
+version="2.3.4"
 displayName="Coordinates Display"
 logoFile="icon.png"
 authors="Boxadactle"

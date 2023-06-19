@@ -19,6 +19,7 @@ public class ModConfig implements ConfigData {
     public boolean renderChunkData = true;
     public boolean renderDirection = true;
     public boolean renderBiome = true;
+    public boolean biomeColors = true;
     public boolean renderDirectionInt = true;
     public boolean renderMCVersion = true;
 

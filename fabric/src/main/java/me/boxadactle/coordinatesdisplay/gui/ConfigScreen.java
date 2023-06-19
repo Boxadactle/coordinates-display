@@ -1,120 +1,94 @@
 package me.boxadactle.coordinatesdisplay.gui;
 
-import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
-import me.boxadactle.coordinatesdisplay.gui.config.*;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ConfirmLinkScreen;
-import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.util.Util;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.Vec3d;
 
-public class ConfigScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
-    int start = 20;
+public abstract class ConfigScreen extends Screen {
 
-    Screen parent;
+    protected int p = 2;
+    protected int p1 = p / 2;
+    protected int th;
+    protected int tp = 4;
 
-    int largeButtonW = 300;
-    int smallButtonW = largeButtonW / 2 - p;
-    int buttonHeight = 20;
+    protected int largeButtonW = 300;
+    protected int smallButtonW = 150 - p;
+    protected int tinyButtonW = 75;
+    protected int buttonHeight = 20;
 
+    protected int start = 20;
 
-    public ConfigScreen(Screen parent) {
-        super(Text.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
+    protected Screen parent;
+
+    protected Vec3d pos;
+    protected ChunkPos chunkPos;
+    protected float cameraYaw;
+    protected float cameraPitch;
+
+    protected int deathx;
+    protected int deathy;
+    protected int deathz;
+
+    protected String dimension;
+
+    protected MinecraftClient client = MinecraftClient.getInstance();
+
+    private Text title;
+
+    protected ConfigScreen(Screen parent) {
+        super(null);
+
         this.parent = parent;
 
-        ModUtil.initText();
+        th = MinecraftClient.getInstance().textRenderer.fontHeight;
+    }
+
+    protected void setTitle(Text title) {
+        this.title = title;
     }
 
     @Override
-    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
-        this.renderBackground(drawContext);
-
-        drawContext.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
-
-        super.render(drawContext, mouseX,  mouseY, delta);
+    public Text getNarratedTitle() {
+        return this.title;
     }
 
-    protected void init() {
-        super.init();
-
-        initSectionButtons();
-        initButtonsOpen();
-        initButtonsExit();
+    protected void drawTitle(DrawContext drawContext) {
+        drawContext.drawCenteredTextWithShadow(this.textRenderer, this.title, this.width / 2, 5, ModUtil.WHITE);
     }
 
-    private void initSectionButtons() {
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.visual"), (button) -> this.client.setScreen(new VisualScreen(this))).dimensions(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).build());
-
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.render"), (button) -> this.client.setScreen(new RenderScreen(this))).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight).build());
-
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.color"), (button) -> this.client.setScreen(new ColorScreen(this))).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).build());
-
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.deathpos"), (button) -> this.client.setScreen(new DeathPosScreen(this))).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight).build());
-
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.text"), (button) -> this.client.setScreen(new TextScreen(this))).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight).build());
+    protected int nonZeroGuiScale() {
+        int scale = this.client.options.getGuiScale().getValue();
+        if (scale == 0) {
+            // This formula copied from the Minecraft wiki
+            return (int) Math.max(1, Math.min(Math.floor(this.width / 320), Math.floor(this.height / 240)));
+        } else {
+            return scale;
+        }
     }
 
-    private void initButtonsOpen() {
-        // open config file
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.configfile"), (button) -> {
-            button.active = false;
-            if (ModUtil.openConfigFile()) {
-                button.setMessage(Text.translatable("message.coordinatesdisplay.openfilesuccess"));
-            } else {
-                button.setMessage(Text.translatable("message.coordinatesdisplay.openfilefailed"));
-            }
-        }).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight).build());
+    protected void generatePositionData() {
+        this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
+        this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
+        this.cameraYaw = (float) Math.random() * 180;
+        this.cameraPitch  = (float) Math.random() * 180;
 
-        // reset to default
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.client.setScreen(new ConfirmScreen((doIt) -> {
-            if (doIt) {
-                CoordinatesDisplay.resetConfig();
-                this.client.setScreen(new ConfigScreen(parent));
-            } else {
-                this.client.setScreen(this);
-            }
-        }, Text.translatable("screen.coordinatesdisplay.confirmreset"), Text.translatable("message.coordinatesdisplay.confirmreset")))).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 7, largeButtonW, buttonHeight).build());
+        this.deathx = (int) Math.round(Math.random() * 1000);
+        this.deathy = (int) Math.round(Math.random() * 100);
+        this.deathz = (int) Math.round(Math.random() * 1000);
 
-        // open wiki
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.wiki"), (button) -> this.client.setScreen(new ConfirmLinkScreen((yes) -> {
-            this.client.setScreen(this);
-            if (yes) {
-                Util.getOperatingSystem().open(ModUtil.CONFIG_WIKI);
-                CoordinatesDisplay.LOGGER.info("Opened link");
-            }
-        }, ModUtil.CONFIG_WIKI, false))).dimensions(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 8, largeButtonW, buttonHeight).build());
+        this.dimension = (String) ModUtil.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
+
     }
 
-    private void initButtonsExit() {
-        // cancel
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.cancel"), (button -> {
-            this.close();
-            CoordinatesDisplay.LOGGER.info("Cancel pressed so reloading config");
-            CoordinatesDisplay.resetConfig();
-        })).dimensions(this.width / 2 - smallButtonW - p1, this.height - buttonHeight - p, smallButtonW, buttonHeight).build());
+    @FunctionalInterface
+    public interface Redirector<T extends Screen> {
 
-        // save and exit
-        this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.save"), (button -> {
-            this.close();
-            CoordinatesDisplay.CONFIG.save();
-            CoordinatesDisplay.LOGGER.info("Save pressed so saving config");
-        })).dimensions(this.width / 2 + p1, this.height - buttonHeight - p, smallButtonW, buttonHeight).build());
-    }
+        T create(Screen parent);
 
-    @Override
-    public boolean shouldCloseOnEsc() {
-        return false;
-    }
-
-    @Override
-    public void close() {
-        this.client.setScreen(parent);
     }
 }

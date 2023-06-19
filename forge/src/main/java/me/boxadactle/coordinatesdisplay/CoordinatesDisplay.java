@@ -1,6 +1,6 @@
 package me.boxadactle.coordinatesdisplay;
 
-import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreenMain;
 import me.boxadactle.coordinatesdisplay.util.*;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
@@ -38,7 +38,7 @@ public class CoordinatesDisplay {
 
         // what a pain
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-                new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen)));
+                new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreenMain(screen)));
 
         LOGGER.info("Creating instance of HUD overlay");
         OVERLAY = new HudRenderer();

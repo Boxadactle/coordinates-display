@@ -1,115 +1,92 @@
 package me.boxadactle.coordinatesdisplay.gui;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import me.boxadactle.coordinatesdisplay.util.ModVersion;
-import me.boxadactle.coordinatesdisplay.gui.config.*;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
-import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.ConfirmLinkScreen;
-import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
-@OnlyIn(Dist.CLIENT)
-public class ConfigScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
+public abstract class ConfigScreen extends Screen {
 
-    int largeButtonW = 300;
-    int smallButtonW = 150 - p;
-    int buttonHeight = 20;
+    protected int p = 2;
+    protected int p1 = p / 2;
+    protected int th;
+    protected int tp = 4;
 
-    int start = 20;
+    protected int largeButtonW = 300;
+    protected int smallButtonW = 150 - p;
+    protected int tinyButtonW = 75;
+    protected int buttonHeight = 20;
 
-    Screen parent;
+    protected int start = 20;
 
-    public ConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
+    protected Screen parent;
+
+    protected Vec3 pos;
+    protected ChunkPos chunkPos;
+    protected float cameraYaw;
+    protected float cameraPitch;
+
+    protected int deathx;
+    protected int deathy;
+    protected int deathz;
+
+    protected String dimension;
+
+    protected Minecraft client = Minecraft.getInstance();
+
+    private Component title;
+
+    protected ConfigScreen(Screen parent) {
+        super(null);
+
         this.parent = parent;
-
-        ModUtil.initText();
-    }
-    
-    @Override
-    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        this.renderBackground(guiGraphics);
-
-        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
-
-        super.render(guiGraphics, mouseX,  mouseY, delta);
     }
 
-    protected void init() {
-        super.init();
-
-        initButtons();
-        initButtonsOpen();
-        initButtonsExit();
-    }
-
-    private void initButtons() {
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.visual"), (button) -> this.minecraft.setScreen(new VisualConfigScreen(this))).bounds(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).build());
-
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.render"), (button) -> this.minecraft.setScreen(new RenderConfigScreen(this))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight).build());
-
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.color"), (button) -> this.minecraft.setScreen(new ColorConfigScreen(this))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).build());
-
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.deathpos"), (button) -> this.minecraft.setScreen(new DeathPosConfigScreen(this))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight).build());
-
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.text"), (button) -> this.minecraft.setScreen(new TextConfigScreen(this))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight).build());
-    }
-
-    private void initButtonsOpen() {
-        // open config file
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.configfile"), (button) -> ModUtil.openConfigFile()).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 6, largeButtonW, buttonHeight).build());
-
-        // reset to default
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.resetconf"), (button) -> this.minecraft.setScreen(new ConfirmScreen((doIt) -> {
-            if (doIt) {
-                ModUtil.resetConfig();
-                this.minecraft.setScreen(new ConfigScreen(parent));
-            } else {
-                this.minecraft.setScreen(this);
-            }
-        }, Component.translatable("screen.coordinatesdisplay.confirmreset"), Component.translatable("message.coordinatesdisplay.confirmreset")))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 7, largeButtonW, buttonHeight).build());
-
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.wiki"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
-            this.minecraft.setScreen(this);
-            if (yes) {
-                Util.getPlatform().openUri(ModUtil.CONFIG_WIKI);
-                CoordinatesDisplay.LOGGER.info("Opened link");
-            }
-        }, ModUtil.CONFIG_WIKI, false))).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 8, largeButtonW, buttonHeight).build());
-    }
-
-    private void initButtonsExit() {
-        // cancel
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.cancel"), (button -> {
-            this.onClose();
-            CoordinatesDisplay.LOGGER.info("Cancel pressed so reloading config");
-            CoordinatesDisplay.CONFIG.load();
-        })).bounds(this.width / 2 - smallButtonW - p1, this.height - buttonHeight - p, smallButtonW, buttonHeight).build());
-
-        // save and exit
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.save"), (button -> {
-            this.onClose();
-            CoordinatesDisplay.CONFIG.save();
-            CoordinatesDisplay.LOGGER.info("Save pressed so saving config");
-        })).bounds(this.width / 2 + p1, this.height - buttonHeight - p, smallButtonW, buttonHeight).build());
+    protected void setTitle(Component title) {
+        this.title = title;
     }
 
     @Override
-    public boolean shouldCloseOnEsc() {
-        return false;
+    public @NotNull Component getNarrationMessage() {
+        return this.title;
     }
 
-    @Override
-    public void onClose() {
-        this.minecraft.setScreen(parent);
+    protected void drawTitle(GuiGraphics guiGraphics) {
+        guiGraphics.drawCenteredString(this.font, this.title, this.width / 2, 5, ModUtil.WHITE);
+    }
+
+    protected int nonZeroGuiScale() {
+        int scale = Minecraft.getInstance().options.guiScale().get();
+        if (scale == 0) {
+            // This formula copied from the Minecraft wiki
+            return (int) Math.max(1, Math.min(Math.floor(this.width / 320), Math.floor(this.height / 240)));
+        } else {
+            return scale;
+        }
+    }
+
+    protected void generatePositionData() {
+        this.pos = new Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
+        this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
+        this.cameraYaw = (float) Math.random() * 180;
+        this.cameraPitch  = (float) Math.random() * 180;
+
+        this.deathx = (int) Math.round(Math.random() * 1000);
+        this.deathy = (int) Math.round(Math.random() * 100);
+        this.deathz = (int) Math.round(Math.random() * 1000);
+
+        this.dimension = (String) ModUtil.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
+    }
+
+    @FunctionalInterface
+    public interface Redirector<T extends Screen> {
+
+        T create(Screen parent);
+
     }
 }

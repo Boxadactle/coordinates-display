@@ -1,27 +1,16 @@
 package me.boxadactle.coordinatesdisplay.gui.config;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.math.Vec3d;
 
-public class HudPositionScreen extends Screen {
-
-    private final MinecraftClient client = MinecraftClient.getInstance();
-
-    Screen parent;
-
-    Vec3d pos;
-    ChunkPos chunkPos;
-    float cameraYaw;
-    float cameraPitch;
-
-    boolean lockHudPos = false;
+public class HudPositionScreen extends ConfigScreen {
 
     int x;
     int y;
@@ -37,13 +26,11 @@ public class HudPositionScreen extends Screen {
     int delay = 10;
 
     public HudPositionScreen(Screen parent) {
-        super(Text.translatable("screen.coordinatesdisplay.config.position"));
+        super(parent);
         this.parent = parent;
 
-        this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos((int)Math.round(this.pos.x), (int)Math.round(this.pos.z));
-        this.cameraYaw  = (float) Math.random() * 180;
-        this.cameraPitch  = (float) Math.random() * 180;
+        super.generatePositionData();
+        super.setTitle(Text.translatable("screen.coordinatesdisplay.config.position"));
 
         x = CoordinatesDisplay.CONFIG.get().hudX;
         y = CoordinatesDisplay.CONFIG.get().hudY;
@@ -55,7 +42,6 @@ public class HudPositionScreen extends Screen {
 
     }
 
-    @Override
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         this.renderBackground(drawContext);
         super.render(drawContext, mouseX, mouseY, delta);
@@ -111,12 +97,6 @@ public class HudPositionScreen extends Screen {
 
     }
 
-    @Override
-    public void init() {
-        super.init();
-    }
-
-    @Override
     public void close() {
         CoordinatesDisplay.CONFIG.get().hudX = x;
         CoordinatesDisplay.CONFIG.get().hudY = y;

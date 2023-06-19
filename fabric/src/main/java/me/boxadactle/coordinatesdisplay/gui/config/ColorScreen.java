@@ -1,6 +1,6 @@
 package me.boxadactle.coordinatesdisplay.gui.config;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
@@ -9,60 +9,19 @@ import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 
-import java.text.DecimalFormat;
-
-public class ColorScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
-    int th = 10;
-    int tp = 4;
-
-    int largeButtonW = 300;
-    int smallButtonW = 150 - p;
-    int tinyButtonW = 75;
-    int buttonHeight = 20;
-
-    int start = 20;
-
-    Screen parent;
-
-    Vec3d pos;
-    ChunkPos chunkPos;
-    float cameraYaw;
-    float cameraPitch;
-
-    int deathx;
-    int deathy;
-    int deathz;
-
-    String dimension;
+public class ColorScreen extends ConfigScreen {
 
     public ColorScreen(Screen parent) {
-        super(Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
+        super(parent);
         this.parent = parent;
 
-        this.pos = new Vec3d(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
-        this.cameraYaw  = (float) Math.random() * 180;
-        this.cameraPitch  = (float) Math.random() * 180;
-
-        DecimalFormat d = new DecimalFormat("0.00");
-
-        deathx = (int) Math.round(Math.random() * 1000);
-        deathy = (int) Math.round(Math.random() * 100);
-        deathz = (int) Math.round(Math.random() * 1000);
-
-        dimension = (String) ModUtil.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
+        super.generatePositionData();
+        super.setTitle(Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
 
         CoordinatesDisplay.shouldRenderOnHud = false;
 
@@ -86,21 +45,10 @@ public class ColorScreen extends Screen {
         matrices.pop();
     }
 
-    private int nonZeroGuiScale() {
-        int scale = this.client.options.getGuiScale().getValue();
-        if (scale == 0) {
-            // This formula copied from the Minecraft wiki
-            return (int) Math.max(1, Math.min(Math.floor(this.width / 320), Math.floor(this.height / 240)));
-        } else {
-            return scale;
-        }
-    }
-
-    @Override
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         this.renderBackground(drawContext);
 
-        drawContext.drawCenteredTextWithShadow(this.textRenderer, Text.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        super.drawTitle(drawContext);
 
         int y = (int) (this.height / 2.3);
 
@@ -134,10 +82,10 @@ public class ColorScreen extends Screen {
             }
         }, ModUtil.CONFIG_WIKI_COLOR, false))).dimensions(5, 5, tinyButtonW, buttonHeight).build());
 
-        initButtons();
+        this.initConfigScreen();
     }
 
-    private void initButtons() {
+    public void initConfigScreen() {
         TextFieldWidget definitionColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.get().definitionColor)));
         TextFieldWidget dataColor = new TextFieldWidget(this.textRenderer, this.width / 2 + p, start + (buttonHeight + p), smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.get().definitionColor)));
         TextFieldWidget deathposColor = new TextFieldWidget(this.textRenderer, this.width / 2 - smallButtonW - p, start + (buttonHeight + p) * 3, smallButtonW, buttonHeight, Text.literal(Integer.toHexString(CoordinatesDisplay.CONFIG.get().definitionColor)));

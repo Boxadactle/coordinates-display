@@ -2,6 +2,7 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -10,18 +11,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.phys.Vec3;
 
-public class HudPositionScreen extends Screen {
+public class HudPositionScreen extends ConfigScreen {
 
     private final Minecraft client = Minecraft.getInstance();
-
-    Screen parent;
-
-    Vec3 pos;
-    ChunkPos chunkPos;
-    float cameraYaw;
-    float cameraPitch;
-
-    boolean lockHudPos = false;
 
     int x;
     int y;
@@ -37,13 +29,10 @@ public class HudPositionScreen extends Screen {
     int delay = 10;
 
     public HudPositionScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.position"));
-        this.parent = parent;
+        super(parent);
 
-        this.pos = new Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos((int)Math.round(this.pos.x), (int)Math.round(this.pos.z));
-        this.cameraYaw = ModUtil.randomDegrees();
-        this.cameraPitch = ModUtil.randomDegrees();
+        super.generatePositionData();
+        this.setTitle(Component.translatable("screen.coordinatesdisplay.config.position"));
 
         x = CoordinatesDisplay.CONFIG.get().hudX;
         y = CoordinatesDisplay.CONFIG.get().hudY;

@@ -1,6 +1,8 @@
 package me.boxadactle.coordinatesdisplay.gui.config;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
+import me.boxadactle.coordinatesdisplay.gui.widget.ConfigBooleanWidget;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
@@ -16,41 +18,20 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
 @OnlyIn(Dist.CLIENT)
-public class RenderConfigScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
-    int th = 10;
-    int tp = 4;
-
-    int largeButtonW = 300;
-    int smallButtonW = 150 - p;
-    int tinyButtonW = 75;
-    int buttonHeight = 20;
-
-    int start = 20;
-
-    Screen parent;
-
-    Vec3 pos;
-    ChunkPos chunkPos;
-    float cameraYaw;
-    float cameraPitch;
+public class RenderConfigScreen extends ConfigScreen {
 
     public RenderConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
-        this.parent = parent;
+        super(parent);
 
-        this.pos = new Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
-        this.cameraYaw = ModUtil.randomDegrees();
-        this.cameraPitch = ModUtil.randomDegrees();
+        super.generatePositionData();
+        super.setTitle(Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         this.renderBackground(guiGraphics);
 
-        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config.render", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
+        super.drawTitle(guiGraphics);
 
         CoordinatesDisplay.OVERLAY.render(guiGraphics, pos, chunkPos, cameraYaw, cameraPitch, null, this.width / 2 - (CoordinatesDisplay.OVERLAY.getWidth() / 2), (int) ((this.height / 2.1) + 35), CoordinatesDisplay.CONFIG.get().minMode, false);
 
@@ -67,60 +48,81 @@ public class RenderConfigScreen extends Screen {
 
     private void initButtons() {
         // background
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.get().renderBackground ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().renderBackground = !CoordinatesDisplay.CONFIG.get().renderBackground;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.background", (CoordinatesDisplay.CONFIG.get().renderBackground ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).build());
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start,
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.render.background",
+                CoordinatesDisplay.CONFIG.get().renderBackground,
+                newValue -> CoordinatesDisplay.CONFIG.get().renderBackground = newValue
+        ));
 
         // chunk data
-        Button chunk = new Button.Builder(Component.translatable("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.get().renderChunkData ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().renderChunkData = !CoordinatesDisplay.CONFIG.get().renderChunkData;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.chunkdata", (CoordinatesDisplay.CONFIG.get().renderChunkData ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight).build();
-        chunk.active = !CoordinatesDisplay.CONFIG.get().minMode;
-        this.addRenderableWidget(chunk);
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start + (buttonHeight + p),
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.render.chunkdata",
+                CoordinatesDisplay.CONFIG.get().renderChunkData,
+                newValue -> CoordinatesDisplay.CONFIG.get().renderChunkData = newValue
+        )).active = !CoordinatesDisplay.CONFIG.get().minMode;
 
         // direction
-        Button direction = new Button.Builder(Component.translatable("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.get().renderDirection ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().renderDirection = !CoordinatesDisplay.CONFIG.get().renderDirection;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.direction", (CoordinatesDisplay.CONFIG.get().renderDirection ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 2, largeButtonW, buttonHeight).build();
-        direction.active = !CoordinatesDisplay.CONFIG.get().minMode;
-        this.addRenderableWidget(direction);
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 - smallButtonW - p / 2,
+                start + (buttonHeight + p) * 2,
+                smallButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.render.direction",
+                CoordinatesDisplay.CONFIG.get().renderDirection,
+                newValue -> CoordinatesDisplay.CONFIG.get().renderDirection = newValue
+        )).active = !CoordinatesDisplay.CONFIG.get().minMode;
 
         // direction int
-        Button directionint = new Button.Builder(Component.translatable("button.coordinatesdisplay.render.directionint", (CoordinatesDisplay.CONFIG.get().renderDirectionInt ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().renderDirectionInt = !CoordinatesDisplay.CONFIG.get().renderDirectionInt;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.directionint", (CoordinatesDisplay.CONFIG.get().renderDirectionInt ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 3, largeButtonW, buttonHeight).build();
-        directionint.active = !CoordinatesDisplay.CONFIG.get().minMode;
-        this.addRenderableWidget(directionint);
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 + p / 2,
+                start + (buttonHeight + p) * 2,
+                smallButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.render.directionint",
+                CoordinatesDisplay.CONFIG.get().renderDirectionInt,
+                newValue -> CoordinatesDisplay.CONFIG.get().renderDirectionInt = newValue
+        )).active = !CoordinatesDisplay.CONFIG.get().minMode;
 
         // biome
-        Button biome = new Button.Builder(Component.translatable("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().renderBiome = !CoordinatesDisplay.CONFIG.get().renderBiome;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.biome", (CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 4, largeButtonW, buttonHeight).build();
-        biome.active = !CoordinatesDisplay.CONFIG.get().minMode;
-        this.addRenderableWidget(biome);
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 - smallButtonW - p / 2,
+                start + (buttonHeight + p) * 3,
+                smallButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.render.biome",
+                CoordinatesDisplay.CONFIG.get().renderBiome,
+                newValue -> CoordinatesDisplay.CONFIG.get().renderBiome = newValue
+        )).active = !CoordinatesDisplay.CONFIG.get().minMode;
 
-        // mc version
-        Button version = new Button.Builder(Component.translatable("button.coordinatesdisplay.render.mcversion", (CoordinatesDisplay.CONFIG.get().renderMCVersion ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().renderMCVersion = !CoordinatesDisplay.CONFIG.get().renderMCVersion;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.render.mcversion", (CoordinatesDisplay.CONFIG.get().renderMCVersion ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p) * 5, largeButtonW, buttonHeight).build();
-        version.active = !CoordinatesDisplay.CONFIG.get().minMode;
-        this.addRenderableWidget(version);
+        // biome color
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 + p / 2,
+                start + (buttonHeight + p) * 3,
+                smallButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.render.biomecolor",
+                CoordinatesDisplay.CONFIG.get().biomeColors,
+                newValue -> CoordinatesDisplay.CONFIG.get().biomeColors = newValue
+        ));
 
-        // open wiki
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {
-            this.minecraft.setScreen(this);
-            if (yes) {
-                Util.getPlatform().openUri(ModUtil.CONFIG_WIKI_RENDER);
-                CoordinatesDisplay.LOGGER.info("Opened link");
-            }
-        }, ModUtil.CONFIG_WIKI_RENDER, false))).bounds(5, 5, tinyButtonW, buttonHeight).build());
-    }
+        // minecraft version
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start + (buttonHeight + p) * 4,
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.render.mcversion",
+                CoordinatesDisplay.CONFIG.get().renderMCVersion,
+                newValue -> CoordinatesDisplay.CONFIG.get().renderMCVersion = newValue
+        )).active = !CoordinatesDisplay.CONFIG.get().minMode;    }
 
     @Override
     public void onClose() {

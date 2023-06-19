@@ -2,6 +2,7 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
@@ -11,33 +12,22 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import org.spongepowered.asm.mixin.transformer.Config;
 
-public class TextConfigScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
-    int th = 10;
-    int tp = 4;
-
-    int largeButtonW = 300;
-    int smallButtonW = 150 - p;
-    int tinyButtonW = 75;
-    int buttonHeight = 20;
-
-    int start = 20;
-
-    Screen parent;
-
+public class TextConfigScreen extends ConfigScreen {
 
     public TextConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
-        this.parent = parent;
+        super(parent);
+
+        super.generatePositionData();
+        super.setTitle(Component.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         this.renderBackground(guiGraphics);
 
-        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()).getString(), this.width / 2, 5, ModUtil.WHITE);
+        super.drawTitle(guiGraphics);
 
         guiGraphics.drawCenteredString(this.font, Component.translatable("button.coordinatesdisplay.poschatmessage"), this.width / 2, start, ModUtil.WHITE);
 

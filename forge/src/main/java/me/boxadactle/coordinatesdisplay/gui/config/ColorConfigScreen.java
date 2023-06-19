@@ -1,8 +1,8 @@
 package me.boxadactle.coordinatesdisplay.gui.config;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
@@ -13,60 +13,22 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.ConfirmLinkScreen;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.level.ChunkPos;
-import net.minecraft.world.phys.Vec3;
 
-public class ColorConfigScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
-    int th = 10;
-    int tp = 4;
-
-    int largeButtonW = 300;
-    int smallButtonW = 150 - p;
-    int tinyButtonW = 75;
-    int buttonHeight = 20;
-
-    int start = 20;
-
-    Screen parent;
-
-    Vec3 pos;
-    ChunkPos chunkPos;
-    float cameraYaw;
-    float cameraPitch;
-
-    int deathx;
-    int deathy;
-    int deathz;
-
-    String dimension;
+public class ColorConfigScreen extends ConfigScreen {
 
     public ColorConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
-        this.parent = parent;
+        super(parent);
 
-        this.pos = new Vec3(Math.random() * 1000d, Math.random() * 5d, Math.random() * 1000d);
-        this.chunkPos = new ChunkPos(new BlockPos(ModUtil.doubleVecToIntVec(this.pos)));
-        this.cameraYaw = ModUtil.randomDegrees();
-        this.cameraPitch = ModUtil.randomDegrees();
-
-        deathx = (int) Math.round(Math.random() * 1000);
-        deathy = (int) Math.round(Math.random() * 100);
-        deathz = (int) Math.round(Math.random() * 1000);
-
-        dimension = (String) ModUtil.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
+        super.generatePositionData();
+        super.setTitle(Component.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
 
         CoordinatesDisplay.shouldRenderOnHud = false;
-
     }
 
-    private void renderColorPicker(GuiGraphics guiGraphics) {
+    private void renderColorPickerGraphic(GuiGraphics guiGraphics) {
         float s = 1.2F;
         PoseStack matrices = guiGraphics.pose();
         matrices.pushPose();
@@ -84,21 +46,11 @@ public class ColorConfigScreen extends Screen {
         matrices.popPose();
     }
 
-    private int nonZeroGuiScale() {
-        int scale = Minecraft.getInstance().options.guiScale().get();
-        if (scale == 0) {
-            // This formula copied from the Minecraft wiki
-            return (int) Math.max(1, Math.min(Math.floor(this.width / 320), Math.floor(this.height / 240)));
-        } else {
-            return scale;
-        }
-    }
-
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         this.renderBackground(guiGraphics);
 
-        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config.color", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        super.drawTitle(guiGraphics);
 
         int y = (int) (this.height / 2.3);
 
@@ -113,7 +65,7 @@ public class ColorConfigScreen extends Screen {
         Component deathPos = Component.translatable("message.coordinatesdisplay.deathpos", posT);
         guiGraphics.drawCenteredString(this.font, deathPos, this.width / 2, y - (CoordinatesDisplay.OVERLAY.getHeight() / 4) + 40, ModUtil.WHITE);
 
-        this.renderColorPicker(guiGraphics);
+        this.renderColorPickerGraphic(guiGraphics);
 
         super.render(guiGraphics, mouseX,  mouseY, delta);
     }

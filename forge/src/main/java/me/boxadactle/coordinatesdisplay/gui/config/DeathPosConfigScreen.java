@@ -2,6 +2,8 @@ package me.boxadactle.coordinatesdisplay.gui.config;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
+import me.boxadactle.coordinatesdisplay.gui.widget.ConfigBooleanWidget;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.Util;
@@ -16,41 +18,20 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.text.DecimalFormat;
 
 @OnlyIn(Dist.CLIENT)
-public class DeathPosConfigScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
-    int th = 10;
-    int tp = 4;
-
-    int largeButtonW = 300;
-    int smallButtonW = 150 - p;
-    int tinyButtonW = 75;
-    int buttonHeight = 20;
-
-    int start = 20;
-
-    Screen parent;
-
-    String deathx;
-    String deathy;
-    String deathz;
-
+public class DeathPosConfigScreen extends ConfigScreen {
     public DeathPosConfigScreen(Screen parent) {
-        super(Component.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
+        super(parent);
         this.parent = parent;
 
-        DecimalFormat d = new DecimalFormat("0.00");
-
-        deathx = d.format(Math.random() * 1000);
-        deathy = d.format(Math.random() * 100);
-        deathz = d.format(Math.random() * 1000);
+        super.generatePositionData();
+        super.setTitle(Component.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
     }
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         this.renderBackground(guiGraphics);
 
-        guiGraphics.drawCenteredString(this.font, Component.translatable("screen.coordinatesdisplay.config.deathpos", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()), this.width / 2, 5, ModUtil.WHITE);
+        super.drawTitle(guiGraphics);
 
         Component pos = Component.translatable("message.coordinatesdisplay.location", deathx, deathy, deathz).withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
         Component deathPos = Component.translatable("message.coordinatesdisplay.deathpos", pos).withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().definitionColor));
@@ -69,16 +50,26 @@ public class DeathPosConfigScreen extends Screen {
 
     private void initButtons() {
         // show death pos in chat
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen = !CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.deathpos.deathscreen", (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start, largeButtonW, buttonHeight).build());
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start,
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.deathpos.deathscreen",
+                CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen,
+                newValue -> CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen = newValue
+        ));
 
         // chunk data
-        this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.get().showDeathPosInChat ? ModUtil.TRUE : ModUtil.FALSE)), (button) -> {
-            CoordinatesDisplay.CONFIG.get().showDeathPosInChat = !CoordinatesDisplay.CONFIG.get().showDeathPosInChat;
-            button.setMessage(Component.translatable("button.coordinatesdisplay.deathpos.chat", (CoordinatesDisplay.CONFIG.get().showDeathPosInChat ? ModUtil.TRUE : ModUtil.FALSE)));
-        }).bounds(this.width / 2 - largeButtonW / 2, start + (buttonHeight + p), largeButtonW, buttonHeight).build());
+        this.addRenderableWidget(new ConfigBooleanWidget(
+                this.width / 2 - largeButtonW / 2,
+                start + (buttonHeight + p),
+                largeButtonW,
+                buttonHeight,
+                "button.coordinatesdisplay.deathpos.chat",
+                CoordinatesDisplay.CONFIG.get().showDeathPosInChat,
+                newValue -> CoordinatesDisplay.CONFIG.get().showDeathPosInChat = newValue
+        ));
 
         // open wiki
         this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.help"), (button) -> this.minecraft.setScreen(new ConfirmLinkScreen((yes) -> {

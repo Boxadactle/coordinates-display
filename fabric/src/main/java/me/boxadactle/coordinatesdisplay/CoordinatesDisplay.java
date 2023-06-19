@@ -69,6 +69,8 @@ public class CoordinatesDisplay implements ClientModInitializer {
                 case "Plains", "Sunflower Plains" -> 0x4dd115;
                 case "Savanna", "Savanna Plateau" -> 0x5c701c;
                 case "Cherry Grove" -> 0xd863e0;
+                case "Soul Sand Valley" -> 0xBFB755;
+                case "Warped Forest" -> 0x00d0cb;
                 default -> defaultColor;
 
             };

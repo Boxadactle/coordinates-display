@@ -97,7 +97,6 @@ public class HudRenderer {
         this.y = y;
 
         // variables
-
         DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().roundPosToTwoDecimals ? "0.00" : "0");
 
         Text xpos = Text.literal(decimalFormat.format(pos.getX())).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
@@ -110,10 +109,15 @@ public class HudRenderer {
         Text biometext;
         if (this.client.world != null) {
             String biomestring = biome != null ? ModUtil.parseIdentifier(ModUtil.getBiomeString(biome)) : "Plains";
-            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
-                    Text.literal("");
-        } else
-            biometext = Text.literal("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
+            biometext = CoordinatesDisplay.CONFIG.get().biomeColors ?
+                    ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor))) :
+                    ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.CONFIG.get().dataColor);
+        } else {
+            String biomestring = "Plains";
+            biometext = CoordinatesDisplay.CONFIG.get().biomeColors ?
+                    ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor))) :
+                    ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.CONFIG.get().dataColor);
+        }
 
         Text dtext = Text.translatable("hud.coordinatesdisplay." + ModUtil.getDirectionFromYaw(MathHelper.wrapDegrees(cameraYaw))).styled((style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
 
@@ -177,10 +181,13 @@ public class HudRenderer {
         Text biometext;
         if (this.client.world != null) {
             String biomestring = biome != null ? ModUtil.parseIdentifier(ModUtil.getBiomeString(biome)) : "Plains";
-            biometext = CoordinatesDisplay.CONFIG.get().renderBiome ? ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
-                    Text.literal("");
-        } else
-            biometext = Text.literal("Plains").styled((style -> style.withColor(CoordinatesDisplay.CONFIG.get().dataColor)));
+            biometext = CoordinatesDisplay.CONFIG.get().biomeColors ? ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
+                    Text.literal(biomestring);
+        } else {
+            String biomestring = "Plains";
+            biometext = CoordinatesDisplay.CONFIG.get().biomeColors ? ModUtil.colorize(Text.literal(biomestring), CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor)) :
+                    Text.literal(biomestring);
+        }
 
         float yaw = MathHelper.wrapDegrees(cameraYaw);
         float pitch = MathHelper.wrapDegrees(cameraPitch);

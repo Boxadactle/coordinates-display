@@ -21,6 +21,7 @@ public class ModConfig implements ConfigData {
     public boolean renderDirection = true;
     public boolean renderDirectionInt = true;
     public boolean renderBiome = true;
+    public boolean biomeColors = true;
     public boolean renderMCVersion = true;
 
     public int definitionColor = 0x55FF55;

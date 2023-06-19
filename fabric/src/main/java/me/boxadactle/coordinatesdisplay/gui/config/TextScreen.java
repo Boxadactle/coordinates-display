@@ -1,6 +1,7 @@
 package me.boxadactle.coordinatesdisplay.gui.config;
 
 import me.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import me.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import me.boxadactle.coordinatesdisplay.util.ModUtil;
 import me.boxadactle.coordinatesdisplay.util.ModVersion;
 import net.minecraft.client.gui.DrawContext;
@@ -8,33 +9,20 @@ import net.minecraft.client.gui.screen.ConfirmLinkScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 
-public class TextScreen extends Screen {
-    int p = 2;
-    int p1 = p / 2;
-    int th = 10;
-    int tp = 4;
-
-    int largeButtonW = 300;
-    int smallButtonW = 150 - p;
-    int tinyButtonW = 75;
-    int buttonHeight = 20;
-
-    int start = 20;
-
-    Screen parent;
+public class TextScreen extends ConfigScreen {
 
     public TextScreen(Screen parent) {
-        super(Text.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
-        this.parent = parent;
+        super(parent);
+
+        super.generatePositionData();
+        super.setTitle(Text.translatable("screen.coordinatesdisplay.config.text", CoordinatesDisplay.MOD_NAME, ModVersion.getVersion()));
 
         CoordinatesDisplay.shouldRenderOnHud = false;
     }
 
-    @Override
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         this.renderBackground(drawContext);
 
@@ -75,9 +63,10 @@ public class TextScreen extends Screen {
         this.addDrawableChild(copyPosMessage);
     }
 
-    @Override
     public void close() {
         this.client.setScreen(parent);
         CoordinatesDisplay.shouldRenderOnHud = true;
     }
+
+    public void initConfigScreen() {}
 }
