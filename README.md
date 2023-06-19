@@ -3,7 +3,7 @@
 
 Coordinates Display is a Client-side mod that adds an HUD to show your position, your chunk position, the direction you are looking in, the name of the biome you are in, and your Minecraft version.
 
-![hud1](https://github.com/Boxadactle/coordinates-display/blob/main/img/overlay.png)
+![hud1](https://raw.githubusercontent.com/Boxadactle/coordinates-display/main/img/overlay.png)
 
 # Dependencies
 
