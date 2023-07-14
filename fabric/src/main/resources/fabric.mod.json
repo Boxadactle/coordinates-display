@@ -18,14 +18,14 @@
   "environment": "client",
   "entrypoints": {
     "client": [
-      "me.boxadactle.coordinatesdisplay.CoordinatesDisplay"
+      "dev.boxadactle.coordinatesdisplay.CoordinatesDisplay"
     ],
     "modmenu": [
-      "me.boxadactle.coordinatesdisplay.CoordinatesDisplayModMenu"
+      "dev.boxadactle.coordinatesdisplay.CoordinatesDisplayModMenu"
     ]
   },
   "mixins": [
-    "CoordinatesDisplay.mixins.json"
+    "coordinatesdiplay.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.14.17",
