@@ -7,6 +7,8 @@ Coordinates Display is a Client-side mod that adds an HUD to show your position,
 
 # Dependencies
 
+Both versions of this mod embed [BoxLib](https://github.com/Boxadactle/BoxLib/), a Client-side library mod developed by me.
+
 ## Fabric
 
 [![Requires Fabric API](https://i.imgur.com/Ol1Tcf8.png)](https://www.curseforge.com/minecraft/mc-mods/fabric-api)
