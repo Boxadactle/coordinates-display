@@ -61,11 +61,9 @@ public class PositionCommand extends CoordinatesCommand {
     private int copyPosTp(CommandContext<FabricClientCommandSource> context) {
 
         try {
-            Position pos = Position.of(MinecraftClient.getInstance().getCameraEntity());
+            Position pos = Position.of(WorldUtils.getCamera());
 
-            RegistryKey<World> registry = MinecraftClient.getInstance().player.clientWorld.getRegistryKey();
-
-            MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.toTeleportCommand(pos.getPlayerVector(), (registry != null ? registry.getValue().toString() : null)));
+            MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.toTeleportCommand(pos.position.getPlayerPos(), WorldUtils.getCurrentDimension()));
 
             LOGGER.player.info(super.translatable("command.coordinatesdisplay.position.copytp"));
 

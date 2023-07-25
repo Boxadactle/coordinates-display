@@ -35,7 +35,7 @@ public class MinRenderer extends HudRenderer.Renderer {
     @Override
     protected Rect<Integer> renderOverlay(DrawContext drawContext, int x, int y, Position pos) {
         DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
-        Vec3<Double> player = pos.getPlayerVector();
+        Vec3<Double> player = pos.position.getPlayerPos();
 
         Text xtext = GuiUtils.colorize(translation(
                 "x",
@@ -62,7 +62,7 @@ public class MinRenderer extends HudRenderer.Renderer {
         ), config().definitionColor);
 
 
-        String biomestring = ClientUtils.parseIdentifier(pos.getBiome());
+        String biomestring = pos.world.getBiome(true);
         Text biome = GuiUtils.colorize(translation(
                 "biome",
                 GuiUtils.colorize(
@@ -77,8 +77,8 @@ public class MinRenderer extends HudRenderer.Renderer {
         int th = GuiUtils.getTextRenderer().fontHeight;
         int tp = CoordinatesDisplay.CONFIG.get().textPadding;
 
-        double yaw = pos.getYaw(true);
-        double pitch = pos.getPitch(true);
+        double yaw = pos.headRot.wrapYaw();
+        double pitch = pos.headRot.wrapPitch();
         Text direction = translation(ModUtil.getDirectionFromYaw(yaw));
         Text pitchText = Text.literal(pitch > 0 ? "+" : "-");
         Text directionText = Text.translatable("hud.coordinatesdisplay.min." + ModUtil.getDirectionFromYaw(yaw), direction);

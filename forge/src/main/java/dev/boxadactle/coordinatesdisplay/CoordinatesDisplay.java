@@ -1,28 +1,35 @@
 package dev.boxadactle.coordinatesdisplay;
 
-import dev.boxadactle.boxlib.ModConstantsProvider;
+import com.mojang.blaze3d.systems.RenderSystem;
+import dev.boxadactle.boxlib.config.BConfigClass;
+import dev.boxadactle.boxlib.config.BConfigHandler;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
-import dev.boxadactle.coordinatesdisplay.init.Commands;
-import dev.boxadactle.coordinatesdisplay.util.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.ModConstants;
-import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import dev.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
 import dev.boxadactle.coordinatesdisplay.gui.config.HudPositionScreen;
+import dev.boxadactle.coordinatesdisplay.init.Commands;
+import dev.boxadactle.coordinatesdisplay.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.init.OverlayRenderers;
+import dev.boxadactle.coordinatesdisplay.util.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.util.ModConfig;
+import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigHolder;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod("coordinatesdisplay")
+@Mod(ModConstants.MOD_ID)
 public class CoordinatesDisplay {
 
     public static ModLogger LOGGER;
@@ -31,18 +38,16 @@ public class CoordinatesDisplay {
     public static boolean shouldCoordinatesGuiOpen = false;
     public static boolean shouldHudPositionGuiOpen = false;
 
-    public static ConfigHolder<ModConfig> CONFIG;
+    public static boolean shouldHudRender = true;
+
+    public static BConfigClass<ModConfig> CONFIG;
 
     public static HudRenderer OVERLAY;
 
     public CoordinatesDisplay() {
-        ModConstantsProvider.registerProvider(ModConstants.class);
-
         LOGGER = new ModLogger("CoordinatesDisplay");
-        LOGGER.info("Loading " + ModConstantsProvider.getProvider("coordinatesdisplay").getString());
 
-        AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
-        CONFIG = AutoConfig.getConfigHolder(ModConfig.class);
+        CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 
         // what a pain
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
@@ -54,14 +59,9 @@ public class CoordinatesDisplay {
 
         LOGGER.info("Registering commands...");
         Commands.register();
-
-        ModUtil.init();
-
         MinecraftForge.EVENT_BUS.register(this);
-    }
 
-    public static ModConstantsProvider getModConstants() {
-        return ModConstantsProvider.getProvider("coordinatesdisplay");
+        LOGGER.info("Initialized %s", ModConstants.VERSION_STRING);
     }
 
     public static ModConfig getConfig() {
@@ -121,6 +121,57 @@ public class CoordinatesDisplay {
                 default -> defaultColor;
             };
 
+        }
+
+    }
+
+    @Mod.EventBusSubscriber(modid = "coordinatesdisplay", value = Dist.CLIENT)
+    public static class ClientForgeEvents {
+        @SubscribeEvent
+        public static void keyInput(InputEvent.Key e) {
+            Entity camera = Minecraft.getInstance().getCameraEntity();
+            if (camera != null) {
+                Position pos = Position.of(Minecraft.getInstance().getCameraEntity());
+                Keybinds.checkBindings(pos);
+            }
+        }
+
+        @SubscribeEvent(priority = EventPriority.LOW)
+        public static void renderHud(RenderGuiEvent.Pre e) {
+            if (
+                    !ClientUtils.getOptions().hideGui
+                    && CoordinatesDisplay.CONFIG.get().visible
+                    && !ClientUtils.getOptions().renderDebug
+                    && shouldHudRender
+            ) {
+                try {
+                    RenderSystem.enableBlend();
+
+                    ModConfig config = CoordinatesDisplay.getConfig();
+
+                    CoordinatesDisplay.OVERLAY.render(
+                            e.getGuiGraphics(),
+                            Position.of(WorldUtils.getCamera()),
+                            config.hudX,
+                            config.hudY,
+                            config.renderMode,
+                            false,
+                            config.hudScale
+                    );
+                } catch (NullPointerException exception) {
+                    LOGGER.printStackTrace(exception);
+                }
+            }
+
+        }
+
+    }
+
+    @Mod.EventBusSubscriber(modid = "coordinatesdisplay", value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void keyRegister(RegisterKeyMappingsEvent e) {
+            Keybinds.register(e);
         }
 
     }

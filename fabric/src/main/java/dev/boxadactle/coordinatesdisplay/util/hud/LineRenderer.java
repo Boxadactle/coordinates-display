@@ -32,7 +32,7 @@ public class LineRenderer extends HudRenderer.Renderer {
     @Override
     protected Rect<Integer> renderOverlay(DrawContext drawContext, int x, int y, Position pos) {
 
-        Vec3<Double> vec = pos.getPlayerVector();
+        Vec3<Double> vec = pos.position.getPlayerPos();
         DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
 
         Text xtext = GuiUtils.colorize(translation(
@@ -58,7 +58,7 @@ public class LineRenderer extends HudRenderer.Renderer {
         ), config().definitionColor);
 
         Text direction = GuiUtils.colorize(translation("direction", GuiUtils.colorize(
-                translation(ModUtil.getDirectionFromYaw(pos.getYaw(true))),
+                translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())),
                 config().dataColor
         )), config().definitionColor);
 

@@ -60,7 +60,7 @@ public class Keybinds {
         }
 
         if (reloadConfigKeybind.consumeClick()) {
-            ModUtil.reloadConfig();
+            CoordinatesDisplay.CONFIG.reload();
             CoordinatesDisplay.LOGGER.player.info("Config reloaded!");
         }
 
@@ -76,7 +76,7 @@ public class Keybinds {
         }
 
         if (copyPosTp.consumeClick()) {
-            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.toTeleportCommand(pos.getPlayerVector(), WorldUtils.getCurrentDimension()));
+            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.toTeleportCommand(pos.position.getPlayerPos(), WorldUtils.getCurrentDimension()));
 
             CoordinatesDisplay.LOGGER.player.info("Copied position as teleport command!");
         }

@@ -2,32 +2,32 @@ package dev.boxadactle.coordinatesdisplay.util.position;
 
 import net.minecraft.util.Mth;
 
-public class PlayerHeadRot<Y extends Number, P extends Number> {
+public class PlayerHeadRot {
 
-    Y yaw;
+    float yaw;
 
-    P pitch;
+    float pitch;
 
-    public PlayerHeadRot(Y yaw, P pitch) {
+    public PlayerHeadRot(float yaw, float pitch) {
 
         this.yaw = yaw;
         this.pitch = pitch;
 
     }
 
-    public P getPitch() {
+    public float getPitch() {
         return pitch;
     }
 
-    public Y getYaw() {
+    public float getYaw() {
         return yaw;
     }
 
     public double wrapPitch() {
-        return Mth.wrapDegrees(Double.parseDouble(String.valueOf(yaw)));
+        return Mth.wrapDegrees(pitch);
     }
 
     public double wrapYaw() {
-        return Mth.wrapDegrees(Double.parseDouble(String.valueOf(yaw)));
+        return Mth.wrapDegrees(yaw);
     }
 }

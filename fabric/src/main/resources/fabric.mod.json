@@ -8,10 +8,10 @@
     "Boxadactle"
   ],
   "contact": {
-    "homepage": "https://github.com/Boxadactle",
+    "homepage": "https://boxadactle.dev",
     "sources": "https://github.com/Boxadactle/coordinates-display",
     "issues": "https://github.com/Boxadactle/coordinates-display/issues",
-    "wiki": "https://boxadactle.github.io/wiki/coordinates-display/"
+    "wiki": "https://boxadactle.dev/wiki/coordinates-display/"
   },
   "license": "MIT",
   "icon": "assets/coordinatesdisplay/icon.png",

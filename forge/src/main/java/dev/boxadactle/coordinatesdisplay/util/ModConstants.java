@@ -1,30 +1,21 @@
 package dev.boxadactle.coordinatesdisplay.util;
 
-import dev.boxadactle.boxlib.ModConstantsProvider;
+public class ModConstants {
 
-public class ModConstants extends ModConstantsProvider {
-    @Override
-    public String getName() {
-        return "CoordinatesDisplay";
-    }
+    public static final String MOD_NAME = "CoordinatesDisplay";
 
-    @Override
-    public String getModId() {
-        return "coordinatesdisplay";
-    }
+    public static final String MOD_ID = "coordinatesdisplay";
 
-    @Override
-    public String getVersion() {
-        return "3.0.0";
-    }
+    public static final String VERSION = "3.1.0";
 
-    @Override
-    public String[] getAuthors() {
-        return new String[] { "Boxadactle" };
-    }
+    public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
-    @Override
-    public String getWiki() {
-        return "https://boxadactle.dev/wiki/coordinates-display/";
-    }
+
+    // wiki pages
+    public static final String WIKI = "https://boxadactle.dev/wiki/coordinates-display/";
+    public static String WIKI_VISUAL = WIKI + "#visual";
+    public static String WIKI_RENDER = WIKI + "#rendering";
+    public static String WIKI_COLOR = WIKI + "#color";
+    public static String WIKI_DEATHPOS = WIKI + "#deathpos";
+    public static String WIKI_TEXTS = WIKI + "#text";
 }

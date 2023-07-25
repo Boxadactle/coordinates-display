@@ -1,16 +1,19 @@
 package dev.boxadactle.coordinatesdisplay.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.BoxLib;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import dev.boxadactle.boxlib.math.Rect;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
+import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Supplier;
 
 public class HudRenderer {
 
@@ -30,12 +33,14 @@ public class HudRenderer {
         return ModUtil.isMouseHovering(Math.round(mouseX / scale), Math.round(mouseY / scale), x, y, w, h);
     }
 
-    public <T extends Renderer> T register(ModConfig.RenderMode mode, T renderer) {
-        renderers.put(mode, renderer);
+    public <T extends Renderer> T register(ModConfig.RenderMode mode, Class<T> renderer) {
+        T r = BoxLib.initializeClass(renderer);
+
+        renderers.put(mode, r);
 
         CoordinatesDisplay.LOGGER.info("Registered renderer for render mode: " + mode.name());
 
-        return renderer;
+        return r;
     }
 
     public boolean isScaleButtonHovered(int mouseX, int mouseY) {
@@ -46,20 +51,15 @@ public class HudRenderer {
 
     public void render(GuiGraphics guiGraphics, Position pos, int x, int y, ModConfig.RenderMode renderMode, boolean moveOverlay) {
         try {
-            AtomicBoolean hasRendered = new AtomicBoolean(false);
-            renderers.forEach((d, r) -> {
-                if (renderMode.equals(d)) {
-                    Rect<Integer> rect = r.renderOverlay(guiGraphics, x, y, pos);
-                    this.x = rect.getX();
-                    this.y = rect.getY();
-                    this.w = rect.getWidth();
-                    this.h = rect.getHeight();
+            Renderer r = renderers.get(renderMode);
 
-                    hasRendered.set(true);
-                }
-            });
+            if (r == null) throw new UnregisteredRendererException(renderMode);
 
-            if (!hasRendered.get()) throw new UnregisteredRendererException(renderMode);
+            Rect<Integer> size = r.renderOverlay(guiGraphics, x, y, pos);
+            this.x = size.getX();
+            this.y = size.getY();
+            this.w = size.getWidth();
+            this.h = size.getHeight();
 
             if (moveOverlay) {
                 renderMoveOverlay(guiGraphics, x, y);
@@ -137,5 +137,22 @@ public class HudRenderer {
         }
 
         protected abstract Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos);
+
+        protected Component definition(Component t) {
+            return GuiUtils.colorize(t, config().definitionColor);
+        }
+
+        protected Component value(Component t) {
+            return GuiUtils.colorize(t, config().dataColor);
+        }
+
+        protected Component definition(String t) {
+            return GuiUtils.colorize(Component.literal(t), config().definitionColor);
+        }
+
+        protected Component value(String t) {
+            return GuiUtils.colorize(Component.literal(t), config().dataColor);
+        }
+
     }
 }

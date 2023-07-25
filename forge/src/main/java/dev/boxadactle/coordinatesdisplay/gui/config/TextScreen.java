@@ -1,14 +1,12 @@
 package dev.boxadactle.coordinatesdisplay.gui.config;
 
-import dev.boxadactle.boxlib.gui.widget.BToggleButton;
+import dev.boxadactle.boxlib.gui.widget.*;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.gui.BConfigScreen;
-import dev.boxadactle.boxlib.gui.widget.BBooleanButton;
-import dev.boxadactle.boxlib.gui.widget.BLabel;
-import dev.boxadactle.boxlib.gui.widget.BStringField;
 import dev.boxadactle.coordinatesdisplay.gui.HudHelper;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
+import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -24,14 +22,14 @@ public class TextScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.Component", CoordinatesDisplay.getModConstants().getString());
+        return Component.translatable("screen.coordinatesdisplay.Component", ModConstants.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), ModUtil.CONFIG_WIKI_TEXTS);
+        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI_TEXTS);
     }
 
     @Override
@@ -59,24 +57,13 @@ public class TextScreen extends BConfigScreen implements HudHelper {
         ));
 
         // teleport mode
-        this.addConfigOption(new BToggleButton<>(
+        this.addConfigOption(new BEnumButton<>(
                 "button.coordinatesdisplay.tpmode",
                 config().teleportMode,
-                Arrays.stream(ModConfig.TeleportMode.values()).toList(),
-                newVal -> config().teleportMode = newVal
-        ) {
-            @Override
-            public ModConfig.TeleportMode to(Component input) {
-                String a = ((TranslatableContents)input.getContents()).getKey().substring("button.coordinatesdisplay.tpmode.".length()).toUpperCase();
-
-                return ModConfig.TeleportMode.valueOf(a);
-            }
-
-            @Override
-            public Component from(ModConfig.TeleportMode input) {
-                return GuiUtils.colorize(Component.translatable("button.coordinatesdisplay.tpmode." + input.name().toLowerCase()), GuiUtils.AQUA);
-            }
-        });
+                ModConfig.TeleportMode.class,
+                newVal -> config().teleportMode = newVal,
+                GuiUtils.AQUA
+        ));
 
     }
 }

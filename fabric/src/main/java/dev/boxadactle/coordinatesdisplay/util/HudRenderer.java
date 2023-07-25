@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.util;
 
+import dev.boxadactle.boxlib.BoxLib;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import dev.boxadactle.boxlib.math.Rect;
 import dev.boxadactle.boxlib.util.GuiUtils;
@@ -30,36 +31,33 @@ public class HudRenderer {
         return ModUtil.isMouseHovering(Math.round(mouseX / scale), Math.round(mouseY / scale), x, y, w, h);
     }
 
-    public <T extends Renderer> T register(ModConfig.RenderMode mode, T renderer) {
-        renderers.put(mode, renderer);
+    public <T extends Renderer> T register(ModConfig.RenderMode mode, Class<T> renderer) {
+        T r = BoxLib.initializeClass(renderer);
+
+        renderers.put(mode, r);
 
         CoordinatesDisplay.LOGGER.info("Registered renderer for render mode: " + mode.name());
 
-        return renderer;
+        return r;
     }
 
     public boolean isScaleButtonHovered(int mouseX, int mouseY) {
         int scaleX = (x + w - scaleSize);
         int scaleY = (y + h - scaleSize);
-        return ModUtil.isMouseHovering(Math.round(mouseX / scale), Math.round(mouseY / scale), scaleX, scaleY, scaleX + scaleSize, scaleY + scaleSize);
+        return ModUtil.isMouseHovering(Math.round(mouseX / scale), Math.round(mouseY / scale), scaleX, scaleY, scaleX + scaleSize, scaleY + scaleX);
     }
 
     public void render(DrawContext drawContext, int x, int y, Position pos, ModConfig.RenderMode renderMode, boolean moveOverlay) throws UnregisteredRendererException {
         try {
-            AtomicBoolean hasRendered = new AtomicBoolean(false);
-            renderers.forEach((d, r) -> {
-                if (renderMode.equals(d)) {
-                    Rect<Integer> rect = r.renderOverlay(drawContext, x, y, pos);
-                    this.x = rect.getX();
-                    this.y = rect.getY();
-                    this.w = rect.getWidth();
-                    this.h = rect.getHeight();
+            Renderer r = renderers.get(renderMode);
 
-                    hasRendered.set(true);
-                }
-            });
+            if (r == null) throw new UnregisteredRendererException(renderMode);
 
-            if (!hasRendered.get()) throw new UnregisteredRendererException(renderMode);
+            Rect<Integer> size = r.renderOverlay(drawContext, x, y, pos);
+            this.x = size.getX();
+            this.y = size.getY();
+            this.w = size.getWidth();
+            this.h = size.getHeight();
 
             if (moveOverlay) {
                 renderMoveOverlay(drawContext, x, y);
@@ -137,5 +135,21 @@ public class HudRenderer {
         }
 
         protected abstract Rect<Integer> renderOverlay(DrawContext drawContext, int x, int y, Position pos);
+
+        protected Text definition(Text t) {
+            return GuiUtils.colorize(t, config().definitionColor);
+        }
+
+        protected Text value(Text t) {
+            return GuiUtils.colorize(t, config().dataColor);
+        }
+
+        protected Text definition(String t) {
+            return GuiUtils.colorize(Text.literal(t), config().definitionColor);
+        }
+
+        protected Text value(String t) {
+            return GuiUtils.colorize(Text.literal(t), config().dataColor);
+        }
     }
 }

@@ -2,15 +2,13 @@ package dev.boxadactle.coordinatesdisplay.gui;
 
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.gui.config.*;
-import dev.boxadactle.coordinatesdisplay.util.ModConfig;
+import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import dev.boxadactle.boxlib.gui.BConfigButton;
 import dev.boxadactle.boxlib.gui.BConfigScreen;
 import dev.boxadactle.boxlib.gui.widget.*;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.coordinatesdisplay.gui.config.*;
-import me.shedaniel.autoconfig.ConfigHolder;
 import net.minecraft.client.gui.screen.ConfirmScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -18,24 +16,20 @@ import net.minecraft.text.Text;
 
 public class ConfigScreen extends BConfigScreen {
 
-    public ConfigHolder<ModConfig> original;
-
     public ConfigScreen(Screen parent) {
         super(parent);
-
-        original = CoordinatesDisplay.CONFIG;
     }
 
     @Override
     protected Text getName() {
-        return Text.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.getModConstants().getString());
+        return Text.translatable("screen.coordinatesdisplay.config", ModConstants.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.addDrawableChild(new ButtonWidget.Builder(GuiUtils.CANCEL, button -> {
                     ClientUtils.setScreen(parent);
-                    CoordinatesDisplay.CONFIG = original;
+                    CoordinatesDisplay.CONFIG.reload();
                 })
                 .dimensions(startX, startY, getButtonWidth(ButtonType.SMALL), getButtonHeight())
                 .build()
@@ -105,7 +99,7 @@ public class ConfigScreen extends BConfigScreen {
                 Screen configScreen = ClientUtils.getCurrentScreen();
                 ClientUtils.setScreen(new ConfirmScreen(doIt -> {
                     if (doIt) {
-                        CoordinatesDisplay.resetConfig();
+                        CoordinatesDisplay.CONFIG.resetConfig();
                         ClientUtils.setScreen(new ConfigScreen(parent));
                     } else {
                         ClientUtils.setScreen(configScreen);
@@ -117,7 +111,7 @@ public class ConfigScreen extends BConfigScreen {
             }
         });
 
-        this.addConfigOption(new BLinkButton(Text.translatable("button.coordinatesdisplay.wiki"), ModUtil.CONFIG_WIKI));
+        this.addConfigOption(new BLinkButton(Text.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI));
 
     }
 }

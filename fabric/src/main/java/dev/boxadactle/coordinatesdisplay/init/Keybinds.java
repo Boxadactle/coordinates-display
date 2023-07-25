@@ -60,7 +60,7 @@ public class Keybinds {
         }
 
         if (reloadConfigKeybind.wasPressed()) {
-            CoordinatesDisplay.resetConfig();
+            CoordinatesDisplay.CONFIG.resetConfig();
             CoordinatesDisplay.LOGGER.player.info("Config reloaded!");
             CoordinatesDisplay.LOGGER.info("Reloaded all config");
         }
@@ -81,9 +81,7 @@ public class Keybinds {
         if (copyPosTp.wasPressed()) {
             Position pos = Position.of(WorldUtils.getCamera());
 
-            RegistryKey<World> registry = WorldUtils.getPlayer().clientWorld.getRegistryKey();
-
-            MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.toTeleportCommand(pos.getPlayerVector(), (registry != null ? registry.getValue().toString() : null)));
+            MinecraftClient.getInstance().keyboard.setClipboard(ModUtil.toTeleportCommand(pos.position.getPlayerPos(), pos.world.getDimension(false)));
 
             CoordinatesDisplay.LOGGER.player.info("Copied position as command");
         }

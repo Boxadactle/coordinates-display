@@ -18,20 +18,13 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import org.apache.commons.lang3.SystemUtils;
 
-import javax.annotation.Nullable;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+@SuppressWarnings("unchecked")
 public class ModUtil {
-
-    public static final String CONFIG_WIKI = "https://boxadactle.github.io/wiki/coordinates-display/";
-    public static final String CONFIG_WIKI_VISUAL = "https://boxadactle.github.io/wiki/coordinates-display/#visual";
-    public static final String CONFIG_WIKI_RENDER = "https://boxadactle.github.io/wiki/coordinates-display/#rendering";
-    public static final String CONFIG_WIKI_COLOR = "https://boxadactle.github.io/wiki/coordinates-display/#color";
-    public static final String CONFIG_WIKI_DEATH = "https://boxadactle.github.io/wiki/coordinates-display/#deathpos";
-    public static final String CONFIG_WIKI_TEXTS = "https://boxadactle.github.io/wiki/coordinates-display/#text";
 
     public static final int CONFIG_CONTENT_COLOR = 0x40363636;
 
@@ -40,26 +33,21 @@ public class ModUtil {
         return int2 * i1;
     }
 
-    @Deprecated
-    public static String getPlayerCurrentDimension() {
-        RegistryKey<World> registry = MinecraftClient.getInstance().player.clientWorld.getRegistryKey();
-
-        return (registry != null ? registry.getValue().toString() : null);
-    }
-
     public static String parseText(String text, Position pos) {
         MinecraftClient c = MinecraftClient.getInstance();
         String newtext = text;
 
-        String direction = getDirectionFromYaw(pos.getYaw(true));
+        String direction = getDirectionFromYaw(pos.headRot.wrapYaw());
 
         DecimalFormat d = new DecimalFormat(CoordinatesDisplay.CONFIG.get().shouldRoundWhenCopying ? "0" : "0.00");
 
+        Vec3<Double> player = pos.position.getPlayerPos();
+
         Pair[] supported = new Pair[]{
                 new Pair<>("dimension", ClientUtils.parseIdentifier(WorldUtils.getCurrentDimension())),
-                new Pair<>("x", d.format(pos.getPlayerVector().getX())),
-                new Pair<>("y", d.format(pos.getPlayerVector().getY())),
-                new Pair<>("z", d.format(pos.getPlayerVector().getZ())),
+                new Pair<>("x", d.format(player.getX())),
+                new Pair<>("y", d.format(player.getY())),
+                new Pair<>("z", d.format(player.getZ())),
                 new Pair<>("direction", direction),
                 new Pair<>("name", c.player.getGameProfile().getName())
         };
@@ -70,7 +58,7 @@ public class ModUtil {
         return newtext;
     }
 
-    public static String toTeleportCommand(Vec3<Double> pos, @Nullable String dimension) {
+    public static String toTeleportCommand(Vec3<Double> pos, String dimension) {
         int x = (int)Math.round(pos.getX());
         int y = (int)Math.round(pos.getY());
         int z = (int)Math.round(pos.getZ());
@@ -87,13 +75,15 @@ public class ModUtil {
     }
     
     public static Text makeDeathPositionText(Position pos) {
-        String command = toTeleportCommand(pos.getPlayerVector(), WorldUtils.getCurrentDimension());
+        Vec3<Double> player = pos.position.getPlayerPos();
 
-        int x = (int)Math.round(pos.getPlayerVector().getX());
-        int y = (int)Math.round(pos.getPlayerVector().getY());
-        int z = (int)Math.round(pos.getPlayerVector().getZ());
+        String command = toTeleportCommand(player, pos.world.getDimension(false));
 
-        Text posText = Text.translatable("message.coordinatesdisplay.deathlocation", x, y, z, WorldUtils.getCurrentDimension() != null ? WorldUtils.getCurrentDimension() : "unregistered dimension");
+        int x = (int)Math.round(player.getX());
+        int y = (int)Math.round(player.getY());
+        int z = (int)Math.round(player.getZ());
+
+        Text posText = Text.translatable("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false) != null ? pos.world.getDimension(false) : "unregistered dimension");
 
         Text position = GuiUtils.brackets(posText).copy().styled((style -> style
             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Text.translatable("message.coordinatesdisplay.teleport")))
@@ -131,7 +121,11 @@ public class ModUtil {
         return worked;
     }
 
-    // method to turn an angle into a direction string
+    // methods to turn an angle into a direction string
+    public static String getDirectionFromYaw(float degrees) {
+        return getDirectionFromYaw((double) degrees);
+    }
+
     public static String getDirectionFromYaw(double degrees) {
         String direction;
         String[] directions = {"south", "southwest", "west", "northwest", "north", "northeast", "east", "southeast", "south"};
@@ -184,6 +178,50 @@ public class ModUtil {
         return scaleFactor;
     }
 
+    public static <T> boolean or(T val, T ...compare) {
+        boolean toReturn = false;
+
+        for (T t : compare) {
+            if (val.equals(t)) {
+                toReturn = true;
+                break;
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static <T> boolean is(T val, T ...compare) {
+        boolean toReturn = true;
+
+        for (T t : compare) {
+            if (!val.equals(t)) {
+                toReturn = false;
+                break;
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static <T> boolean not(T val, T ...compare) {
+        boolean toReturn = true;
+
+        for (T t : compare) {
+            if (val.equals(t)) {
+                toReturn = false;
+                break;
+            }
+        }
+
+        return toReturn;
+    }
+
+
+    public static String getNamespace(String id) {
+        return id.split(":")[0];
+    }
+
     public static Vec3i doubleVecToIntVec(Vec3d vec) {
         return new Vec3i((int)Math.round(vec.x), (int)Math.round(vec.y), (int)Math.round(vec.z));
     }
@@ -194,6 +232,14 @@ public class ModUtil {
 
     public static Vec3i toMinecraftVector(Vec3<Integer> vec) {
         return new Vec3i(vec.getX(), vec.getY(), vec.getZ());
+    }
+
+    public static Vec3<Integer> fromMinecraftVector(Vec3i vec3i) {
+        return new Vec3<>(vec3i.getX(), vec3i.getY(), vec3i.getZ());
+    }
+
+    public static Vec3<Double> fromMinecraftVector(Vec3d vec3d) {
+        return new Vec3<>(vec3d.getX(), vec3d.getY(), vec3d.getZ());
     }
 
 }

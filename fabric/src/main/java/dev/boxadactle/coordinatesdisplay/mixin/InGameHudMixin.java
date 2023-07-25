@@ -20,7 +20,12 @@ public abstract class InGameHudMixin {
     // need to render the overlay in the render method
     @Inject(at = @At("RETURN"), method = "render")
     private void render(DrawContext drawContext, float tickDelta, CallbackInfo ci) {
-        if (!this.client.options.hudHidden && CoordinatesDisplay.CONFIG.get().visible && !this.client.options.debugEnabled) {
+        if (
+                !this.client.options.hudHidden &&
+                CoordinatesDisplay.CONFIG.get().visible &&
+                !this.client.options.debugEnabled &&
+                CoordinatesDisplay.shouldHudRender
+        ) {
             try {
                 CoordinatesDisplay.OVERLAY.render(
                         drawContext,

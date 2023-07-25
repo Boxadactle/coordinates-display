@@ -15,9 +15,9 @@ import net.minecraft.text.Text;
 
 import java.text.DecimalFormat;
 
-public class AllRenderer extends HudRenderer.Renderer {
+public class DefaultRenderer extends HudRenderer.Renderer {
 
-    public AllRenderer() {
+    public DefaultRenderer() {
         super("hud.coordinatesdisplay.");
     }
 
@@ -62,8 +62,8 @@ public class AllRenderer extends HudRenderer.Renderer {
     @Override
     protected Rect<Integer> renderOverlay(DrawContext drawContext, int x, int y, Position pos) {
         DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
-        Vec3<Double> player = pos.getPlayerVector();
-        Vec2<Integer> chunkPos = pos.getChunkVector();
+        Vec3<Double> player = pos.position.getPlayerPos();
+        Vec2<Integer> chunkPos = pos.position.getChunkPos();
 
         Text xtext = GuiUtils.colorize(translation(
                 "x",
@@ -112,16 +112,16 @@ public class AllRenderer extends HudRenderer.Renderer {
         Text direction = translation(
                 "direction",
                 GuiUtils.colorize(
-                        translation(ModUtil.getDirectionFromYaw(pos.getYaw(true))),
+                        translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())),
                         config().definitionColor
                 ),
                 config().renderDirectionInt ? GuiUtils.colorize(
-                        GuiUtils.parentheses(Text.literal(decimalFormat.format(pos.getYaw(true)))),
+                        GuiUtils.parentheses(Text.literal(decimalFormat.format(pos.headRot.wrapYaw()))),
                         config().dataColor
                 ) : Text.literal("")
         );
 
-        String biomestring = ClientUtils.parseIdentifier(pos.getBiome());
+        String biomestring = pos.world.getBiome(true);
         Text biome = GuiUtils.colorize(translation(
                 "biome",
                 GuiUtils.colorize(

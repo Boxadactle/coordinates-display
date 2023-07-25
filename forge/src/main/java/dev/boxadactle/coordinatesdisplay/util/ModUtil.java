@@ -22,26 +22,11 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+@SuppressWarnings("unchecked")
 public class ModUtil {
 
     public static final int TRANSPARENT_GRAY = 0x5c5c5c60;
     public static final int WHITE = 16777215;
-    
-    public static String CONFIG_WIKI;
-    public static String CONFIG_WIKI_VISUAL;
-    public static String CONFIG_WIKI_RENDER;
-    public static String CONFIG_WIKI_COLOR;
-    public static String CONFIG_WIKI_DEATH;
-    public static String CONFIG_WIKI_TEXTS;
-
-    public static void init() {
-        CONFIG_WIKI = CoordinatesDisplay.getModConstants().getWiki();
-        CONFIG_WIKI_VISUAL = CONFIG_WIKI + "#visual";
-        CONFIG_WIKI_RENDER = CONFIG_WIKI + "#rendering";
-        CONFIG_WIKI_COLOR = CONFIG_WIKI + "#color";
-        CONFIG_WIKI_DEATH = CONFIG_WIKI + "#deathpos";
-        CONFIG_WIKI_TEXTS = CONFIG_WIKI + "#text";
-    }
 
     public static String parseText(String text, Position pos) {
         Minecraft c = ClientUtils.getClient();
@@ -49,14 +34,16 @@ public class ModUtil {
 
         DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().shouldRoundWhenCopying ? "0.00" : "0");
 
-        String x = decimalFormat.format(pos.getPlayerVector().getX());
-        String y = decimalFormat.format(pos.getPlayerVector().getY());
-        String z = decimalFormat.format(pos.getPlayerVector().getZ());
+        Vec3<Double> player = pos.position.getPlayerPos();
+
+        String x = decimalFormat.format(player.getX());
+        String y = decimalFormat.format(player.getY());
+        String z = decimalFormat.format(player.getZ());
 
         String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.getXRot()));
 
         Pair[] supported = new Pair[]{
-                new Pair<>("dimension", ClientUtils.parseIdentifier(WorldUtils.getCurrentDimension())),
+                new Pair<>("dimension", pos.world.getDimension(true)),
                 new Pair<>("x", x),
                 new Pair<>("y", y),
                 new Pair<>("z", z),
@@ -81,26 +68,28 @@ public class ModUtil {
             return String.format("/execute in %s run tp @s %d %d %d", dimension, x, y, z);
         } else if (tpmode.equals(ModConfig.TeleportMode.TP)) {
             return String.format("/tp @s %d %d %d", x, y, z);
-        } else {
+        } else if(tpmode.equals(ModConfig.TeleportMode.BARITONE)) {
             return String.format("#goto %s %s %s", x, y, z);
-        }
+        } else throw new RuntimeException("Invalid teleport mode!");
     }
 
     public static Component makeDeathPositionComponent(Position pos) {
 
-        String command = toTeleportCommand(pos.getPlayerVector(), WorldUtils.getCurrentDimension());
+        Vec3<Double> player = pos.position.getPlayerPos();
 
-        int x = (int)Math.round(pos.getPlayerVector().getX());
-        int y = (int)Math.round(pos.getPlayerVector().getY());
-        int z = (int)Math.round(pos.getPlayerVector().getZ());
+        String command = toTeleportCommand(player, pos.world.getDimension(false));
 
-        Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, WorldUtils.getCurrentDimension()).withStyle((style -> style
+        int x = (int)Math.round(player.getX());
+        int y = (int)Math.round(player.getY());
+        int z = (int)Math.round(player.getZ());
+
+        Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
-                .withColor((CoordinatesDisplay.CONFIG.getConfig().deathPosColor))
+                .withColor((CoordinatesDisplay.CONFIG.get().deathPosColor))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor((CoordinatesDisplay.CONFIG.getConfig().definitionColor)));
+        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor((CoordinatesDisplay.CONFIG.get().definitionColor)));
     }
 
     public static int calculateHudWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
@@ -182,11 +171,6 @@ public class ModUtil {
         return worked;
     }
 
-    public static void resetConfig() {
-        CoordinatesDisplay.CONFIG.setConfig(new ModConfig());
-        CoordinatesDisplay.CONFIG.save();
-    }
-
     public static void reloadConfig() {
         CoordinatesDisplay.CONFIG.load();
         CoordinatesDisplay.LOGGER.info("Reloaded all config");
@@ -234,6 +218,10 @@ public class ModUtil {
         return Math.max(number, 0);
     }
 
+    public static String getNamespace(String id) {
+        return id.split(":")[0];
+    }
+
     public static int calculatePointDistance(int x, int y, int x1, int y1) {
         int deltaX = x1 - x;
         int deltaY = y1 - y;
@@ -255,12 +243,59 @@ public class ModUtil {
         return scaleFactor;
     }
 
+    public static <T> boolean or(T val, T ...compare) {
+        boolean toReturn = false;
+
+        for (T t : compare) {
+            if (val.equals(t)) {
+                toReturn = true;
+                break;
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static <T> boolean is(T val, T ...compare) {
+        boolean toReturn = true;
+
+        for (T t : compare) {
+            if (!val.equals(t)) {
+                toReturn = false;
+                break;
+            }
+        }
+
+        return toReturn;
+    }
+
+    public static <T> boolean not(T val, T ...compare) {
+        boolean toReturn = true;
+
+        for (T t : compare) {
+            if (val.equals(t)) {
+                toReturn = false;
+                break;
+            }
+        }
+
+        return toReturn;
+    }
+
     public static Vec3i doubleVecToIntVec(net.minecraft.world.phys.Vec3 vec) {
         return new Vec3i((int)Math.round(vec.x), (int)Math.round(vec.y), (int)Math.round(vec.z));
     }
 
     public static Vec3i toMinecraftVector(Vec3<Integer> vec) {
         return new Vec3i(vec.getX(), vec.getY(), vec.getZ());
+    }
+
+    public static Vec3<Integer> fromMinecraftVector(Vec3i vec3i) {
+        return new Vec3<>(vec3i.getX(), vec3i.getY(), vec3i.getZ());
+    }
+
+    public static Vec3<Double> fromMinecraftVector(net.minecraft.world.phys.Vec3 vec3d) {
+        return new Vec3<>(vec3d.x, vec3d.y, vec3d.z);
     }
 
 }

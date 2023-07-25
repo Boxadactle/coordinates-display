@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.gui;
 
+import dev.boxadactle.boxlib.math.Vec3;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
@@ -32,9 +33,11 @@ public class CoordinatesScreen extends Screen implements BConfigHelper {
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         this.renderBackground(drawContext);
 
-        int x = (int)Math.round(pos.getPlayerVector().getX());
-        int y = (int)Math.round(pos.getPlayerVector().getY());
-        int z = (int)Math.round(pos.getPlayerVector().getZ());
+        Vec3<Double> player = pos.position.getPlayerPos();
+
+        int x = (int)Math.round(player.getX());
+        int y = (int)Math.round(player.getY());
+        int z = (int)Math.round(player.getZ());
 
         RenderUtils.drawTextCentered(drawContext, Text.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20);
         RenderUtils.drawTextCentered(drawContext, Text.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4));
@@ -66,7 +69,7 @@ public class CoordinatesScreen extends Screen implements BConfigHelper {
         }).dimensions(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh).build());
 
         this.addDrawableChild(new ButtonWidget.Builder(Text.translatable("button.coordinatesdisplay.copytp"), button -> {
-            ClientUtils.getKeyboard().setClipboard(ModUtil.toTeleportCommand(pos.getPlayerVector(), WorldUtils.getCurrentDimension()));
+            ClientUtils.getKeyboard().setClipboard(ModUtil.toTeleportCommand(pos.position.getPlayerPos(), WorldUtils.getCurrentDimension()));
             CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             resume();
         }).dimensions(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh).build());

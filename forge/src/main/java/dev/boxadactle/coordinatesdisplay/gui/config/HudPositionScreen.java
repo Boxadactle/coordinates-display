@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.gui.config;
 
+import dev.boxadactle.boxlib.util.MouseUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.gui.BConfigScreen;
 import dev.boxadactle.boxlib.math.MathHelper;
@@ -28,8 +29,6 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
 
     int delay = 10;
 
-    boolean isDragging = false;
-
     public HudPositionScreen(Screen parent) {
         super(parent);
 
@@ -37,19 +36,11 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
         y = CoordinatesDisplay.CONFIG.get().hudY;
         scale = CoordinatesDisplay.CONFIG.get().hudScale;
 
-        pos = this.generatePositionData();
-    }
+        pos = WorldUtils.getWorld() != null
+            ? Position.of(WorldUtils.getCamera())
+            : generatePositionData();
 
-    @Override
-    public boolean mouseClicked(double p_94695_, double p_94696_, int p_94697_) {
-        isDragging = true;
-        return super.mouseClicked(p_94695_, p_94696_, p_94697_);
-    }
-
-    @Override
-    public boolean mouseReleased(double p_94722_, double p_94723_, int p_94724_) {
-        isDragging = false;
-        return super.mouseReleased(p_94722_, p_94723_, p_94724_);
+        CoordinatesDisplay.shouldHudRender = false;
     }
 
     @Override
@@ -61,6 +52,8 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
     public void render(GuiGraphics p_96562_, int mouseX, int mouseY, float delta) {
         this.renderBackground(p_96562_);
         super.render(p_96562_, mouseX, mouseY, delta);
+
+        boolean isDragging = MouseUtils.isMouseDown(0);
 
         if (isDragging && delay == 0) {
             if (CoordinatesDisplay.OVERLAY.isScaleButtonHovered(mouseX, mouseY) && !scaleDelta && !moveDelta) scaleDelta = true;
@@ -124,6 +117,8 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
         if (WorldUtils.getWorld() != null) {
             CoordinatesDisplay.CONFIG.save();
         }
+
+        CoordinatesDisplay.shouldHudRender = true;
     }
 
     @Override

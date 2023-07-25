@@ -8,6 +8,7 @@ import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.widget.BWidgetContainer;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
+import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import net.minecraft.client.gui.screen.Screen;
@@ -25,14 +26,14 @@ public class RenderScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected Text getName() {
-        return Text.translatable("screen.coordinatesdisplay.render", CoordinatesDisplay.getModConstants().getString());
+        return Text.translatable("screen.coordinatesdisplay.render", ModConstants.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Text.translatable("button.coordinatesdisplay.wiki"), ModUtil.CONFIG_WIKI_RENDER);
+        this.setWiki(Text.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI_RENDER);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class RenderScreen extends BConfigScreen implements HudHelper {
                 "button.coordinatesdisplay.chunkpos",
                 config().renderChunkData,
                 newVal -> config().renderChunkData = newVal
-        ))).active = config().renderMode.equals(ModConfig.RenderMode.DEFAULT);
+        ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.DEFAULT, ModConfig.RenderMode.MINIMUM);
 
         // direction
         BBooleanButton direction = new BBooleanButton(
@@ -76,14 +77,14 @@ public class RenderScreen extends BConfigScreen implements HudHelper {
                 "button.coordinatesdisplay.biome",
                 config().renderBiome,
                 newVal -> config().renderBiome = newVal
-        ))).active = config().renderMode.equals(ModConfig.RenderMode.DEFAULT);
+        ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.DEFAULT, ModConfig.RenderMode.MAXIMUM);
 
         // mc version
         ((BBooleanButton)this.addConfigOption(new BBooleanButton(
                 "button.coordinatesdisplay.mcversion",
                 config().renderMCVersion,
                 newVal -> config().renderMCVersion = newVal
-        ))).active = config().renderMode.equals(ModConfig.RenderMode.DEFAULT);
+        ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.MAXIMUM, ModConfig.RenderMode.DEFAULT);
 
         this.addConfigOption(new BSpacingEntry());
 
@@ -92,7 +93,7 @@ public class RenderScreen extends BConfigScreen implements HudHelper {
         this.addConfigOption(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
             this.addConfigOption(new BSpacingEntry());
         }
 

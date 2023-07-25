@@ -1,6 +1,8 @@
 package dev.boxadactle.coordinatesdisplay.gui.config;
 
 import dev.boxadactle.coordinatesdisplay.gui.HudHelper;
+import dev.boxadactle.coordinatesdisplay.util.ModConfig;
+import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import dev.boxadactle.boxlib.gui.BConfigScreen;
 import dev.boxadactle.boxlib.gui.widget.*;
@@ -21,14 +23,14 @@ public class ColorScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected Text getName() {
-        return Text.translatable("screen.coordinatesdisplay.color", CoordinatesDisplay.getModConstants().getString());
+        return Text.translatable("screen.coordinatesdisplay.color", ModConstants.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Text.translatable("button.coordinatesdisplay.wiki"), ModUtil.CONFIG_WIKI_COLOR);
+        this.setWiki(Text.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI_COLOR);
     }
 
     @Override
@@ -68,12 +70,14 @@ public class ColorScreen extends BConfigScreen implements HudHelper {
 
         this.addConfigOption(new BSpacingEntry());
 
-        // hud rendering
         this.addConfigOption(new BCenteredLabel(Text.translatable("label.coordinatesdisplay.preview")));
+
+        addConfigOption(new BCenteredLabel(ModUtil.makeDeathPositionText(pos)));
+
         this.addConfigOption(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
             this.addConfigOption(new BSpacingEntry());
         }
 

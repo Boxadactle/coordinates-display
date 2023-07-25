@@ -1,13 +1,13 @@
 package dev.boxadactle.coordinatesdisplay.util;
 
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
+import dev.boxadactle.boxlib.config.BConfig;
+import dev.boxadactle.boxlib.config.BConfigFile;
 
-@Config(name = "coordinates-display")
-public class ModConfig implements ConfigData {
+@BConfigFile("coordinates-display")
+public class ModConfig implements BConfig {
 
     public boolean visible = true;
-    public boolean decimalRounding = true;
+    public boolean decimalRounding = false;
 
     public RenderMode renderMode = RenderMode.DEFAULT;
     public int hudX = 0;
@@ -42,6 +42,7 @@ public class ModConfig implements ConfigData {
     public enum RenderMode {
         DEFAULT,
         MINIMUM,
+        MAXIMUM,
         LINE
     }
 

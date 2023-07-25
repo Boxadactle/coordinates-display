@@ -6,6 +6,7 @@ import dev.boxadactle.boxlib.gui.widget.*;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
+import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import net.minecraft.client.gui.screen.Screen;
@@ -26,14 +27,14 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected Text getName() {
-        return Text.translatable("screen.coordinatesdisplay.visual", CoordinatesDisplay.getModConstants().getString());
+        return Text.translatable("screen.coordinatesdisplay.visual", ModConstants.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Text.translatable("button.coordinatesdisplay.wiki"), ModUtil.CONFIG_WIKI_VISUAL);
+        this.setWiki(Text.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI_VISUAL);
     }
 
     @Override
@@ -54,24 +55,13 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
         ));
 
         // display mode
-        this.addConfigOption(new BToggleButton<>(
+        this.addConfigOption(new BEnumButton<>(
                 "button.coordinatesdisplay.displayMode",
                 config().renderMode,
-                Arrays.stream(ModConfig.RenderMode.values()).toList(),
-                newVal -> config().renderMode = newVal
-        ) {
-            @Override
-            public ModConfig.RenderMode to(Text input) {
-                String a = ((TranslatableTextContent)input.getContent()).getKey().substring("button.coordinatesdisplay.displayMode.".length()).toUpperCase();
-
-                return ModConfig.RenderMode.valueOf(a);
-            }
-
-            @Override
-            public Text from(ModConfig.RenderMode input) {
-                return GuiUtils.colorize(Text.translatable("button.coordinatesdisplay.displayMode." + input.name().toLowerCase()), GuiUtils.AQUA);
-            }
-        });
+                ModConfig.RenderMode.class,
+                newVal -> config().renderMode = newVal,
+                GuiUtils.AQUA
+        ));
 
         // text shadow
         this.addConfigOption(new BBooleanButton(
@@ -114,7 +104,7 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
         this.addConfigOption(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
             this.addConfigOption(new BSpacingEntry());
         }
 

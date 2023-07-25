@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.gui;
 
+import dev.boxadactle.boxlib.math.Vec3;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.MouseUtils;
@@ -32,9 +33,11 @@ public class CoordinatesScreen extends Screen {
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         this.renderBackground(guiGraphics);
 
-        int x = (int)Math.round(pos.getPlayerVector().getX());
-        int y = (int)Math.round(pos.getPlayerVector().getY());
-        int z = (int)Math.round(pos.getPlayerVector().getZ());
+        Vec3<Double> player = pos.position.getPlayerPos();
+
+        int x = (int)Math.round(player.getX());
+        int z = (int)Math.round(player.getZ());
+        int y = (int)Math.round(player.getY());
 
         guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, white);
         guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), white);
@@ -60,7 +63,7 @@ public class CoordinatesScreen extends Screen {
         }).bounds(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh).build());
 
         this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copytp"), button -> {
-            ClientUtils.getClient().keyboardHandler.setClipboard(ModUtil.toTeleportCommand(Position.of(WorldUtils.getCamera()).getPlayerVector(), WorldUtils.getCurrentDimension()));
+            ClientUtils.getClient().keyboardHandler.setClipboard(ModUtil.toTeleportCommand(Position.of(WorldUtils.getCamera()).position.getPlayerPos(), WorldUtils.getCurrentDimension()));
             CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             onClose();
         }).bounds(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh).build());

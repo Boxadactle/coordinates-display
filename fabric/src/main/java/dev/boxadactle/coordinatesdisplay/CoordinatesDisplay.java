@@ -1,11 +1,12 @@
 package dev.boxadactle.coordinatesdisplay;
 
+import dev.boxadactle.boxlib.config.BConfigClass;
+import dev.boxadactle.boxlib.config.BConfigHandler;
 import dev.boxadactle.coordinatesdisplay.init.OverlayRenderers;
 import dev.boxadactle.coordinatesdisplay.util.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
 import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
-import dev.boxadactle.boxlib.ModConstantsProvider;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
@@ -14,37 +15,29 @@ import dev.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
 import dev.boxadactle.coordinatesdisplay.gui.config.HudPositionScreen;
 import dev.boxadactle.coordinatesdisplay.init.Commands;
 import dev.boxadactle.coordinatesdisplay.init.Keybinds;
-import dev.boxadactle.coordinatesdisplay.util.*;
-import me.shedaniel.autoconfig.AutoConfig;
-import me.shedaniel.autoconfig.ConfigHolder;
-import me.shedaniel.autoconfig.serializer.GsonConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.minecraft.client.MinecraftClient;
 
 public class CoordinatesDisplay implements ClientModInitializer {
 
-    public static ModLogger LOGGER;
+    public static final ModLogger LOGGER = new ModLogger(ModConstants.MOD_NAME);
 
     public static boolean shouldConfigGuiOpen = false;
     public static boolean shouldCoordinatesGuiOpen = false;
     public static boolean shouldHudPositionGuiOpen = false;
 
-    public static ConfigHolder<ModConfig> CONFIG;
+    public static boolean shouldHudRender = true;
+
+    public static BConfigClass<ModConfig> CONFIG;
 
     public static HudRenderer OVERLAY;
 
     @Override
     public void onInitializeClient() {
-        ModConstantsProvider.registerProvider(ModConstants.class);
 
-        LOGGER = new ModLogger(getModConstants().getName());
-
-        LOGGER.info("Initializing %s...", getModConstants().getString());
+        LOGGER.info("Initializing %s...", ModConstants.VERSION_STRING);
 
         LOGGER.info("Initializing mod config...");
-        AutoConfig.register(ModConfig.class, GsonConfigSerializer::new);
-        CONFIG = AutoConfig.getConfigHolder(ModConfig.class);
+        CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 
         LOGGER.info("Registering overlay renderers...");
         OVERLAY = new HudRenderer();
@@ -57,10 +50,6 @@ public class CoordinatesDisplay implements ClientModInitializer {
         Commands.register();
     }
 
-    public static ModConstantsProvider getModConstants() {
-        return ModConstantsProvider.getProvider("coordinatesdisplay");
-    }
-
     public static void tick() {
         if (shouldConfigGuiOpen) {
             ClientUtils.setScreen(new ConfigScreen(null));
@@ -68,8 +57,6 @@ public class CoordinatesDisplay implements ClientModInitializer {
         }
 
         if (shouldCoordinatesGuiOpen) {
-            MinecraftClient c = MinecraftClient.getInstance();
-
             Position pos = Position.of(WorldUtils.getCamera());
 
             ClientUtils.setScreen(new CoordinatesScreen(pos));
@@ -83,12 +70,6 @@ public class CoordinatesDisplay implements ClientModInitializer {
         }
 
         Keybinds.checkBindings();
-    }
-
-    public static void resetConfig() {
-        CONFIG.setConfig(new ModConfig());
-        CONFIG.save();
-        LOGGER.info("Reloaded all config");
     }
 
     public static void saveConfig() {

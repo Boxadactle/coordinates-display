@@ -63,7 +63,7 @@ public class PositionCommand extends CoordinatesCommand {
         try {
             Position pos = Position.of(WorldUtils.getCamera());
 
-            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.toTeleportCommand(pos.getPlayerVector(), WorldUtils.getCurrentDimension()));
+            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.toTeleportCommand(pos.position.getPlayerPos(), WorldUtils.getCurrentDimension()));
 
             CoordinatesDisplay.LOGGER.player.info(super.translatable("command.coordinatesdisplay.position.copytp"));
 

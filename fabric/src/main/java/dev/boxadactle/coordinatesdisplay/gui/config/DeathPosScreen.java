@@ -1,7 +1,10 @@
 package dev.boxadactle.coordinatesdisplay.gui.config;
 
+import dev.boxadactle.boxlib.gui.widget.BCenteredLabel;
+import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.gui.HudHelper;
+import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import dev.boxadactle.boxlib.gui.BConfigScreen;
 import dev.boxadactle.boxlib.gui.widget.BBooleanButton;
@@ -16,14 +19,14 @@ public class DeathPosScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected Text getName() {
-        return Text.translatable("screen.coordinatesdisplay.deathpos", CoordinatesDisplay.getModConstants().getString());
+        return Text.translatable("screen.coordinatesdisplay.deathpos", ModConstants.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Text.translatable("button.coordinatesdisplay.wiki"), ModUtil.CONFIG_WIKI_DEATH);
+        this.setWiki(Text.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI_DEATHPOS);
     }
 
     @Override
@@ -42,6 +45,10 @@ public class DeathPosScreen extends BConfigScreen implements HudHelper {
                 config().showDeathPosInChat,
                 newVal -> config().showDeathPosInChat = newVal
         ));
+
+        addConfigOption(new BSpacingEntry());
+
+        addConfigOption(new BCenteredLabel(ModUtil.makeDeathPositionText(generatePositionData())));
 
     }
 }

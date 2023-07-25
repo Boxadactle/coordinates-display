@@ -5,7 +5,6 @@
   "refmap": "coordinatesdisplay.refmap.json",
   "client": [
     "DeathScreenMixin",
-    "ForgeGuiMixin",
     "LocalPlayerMixin"
   ],
   "minVersion": "0.8"

@@ -36,7 +36,11 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
         y = CoordinatesDisplay.CONFIG.get().hudY;
         scale = CoordinatesDisplay.CONFIG.get().hudScale;
 
-        pos = this.generatePositionData();
+        pos = WorldUtils.getWorld() != null
+                ? Position.of(WorldUtils.getCamera())
+                : generatePositionData();
+
+        CoordinatesDisplay.shouldHudRender = false;
     }
 
     @Override
@@ -108,6 +112,8 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
         if (WorldUtils.getWorld() != null) {
             CoordinatesDisplay.CONFIG.save();
         }
+
+        CoordinatesDisplay.shouldHudRender = true;
     }
 
     @Override
@@ -117,7 +123,7 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected void initFooter(int startX, int startY) {
-        this.addDrawableChild(this.createSaveButton(startX, startY, b -> close()));
+        addDrawableChild(this.createSaveButton(startX, startY, b -> close()));
     }
 
     @Override
