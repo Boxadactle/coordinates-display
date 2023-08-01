@@ -17,7 +17,7 @@ Steps to reproduce the behavior:
 3. Scroll down to '....'
 4. See error
 
-**Expected behavior**
+**Expected behavior (if necessary)**
 A brief description of what you think should have happened.
 
 **Screenshots**
