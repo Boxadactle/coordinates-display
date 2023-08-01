@@ -1,4 +1,3 @@
-
 [![](http://cf.way2muchnoise.eu/full_coordinates-display_downloads.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/coordinates-display) [![](https://raw.githubusercontent.com/Boxadactle/coordinates-display/3a9f7f5a3592c7888b387160595f89f74f756da2/img/modrinth.svg)](https://modrinth.com/mod/coordinates-display) [![](https://raw.githubusercontent.com/Boxadactle/coordinates-display/3a9f7f5a3592c7888b387160595f89f74f756da2/img/wiki.svg)](https://boxadactle.dev/wiki/coordinates-display/) [![](https://raw.githubusercontent.com/Boxadactle/coordinates-display/c47768fbc605863978b6c88ca3c4fcac4a5885da/img/github.svg)](https://github.com/Boxadactle/coordinates-display)
 # Coordinates Display
 
@@ -24,9 +23,9 @@ The forge version of this mod does not require any dependencies that must be ins
 
 If you'd like to build this mod on your own machine, follow these steps.
 
-1. Download the source code from [GitHub](https://github.com/Boxadactle/coordinates-display/tree/main) (Code -> Download zip)
-2. Extract the zip file onto your local machine, and open the folder.
-3. Open a terminal prompt in said folder
-4. Run the command "gradlew build"
-		- The fabric build will be in "fabric/build/libs"
-		- The forge build will be in "forge/build/libs"
+* Download the source code from [GitHub](https://github.com/Boxadactle/coordinates-display/tree/main) (Code -> Download zip)
+*  Extract the zip file onto your local machine, and open the folder.
+* Open a terminal prompt in said folder
+* Run the command "gradlew build"
+   	* The fabric build will be in "fabric/build/libs"
+	* The forge build will be in "forge/build/libs"
