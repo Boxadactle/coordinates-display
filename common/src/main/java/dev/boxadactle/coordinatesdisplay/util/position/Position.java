@@ -39,7 +39,7 @@ public class Position {
             float yaw, float pitch,
             PlayerTargetBlock playerTargetBlock
     ) {
-        position = new PlayerPos(player.getX(), player.getY(), playerPos.getZ(), chunkPos, playerPos);
+        position = new PlayerPos(player.getX(), player.getY(), player.getZ(), chunkPos, playerPos);
         headRot = new PlayerHeadRot(yaw, pitch);
         world = new PlayerWorldData(playerPos);
         block = playerTargetBlock;

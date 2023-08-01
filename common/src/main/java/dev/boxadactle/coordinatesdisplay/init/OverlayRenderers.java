@@ -6,6 +6,7 @@ import dev.boxadactle.coordinatesdisplay.util.hud.MaxRenderer;
 import dev.boxadactle.coordinatesdisplay.util.hud.MinRenderer;
 import dev.boxadactle.coordinatesdisplay.util.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
+import dev.boxadactle.coordinatesdisplay.util.hud.NetherOverworldRenderer;
 
 public class OverlayRenderers {
 
@@ -14,6 +15,7 @@ public class OverlayRenderers {
         renderer.register(ModConfig.RenderMode.MINIMUM, MinRenderer.class);
         renderer.register(ModConfig.RenderMode.MAXIMUM, MaxRenderer.class);
         renderer.register(ModConfig.RenderMode.LINE, LineRenderer.class);
+        renderer.register(ModConfig.RenderMode.NETHER_OVERWORLD, NetherOverworldRenderer.class);
     }
 
 }

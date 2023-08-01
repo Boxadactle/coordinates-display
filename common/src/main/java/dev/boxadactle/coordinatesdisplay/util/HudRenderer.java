@@ -136,6 +136,10 @@ public class HudRenderer {
             guiGraphics.drawString(GuiUtils.getTextRenderer(), component, x, y, color, CoordinatesDisplay.CONFIG.get().hudTextShadow);
         }
 
+        protected void drawInfo(GuiGraphics guiGraphics, Component component, int x, int y) {
+            drawInfo(guiGraphics, component, x, y, GuiUtils.WHITE);
+        }
+
         protected abstract Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos);
 
         protected Component definition(Component t) {

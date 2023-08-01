@@ -70,6 +70,14 @@
   "hud.coordinatesdisplay.line.west": "서",
   "hud.coordinatesdisplay.line.northwest": "북서",
 
+  "hud.coordinatesdisplay.netheroverworld.overworld": "Overworld",
+  "hud.coordinatesdisplay.netheroverworld.nether": "Nether",
+  "hud.coordinatesdisplay.netheroverworld.x": "X: %s",
+  "hud.coordinatesdisplay.netheroverworld.y": "Y: %s",
+  "hud.coordinatesdisplay.netheroverworld.z": "Z: %s",
+  "hud.coordinatesdisplay.netheroverworld.error": "Not in overworld or nether",
+  "hud.coordinatesdisplay.netheroverworld.dimension": "Dimension: %s",
+
   "screen.coordinatesdisplay.config": "%s 환경설정",
   "screen.coordinatesdisplay.confirmreset": "기본값으로 초기화 확인",
   "screen.coordinatesdisplay.render": "%s 의 렌더링 구성",

@@ -41,7 +41,8 @@ public class ModConfig implements BConfig {
         DEFAULT,
         MINIMUM,
         MAXIMUM,
-        LINE
+        LINE,
+        NETHER_OVERWORLD
     }
 
     public enum TeleportMode {

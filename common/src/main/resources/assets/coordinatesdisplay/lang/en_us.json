@@ -70,6 +70,14 @@
   "hud.coordinatesdisplay.line.west": "West",
   "hud.coordinatesdisplay.line.northwest": "Northwest",
 
+  "hud.coordinatesdisplay.netheroverworld.overworld": "Overworld",
+  "hud.coordinatesdisplay.netheroverworld.nether": "Nether",
+  "hud.coordinatesdisplay.netheroverworld.x": "X: %s",
+  "hud.coordinatesdisplay.netheroverworld.y": "Y: %s",
+  "hud.coordinatesdisplay.netheroverworld.z": "Z: %s",
+  "hud.coordinatesdisplay.netheroverworld.error": "Not in overworld or nether",
+  "hud.coordinatesdisplay.netheroverworld.dimension": "Dimension: %s",
+
   "screen.coordinatesdisplay.config": "Config for %s",
   "screen.coordinatesdisplay.confirmreset": "Confirm Reset to Default",
   "screen.coordinatesdisplay.render": "Rendering Config for %s",
@@ -92,6 +100,7 @@
   "button.coordinatesdisplay.displayMode.minimum": "Minimum",
   "button.coordinatesdisplay.displayMode.maximum": "Maximum",
   "button.coordinatesdisplay.displayMode.line": "Line",
+  "button.coordinatesdisplay.displayMode.nether_overworld": "Nether/Overworld",
   "button.coordinatesdisplay.textshadow": "Text Shadow: %s",
   "button.coordinatesdisplay.editHudPos": "Edit Position of HUD...",
   "button.coordinatesdisplay.background": "Background: %s",
