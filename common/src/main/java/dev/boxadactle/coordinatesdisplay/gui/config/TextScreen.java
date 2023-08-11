@@ -2,17 +2,12 @@ package dev.boxadactle.coordinatesdisplay.gui.config;
 
 import dev.boxadactle.boxlib.gui.widget.*;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.gui.BConfigScreen;
+import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.gui.HudHelper;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.ModConstants;
-import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.contents.TranslatableContents;
-
-import java.util.Arrays;
 
 public class TextScreen extends BConfigScreen implements HudHelper {
 
@@ -22,14 +17,14 @@ public class TextScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.text", ModConstants.VERSION_STRING);
+        return Component.translatable("screen.coordinatesdisplay.text", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI_TEXTS);
+        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_TEXTS);
     }
 
     @Override

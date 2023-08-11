@@ -9,7 +9,6 @@ import dev.boxadactle.boxlib.gui.widget.BCustomButton;
 import dev.boxadactle.boxlib.gui.widget.BLinkButton;
 import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -25,7 +24,7 @@ public class ConfigScreen extends BConfigScreen {
 
     @Override
     protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.config", ModConstants.VERSION_STRING);
+        return Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
@@ -111,7 +110,7 @@ public class ConfigScreen extends BConfigScreen {
             }
         });
 
-        this.addConfigLine(new BLinkButton(Component.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI));
+        this.addConfigLine(new BLinkButton(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI));
 
     }
 }

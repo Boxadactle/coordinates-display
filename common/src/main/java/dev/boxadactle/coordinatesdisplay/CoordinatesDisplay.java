@@ -11,12 +11,29 @@ import dev.boxadactle.coordinatesdisplay.gui.config.HudPositionScreen;
 import dev.boxadactle.coordinatesdisplay.init.OverlayRenderers;
 import dev.boxadactle.coordinatesdisplay.util.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 
 public class CoordinatesDisplay {
 
-	public static ModLogger LOGGER;
+	public static final String MOD_NAME = "CoordinatesDisplay";
+
+	public static final String MOD_ID = "coordinatesdisplay";
+
+	public static final String VERSION = "3.2.1";
+
+	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
+
+
+	// wiki pages
+	public static final String WIKI = "https://boxadactle.dev/wiki/coordinates-display/";
+	public static String WIKI_VISUAL = WIKI + "#visual";
+	public static String WIKI_RENDER = WIKI + "#rendering";
+	public static String WIKI_COLOR = WIKI + "#color";
+	public static String WIKI_DEATHPOS = WIKI + "#deathpos";
+	public static String WIKI_TEXTS = WIKI + "#text";
+
+
+	public static final ModLogger LOGGER = new ModLogger(MOD_NAME);
 
 	public static boolean shouldConfigGuiOpen = false;
 	public static boolean shouldCoordinatesGuiOpen = false;
@@ -29,7 +46,6 @@ public class CoordinatesDisplay {
 	public static HudRenderer OVERLAY;
 
 	public static void init() {
-		LOGGER = new ModLogger(ModConstants.MOD_NAME);
 
 		CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 

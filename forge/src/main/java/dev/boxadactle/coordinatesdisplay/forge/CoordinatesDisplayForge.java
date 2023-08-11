@@ -8,7 +8,6 @@ import dev.boxadactle.coordinatesdisplay.forge.init.Commands;
 import dev.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
@@ -23,7 +22,7 @@ import net.minecraftforge.fml.common.Mod;
 import static dev.boxadactle.coordinatesdisplay.init.Keybinds.*;
 import static net.minecraftforge.client.ConfigScreenHandler.*;
 
-@Mod(ModConstants.MOD_ID)
+@Mod(CoordinatesDisplay.MOD_ID)
 public class CoordinatesDisplayForge {
 
     public CoordinatesDisplayForge() {
@@ -36,7 +35,7 @@ public class CoordinatesDisplayForge {
                 new ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen)));
     }
 
-    @Mod.EventBusSubscriber(modid = ModConstants.MOD_ID, value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT)
     public static class ClientForgeEvents {
         @SubscribeEvent
         public static void keyInput(InputEvent.Key e) {
@@ -77,7 +76,7 @@ public class CoordinatesDisplayForge {
 
     }
 
-    @Mod.EventBusSubscriber(modid = ModConstants.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void registerKeys(RegisterKeyMappingsEvent e) {

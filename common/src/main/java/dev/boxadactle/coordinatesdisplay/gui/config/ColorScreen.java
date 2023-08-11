@@ -5,7 +5,6 @@ import dev.boxadactle.boxlib.gui.BConfigScreen;
 import dev.boxadactle.boxlib.gui.widget.*;
 import dev.boxadactle.coordinatesdisplay.gui.HudHelper;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.ModConstants;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import net.minecraft.client.gui.screens.Screen;
@@ -23,14 +22,14 @@ public class ColorScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.color", ModConstants.VERSION_STRING);
+        return Component.translatable("screen.coordinatesdisplay.color", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI_COLOR);
+        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_COLOR);
     }
 
     @Override
