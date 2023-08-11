@@ -107,8 +107,8 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
     }
 
     @Override
-    public void close() {
-        super.close();
+    public void onClose() {
+        super.onClose();
 
         CoordinatesDisplay.CONFIG.get().hudX = x;
         CoordinatesDisplay.CONFIG.get().hudY = y;
@@ -128,7 +128,7 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected void initFooter(int startX, int startY) {
-        this.addRenderableWidget(this.createSaveButton(startX, startY, b -> this.close()));
+        this.addRenderableWidget(this.createSaveButton(startX, startY, b -> this.onClose()));
     }
 
     @Override

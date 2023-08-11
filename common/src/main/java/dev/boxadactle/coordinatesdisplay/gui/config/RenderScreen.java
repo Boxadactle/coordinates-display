@@ -4,8 +4,6 @@ import dev.boxadactle.boxlib.gui.BConfigScreen;
 import dev.boxadactle.boxlib.gui.widget.BBooleanButton;
 import dev.boxadactle.boxlib.gui.widget.BCenteredLabel;
 import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
-import dev.boxadactle.boxlib.gui.widget.BWidgetContainer;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.gui.HudHelper;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
 import dev.boxadactle.coordinatesdisplay.util.ModConstants;
@@ -40,14 +38,14 @@ public class RenderScreen extends BConfigScreen implements HudHelper {
     protected void initConfigButtons() {
 
         // background
-        this.addConfigOption(new BBooleanButton(
+        this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.background",
                 config().renderBackground,
                 newVal -> config().renderBackground = newVal
         ));
 
         // chunk pos
-        ((BBooleanButton)this.addConfigOption(new BBooleanButton(
+        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.chunkpos",
                 config().renderChunkData,
                 newVal -> config().renderChunkData = newVal
@@ -70,31 +68,31 @@ public class RenderScreen extends BConfigScreen implements HudHelper {
         // add them
         direction.active = !(config().renderMode.equals(ModConfig.RenderMode.MINIMUM));
         directionint.active = !(config().renderMode.equals(ModConfig.RenderMode.LINE));
-        this.addConfigOption(new BWidgetContainer(direction, directionint));
+        this.addConfigLine(direction, directionint);
 
         // biome
-        ((BBooleanButton)this.addConfigOption(new BBooleanButton(
+        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.biome",
                 config().renderBiome,
                 newVal -> config().renderBiome = newVal
         ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.DEFAULT, ModConfig.RenderMode.MAXIMUM);
 
         // mc version
-        ((BBooleanButton)this.addConfigOption(new BBooleanButton(
+        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.mcversion",
                 config().renderMCVersion,
                 newVal -> config().renderMCVersion = newVal
         ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.MAXIMUM, ModConfig.RenderMode.DEFAULT);
 
-        this.addConfigOption(new BSpacingEntry());
+        this.addConfigLine(new BSpacingEntry());
 
         // hud rendering
-        this.addConfigOption(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
-        this.addConfigOption(this.createHudRenderEntry(pos));
+        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
+        this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
         for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
-            this.addConfigOption(new BSpacingEntry());
+            this.addConfigLine(new BSpacingEntry());
         }
 
     }

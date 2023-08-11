@@ -22,7 +22,7 @@ public class TextScreen extends BConfigScreen implements HudHelper {
 
     @Override
     protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.Component", ModConstants.VERSION_STRING);
+        return Component.translatable("screen.coordinatesdisplay.text", ModConstants.VERSION_STRING);
     }
 
     @Override
@@ -36,28 +36,28 @@ public class TextScreen extends BConfigScreen implements HudHelper {
     protected void initConfigButtons() {
 
         // coordinates chat message
-        this.addConfigOption(new BLabel(Component.translatable("label.coordinatesdisplay.posChatMessage")));
-        this.addConfigOption(new BStringField(
+        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.posChatMessage")));
+        this.addConfigLine(new BStringField(
                 config().posChatMessage,
                 newVal -> config().posChatMessage = newVal
         ));
 
         // copy pos message
-        this.addConfigOption(new BLabel(Component.translatable("label.coordinatesdisplay.copyPosMessage")));
-        this.addConfigOption(new BStringField(
+        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.copyPosMessage")));
+        this.addConfigLine(new BStringField(
                 config().copyPosMessage,
                 newVal -> config().copyPosMessage = newVal
         ));
 
         // round when copying
-        this.addConfigOption(new BBooleanButton(
+        this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.roundwhencopying",
                 config().shouldRoundWhenCopying,
                 newVal -> config().shouldRoundWhenCopying = newVal
         ));
 
         // teleport mode
-        this.addConfigOption(new BEnumButton<>(
+        this.addConfigLine(new BEnumButton<>(
                 "button.coordinatesdisplay.tpmode",
                 config().teleportMode,
                 ModConfig.TeleportMode.class,

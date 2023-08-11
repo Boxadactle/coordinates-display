@@ -45,43 +45,43 @@ public class ConfigScreen extends BConfigScreen {
     protected void initConfigButtons() {
 
         // visual settings
-        this.addConfigOption(new BConfigScreenButton(
+        this.addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.visualconfig"),
                 this,
                 VisualScreen::new
         ));
 
         // render settings
-        this.addConfigOption(new BConfigScreenButton(
+        this.addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.renderconfig"),
                 this,
                 RenderScreen::new
         ));
 
         // color settings
-        this.addConfigOption(new BConfigScreenButton(
+        this.addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.colorconfig"),
                 this,
                 ColorScreen::new
         ));
 
         // death pos settings
-        this.addConfigOption(new BConfigScreenButton(
+        this.addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.deathpos"),
                 this,
                 DeathPosScreen::new
         ));
 
         // text settings
-        this.addConfigOption(new BConfigScreenButton(
+        this.addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.text"),
                 this,
                 TextScreen::new
         ));
 
-        this.addConfigOption(new BSpacingEntry());
+        this.addConfigLine(new BSpacingEntry());
 
-        this.addConfigOption(new BCustomButton(Component.translatable("button.coordinatesdisplay.configfile")) {
+        this.addConfigLine(new BCustomButton(Component.translatable("button.coordinatesdisplay.configfile")) {
             @Override
             protected void buttonClicked(BConfigButton<?> button) {
                 button.active = false;
@@ -93,7 +93,7 @@ public class ConfigScreen extends BConfigScreen {
             }
         });
 
-        this.addConfigOption(new BCustomButton(Component.translatable("button.coordinatesdisplay.resetdefault")) {
+        this.addConfigLine(new BCustomButton(Component.translatable("button.coordinatesdisplay.resetdefault")) {
             @Override
             protected void buttonClicked(BConfigButton<?> button) {
                 Screen configScreen = ClientUtils.getCurrentScreen();
@@ -111,7 +111,7 @@ public class ConfigScreen extends BConfigScreen {
             }
         });
 
-        this.addConfigOption(new BLinkButton(Component.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI));
+        this.addConfigLine(new BLinkButton(Component.translatable("button.coordinatesdisplay.wiki"), ModConstants.WIKI));
 
     }
 }

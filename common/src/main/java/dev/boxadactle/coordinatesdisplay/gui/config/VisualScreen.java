@@ -40,21 +40,21 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
     protected void initConfigButtons() {
 
         // visible
-        this.addConfigOption(new BBooleanButton(
+        this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.visible",
                 config().visible,
                 newVal -> config().visible = newVal
         ));
 
         // round with decimals
-        this.addConfigOption(new BBooleanButton(
+        this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.roundDecimals",
                 config().decimalRounding,
                 newVal -> config().decimalRounding = newVal
         ));
 
         // display mode
-        this.addConfigOption(new BEnumButton<>(
+        this.addConfigLine(new BEnumButton<>(
                 "button.coordinatesdisplay.displayMode",
                 config().renderMode,
                 ModConfig.RenderMode.class,
@@ -63,14 +63,14 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
         ));
 
         // text shadow
-        this.addConfigOption(new BBooleanButton(
+        this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.textshadow",
                 config().hudTextShadow,
                 newVal -> config().hudTextShadow = newVal
         ));
 
         // hud position screen
-        this.addConfigOption(new BConfigScreenButton(
+        this.addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.editHudPos"),
                 this,
                 HudPositionScreen::new
@@ -83,28 +83,28 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
         );
 
         // text padding
-        BIntegerField Componentpadding = new BIntegerField(
+        BIntegerField textpadding = new BIntegerField(
                 config().textPadding,
                 newVal -> config().textPadding = newVal
         );
 
-        this.addConfigOption(new BWidgetContainer(
+        this.addConfigLine(
                 new BLabel(Component.translatable("label.coordinatesdisplay.padding")),
                 new BLabel(Component.translatable("label.coordinatesdisplay.textpadding"))
-        ));
+        );
 
-        this.addConfigOption(new BWidgetContainer(padding, Componentpadding));
+        this.addConfigLine(padding, textpadding);
 
 
-        this.addConfigOption(new BSpacingEntry());
+        this.addConfigLine(new BSpacingEntry());
 
         // hud rendering
-        this.addConfigOption(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
-        this.addConfigOption(this.createHudRenderEntry(pos));
+        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
+        this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
         for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
-            this.addConfigOption(new BSpacingEntry());
+            this.addConfigLine(new BSpacingEntry());
         }
 
     }

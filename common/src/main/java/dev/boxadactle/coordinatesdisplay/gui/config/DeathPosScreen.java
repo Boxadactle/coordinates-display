@@ -33,22 +33,22 @@ public class DeathPosScreen extends BConfigScreen implements HudHelper {
     protected void initConfigButtons() {
 
         // display on death screen
-        this.addConfigOption(new BBooleanButton(
+        this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.displayondeathscreen",
                 config().displayPosOnDeathScreen,
                 newVal -> config().displayPosOnDeathScreen = newVal
         ));
 
         // display in chat
-        this.addConfigOption(new BBooleanButton(
+        this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.sendinchat",
                 config().showDeathPosInChat,
                 newVal -> config().showDeathPosInChat = newVal
         ));
 
-        addConfigOption(new BSpacingEntry());
+        addConfigLine(new BSpacingEntry());
 
-        addConfigOption(new BCenteredLabel(ModUtil.makeDeathPositionComponent(generatePositionData())));
+        addConfigLine(new BCenteredLabel(ModUtil.makeDeathPositionComponent(generatePositionData())));
 
     }
 }
