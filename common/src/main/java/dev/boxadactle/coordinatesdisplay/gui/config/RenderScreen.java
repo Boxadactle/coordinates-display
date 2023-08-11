@@ -49,7 +49,7 @@ public class RenderScreen extends BConfigScreen implements HudHelper {
                 "button.coordinatesdisplay.chunkpos",
                 config().renderChunkData,
                 newVal -> config().renderChunkData = newVal
-        ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.DEFAULT, ModConfig.RenderMode.MINIMUM);
+        ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.DEFAULT, ModConfig.RenderMode.MAXIMUM);
 
         // direction
         BBooleanButton direction = new BBooleanButton(
