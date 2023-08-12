@@ -24,7 +24,7 @@ public class ToggleCommand extends CoordinatesCommand {
         CoordinatesDisplay.CONFIG.get().visible = !CoordinatesDisplay.CONFIG.get().visible;
         CoordinatesDisplay.CONFIG.save();
 
-        CoordinatesDisplay.LOGGER.player.info(super.translatable("command.coordinatesdisplay.toggle"));
+        CoordinatesDisplay.LOGGER.player.info(super.translatable("command.coordinatesdisplay.togglemessage"));
 
         return 0;
     }

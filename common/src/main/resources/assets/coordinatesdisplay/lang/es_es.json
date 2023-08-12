@@ -148,10 +148,19 @@
 
   "command.coordinatesdisplay.emptyArgs": "Error: por favor envia un subcomando válido",
   "command.coordinatesdisplay.internalError": "Un error interno se ha ocurrido",
-  "command.coordinatesdisplay.toggle": "¡El hud se ha conmutado!",
+  "command.coordinatesdisplay.togglemessage": "¡El hud se ha conmutado!",
   "command.coordinatesdisplay.position.copy": "La posición se ha copiado al portapapel.",
   "command.coordinatesdisplay.position.copytp": "La posición se ha copiado como un comando de /tp",
   "command.coordinatesdisplay.config.reload": "¡Refrescó la configuración!",
   "command.coordinatesdisplay.config.open.success": "Abrió el archivo de configuración con éxito.",
-  "command.coordinatesdisplay.config.open.fail": "No se pudo abrir el archivo de configuración."
+  "command.coordinatesdisplay.config.open.fail": "No se pudo abrir el archivo de configuración.",
+
+  "command.coordinatesdisplay.helpmenu": "/coordinates subcomandos",
+  "command.coordinatesdisplay.config": "Config: Refrescar/guardar el archivo de configuraciòn. Enviar sin argumentos para abrir el menù.",
+  "command.coordinatesdisplay.gui": "Gui: Abrir el menù de coordenadas, donde se puede hacer cosas sobre sus coordenadas.",
+  "command.coordinatesdisplay.help": "Help: Mostrar esta lista.",
+  "command.coordinatesdisplay.mode": "Mode: Seleccionar el modo de visualizaciòn que quieres renderizar en la pantalla.",
+  "command.coordinatesdisplay.movehud": "Movehud: Abrir el menù donde se puede mover el superposiciòn.",
+  "command.coordinatesdisplay.position": "Position: Hacer cosas con su posiciòn, como enviar en el chat, y copiando al portapapeles.",
+  "command.coordinatesdisplay.toggle": "Toggle: Conmutar activado/desactivado el superposiciòn."
 }
