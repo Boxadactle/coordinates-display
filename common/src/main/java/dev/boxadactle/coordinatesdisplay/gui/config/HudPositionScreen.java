@@ -1,9 +1,9 @@
 package dev.boxadactle.coordinatesdisplay.gui.config;
 
+import dev.boxadactle.boxlib.math.BMath;
 import dev.boxadactle.boxlib.util.MouseUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.gui.BConfigScreen;
-import dev.boxadactle.boxlib.math.MathHelper;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.gui.HudHelper;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
@@ -67,8 +67,8 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
                     hudOffsetY = distance[1];
                 }
 
-                x = Math.round(MathHelper.clamp(Math.round(mouseX / scale) - hudOffsetX, 0, this.width));
-                y = Math.round(MathHelper.clamp(Math.round(mouseY / scale) - hudOffsetY, 0, this.height));
+                x = Math.round(BMath.clamp(Math.round(mouseX / scale) - hudOffsetX, 0, this.width));
+                y = Math.round(BMath.clamp(Math.round(mouseY / scale) - hudOffsetY, 0, this.height));
 
                 if (!moveDelta) moveDelta = true;
 

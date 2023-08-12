@@ -91,6 +91,7 @@ public class CoordinatesDisplayForge {
             e.register(copyPosTp);
 
             e.register(changeHudPosition);
+            e.register(cycleDisplayMode);
         }
     }
 }

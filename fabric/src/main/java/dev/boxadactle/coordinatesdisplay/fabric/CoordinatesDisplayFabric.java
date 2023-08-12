@@ -34,9 +34,13 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
         KeyBindingHelper.registerKeyBinding(coordinatesGUIKeybind);
         KeyBindingHelper.registerKeyBinding(reloadConfigKeybind);
         KeyBindingHelper.registerKeyBinding(openConfigFileKeybind);
+
         KeyBindingHelper.registerKeyBinding(copyLocation);
         KeyBindingHelper.registerKeyBinding(sendLocation);
         KeyBindingHelper.registerKeyBinding(copyPosTp);
+
+        KeyBindingHelper.registerKeyBinding(changeHudPosition);
+        KeyBindingHelper.registerKeyBinding(cycleDisplayMode);
     }
 
     private void checkBindings(Minecraft client) {

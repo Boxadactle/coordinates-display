@@ -1,9 +1,9 @@
 package dev.boxadactle.coordinatesdisplay.gui;
 
+import dev.boxadactle.boxlib.math.BMath;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import dev.boxadactle.boxlib.gui.widget.BCustomRenderingEntry;
-import dev.boxadactle.boxlib.math.MathHelper;
 import dev.boxadactle.boxlib.math.Vec3;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
@@ -36,7 +36,7 @@ public interface HudHelper {
     }
 
     default String generateDimensionData() {
-        return (String) MathHelper.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
+        return (String) BMath.selectRandom("minecraft:overworld", "minecraft:the_nether", "minecraft:the_end");
     }
 
     default ModConfig config() {

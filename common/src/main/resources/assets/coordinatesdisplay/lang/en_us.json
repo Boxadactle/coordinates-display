@@ -7,6 +7,7 @@
   "key.coordinatesdisplay.sendpos": "Send Current Position in Chat",
   "key.coordinatesdisplay.copypostp": "Copy Current Position as /tp command",
   "key.coordinatesdisplay.changeHudPos": "Change HUD Position",
+  "key.coordinatesdisplay.cycleDisplayMode": "Cycle Display Mode (hold shift to go back)",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.x": "X: %s",

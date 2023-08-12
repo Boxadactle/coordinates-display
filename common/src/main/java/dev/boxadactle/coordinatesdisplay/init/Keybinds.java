@@ -1,7 +1,11 @@
 package dev.boxadactle.coordinatesdisplay.init;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import dev.boxadactle.boxlib.math.BMath;
+import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.util.WorldUtils;
+import dev.boxadactle.coordinatesdisplay.util.ModConfig;
 import dev.boxadactle.coordinatesdisplay.util.ModUtil;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import net.fabricmc.api.EnvType;
@@ -23,7 +27,7 @@ public class Keybinds {
     public static KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", GLFW.GLFW_KEY_N, "category.coordinatesdisplay");
 
     public static KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, "category.coordinatesdisplay");
-
+    public static KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", GLFW.GLFW_KEY_M, "category.coordinatesdisplay");
 
     public static void checkBindings(Position pos) {
 
@@ -69,6 +73,20 @@ public class Keybinds {
 
         if (changeHudPosition.consumeClick()) {
             CoordinatesDisplay.shouldHudPositionGuiOpen = true;
+        }
+
+        if (cycleDisplayMode.consumeClick()) {
+            int i = CoordinatesDisplay.CONFIG.get().renderMode.ordinal();
+
+            if (!InputConstants.isKeyDown(ClientUtils.getWindow(), 340)) i += 1;
+            else i -= 1;
+
+            i = BMath.bounds(i, ModConfig.RenderMode.values().length);
+
+            CoordinatesDisplay.LOGGER.info(i);
+
+            CoordinatesDisplay.CONFIG.get().renderMode = ModConfig.RenderMode.values()[i];
+            CoordinatesDisplay.CONFIG.save();
         }
     }
 
