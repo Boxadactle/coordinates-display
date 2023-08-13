@@ -83,9 +83,6 @@ public class CoordinatesDisplayForge {
             e.register(visibleKeybind);
             e.register(coordinatesGUIKeybind);
 
-            e.register(openConfigFileKeybind);
-            e.register(reloadConfigKeybind);
-
             e.register(copyLocation);
             e.register(sendLocation);
             e.register(copyPosTp);

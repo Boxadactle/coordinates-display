@@ -1,12 +1,11 @@
 {
   "key.coordinatesdisplay.visible": "Conmutar el HUD",
-  "key.coordinatesdisplay.openfile": "Abrir el archivo de configuración",
-  "key.coordinatesdisplay.configreload": "Recargar configuración",
   "key.coordinatesdisplay.coordinatesgui": "Abrir GUI de coordenadas",
   "key.coordinatesdisplay.copypos": "Copiar la posición actual al portapapel",
   "key.coordinatesdisplay.sendpos": "Enviar la posición actual en chat",
   "key.coordinatesdisplay.copypostp": "Copiar la posición actual como /tp",
   "key.coordinatesdisplay.changeHudPos": "Cambiar la posición del HUD",
+  "key.coordinatesdisplay.cycleDisplayMode": "Ciclar el modo renderizado (presionar shift para retroceder)",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.x": "X: %s",

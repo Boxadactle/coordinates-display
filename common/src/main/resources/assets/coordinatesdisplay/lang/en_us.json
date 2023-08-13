@@ -1,7 +1,5 @@
 {
   "key.coordinatesdisplay.visible": "Toggle Hud",
-  "key.coordinatesdisplay.openfile": "Open Configuration File",
-  "key.coordinatesdisplay.configreload": "Reload Configuration",
   "key.coordinatesdisplay.coordinatesgui": "Open Coordinates GUI",
   "key.coordinatesdisplay.copypos": "Copy Current Position to Clipboard",
   "key.coordinatesdisplay.sendpos": "Send Current Position in Chat",

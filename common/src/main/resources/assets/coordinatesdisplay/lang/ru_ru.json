@@ -1,12 +1,11 @@
 {
   "key.coordinatesdisplay.visible": "Переключить Hud",
-  "key.coordinatesdisplay.openfile": "Открыть файл конфигурации",
-  "key.coordinatesdisplay.configreload": "Перезагрузить файл конфигурации",
   "key.coordinatesdisplay.coordinatesgui": "Открыть GUI для координат",
   "key.coordinatesdisplay.copypos": "Скопировать текущую позицию в буфер обмена",
   "key.coordinatesdisplay.sendpos": "Скопирать текущую позицию в чат",
   "key.coordinatesdisplay.copypostp": "Copy Current Position as /tp command",
   "key.coordinatesdisplay.changeHudPos": "Change HUD Position",
+  "key.coordinatesdisplay.cycleDisplayMode": "Cycle Display Mode (hold shift to go back)",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.x": "X: %s",

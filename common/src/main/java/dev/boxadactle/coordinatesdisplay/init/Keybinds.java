@@ -19,9 +19,6 @@ public class Keybinds {
     public static KeyMapping visibleKeybind = new KeyMapping("key.coordinatesdisplay.visible", GLFW.GLFW_KEY_O, "category.coordinatesdisplay");
     public static KeyMapping coordinatesGUIKeybind = new KeyMapping("key.coordinatesdisplay.coordinatesgui", GLFW.GLFW_KEY_C, "category.coordinatesdisplay");
 
-    public static KeyMapping openConfigFileKeybind = new KeyMapping("key.coordinatesdisplay.openfile", GLFW.GLFW_KEY_F6, "category.coordinatesdisplay");
-    public static KeyMapping reloadConfigKeybind = new KeyMapping("key.coordinatesdisplay.configreload", GLFW.GLFW_KEY_F7, "category.coordinatesdisplay");
-
     public static KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", GLFW.GLFW_KEY_B, "category.coordinatesdisplay");
     public static KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", GLFW.GLFW_KEY_X, "category.coordinatesdisplay");
     public static KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", GLFW.GLFW_KEY_N, "category.coordinatesdisplay");
@@ -39,19 +36,6 @@ public class Keybinds {
 
         if (coordinatesGUIKeybind.consumeClick()) {
             CoordinatesDisplay.shouldCoordinatesGuiOpen = true;
-        }
-
-        if (openConfigFileKeybind.consumeClick()) {
-            if (ModUtil.openConfigFile()) {
-                CoordinatesDisplay.LOGGER.info("Opened file in native explorer!");
-            } else {
-                CoordinatesDisplay.LOGGER.player.warn("File could not be opened");
-            }
-        }
-
-        if (reloadConfigKeybind.consumeClick()) {
-            CoordinatesDisplay.CONFIG.reload();
-            CoordinatesDisplay.LOGGER.player.info("Config reloaded!");
         }
 
         if (copyLocation.consumeClick()) {

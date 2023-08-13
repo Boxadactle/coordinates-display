@@ -32,8 +32,6 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
 
         KeyBindingHelper.registerKeyBinding(visibleKeybind);
         KeyBindingHelper.registerKeyBinding(coordinatesGUIKeybind);
-        KeyBindingHelper.registerKeyBinding(reloadConfigKeybind);
-        KeyBindingHelper.registerKeyBinding(openConfigFileKeybind);
 
         KeyBindingHelper.registerKeyBinding(copyLocation);
         KeyBindingHelper.registerKeyBinding(sendLocation);

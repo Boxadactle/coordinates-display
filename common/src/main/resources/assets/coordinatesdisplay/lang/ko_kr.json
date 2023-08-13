@@ -1,12 +1,11 @@
 {
   "key.coordinatesdisplay.visible": "HUD 토글",
-  "key.coordinatesdisplay.openfile": "환경설정 파일 열기",
-  "key.coordinatesdisplay.configreload": "환경설정 다시 불러오기",
   "key.coordinatesdisplay.coordinatesgui": "좌표 GUI 열기",
   "key.coordinatesdisplay.copypos": "현재 위치를 클립 보드로 복사하십시오",
   "key.coordinatesdisplay.sendpos": "채팅에서 현재 위치를 보내십시오",
   "key.coordinatesdisplay.copypostp": "/tp 명령으로 현재 위치를 복사하십시오",
   "key.coordinatesdisplay.changeHudPos": "Change HUD Position",
+  "key.coordinatesdisplay.cycleDisplayMode": "Cycle Display Mode (hold shift to go back)",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.x": "X: %s",
