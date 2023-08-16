@@ -27,15 +27,16 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
+        
     - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
+      run: ./gradlew build
+      
     - name: Upload fabric
       uses: actions/upload-artifact@v3
       with:
         name: fabric-build
         path: fabric/build/libs
+        
     - name: Upload forge
       uses: actions/upload-artifact@v3
       with:
