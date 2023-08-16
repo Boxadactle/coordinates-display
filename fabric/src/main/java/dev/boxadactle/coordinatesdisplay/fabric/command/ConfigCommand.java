@@ -51,7 +51,7 @@ public class ConfigCommand extends CoordinatesCommand {
     }
 
     private int reloadConfig(CommandContext<FabricClientCommandSource> context) {
-        Keybinds.reloadConfigKeybind.setDown(true);
+        CoordinatesDisplay.CONFIG.reload();
         CoordinatesDisplay.LOGGER.player.info(super.translatable("command.coordinatesdisplay.config.reload"));
         CoordinatesDisplay.LOGGER.info("Reloaded all config");
 

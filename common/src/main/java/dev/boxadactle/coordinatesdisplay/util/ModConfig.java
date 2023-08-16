@@ -1,7 +1,13 @@
 package dev.boxadactle.coordinatesdisplay.util;
 
+import dev.boxadactle.boxlib.BoxLib;
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
+import dev.boxadactle.coordinatesdisplay.util.hud.*;
+import dev.boxadactle.coordinatesdisplay.util.position.Position;
+
+import java.util.function.Function;
+
 @BConfigFile("coordinates-display")
 public class ModConfig implements BConfig {
 
@@ -38,17 +44,37 @@ public class ModConfig implements BConfig {
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
 
     public enum RenderMode {
-        DEFAULT,
-        MINIMUM,
-        MAXIMUM,
-        LINE,
-        NETHER_OVERWORLD
+        DEFAULT(DefaultRenderer.class),
+        MINIMUM(MinRenderer.class),
+        MAXIMUM(MaxRenderer.class),
+        LINE(LineRenderer.class),
+        NETHER_OVERWORLD(NetherOverworldRenderer.class);
+
+        private HudRenderer.Renderer renderer;
+
+        RenderMode(Class<? extends HudRenderer.Renderer> renderer) {
+            this.renderer = BoxLib.initializeClass(renderer);
+        }
+
+        public HudRenderer.Renderer getRenderer() {
+            return renderer;
+        }
     }
 
     public enum TeleportMode {
-        EXECUTE,
-        TP,
-        BARITONE
+        EXECUTE(ModUtil::toExecuteCommand),
+        TP(ModUtil::toTeleportCommand),
+        BARITONE(ModUtil::toBaritoneCommand);
+
+        Function<Position, String> converter;
+
+        TeleportMode(Function<Position, String> converter) {
+            this.converter = converter;
+        }
+
+        public String toCommand(Position pos) {
+            return converter.apply(pos);
+        }
     }
 
 }

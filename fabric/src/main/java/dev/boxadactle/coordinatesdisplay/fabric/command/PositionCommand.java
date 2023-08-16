@@ -9,7 +9,6 @@ import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 import net.minecraft.client.Minecraft;
-import net.minecraft.commands.Commands;
 
 public class PositionCommand extends CoordinatesCommand {
     @Override
@@ -64,7 +63,7 @@ public class PositionCommand extends CoordinatesCommand {
         try {
             Position pos = Position.of(WorldUtils.getCamera());
 
-            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.toTeleportCommand(pos.position.getPlayerPos(), WorldUtils.getCurrentDimension()));
+            Minecraft.getInstance().keyboardHandler.setClipboard(CoordinatesDisplay.getConfig().teleportMode.toCommand(pos));
 
             CoordinatesDisplay.LOGGER.player.info(super.translatable("command.coordinatesdisplay.position.copytp"));
 

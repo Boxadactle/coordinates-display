@@ -57,7 +57,7 @@ public class ModUtil {
         return newTextComponent;
     }
 
-    public static String toTeleportCommand(Vec3<Double> pos,  String dimension) {
+    public static String toTPCommand(Vec3<Double> pos, String dimension) {
         int x = (int)Math.round(pos.getX());
         int y = (int)Math.round(pos.getY());
         int z = (int)Math.round(pos.getZ());
@@ -73,11 +73,38 @@ public class ModUtil {
         } else throw new RuntimeException("Invalid teleport mode!");
     }
 
+    public static String toExecuteCommand(Position pos) {
+        int x = (int)Math.round(pos.position.getPlayerPos().getX());
+        int y = (int)Math.round(pos.position.getPlayerPos().getY());
+        int z = (int)Math.round(pos.position.getPlayerPos().getZ());
+
+        String dimension = pos.world.getDimension(false);
+        return String.format("/execute in %s run tp @s %d %d %d", dimension, x, y, z);
+    }
+
+    public static String toTeleportCommand(Position pos) {
+        int x = (int)Math.round(pos.position.getPlayerPos().getX());
+        int y = (int)Math.round(pos.position.getPlayerPos().getY());
+        int z = (int)Math.round(pos.position.getPlayerPos().getZ());
+
+        String dimension = pos.world.getDimension(false);
+        return String.format("/tp @s %d %d %d", x, y, z);
+    }
+
+    public static String toBaritoneCommand(Position pos) {
+        int x = (int)Math.round(pos.position.getPlayerPos().getX());
+        int y = (int)Math.round(pos.position.getPlayerPos().getY());
+        int z = (int)Math.round(pos.position.getPlayerPos().getZ());
+
+        String dimension = pos.world.getDimension(false);
+        return String.format("#goto %s %s %s", x, y, z);
+    }
+
     public static Component makeDeathPositionComponent(Position pos) {
 
         Vec3<Double> player = pos.position.getPlayerPos();
 
-        String command = toTeleportCommand(player, pos.world.getDimension(false));
+        String command = CoordinatesDisplay.getConfig().teleportMode.toCommand(pos);
 
         int x = (int)Math.round(player.getX());
         int y = (int)Math.round(player.getY());

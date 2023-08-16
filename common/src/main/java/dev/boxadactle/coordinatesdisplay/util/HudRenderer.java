@@ -1,19 +1,13 @@
 package dev.boxadactle.coordinatesdisplay.util;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import dev.boxadactle.boxlib.BoxLib;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import dev.boxadactle.boxlib.math.Rect;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
-import net.minecraft.client.gui.Font;
+import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import dev.boxadactle.coordinatesdisplay.util.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-
-import java.util.HashMap;
-import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.function.Supplier;
 
 public class HudRenderer {
 
@@ -27,20 +21,8 @@ public class HudRenderer {
 
     float scale = CoordinatesDisplay.CONFIG.get().hudScale;
 
-    static HashMap<ModConfig.RenderMode, Renderer> renderers = new HashMap<>();
-
     public boolean isHovered(int mouseX, int mouseY) {
         return ModUtil.isMouseHovering(Math.round(mouseX / scale), Math.round(mouseY / scale), x, y, w, h);
-    }
-
-    public <T extends Renderer> T register(ModConfig.RenderMode mode, Class<T> renderer) {
-        T r = BoxLib.initializeClass(renderer);
-
-        renderers.put(mode, r);
-
-        CoordinatesDisplay.LOGGER.info("Registered renderer for render mode: " + mode.name());
-
-        return r;
     }
 
     public boolean isScaleButtonHovered(int mouseX, int mouseY) {
@@ -51,9 +33,7 @@ public class HudRenderer {
 
     public void render(GuiGraphics guiGraphics, Position pos, int x, int y, ModConfig.RenderMode renderMode, boolean moveOverlay) {
         try {
-            Renderer r = renderers.get(renderMode);
-
-            if (r == null) throw new UnregisteredRendererException(renderMode);
+            Renderer r = renderMode.getRenderer();
 
             Rect<Integer> size = r.renderOverlay(guiGraphics, x, y, pos);
             this.x = size.getX();
@@ -65,7 +45,7 @@ public class HudRenderer {
                 renderMoveOverlay(guiGraphics, x, y);
             }
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            CoordinatesDisplay.LOGGER.printStackTrace(e);
         }
     }
 
@@ -83,7 +63,7 @@ public class HudRenderer {
 
             matrices.popPose();
         } catch (NullPointerException e) {
-            e.printStackTrace();
+            CoordinatesDisplay.LOGGER.printStackTrace(e);
         }
     }
 

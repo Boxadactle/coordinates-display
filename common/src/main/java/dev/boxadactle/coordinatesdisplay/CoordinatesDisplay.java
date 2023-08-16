@@ -8,7 +8,6 @@ import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
 import dev.boxadactle.coordinatesdisplay.gui.config.HudPositionScreen;
-import dev.boxadactle.coordinatesdisplay.init.OverlayRenderers;
 import dev.boxadactle.coordinatesdisplay.util.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.util.ModConfig;
 import dev.boxadactle.coordinatesdisplay.util.position.Position;
@@ -50,7 +49,6 @@ public class CoordinatesDisplay {
 		CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 
 		OVERLAY = new HudRenderer();
-		OverlayRenderers.registerOverlayRenderers(OVERLAY);
 	}
 
 	public static ModConfig getConfig() {

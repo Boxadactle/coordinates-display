@@ -50,7 +50,7 @@ public class Keybinds {
         }
 
         if (copyPosTp.consumeClick()) {
-            Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.toTeleportCommand(pos.position.getPlayerPos(), WorldUtils.getCurrentDimension()));
+            Minecraft.getInstance().keyboardHandler.setClipboard(CoordinatesDisplay.getConfig().teleportMode.toCommand(pos));
 
             CoordinatesDisplay.LOGGER.player.info("Copied position as teleport command!");
         }
