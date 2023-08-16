@@ -8,9 +8,9 @@
 name: Build
 on:
   push:
-    branches: [ "1.20" ]
+    branches: [ "latest" ]
   pull_request:
-    branches: [ "1.20" ]
+    branches: [ "latest" ]
 
 permissions:
   contents: read
@@ -34,10 +34,10 @@ jobs:
     - name: Upload fabric
       uses: actions/upload-artifact@v3
       with:
-        name: Package
+        name: fabric-build
         path: fabric/build/libs
     - name: Upload forge
       uses: actions/upload-artifact@v3
       with:
-        name: Package
+        name: forge-build
         path: forge/build/libs
