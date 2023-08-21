@@ -107,6 +107,8 @@
   "button.coordinatesdisplay.startcorner.bottom_left": "Bottom Left",
   "button.coordinatesdisplay.startcorner.bottom_right": "Bottom Right",
   "button.coordinatesdisplay.editHudPos": "Edit Position of HUD...",
+  "button.coordinatesdisplay.padding": "Padding: %s",
+  "button.coordinatesdisplay.textpadding": "Text Padding: %s",
   "button.coordinatesdisplay.background": "Background: %s",
   "button.coordinatesdisplay.chunkpos": "Chunk Location: %s",
   "button.coordinatesdisplay.direction": "Direction: %s",
@@ -129,8 +131,6 @@
   "button.coordinatesdisplay.resetdefault": "Reset to Default...",
 
   "label.coordinatesdisplay.preview": "Preview",
-  "label.coordinatesdisplay.padding": "Padding",
-  "label.coordinatesdisplay.textpadding": "Text Padding",
   "label.coordinatesdisplay.definitionColor": "Definition Color",
   "label.coordinatesdisplay.dataColor": "Data Color",
   "label.coordinatesdisplay.deathposColor": "Death Position Color",

@@ -86,25 +86,23 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
                 HudPositionScreen::new
         ));
 
-        // TODO convert these fields into sliders
-        // padding
-        BIntegerField padding = new BIntegerField(
-                config().padding,
-                newVal -> config().padding = newVal
-        );
-
-        // text padding
-        BIntegerField textpadding = new BIntegerField(
-                config().textPadding,
-                newVal -> config().textPadding = newVal
-        );
-
         this.addConfigLine(
-                new BLabel(Component.translatable("label.coordinatesdisplay.padding")),
-                new BLabel(Component.translatable("label.coordinatesdisplay.textpadding"))
-        );
+            // padding
+            new BIntegerSlider(
+                    "button.coordinatesdisplay.padding",
+                    0, 10,
+                    config().padding,
+                    newVal -> config().padding = newVal
+            ),
 
-        this.addConfigLine(padding, textpadding);
+            // text padding
+            new BIntegerSlider(
+                    "button.coordinatesdisplay.textpadding",
+                    0, 20,
+                    config().textPadding,
+                    newVal -> config().textPadding = newVal
+            )
+        );
 
 
         this.addConfigLine(new BSpacingEntry());
