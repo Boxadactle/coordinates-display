@@ -93,7 +93,7 @@
   "button.coordinatesdisplay.deathpos": "Death Position...",
   "button.coordinatesdisplay.text": "Text Settings...",
   "button.coordinatesdisplay.visible": "Visible: %s",
-  "button.coordinatesdisplay.roundDecimals": "Round with Decimals: %s",
+  "button.coordinatesdisplay.decimalPlaces": "Decimal Places: %s",
   "button.coordinatesdisplay.displayMode": "Display Mode: %s",
   "button.coordinatesdisplay.displayMode.default": "Default",
   "button.coordinatesdisplay.displayMode.minimum": "Minimum",

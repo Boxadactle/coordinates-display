@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
@@ -61,14 +62,14 @@ public class DefaultRenderer extends HudRenderer {
 
     @Override
     protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
+        NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
         Vec3<Double> player = pos.position.getPlayerPos();
         Vec2<Integer> chunkPos = pos.position.getChunkPos();
 
         Component xtext = GuiUtils.colorize(translation(
                 "x",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(player.getX())),
+                        Component.literal(formatter.formatDecimal(player.getX())),
                         config().dataColor
                 )
         ), config().definitionColor);
@@ -76,7 +77,7 @@ public class DefaultRenderer extends HudRenderer {
         Component ytext = GuiUtils.colorize(translation(
                 "y",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(player.getY())),
+                        Component.literal(formatter.formatDecimal(player.getY())),
                         config().dataColor
                 )
         ), config().definitionColor);
@@ -84,7 +85,7 @@ public class DefaultRenderer extends HudRenderer {
         Component ztext = GuiUtils.colorize(translation(
                 "z",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(player.getZ())),
+                        Component.literal(formatter.formatDecimal(player.getZ())),
                         config().dataColor
                 )
         ), config().definitionColor);
@@ -116,7 +117,7 @@ public class DefaultRenderer extends HudRenderer {
                         config().definitionColor
                 ),
                 config().renderDirectionInt ? GuiUtils.colorize(
-                        GuiUtils.parentheses(Component.literal(decimalFormat.format(pos.headRot.wrapYaw()))),
+                        GuiUtils.parentheses(Component.literal(formatter.formatDecimal(pos.headRot.wrapYaw()))),
                         config().dataColor
                 ) : Component.literal("")
         );

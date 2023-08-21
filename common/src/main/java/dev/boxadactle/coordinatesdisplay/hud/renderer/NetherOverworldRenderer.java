@@ -2,6 +2,7 @@ package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
+import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
@@ -25,9 +26,9 @@ public class NetherOverworldRenderer extends HudRenderer {
             Component overworld = definition(translation("overworld"));
             Component nether = definition(translation("nether"));
 
-            DecimalFormat d = new DecimalFormat(config().decimalRounding ? "0.00" : "0");
+            NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
 
-            Component[][] coords = Objects.requireNonNull(createXYZs(Dimension.toDimension(pos.world.getDimension(false)), d, pos.position.getPlayerPos()));
+            Component[][] coords = Objects.requireNonNull(createXYZs(Dimension.toDimension(pos.world.getDimension(false)), formatter, pos.position.getPlayerPos()));
 
             int w = calculateWidth(coords, overworld, nether);
             int h = calculateHeight();
@@ -115,31 +116,31 @@ public class NetherOverworldRenderer extends HudRenderer {
         };
     }
 
-    private Component[][] createXYZs(Dimension type, DecimalFormat d, Vec3<Double> pos) {
+    private Component[][] createXYZs(Dimension type, NumberFormatter<Double> d, Vec3<Double> pos) {
         if (Objects.requireNonNull(type) == Dimension.OVERWORLD) {
             return new Component[][] {
                 createXYZ(
-                        d.format(pos.getX()),
-                        d.format(pos.getY()),
-                        d.format(pos.getZ())
+                        d.formatDecimal(pos.getX()),
+                        d.formatDecimal(pos.getY()),
+                        d.formatDecimal(pos.getZ())
                 ),
                 createXYZ(
-                        d.format(pos.getX() / 8),
-                        d.format(pos.getY() / 8),
-                        d.format(pos.getZ() / 8)
+                        d.formatDecimal(pos.getX() / 8),
+                        d.formatDecimal(pos.getY() / 8),
+                        d.formatDecimal(pos.getZ() / 8)
                 )
             };
         } else if (Objects.requireNonNull(type) == Dimension.NETHER) {
             return new Component[][] {
                     createXYZ(
-                            d.format(pos.getX() * 8),
-                            d.format(pos.getY() * 8),
-                            d.format(pos.getZ() * 8)
+                            d.formatDecimal(pos.getX() * 8),
+                            d.formatDecimal(pos.getY() * 8),
+                            d.formatDecimal(pos.getZ() * 8)
                     ),
                     createXYZ(
-                            d.format(pos.getX()),
-                            d.format(pos.getY()),
-                            d.format(pos.getZ())
+                            d.formatDecimal(pos.getX()),
+                            d.formatDecimal(pos.getY()),
+                            d.formatDecimal(pos.getZ())
                     )
             };
         } else {

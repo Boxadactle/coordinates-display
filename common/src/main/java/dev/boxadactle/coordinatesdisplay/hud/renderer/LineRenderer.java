@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
@@ -33,26 +34,26 @@ public class LineRenderer extends HudRenderer {
     protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
 
         Vec3<Double> vec = pos.position.getPlayerPos();
-        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
+        NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
 
         Component xtext = GuiUtils.colorize(translation(
                 "x",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(vec.getX())),
+                        Component.literal(formatter.formatDecimal(vec.getX())),
                         config().dataColor
                 )
         ), config().definitionColor);
         Component ytext = GuiUtils.colorize(translation(
                 "y",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(vec.getY())),
+                        Component.literal(formatter.formatDecimal(vec.getY())),
                         config().dataColor
                 )
         ), config().definitionColor);
         Component ztext = GuiUtils.colorize(translation(
                 "z",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(vec.getZ())),
+                        Component.literal(formatter.formatDecimal(vec.getZ())),
                         config().dataColor
                 )
         ), config().definitionColor);

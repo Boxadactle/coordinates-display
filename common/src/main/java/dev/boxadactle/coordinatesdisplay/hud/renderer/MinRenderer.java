@@ -2,6 +2,7 @@ package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
+import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
@@ -33,13 +34,13 @@ public class MinRenderer extends HudRenderer {
 
     @Override
     protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().decimalRounding ? "0.00" : "0");
+        NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
         Vec3<Double> player = pos.position.getPlayerPos();
 
         Component xtext = GuiUtils.colorize(translation(
                 "x",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(player.getX())),
+                        Component.literal(formatter.formatDecimal(player.getX())),
                         config().dataColor
                 )
         ), config().definitionColor);
@@ -47,7 +48,7 @@ public class MinRenderer extends HudRenderer {
         Component ytext = GuiUtils.colorize(translation(
                 "y",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(player.getY())),
+                        Component.literal(formatter.formatDecimal(player.getY())),
                         config().dataColor
                 )
         ), config().definitionColor);
@@ -55,7 +56,7 @@ public class MinRenderer extends HudRenderer {
         Component ztext = GuiUtils.colorize(translation(
                 "z",
                 GuiUtils.colorize(
-                        Component.literal(decimalFormat.format(player.getZ())),
+                        Component.literal(formatter.formatDecimal(player.getZ())),
                         config().dataColor
                 )
         ), config().definitionColor);

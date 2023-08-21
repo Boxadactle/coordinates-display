@@ -5,6 +5,7 @@ import dev.boxadactle.boxlib.config.gui.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.config.gui.widget.button.*;
 import dev.boxadactle.boxlib.config.gui.widget.field.*;
 import dev.boxadactle.boxlib.config.gui.widget.label.*;
+import dev.boxadactle.boxlib.config.gui.widget.slider.BIntegerSlider;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
@@ -46,11 +47,12 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
                 newVal -> config().visible = newVal
         ));
 
-        // round with decimals
-        this.addConfigLine(new BBooleanButton(
-                "button.coordinatesdisplay.roundDecimals",
-                config().decimalRounding,
-                newVal -> config().decimalRounding = newVal
+        // decimal places
+        this.addConfigLine(new BIntegerSlider(
+                "button.coordinatesdisplay.decimalPlaces",
+                0, 5,
+                config().decimalPlaces,
+                newVal -> config().decimalPlaces = newVal
         ));
 
         // display mode
@@ -84,6 +86,7 @@ public class VisualScreen extends BConfigScreen implements HudHelper {
                 HudPositionScreen::new
         ));
 
+        // TODO convert these fields into sliders
         // padding
         BIntegerField padding = new BIntegerField(
                 config().padding,

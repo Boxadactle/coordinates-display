@@ -16,8 +16,7 @@ import java.util.function.Function;
 public class ModConfig implements BConfig {
 
     public boolean visible = true;
-    // TODO convert to short slider to decide on
-    public boolean decimalRounding = true;
+    public int decimalPlaces = 0;
     public RenderMode renderMode = RenderMode.DEFAULT;
     public StartCorner startCorner = StartCorner.TOP_LEFT;
     public int hudX = 0;

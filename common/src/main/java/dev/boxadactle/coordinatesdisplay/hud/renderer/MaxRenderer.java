@@ -3,6 +3,7 @@ package dev.boxadactle.coordinatesdisplay.hud.renderer;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
+import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
@@ -24,7 +25,7 @@ public class MaxRenderer extends HudRenderer {
 
     @Override
     protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        DecimalFormat a = new DecimalFormat(config().decimalRounding ? "0.00" : "0");
+        NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
 
         List<Component> toRender = Lists.newArrayList();
 
@@ -32,13 +33,13 @@ public class MaxRenderer extends HudRenderer {
         Vec2<Integer> c = pos.position.getChunkPos();
         Vec3<Integer> d = pos.position.getBlockPos();
         Vec3<Integer> e = pos.position.getBlockPosInChunk();
-        Component xyz = definition(translation("xyz", value(a.format(b.getX())), value(a.format(b.getY())), value(a.format(b.getZ()))));
+        Component xyz = definition(translation("xyz", value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ()))));
         Component block = definition(translation("block", value(Integer.toString(d.getX())), value(Integer.toString(d.getY())), value(Integer.toString(d.getZ())), value(Integer.toString(e.getX())), value(Integer.toString(e.getY())), value(Integer.toString(e.getZ()))));
         Component targeted = definition(translation("block.targeted", value(pos.block.getBlockX()), value(pos.block.getBlockY()), value(pos.block.getBlockZ())));
         Component chunk = definition(translation("chunk", value(Integer.toString(c.getX())), value(Integer.toString(pos.position.getChunkY())), value(Integer.toString(c.getY()))));
 
         Component g = definition(translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
-        Component direction = definition(translation("direction", g, value(a.format(pos.headRot.wrapYaw())), value(a.format(pos.headRot.wrapPitch()))));
+        Component direction = definition(translation("direction", g, value(formatter.formatDecimal(pos.headRot.wrapYaw())), value(formatter.formatDecimal(pos.headRot.wrapPitch()))));
 
         Component biome = definition(translation("biome", value(pos.world.getBiome(false))));
 
