@@ -1,7 +1,7 @@
 package dev.boxadactle.coordinatesdisplay.mixin;
 
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.util.ModUtil;
+import dev.boxadactle.coordinatesdisplay.ModUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

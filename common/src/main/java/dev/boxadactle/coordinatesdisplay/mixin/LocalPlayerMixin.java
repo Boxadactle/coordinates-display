@@ -2,8 +2,8 @@ package dev.boxadactle.coordinatesdisplay.mixin;
 
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.util.ModUtil;
-import dev.boxadactle.coordinatesdisplay.util.position.Position;
+import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.player.LocalPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

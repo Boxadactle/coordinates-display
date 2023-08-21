@@ -6,8 +6,8 @@ import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.fabric.init.Commands;
 import dev.boxadactle.coordinatesdisplay.init.Keybinds;
-import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.position.Position;
+import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
@@ -60,12 +60,13 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
 
                 ModConfig config = CoordinatesDisplay.getConfig();
 
-                CoordinatesDisplay.OVERLAY.render(
+                CoordinatesDisplay.HUD.render(
                         guiGraphics,
                         Position.of(WorldUtils.getCamera()),
                         config.hudX,
                         config.hudY,
                         config.renderMode,
+                        config.startCorner,
                         false,
                         config.hudScale
                 );

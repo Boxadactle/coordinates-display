@@ -3,8 +3,7 @@ package dev.boxadactle.coordinatesdisplay.fabric.command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.init.Keybinds;
-import dev.boxadactle.coordinatesdisplay.util.ModUtil;
+import dev.boxadactle.coordinatesdisplay.ModUtil;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 

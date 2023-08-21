@@ -5,10 +5,10 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.forge.init.Commands;
-import dev.boxadactle.coordinatesdisplay.gui.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.init.Keybinds;
-import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.position.Position;
+import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
@@ -58,12 +58,13 @@ public class CoordinatesDisplayForge {
 
                     ModConfig config = CoordinatesDisplay.getConfig();
 
-                    CoordinatesDisplay.OVERLAY.render(
+                    CoordinatesDisplay.HUD.render(
                             e.getGuiGraphics(),
                             Position.of(WorldUtils.getCamera()),
                             config.hudX,
                             config.hudY,
                             config.renderMode,
+                            config.startCorner,
                             false,
                             config.hudScale
                     );

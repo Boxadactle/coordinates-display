@@ -1,13 +1,12 @@
 package dev.boxadactle.coordinatesdisplay.init;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import dev.boxadactle.boxlib.math.BMath;
+import dev.boxadactle.boxlib.math.mathutils.Mappers;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.boxlib.util.WorldUtils;
-import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.ModUtil;
-import dev.boxadactle.coordinatesdisplay.util.position.Position;
+import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.KeyMapping;
@@ -65,7 +64,7 @@ public class Keybinds {
             if (!InputConstants.isKeyDown(ClientUtils.getWindow(), 340)) i += 1;
             else i -= 1;
 
-            i = BMath.bounds(i, ModConfig.RenderMode.values().length);
+            i = Mappers.wrap(i, ModConfig.RenderMode.values().length);
 
             CoordinatesDisplay.LOGGER.info(i);
 

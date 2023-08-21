@@ -8,6 +8,7 @@ public class Commands {
     public static void register() {
         BCommandManager.registerCommand("coordinates", list -> {
             list.add(ConfigCommand::new);
+            list.add(CornerCommand::new);
             list.add(GuiCommand::new);
             list.add(HelpCommand::new);
             list.add(ModeCommand::new);

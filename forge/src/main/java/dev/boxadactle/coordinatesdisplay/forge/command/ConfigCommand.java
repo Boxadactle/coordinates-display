@@ -3,8 +3,7 @@ package dev.boxadactle.coordinatesdisplay.forge.command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.init.Keybinds;
-import dev.boxadactle.coordinatesdisplay.util.ModUtil;
+import dev.boxadactle.coordinatesdisplay.ModUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -51,7 +50,7 @@ public class ConfigCommand extends CoordinatesCommand {
     }
 
     private int reloadConfig(CommandContext<CommandSourceStack> context) {
-        Keybinds.reloadConfigKeybind.setDown(true);
+        CoordinatesDisplay.CONFIG.reload();
         CoordinatesDisplay.LOGGER.player.info(super.translatable("command.coordinatesdisplay.config.reload"));
         CoordinatesDisplay.LOGGER.info("Reloaded all config");
 

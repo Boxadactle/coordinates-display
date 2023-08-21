@@ -21,8 +21,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    modApi("dev.boxadactle:BoxLib-forge:${rootProject.boxlib_version}")
-    include("dev.boxadactle:BoxLib-forge:${rootProject.boxlib_version}")
+    modCompileOnly("dev.boxadactle.boxlib:BoxLib-forge:${rootProject.boxlib_version}") { transitive = true }
+    include("dev.boxadactle.boxlib:BoxLib-forge:${rootProject.boxlib_version}") { transitive = true }
 }
 
 processResources {

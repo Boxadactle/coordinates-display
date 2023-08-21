@@ -5,12 +5,11 @@ import dev.boxadactle.boxlib.config.BConfigHandler;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
-import dev.boxadactle.coordinatesdisplay.gui.ConfigScreen;
-import dev.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
-import dev.boxadactle.coordinatesdisplay.gui.config.HudPositionScreen;
-import dev.boxadactle.coordinatesdisplay.util.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.util.ModConfig;
-import dev.boxadactle.coordinatesdisplay.util.position.Position;
+import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
+import dev.boxadactle.coordinatesdisplay.hud.Hud;
+import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.position.Position;
 
 public class CoordinatesDisplay {
 
@@ -42,13 +41,13 @@ public class CoordinatesDisplay {
 
 	public static BConfigClass<ModConfig> CONFIG;
 
-	public static HudRenderer OVERLAY;
+	public static Hud HUD;
 
 	public static void init() {
 
 		CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 
-		OVERLAY = new HudRenderer();
+		HUD = new Hud();
 	}
 
 	public static ModConfig getConfig() {

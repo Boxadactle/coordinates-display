@@ -6,26 +6,24 @@ import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
-public class ModeCommand extends CoordinatesCommand {
+public class CornerCommand extends CoordinatesCommand {
     @Override
     public String getName() {
-        return "mode";
+        return "corner";
     }
 
     @Override
     public void build(LiteralArgumentBuilder<FabricClientCommandSource> builder) {
+        ModConfig.StartCorner[] corners =  ModConfig.StartCorner.values();
 
-        ModConfig.RenderMode[] modes =  ModConfig.RenderMode.values();
-
-        for (ModConfig.RenderMode mode : modes) {
-            builder.then(ClientCommandManager.literal(mode.name().toLowerCase())
+        for (ModConfig.StartCorner corner : corners) {
+            builder.then(ClientCommandManager.literal(corner.name().toLowerCase())
                     .executes(c -> {
-                        CoordinatesDisplay.getConfig().renderMode = mode;
+                        CoordinatesDisplay.getConfig().startCorner = corner;
                         CoordinatesDisplay.CONFIG.save();
                         return 0;
                     })
             );
         }
-
     }
 }
