@@ -93,13 +93,22 @@
   "button.coordinatesdisplay.deathpos": "죽음의 위치",
   "button.coordinatesdisplay.text": "텍스트 설정...",
   "button.coordinatesdisplay.visible": "화면에 표시: %s",
-  "button.coordinatesdisplay.roundDecimals": "소수점 표시: %s",
+  "button.coordinatesdisplay.decimalPlaces": "소수점 표시: %s",
   "button.coordinatesdisplay.displayMode": "Display Mode: %s",
   "button.coordinatesdisplay.displayMode.default": "Default",
   "button.coordinatesdisplay.displayMode.minimum": "Minimum",
+  "button.coordinatesdisplay.displayMode.maximum": "Maximum",
   "button.coordinatesdisplay.displayMode.line": "Line",
+  "button.coordinatesdisplay.displayMode.nether_overworld": "Nether/Overworld",
   "button.coordinatesdisplay.textshadow": "Text Shadow: %s",
+  "button.coordinatesdisplay.startcorner": "Start Corner: %s",
+  "button.coordinatesdisplay.startcorner.top_left": "Top Left",
+  "button.coordinatesdisplay.startcorner.top_right": "Top Right",
+  "button.coordinatesdisplay.startcorner.bottom_left": "Bottom Left",
+  "button.coordinatesdisplay.startcorner.bottom_right": "Bottom Right",
   "button.coordinatesdisplay.editHudPos": "HUD 위치 변경...",
+  "button.coordinatesdisplay.padding": "Padding: %s",
+  "button.coordinatesdisplay.textpadding": "Text Padding: %s",
   "button.coordinatesdisplay.background": "배경: %s",
   "button.coordinatesdisplay.chunkpos": "청크 데이터: %s",
   "button.coordinatesdisplay.direction": "방향: %s",
@@ -122,8 +131,6 @@
   "button.coordinatesdisplay.resetdefault": "기본값으로 초기화...",
 
   "label.coordinatesdisplay.preview": "Preview",
-  "label.coordinatesdisplay.padding": "충전재",
-  "label.coordinatesdisplay.textpadding": "텍스트 사이의 채우기",
   "label.coordinatesdisplay.definitionColor": "정의의 색상",
   "label.coordinatesdisplay.dataColor": "값의 색상",
   "label.coordinatesdisplay.deathposColor": "사망 위치의 색상",
@@ -162,5 +169,4 @@
   "command.coordinatesdisplay.movehud": "Movehud: Open the gui where you can move the HUD.",
   "command.coordinatesdisplay.position": "Position: Do things with your position, such as sending in chat, and copying to the clipboard.",
   "command.coordinatesdisplay.toggle": "Toggle: Toggle on/off the HUD."
-
 }
