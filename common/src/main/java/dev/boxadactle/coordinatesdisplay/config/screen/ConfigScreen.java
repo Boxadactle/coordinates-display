@@ -1,9 +1,9 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.config.gui.BConfigButton;
-import dev.boxadactle.boxlib.config.gui.BConfigScreen;
-import dev.boxadactle.boxlib.config.gui.widget.BSpacingEntry;
-import dev.boxadactle.boxlib.config.gui.widget.button.*;
+import dev.boxadactle.boxlib.gui.BOptionButton;
+import dev.boxadactle.boxlib.gui.BOptionScreen;
+import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
+import dev.boxadactle.boxlib.gui.widget.button.*;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
@@ -11,7 +11,7 @@ import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class ConfigScreen extends BConfigScreen {
+public class ConfigScreen extends BOptionScreen {
 
     public ConfigScreen(Screen parent) {
         super(parent);
@@ -79,7 +79,7 @@ public class ConfigScreen extends BConfigScreen {
 
         this.addConfigLine(new BCustomButton(Component.translatable("button.coordinatesdisplay.configfile")) {
             @Override
-            protected void buttonClicked(BConfigButton<?> button) {
+            protected void buttonClicked(BOptionButton<?> button) {
                 button.active = false;
                 if (ModUtil.openConfigFile()) {
                     button.setMessage(Component.translatable("button.coordinatesdisplay.configfilesuccess"));
@@ -91,7 +91,7 @@ public class ConfigScreen extends BConfigScreen {
 
         this.addConfigLine(new BCustomButton(Component.translatable("button.coordinatesdisplay.resetdefault")) {
             @Override
-            protected void buttonClicked(BConfigButton<?> button) {
+            protected void buttonClicked(BOptionButton<?> button) {
                 Screen configScreen = ClientUtils.getCurrentScreen();
                 ClientUtils.setScreen(new ConfirmScreen(doIt -> {
                     if (doIt) {

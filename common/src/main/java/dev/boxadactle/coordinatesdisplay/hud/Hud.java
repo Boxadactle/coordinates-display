@@ -41,7 +41,7 @@ public class Hud {
             HudRenderer r = renderMode.getRenderer();
 
             // only way to do this is the use the size of the hud from the previous frame
-            Rect<Integer> newPos = startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
+            Rect<Integer> newPos = renderMode.getRenderer().ignoreTranslations() ? new Rect<>(x, y, size.getWidth(), size.getHeight()) : startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
                     Math.round(ClientUtils.getClient().getWindow().getGuiScaledWidth() / scale),
                     Math.round(ClientUtils.getClient().getWindow().getGuiScaledHeight() / scale)
             ), ModConfig.StartCorner.TOP_LEFT);
@@ -52,7 +52,7 @@ public class Hud {
             this.size.setWidth(size.getWidth());
             this.size.setHeight(size.getHeight());
 
-            if (moveOverlay) {
+            if (moveOverlay && renderMode.getRenderer().allowMove()) {
                 renderMoveOverlay(guiGraphics, newPos.getX(), newPos.getY());
             }
         } catch (NullPointerException e) {
@@ -63,17 +63,19 @@ public class Hud {
 
     public void render(GuiGraphics guiGraphics, Position pos, int x, int y, ModConfig.RenderMode renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay, float scale) {
         try {
-            PoseStack matrices = guiGraphics.pose();
+            if (!renderMode.getRenderer().ignoreTranslations()) {
+                PoseStack matrices = guiGraphics.pose();
 
-            matrices.pushPose();
+                matrices.pushPose();
 
-            matrices.scale(scale, scale, scale);
+                matrices.scale(scale, scale, scale);
 
-            this.scale = scale;
+                this.scale = scale;
 
-            render(guiGraphics, pos, x, y, renderMode, startCorner, moveOverlay);
+                render(guiGraphics, pos, x, y, renderMode, startCorner, moveOverlay);
 
-            matrices.popPose();
+                matrices.popPose();
+            } else render(guiGraphics, pos, x, y, renderMode, startCorner, moveOverlay);
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.printStackTrace(e);
         }

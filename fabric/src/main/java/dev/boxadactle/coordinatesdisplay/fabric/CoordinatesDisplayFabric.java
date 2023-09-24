@@ -52,7 +52,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
         if (
                 !ClientUtils.getOptions().hideGui
                         && CoordinatesDisplay.CONFIG.get().visible
-                        && !ClientUtils.getOptions().renderDebug
+                        && !ClientUtils.getClient().getDebugOverlay().showDebugScreen()
                         && CoordinatesDisplay.shouldHudRender
         ) {
             try {

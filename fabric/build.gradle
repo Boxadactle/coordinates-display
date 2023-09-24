@@ -1,5 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "me.shedaniel.unified-publishing"
 }
 
 architectury {
@@ -22,8 +23,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    modApi("dev.boxadactle.boxlib:BoxLib-fabric:${rootProject.boxlib_version}") { transitive = true }
-    include("dev.boxadactle.boxlib:BoxLib-fabric:${rootProject.boxlib_version}") { transitive = true }
+    modApi("dev.boxadactle:Boxlib-fabric:${rootProject.boxlib_version}") { transitive = true }
+    include("dev.boxadactle:Boxlib-fabric:${rootProject.boxlib_version}") { transitive = true }
 
     modImplementation("com.terraformersmc:modmenu:${rootProject.modmenu_version}") {
         transitive = false
@@ -76,5 +77,35 @@ publishing {
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         // Add repositories to publish to here.
+    }
+}
+
+unifiedPublishing {
+    project {
+        displayName = "[Forge ${rootProject.minecraft_version}] v${rootProject.mod_version}"
+        version = "${rootProject.mod_version}-fabric"
+        changelog = "A changelog can be found here: https://github.com/Boxadactle/coordinates-display/releases/tag/${rootProject.mod_version}"
+        releaseType = "release"
+        gameVersions = [ "1.20.2" ]
+        gameLoaders = [ "forge" ]
+
+        mainPublication tasks.remapJar
+
+        var cfToken = System.getenv("CURSEFORGE_TOKEN")
+        if (cfToken != null) {
+            curseforge {
+                token = cfToken
+                id = "646464"
+            }
+        }
+
+        var modrinthToken = System.getenv("MODRINTH_TOKEN")
+        if (modrinthToken != null) {
+            modrinth {
+                token = modrinthToken
+                id = "3mW8PdUo"
+                version = "${rootProject.mod_version}-${project.name}"
+            }
+        }
     }
 }

@@ -31,7 +31,7 @@ public class CoordinatesScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        this.renderBackground(guiGraphics);
+        this.renderBackground(guiGraphics, mouseX, mouseY, delta);
 
         Vec3<Double> player = pos.position.getPlayerPos();
 

@@ -3,7 +3,7 @@ dependencies {
     // Do NOT use other classes from fabric loader
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
 
-    modCompileOnlyApi("dev.boxadactle.boxlib:BoxLib:${rootProject.boxlib_version}") { transitive = true }
+    modCompileOnlyApi("dev.boxadactle:Boxlib:${rootProject.boxlib_version}") { transitive = true }
 }
 
 architectury {

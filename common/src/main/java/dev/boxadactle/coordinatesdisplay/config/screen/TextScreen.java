@@ -1,18 +1,18 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.config.gui.widget.button.BBooleanButton;
-import dev.boxadactle.boxlib.config.gui.widget.button.BEnumButton;
-import dev.boxadactle.boxlib.config.gui.widget.field.BStringField;
-import dev.boxadactle.boxlib.config.gui.widget.label.BLabel;
+import dev.boxadactle.boxlib.gui.BOptionScreen;
+import dev.boxadactle.boxlib.gui.widget.button.BBooleanButton;
+import dev.boxadactle.boxlib.gui.widget.button.BEnumButton;
+import dev.boxadactle.boxlib.gui.widget.field.BStringField;
+import dev.boxadactle.boxlib.gui.widget.label.BLabel;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.boxlib.config.gui.BConfigScreen;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class TextScreen extends BConfigScreen implements HudHelper {
+public class TextScreen extends BOptionScreen implements HudHelper {
 
     public TextScreen(Screen parent) {
         super(parent);
