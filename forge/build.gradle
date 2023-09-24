@@ -32,6 +32,10 @@ processResources {
     filesMatching("META-INF/mods.toml") {
         expand "version": project.version
     }
+
+    filesMatching("CoordinatesDisplay.java") {
+        expand "version": project.version
+    }
 }
 
 shadowJar {

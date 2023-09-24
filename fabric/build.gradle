@@ -37,6 +37,10 @@ processResources {
     filesMatching("fabric.mod.json") {
         expand "version": project.version
     }
+
+    filesMatching("CoordinatesDisplay.java") {
+        expand "version": project.version
+    }
 }
 
 shadowJar {

@@ -17,7 +17,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "4.0.0";
+	public static final String VERSION = "${version}";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
