@@ -1,11 +1,11 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.config.gui.BConfigScreen;
-import dev.boxadactle.boxlib.config.gui.widget.BSpacingEntry;
-import dev.boxadactle.boxlib.config.gui.widget.button.*;
-import dev.boxadactle.boxlib.config.gui.widget.field.*;
-import dev.boxadactle.boxlib.config.gui.widget.label.*;
-import dev.boxadactle.boxlib.config.gui.widget.slider.BIntegerSlider;
+import dev.boxadactle.boxlib.gui.BOptionScreen;
+import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
+import dev.boxadactle.boxlib.gui.widget.button.*;
+import dev.boxadactle.boxlib.gui.widget.field.*;
+import dev.boxadactle.boxlib.gui.widget.label.*;
+import dev.boxadactle.boxlib.gui.widget.slider.BIntegerSlider;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
@@ -15,7 +15,7 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class VisualScreen extends BConfigScreen implements HudHelper {
+public class VisualScreen extends BOptionScreen implements HudHelper {
 
     Position pos;
 

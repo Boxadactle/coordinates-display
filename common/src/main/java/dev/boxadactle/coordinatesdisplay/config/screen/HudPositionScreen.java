@@ -1,12 +1,12 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
+import dev.boxadactle.boxlib.gui.BOptionScreen;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.mathutils.Clamps;
 import dev.boxadactle.boxlib.util.MouseUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.boxlib.config.gui.BConfigScreen;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
@@ -17,7 +17,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class HudPositionScreen extends BConfigScreen implements HudHelper {
+public class HudPositionScreen extends BOptionScreen implements HudHelper {
 
     int x;
     int y;
@@ -55,7 +55,7 @@ public class HudPositionScreen extends BConfigScreen implements HudHelper {
 
     @Override
     public void render(GuiGraphics p_96562_, int mouseX, int mouseY, float delta) {
-        this.renderBackground(p_96562_);
+        this.renderBackground(p_96562_, mouseX, mouseY, delta);
         super.render(p_96562_, mouseX, mouseY, delta);
 
         boolean isDragging = MouseUtils.isMouseDown(0);

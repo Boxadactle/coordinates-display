@@ -50,7 +50,7 @@ public class CoordinatesDisplayForge {
             if (
                     !ClientUtils.getOptions().hideGui
                             && CoordinatesDisplay.CONFIG.get().visible
-                            && !ClientUtils.getOptions().renderDebug
+                            && !ClientUtils.getClient().getDebugOverlay().showDebugScreen()
                             && CoordinatesDisplay.shouldHudRender
             ) {
                 try {

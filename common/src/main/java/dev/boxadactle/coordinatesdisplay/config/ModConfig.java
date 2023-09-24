@@ -1,6 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.config;
 
-import dev.boxadactle.boxlib.base.BoxLib;
+import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;

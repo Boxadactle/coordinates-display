@@ -21,8 +21,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
-    modCompileOnly("dev.boxadactle.boxlib:BoxLib-forge:${rootProject.boxlib_version}") { transitive = true }
-    include("dev.boxadactle.boxlib:BoxLib-forge:${rootProject.boxlib_version}") { transitive = true }
+    modCompileOnly("dev.boxadactle:Boxlib-forge:${rootProject.boxlib_version}") { transitive = true }
+    include("dev.boxadactle:Boxlib-forge:${rootProject.boxlib_version}") { transitive = true }
 }
 
 processResources {
@@ -48,6 +48,12 @@ remapJar {
 
 jar {
     archiveClassifier.set("dev")
+
+    manifest {
+        attributes([
+                "MixinConfigs": "coordinatesdisplay-common.mixins.json"
+        ])
+    }
 }
 
 sourcesJar {
