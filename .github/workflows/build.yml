@@ -8,9 +8,9 @@
 name: Build
 on:
   push:
-    branches: [ "latest" ]
+    branches: [ "development" ]
   pull_request:
-    branches: [ "latest" ]
+    branches: [ "development" ]
 
 permissions:
   contents: read
