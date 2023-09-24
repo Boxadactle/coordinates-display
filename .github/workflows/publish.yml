@@ -45,3 +45,6 @@ jobs:
 
     - name: Publish
       run: ./gradlew publishUnified
+      env:
+        CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+        MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
