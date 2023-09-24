@@ -48,6 +48,12 @@ remapJar {
 
 jar {
     archiveClassifier.set("dev")
+
+    manifest {
+        attributes([
+                "MixinConfigs": "coordinatesdisplay-common.mixins.json"
+        ])
+    }
 }
 
 sourcesJar {
