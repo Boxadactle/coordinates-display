@@ -61,7 +61,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
         boolean isDragging = MouseUtils.isMouseDown(0);
         HudPositionModifier modifier = CoordinatesDisplay.getConfig().startCorner.getModifier();
 
-        if (isDragging && delay == 0) {
+        if (isDragging && delay == 0 && config().renderMode.getRenderer().allowMove()) {
             if (CoordinatesDisplay.HUD.isScaleButtonHovered(mouseX, mouseY) && !scaleDelta && !moveDelta) scaleDelta = true;
 
             if (!scaleDelta) {

@@ -56,7 +56,8 @@ public class ModConfig implements BConfig {
         MINIMUM(MinRenderer.class),
         MAXIMUM(MaxRenderer.class),
         LINE(LineRenderer.class),
-        NETHER_OVERWORLD(NetherOverworldRenderer.class);
+        NETHER_OVERWORLD(NetherOverworldRenderer.class),
+        HOTBAR(HotbarRenderer.class);
 
         final HudRenderer renderer;
 

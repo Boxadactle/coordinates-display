@@ -44,7 +44,6 @@ public class CoordinatesDisplay {
 	public static Hud HUD;
 
 	public static void init() {
-
 		CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 
 		HUD = new Hud();

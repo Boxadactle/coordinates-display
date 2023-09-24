@@ -19,6 +19,14 @@ public abstract class HudRenderer {
         return Component.translatable(key + t, args);
     }
 
+    public boolean ignoreTranslations() {
+        return false;
+    }
+
+    public boolean allowMove() {
+        return true;
+    }
+
     protected ModConfig config() {
         return CoordinatesDisplay.getConfig();
     }
@@ -37,16 +45,24 @@ public abstract class HudRenderer {
         return GuiUtils.colorize(t, config().definitionColor);
     }
 
-    protected Component value(Component t) {
-        return GuiUtils.colorize(t, config().dataColor);
-    }
-
     protected Component definition(String t) {
         return GuiUtils.colorize(Component.literal(t), config().definitionColor);
     }
 
+    protected Component definition(String k, Object ...args) {
+        return definition(translation(k, args));
+    }
+
     protected Component value(String t) {
         return GuiUtils.colorize(Component.literal(t), config().dataColor);
+    }
+
+    protected Component value(Component t) {
+        return GuiUtils.colorize(t, config().dataColor);
+    }
+
+    protected Component value(String k, Object ...args) {
+        return value(translation(k, args));
     }
 
 }
