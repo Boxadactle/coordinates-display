@@ -109,5 +109,3 @@ unifiedPublishing {
         }
     }
 }
-
-rootProject.tasks.getByName("modPublish").dependsOn tasks.getByName("publishUnified")
