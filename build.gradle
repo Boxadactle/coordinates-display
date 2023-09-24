@@ -45,3 +45,5 @@ allprojects {
         withSourcesJar()
     }
 }
+
+task modPublish
