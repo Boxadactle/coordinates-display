@@ -1,6 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.config;
 
-import dev.boxadactle.boxlib.gui.widget.BCustomRenderingEntry;
+import dev.boxadactle.boxlib.gui.config.widget.BCustomEntry;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
@@ -28,8 +28,8 @@ public interface HudHelper {
         return CoordinatesDisplay.getConfig();
     }
 
-    default BCustomRenderingEntry createHudRenderEntry(Position pos) {
-        return new BCustomRenderingEntry((drawContext, x, y, width, height, mouseX, mouseY, tickDelta) -> {
+    default BCustomEntry createHudRenderEntry(Position pos) {
+        return new BCustomEntry((drawContext, x, y, width, height, mouseX, mouseY, tickDelta) -> {
             CoordinatesDisplay.HUD.render(
                     drawContext,
                     pos,

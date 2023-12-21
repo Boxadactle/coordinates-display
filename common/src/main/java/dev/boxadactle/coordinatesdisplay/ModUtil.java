@@ -257,13 +257,6 @@ public class ModUtil {
     }
 
     public static float calculateMouseScale(int x, int y, int w, int h, int mouseX, int mouseY) {
-        CoordinatesDisplay.LOGGER.info("X:" + x);
-        CoordinatesDisplay.LOGGER.info("Y:" + y);
-        CoordinatesDisplay.LOGGER.info("W:" + w);
-        CoordinatesDisplay.LOGGER.info("H:" + h);
-        CoordinatesDisplay.LOGGER.info("MX: " + mouseX);
-        CoordinatesDisplay.LOGGER.info("MY: " + mouseY);
-
         int value1 = calculatePointDistance(x, y, x + w, y + h);
         int value2 = calculatePointDistance(x, y, mouseX, mouseY);
         float scaleFactor = (float) value2 / value1;
