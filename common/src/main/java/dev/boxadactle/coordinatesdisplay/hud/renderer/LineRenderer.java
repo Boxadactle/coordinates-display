@@ -8,17 +8,12 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-import java.text.DecimalFormat;
-
-public class LineRenderer extends HudRenderer {
-
-    public LineRenderer() {
-        super("hud.coordinatesdisplay.line.");
-    }
+public class LineRenderer extends HudTextHelper implements HudRenderer {
 
     private int calculateWidth(Component line, int p) {
         int a = GuiUtils.getTextRenderer().width(line);
@@ -31,7 +26,7 @@ public class LineRenderer extends HudRenderer {
     }
 
     @Override
-    protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
 
         Vec3<Double> vec = pos.position.getPlayerPos();
         NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
@@ -87,5 +82,10 @@ public class LineRenderer extends HudRenderer {
 
     private Component addTrailingSpace(Component input) {
         return input.copy().append(" ");
+    }
+
+    @Override
+    protected String getKey() {
+        return "hud.coordinatesdisplay.line.";
     }
 }

@@ -10,18 +10,12 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-import java.text.DecimalFormat;
-
-public class DefaultRenderer extends HudRenderer {
-
-    public DefaultRenderer() {
-        super("hud.coordinatesdisplay.");
-    }
-
+public class DefaultRenderer extends HudTextHelper implements HudRenderer {
     private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
         int a = GuiUtils.getLongestLength(xtext, ytext, ztext);
         int b = GuiUtils.getLongestLength(chunkx, chunkz);
@@ -61,7 +55,7 @@ public class DefaultRenderer extends HudRenderer {
     }
 
     @Override
-    protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
         Vec3<Double> player = pos.position.getPlayerPos();
         Vec2<Integer> chunkPos = pos.position.getChunkPos();
@@ -176,5 +170,10 @@ public class DefaultRenderer extends HudRenderer {
 
 
         return new Rect<>(x, y, w, h);
+    }
+
+    @Override
+    protected String getKey() {
+        return "hud.coordinatesdisplay.";
     }
 }

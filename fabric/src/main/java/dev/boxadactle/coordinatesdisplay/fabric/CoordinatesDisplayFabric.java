@@ -5,18 +5,15 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.fabric.init.Commands;
-import dev.boxadactle.coordinatesdisplay.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.fabric.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.Entity;
-
-import static dev.boxadactle.coordinatesdisplay.init.Keybinds.*;
 
 public class CoordinatesDisplayFabric implements ClientModInitializer {
 
@@ -30,15 +27,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
 
         HudRenderCallback.EVENT.register(this::renderHud);
 
-        KeyBindingHelper.registerKeyBinding(visibleKeybind);
-        KeyBindingHelper.registerKeyBinding(coordinatesGUIKeybind);
-
-        KeyBindingHelper.registerKeyBinding(copyLocation);
-        KeyBindingHelper.registerKeyBinding(sendLocation);
-        KeyBindingHelper.registerKeyBinding(copyPosTp);
-
-        KeyBindingHelper.registerKeyBinding(changeHudPosition);
-        KeyBindingHelper.registerKeyBinding(cycleDisplayMode);
+        Keybinds.register();
     }
 
     private void checkBindings(Minecraft client) {

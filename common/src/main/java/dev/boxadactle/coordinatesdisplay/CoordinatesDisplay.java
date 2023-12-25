@@ -1,7 +1,9 @@
 package dev.boxadactle.coordinatesdisplay;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
+import dev.boxadactle.boxlib.math.mathutils.Mappers;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
@@ -10,6 +12,7 @@ import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.Minecraft;
 
 public class CoordinatesDisplay {
 
@@ -17,7 +20,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "5.0.0";
+	public static final String VERSION = "6.0.0";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -108,6 +111,53 @@ public class CoordinatesDisplay {
 
 		}
 
+	}
+
+	public static class Bindings {
+		public static void visible() {
+			CONFIG.get().visible = !CONFIG.get().visible;
+			CONFIG.save();
+			LOGGER.info("Updated visible property in config file");
+		}
+
+		public static void coordinatesGui() {
+			shouldCoordinatesGuiOpen = true;
+		}
+
+		public static void copyLocation(Position pos) {
+			ClientUtils.getKeyboard().setClipboard(ModUtil.parseText(CONFIG.get().copyPosMessage, pos));
+			LOGGER.player.info("Copied to clipboard!");
+			LOGGER.info("Copied location to clipboard");
+		}
+
+		public static void sendLocation(Position pos) {
+			LOGGER.player.info(ModUtil.parseText(CONFIG.get().posChatMessage, pos));
+			LOGGER.info("Sent position as chat message");
+		}
+
+		public static void copyTeleportCommand(Position pos) {
+			ClientUtils.getKeyboard().setClipboard(getConfig().teleportMode.toCommand(pos));
+
+			LOGGER.player.info("Copied position as teleport command!");
+		}
+
+		public static void openHudPositionGui() {
+			shouldHudPositionGuiOpen = true;
+		}
+
+		public static void cycleDisplayMode() {
+			int i = CONFIG.get().renderMode.ordinal();
+
+			if (!InputConstants.isKeyDown(ClientUtils.getWindow(), 340)) i += 1;
+			else i -= 1;
+
+			i = Mappers.wrap(i, ModConfig.RenderMode.values().length);
+
+			LOGGER.info(i);
+
+			CONFIG.get().renderMode = ModConfig.RenderMode.values()[i];
+			CONFIG.save();
+		}
 	}
 
 }

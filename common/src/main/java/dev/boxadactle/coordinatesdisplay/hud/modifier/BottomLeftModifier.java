@@ -5,7 +5,6 @@ import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import net.minecraft.client.Minecraft;
 
 public class BottomLeftModifier implements HudPositionModifier {
     @Override

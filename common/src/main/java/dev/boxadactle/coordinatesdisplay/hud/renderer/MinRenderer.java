@@ -8,16 +8,16 @@ import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-import java.text.DecimalFormat;
+public class MinRenderer extends HudTextHelper implements HudRenderer {
 
-public class MinRenderer extends HudRenderer {
-
-    public MinRenderer() {
-        super("hud.coordinatesdisplay.min.");
+    @Override
+    protected String getKey() {
+        return "hud.coordinatesdisplay.min.";
     }
 
     private int calculateWidth(int p, int th, int dpadding, Component xtext, Component ytext, Component ztext, Component biome) {
@@ -33,7 +33,7 @@ public class MinRenderer extends HudRenderer {
     }
 
     @Override
-    protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
         Vec3<Double> player = pos.position.getPlayerPos();
 

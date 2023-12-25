@@ -7,23 +7,20 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
-public class HotbarRenderer extends HudRenderer {
-    public HotbarRenderer() {
-        super("hud.coordinatesdisplay.hotbar.");
-    }
-
+public class HotbarRenderer extends HudTextHelper implements HudRenderer {
     @Override
     public boolean ignoreTranslations() {
         return true;
     }
 
     @Override
-    protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
 
         Component xyz = definition("xyz",
@@ -62,5 +59,10 @@ public class HotbarRenderer extends HudRenderer {
         }
 
         return r;
+    }
+
+    @Override
+    protected String getKey() {
+        return "hud.coordinatesdisplay.hotbar.";
     }
 }

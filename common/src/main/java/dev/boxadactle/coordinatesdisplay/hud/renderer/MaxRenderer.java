@@ -9,22 +9,18 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.compress.utils.Lists;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
-public class MaxRenderer extends HudRenderer {
-
-    public MaxRenderer() {
-        super("hud.coordinatesdisplay.max.");
-    }
+public class MaxRenderer extends HudTextHelper implements HudRenderer {
 
     @Override
-    protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
 
         List<Component> toRender = Lists.newArrayList();
@@ -72,7 +68,11 @@ public class MaxRenderer extends HudRenderer {
         }
 
         return new Rect<>(x, y, width, height);
+    }
 
+    @Override
+    protected String getKey() {
+        return "hud.coordinatesdisplay.max.";
     }
 
     private int calculateWidth(List<Component> texts) {
@@ -82,5 +82,4 @@ public class MaxRenderer extends HudRenderer {
     private int calculateHeight(List<Component> texts) {
         return config().padding * 2 + 11 * texts.size();
     }
-
 }
