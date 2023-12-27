@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface RendererMetadata {
+public @interface   RendererMetadata {
     /**
      * The id for the renderer.
      * <p></p>
@@ -49,7 +49,7 @@ public @interface RendererMetadata {
     /**
      * Whether to allow the hud to be moved by the user
      * <p></p>
-     * This is useful for when you want to use a specific location for a renderer
+     * This is useful for when you want a set location for a renderer specified in the code
      *
      * @return boolean to enable/disable hud movements from the user
      */
@@ -111,11 +111,20 @@ public @interface RendererMetadata {
     boolean hasBiome() default true;
 
     /**
-     * Whether the hud displays the mc version
+     * Whether the hud displays the current minecraft version
      * <p></p>
-     * Specify false to disable the mc version button from the config screens
+     * Specify false to disable the minecraft version button from the config screens
      *
      * @return boolean to enable/disable the mc version config button
      */
     boolean hasMCVersion() default true;
+
+    /**
+     * Whether the hud displays the current dimension
+     * <p></p>
+     * Specify false to disable the dimension button from the config screens
+     *
+     * @return boolean to enable/disable the dimension config button
+     */
+    boolean hasDimension() default true;
 }

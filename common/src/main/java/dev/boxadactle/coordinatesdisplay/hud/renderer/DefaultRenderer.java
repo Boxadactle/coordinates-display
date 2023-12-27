@@ -15,7 +15,10 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@RendererMetadata("default")
+@RendererMetadata(
+        value = "default",
+        hasDimension = false
+)
 public class DefaultRenderer implements HudRenderer {
 
     private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
@@ -53,9 +56,10 @@ public class DefaultRenderer implements HudRenderer {
             b += th;
         }
 
-        boolean c = (config().renderDirection || config().renderBiome || config().renderMCVersion);
+        boolean c = (config().renderXYZ || config().renderChunkData);
+        boolean d = (config().renderDirection || config().renderBiome || config().renderMCVersion);
 
-        return p + a + (c ? tp : 0) + b + p;
+        return p + a + (c || d ? tp : 0) + b + p;
     }
 
     @Override
@@ -74,7 +78,9 @@ public class DefaultRenderer implements HudRenderer {
         Component direction = translation(
                 "direction",
                 definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))),
-                value(GuiUtils.parentheses(Component.literal(formatter.formatDecimal(pos.headRot.wrapYaw()))))
+                config().renderDirectionInt ?
+                        value(GuiUtils.parentheses(Component.literal(formatter.formatDecimal(pos.headRot.wrapYaw()))))
+                        : Component.empty()
         );
 
         String biomestring = pos.world.getBiome(true);
@@ -92,7 +98,7 @@ public class DefaultRenderer implements HudRenderer {
 
         int p = config().padding;
         int tp = config().textPadding;
-        int th = GuiUtils.getTextRenderer().lineHeight;
+        int th = GuiUtils.getTextHeight();
 
         int w = calculateWidth(p, tp, xtext, ytext, ztext, chunkx, chunkz, direction, biome, mcversion);
         int h = calculateHeight(th, p, tp);
@@ -114,7 +120,7 @@ public class DefaultRenderer implements HudRenderer {
 
         int offset = (config().renderXYZ ? th * 3 + tp :
                         (config().renderChunkData ? th * 2 + tp : 0)
-                );
+                ) + p;
 
         if (config().renderDirection) {
             drawInfo(guiGraphics, direction, x + p, y + offset, config().definitionColor);

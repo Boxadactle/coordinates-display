@@ -12,19 +12,25 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@RendererMetadata("minimum")
+@RendererMetadata(
+        value = "minimum",
+        hasXYZ = false,
+        hasChunkData = false,
+        hasDirectionInt = false,
+        hasMCVersion = false,
+        hasDimension = false
+)
 public class MinRenderer implements HudRenderer {
 
-    private int calculateWidth(int p, int th, int dpadding, Component xtext, Component ytext, Component ztext, Component biome) {
-        int a = GuiUtils.getLongestLength(xtext, ytext, ztext, biome);
+    private int calculateWidth(int p, int dpadding, Component xtext, Component ytext, Component ztext, Component biome) {
+        int a = GuiUtils.getLongestLength(xtext, ytext, ztext, (config().renderBiome ? biome : Component.empty()));
         int b = GuiUtils.getTextRenderer().width("NW");
 
-        return p + a + dpadding + b + p;
+        return p + a + (config().renderDirection ? dpadding + b : 0) + p;
     }
 
     private int calculateHeight(int p, int th) {
-        // this might become a real method later
-        return p + (th * 4) + p;
+        return p + (th * 3) + (config().renderBiome ? th : 0) + p;
     }
 
     @Override
@@ -69,7 +75,7 @@ public class MinRenderer implements HudRenderer {
         Component yawComponent = Component.literal(yaw > 0 ? "+" : "-");
 
 
-        int w = calculateWidth(p, th, tp, xtext, ytext, ztext, biome);
+        int w = calculateWidth(p, tp, xtext, ytext, ztext, biome);
         int h = calculateHeight(p, th);
 
         // rendering
@@ -81,8 +87,10 @@ public class MinRenderer implements HudRenderer {
         drawInfo(guiGraphics, ytext, x + p, y + p + th, CoordinatesDisplay.CONFIG.get().definitionColor);
         drawInfo(guiGraphics, ztext, x + p, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
 
-        drawInfo(guiGraphics, biome, x + p, y + p + (th * 3), CoordinatesDisplay.CONFIG.get().definitionColor);
-        {
+        if (config().renderBiome) {
+            drawInfo(guiGraphics, biome, x + p, y + p + (th * 3), CoordinatesDisplay.CONFIG.get().definitionColor);
+        }
+        if (config().renderDirection) {
             int dstart = (x + w) - p - GuiUtils.getTextRenderer().width(directionComponent);
             int ypstart = (x + w) - p - GuiUtils.getTextRenderer().width(yawComponent);
 

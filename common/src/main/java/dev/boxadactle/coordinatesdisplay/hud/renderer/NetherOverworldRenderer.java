@@ -14,7 +14,16 @@ import oshi.util.tuples.Triplet;
 
 import java.util.Objects;
 
-@RendererMetadata("nether_overworld")
+@RendererMetadata(
+        value = "nether_overworld",
+        hasXYZ = false,
+        hasChunkData = false,
+        hasDirection = false,
+        hasDirectionInt = false,
+        hasBiome = false,
+        hasMCVersion = false,
+        hasDimension = false
+)
 public class NetherOverworldRenderer implements HudRenderer {
 
     @Override

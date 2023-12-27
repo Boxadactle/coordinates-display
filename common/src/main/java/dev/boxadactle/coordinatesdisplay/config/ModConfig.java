@@ -32,6 +32,7 @@ public class ModConfig implements BConfig {
     public boolean renderBiome = true;
     public boolean biomeColors = true;
     public boolean renderMCVersion = true;
+    public boolean renderDimension = true;
 
     public int definitionColor = 0x55FF55;
     public int dataColor = 0xFFFFFF;

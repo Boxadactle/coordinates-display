@@ -9,9 +9,13 @@ import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
+import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+
+import java.util.function.Consumer;
 
 public class RenderScreen extends BOptionScreen implements HudHelper {
 
@@ -37,60 +41,73 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected void initConfigButtons() {
+        RendererMetadata metadata = CoordinatesHuds.getRenderer(config().renderMode).getMetadata();
 
         // background
-        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
+        this.addConfigLine(new HudOption(
                 "button.coordinatesdisplay.background",
                 config().renderBackground,
-                newVal -> config().renderBackground = newVal
-        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasBackground();
+                newVal -> config().renderBackground = newVal,
+                metadata.hasBackground()
+        ));
 
         // XYZ
-        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
+        this.addConfigLine(new HudOption(
                 "button.coordinatesdisplay.xyz",
                 config().renderXYZ,
-                newVal -> config().renderXYZ = newVal
-        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasXYZ();
+                newVal -> config().renderXYZ = newVal,
+                metadata.hasXYZ()
+        ));
 
         // chunk pos
-        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
+        this.addConfigLine(new HudOption(
                 "button.coordinatesdisplay.chunkpos",
                 config().renderChunkData,
-                newVal -> config().renderChunkData = newVal
-        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasChunkData();
+                newVal -> config().renderChunkData = newVal,
+                metadata.hasChunkData()
+        ));
 
-        // direction
-        BBooleanButton direction = new BBooleanButton(
-                "button.coordinatesdisplay.direction",
-                config().renderDirection,
-                newVal -> config().renderDirection = newVal
+        this.addConfigLine(
+                // direction
+                new HudOption(
+                        "button.coordinatesdisplay.direction",
+                        config().renderDirection,
+                        newVal -> config().renderDirection = newVal,
+                        metadata.hasDirection()
+                ),
+
+                // direction int
+                new HudOption(
+                        "button.coordinatesdisplay.directionint",
+                        config().renderDirectionInt,
+                        newVal -> config().renderDirectionInt = newVal,
+                        metadata.hasDirectionInt()
+                )
         );
-
-        // direction int
-        BBooleanButton directionint = new BBooleanButton(
-                "button.coordinatesdisplay.directionint",
-                config().renderDirectionInt,
-                newVal -> config().renderDirectionInt = newVal
-        );
-
-        // add them
-        direction.active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasDirection();
-        directionint.active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasDirectionInt();
-        this.addConfigLine(direction, directionint);
 
         // biome
-        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
+        this.addConfigLine(new HudOption(
                 "button.coordinatesdisplay.biome",
                 config().renderBiome,
-                newVal -> config().renderBiome = newVal
-        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasBiome();
+                newVal -> config().renderBiome = newVal,
+                metadata.hasBiome()
+        ));
 
-        // mc version
-        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
-                "button.coordinatesdisplay.mcversion",
-                config().renderMCVersion,
-                newVal -> config().renderMCVersion = newVal
-        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasMCVersion();
+        this.addConfigLine(
+                // mc version
+                new HudOption(
+                        "button.coordinatesdisplay.mcversion",
+                        config().renderMCVersion,
+                        newVal -> config().renderMCVersion = newVal,
+                        metadata.hasMCVersion()
+                ),
+                new HudOption(
+                        "button.coordinatesdisplay.dimension",
+                        config().renderDimension,
+                        newVal -> config().renderDimension = newVal,
+                        metadata.hasDimension()
+                )
+        );
 
         this.addConfigLine(new BSpacingEntry());
 
@@ -103,5 +120,17 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
             this.addConfigLine(new BSpacingEntry());
         }
 
+    }
+
+    public static class HudOption extends BBooleanButton {
+        public HudOption(String key, Boolean value, Consumer<Boolean> function, boolean configEnabled) {
+            super(key, value, function);
+
+            this.active = configEnabled;
+
+            if (!configEnabled) {
+                this.setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
+            }
+        }
     }
 }

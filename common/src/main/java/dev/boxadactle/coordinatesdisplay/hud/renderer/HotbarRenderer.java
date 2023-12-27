@@ -13,7 +13,19 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@RendererMetadata(value = "hotbar", ignoreTranslations = true, allowMove = false)
+@RendererMetadata(
+        value = "hotbar",
+        ignoreTranslations = true,
+        allowMove = false,
+        hasBackground = false,
+        hasXYZ = false,
+        hasChunkData = false,
+        hasDirection = false,
+        hasDirectionInt = false,
+        hasBiome = false,
+        hasMCVersion = false,
+        hasDimension = false
+)
 public class HotbarRenderer implements HudRenderer {
 
     @Override

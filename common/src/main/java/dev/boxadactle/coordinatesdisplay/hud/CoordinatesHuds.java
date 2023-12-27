@@ -14,6 +14,11 @@ public class CoordinatesHuds {
 
     public static RegisteredRenderer register(Class<? extends HudRenderer> renderer) {
         RegisteredRenderer overlay = new RegisteredRenderer(renderer);
+
+        if (registeredOverlays.containsKey(overlay.getId())) {
+            throw new IllegalStateException("Attempting to register renderer with duplicate id: " + overlay.getId());
+        }
+
         registeredOverlays.put(overlay.getId(), overlay);
         CoordinatesDisplay.LOGGER.info("Registered renderer: " + overlay.getId());
         return overlay;

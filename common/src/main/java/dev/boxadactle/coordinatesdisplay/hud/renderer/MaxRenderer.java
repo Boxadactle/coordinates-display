@@ -35,8 +35,12 @@ public class MaxRenderer implements HudRenderer {
         Component targeted = definition(translation("block.targeted", value(pos.block.getBlockX()), value(pos.block.getBlockY()), value(pos.block.getBlockZ())));
         Component chunk = definition(translation("chunk", value(Integer.toString(c.getX())), value(Integer.toString(pos.position.getChunkY())), value(Integer.toString(c.getY()))));
 
+        Component f = definition("direction_int", value(formatter.formatDecimal(pos.headRot.wrapYaw())), value(formatter.formatDecimal(pos.headRot.wrapPitch())));
         Component g = definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
-        Component direction = definition(translation("direction", g, value(formatter.formatDecimal(pos.headRot.wrapYaw())), value(formatter.formatDecimal(pos.headRot.wrapPitch()))));
+        Component direction = definition(translation(
+                "direction", g,
+                config().renderDirectionInt ? f : Component.empty()
+        ));
 
         Component biome = definition(translation("biome", value(pos.world.getBiome(false))));
 
@@ -47,15 +51,17 @@ public class MaxRenderer implements HudRenderer {
         Component dimension = definition(translation("dimension", value(h), value(ModUtil.getNamespace(i))));
 
 
-        toRender.add(xyz);
-        toRender.add(block);
-        toRender.add(targeted);
+        if (config().renderXYZ) {
+            toRender.add(xyz);
+            toRender.add(block);
+            toRender.add(targeted);
+        }
         if (config().renderChunkData) toRender.add(chunk);
 
         if (config().renderDirection) toRender.add(direction);
         if (config().renderBiome) toRender.add(biome);
         if (config().renderMCVersion) toRender.add(version);
-        toRender.add(dimension);
+        if (config().renderDimension) toRender.add(dimension);
 
         int width = calculateWidth(toRender);
         int height = calculateHeight(toRender);

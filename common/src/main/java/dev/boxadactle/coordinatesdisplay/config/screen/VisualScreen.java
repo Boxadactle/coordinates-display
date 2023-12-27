@@ -12,8 +12,10 @@ import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
+import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -129,8 +131,23 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     }
 
     private void verifyButtons() {
-        startCornerButton.active = !CoordinatesHuds.getRenderer(config().renderMode).getMetadata().ignoreTranslations();
-        changeHudPosButton.active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().allowMove();
+        RendererMetadata metadata = CoordinatesHuds.getRenderer(config().renderMode).getMetadata();
+
+        if (!metadata.ignoreTranslations()) {
+            startCornerButton.active = true;
+            startCornerButton.setTooltip(null);
+        } else {
+            startCornerButton.active = false;
+            startCornerButton.setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
+        }
+
+        if (CoordinatesHuds.getRenderer(config().renderMode).getMetadata().allowMove()) {
+            changeHudPosButton.active = true;
+            changeHudPosButton.setTooltip(null);
+        } else {
+            changeHudPosButton.active = false;
+            changeHudPosButton.setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
+        }
     }
 
     public static class DecimalPlacesSlider extends BIntegerSlider {
