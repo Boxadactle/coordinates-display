@@ -128,7 +128,7 @@ public class NetherOverworldRenderer implements HudRenderer {
                 ),
                 createXYZ(
                         d.formatDecimal(pos.position.getPlayerPos().getX() / 8),
-                        d.formatDecimal(pos.position.getPlayerPos().getY() / 8),
+                        "-",
                         d.formatDecimal(pos.position.getPlayerPos().getZ() / 8)
                 )
             };
@@ -136,7 +136,7 @@ public class NetherOverworldRenderer implements HudRenderer {
             return new Component[][] {
                     createXYZ(
                             d.formatDecimal(pos.position.getPlayerPos().getX() * 8),
-                            d.formatDecimal(pos.position.getPlayerPos().getY() * 8),
+                            "-",
                             d.formatDecimal(pos.position.getPlayerPos().getZ() * 8)
                     ),
                     createXYZ(
