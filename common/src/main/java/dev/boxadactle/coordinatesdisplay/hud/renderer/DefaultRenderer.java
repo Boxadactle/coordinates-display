@@ -4,18 +4,22 @@ import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
-import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
-public class DefaultRenderer extends HudTextHelper implements HudRenderer {
+public class DefaultRenderer implements HudRenderer {
+    @Override
+    public String getTranslationKey() {
+        return "hud.coordinatesdisplay.";
+    }
+
     private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
         int a = GuiUtils.getLongestLength(xtext, ytext, ztext);
         int b = GuiUtils.getLongestLength(chunkx, chunkz);
@@ -56,68 +60,25 @@ public class DefaultRenderer extends HudTextHelper implements HudRenderer {
 
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
-        Vec3<Double> player = pos.position.getPlayerPos();
+        NumberFormatter<Double> formatter = genFormatter();
+        Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
         Vec2<Integer> chunkPos = pos.position.getChunkPos();
 
-        Component xtext = GuiUtils.colorize(translation(
-                "x",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getX())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
+        Component xtext = definition("x", value(player.getA()));
+        Component ytext = definition("y", value(player.getB()));
+        Component ztext = definition("z", value(player.getC()));
 
-        Component ytext = GuiUtils.colorize(translation(
-                "y",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getY())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-        Component ztext = GuiUtils.colorize(translation(
-                "z",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getZ())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-
-
-        Component chunkx = GuiUtils.colorize(translation(
-                "chunk.x",
-                GuiUtils.colorize(
-                        Component.literal(Integer.toString(chunkPos.getX())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-        Component chunkz = GuiUtils.colorize(translation(
-                "chunk.z",
-                GuiUtils.colorize(
-                        Component.literal(Integer.toString(chunkPos.getY())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-
+        Component chunkx = definition("chunk.x", value(chunkPos.getX().toString()));
+        Component chunkz = definition("chunk.z", value(chunkPos.getY().toString()));
 
         Component direction = translation(
                 "direction",
-                GuiUtils.colorize(
-                        translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())),
-                        config().definitionColor
-                ),
-                config().renderDirectionInt ? GuiUtils.colorize(
-                        GuiUtils.parentheses(Component.literal(formatter.formatDecimal(pos.headRot.wrapYaw()))),
-                        config().dataColor
-                ) : Component.literal("")
+                definition(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()), new Object()),
+                value(GuiUtils.parentheses(Component.literal(formatter.formatDecimal(pos.headRot.wrapYaw()))))
         );
 
         String biomestring = pos.world.getBiome(true);
-        Component biome = GuiUtils.colorize(translation(
+        Component biome = definition(
                 "biome",
                 GuiUtils.colorize(
                         Component.literal(biomestring),
@@ -125,15 +86,9 @@ public class DefaultRenderer extends HudTextHelper implements HudRenderer {
                                 CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
                                 CoordinatesDisplay.CONFIG.get().dataColor
                 )
-        ), config().definitionColor);
+        );
 
-        Component mcversion = GuiUtils.colorize(translation(
-                "version",
-                GuiUtils.colorize(
-                        Component.literal(ClientUtils.getGameVersion()),
-                        config().dataColor
-                )
-        ), config().definitionColor);
+        Component mcversion = definition("version", value(ClientUtils.getGameVersion()));
 
         int p = config().padding;
         int tp = config().textPadding;
@@ -170,10 +125,5 @@ public class DefaultRenderer extends HudTextHelper implements HudRenderer {
 
 
         return new Rect<>(x, y, w, h);
-    }
-
-    @Override
-    protected String getKey() {
-        return "hud.coordinatesdisplay.";
     }
 }

@@ -1,19 +1,24 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
+import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
-public class LineRenderer extends HudTextHelper implements HudRenderer {
+public class LineRenderer implements HudRenderer {
+
+    @Override
+    public String getTranslationKey() {
+        return "hud.coordinatesdisplay.line.";
+    }
 
     private int calculateWidth(Component line, int p) {
         int a = GuiUtils.getTextRenderer().width(line);
@@ -27,36 +32,13 @@ public class LineRenderer extends HudTextHelper implements HudRenderer {
 
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+        Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
-        Vec3<Double> vec = pos.position.getPlayerPos();
-        NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
+        Component xtext = definition("x", value(player.getA()));
+        Component ytext = definition("y", value(player.getB()));
+        Component ztext = definition("z",value(player.getC()));
 
-        Component xtext = GuiUtils.colorize(translation(
-                "x",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(vec.getX())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-        Component ytext = GuiUtils.colorize(translation(
-                "y",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(vec.getY())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-        Component ztext = GuiUtils.colorize(translation(
-                "z",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(vec.getZ())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-        Component direction = GuiUtils.colorize(translation("direction", GuiUtils.colorize(
-                translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())),
-                config().dataColor
-        )), config().definitionColor);
+        Component direction = definition("direction", valueTranslation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
 
         Component a = next(next(xtext, ytext), ztext);
         if (config().renderDirection) a = next(a, direction);
@@ -82,10 +64,5 @@ public class LineRenderer extends HudTextHelper implements HudRenderer {
 
     private Component addTrailingSpace(Component input) {
         return input.copy().append(" ");
-    }
-
-    @Override
-    protected String getKey() {
-        return "hud.coordinatesdisplay.line.";
     }
 }

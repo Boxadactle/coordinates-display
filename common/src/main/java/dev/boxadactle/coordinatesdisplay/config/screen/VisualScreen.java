@@ -16,6 +16,8 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import java.util.function.Consumer;
+
 public class VisualScreen extends BOptionScreen implements HudHelper {
 
     Position pos;
@@ -51,7 +53,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         ));
 
         // decimal places
-        this.addConfigLine(new BIntegerSlider(
+        this.addConfigLine(new DecimalPlacesSlider(
                 "button.coordinatesdisplay.decimalPlaces",
                 0, 5,
                 config().decimalPlaces,
@@ -125,5 +127,19 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
             this.addConfigLine(new BSpacingEntry());
         }
 
+    }
+
+    public static class DecimalPlacesSlider extends BIntegerSlider {
+
+        public DecimalPlacesSlider(String key, int min, int max, int value, Consumer<Integer> function) {
+            super(key, min, max, value, function);
+
+            updateMessage();
+        }
+
+        @Override
+        protected String roundNumber(Integer input) {
+            return input == 0 ? "0 (block pos)" : super.roundNumber(input);
+        }
     }
 }

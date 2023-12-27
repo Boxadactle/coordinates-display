@@ -1,22 +1,20 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import dev.boxadactle.boxlib.math.geometry.Rect;
-import dev.boxadactle.boxlib.math.geometry.Vec3;
-import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
-public class MinRenderer extends HudTextHelper implements HudRenderer {
+public class MinRenderer implements HudRenderer {
 
     @Override
-    protected String getKey() {
+    public String getTranslationKey() {
         return "hud.coordinatesdisplay.min.";
     }
 
@@ -34,36 +32,26 @@ public class MinRenderer extends HudTextHelper implements HudRenderer {
 
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
-        Vec3<Double> player = pos.position.getPlayerPos();
+        Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
-        Component xtext = GuiUtils.colorize(translation(
+        Component xtext = definition(
                 "x",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getX())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
+                value(player.getA())
+        );
 
-        Component ytext = GuiUtils.colorize(translation(
+        Component ytext = definition(
                 "y",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getY())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
+                value(player.getB())
+        );
 
-        Component ztext = GuiUtils.colorize(translation(
+        Component ztext = definition(
                 "z",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getZ())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
+                value(player.getC())
+        );
 
 
         String biomestring = pos.world.getBiome(true);
-        Component biome = GuiUtils.colorize(translation(
+        Component biome = definition(
                 "biome",
                 GuiUtils.colorize(
                         Component.literal(biomestring),
@@ -71,7 +59,7 @@ public class MinRenderer extends HudTextHelper implements HudRenderer {
                                 CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
                                 CoordinatesDisplay.CONFIG.get().dataColor
                 )
-        ), config().definitionColor);
+        );
 
         int p = CoordinatesDisplay.CONFIG.get().padding;
         int th = GuiUtils.getTextRenderer().lineHeight;

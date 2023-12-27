@@ -1,14 +1,19 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
 import dev.boxadactle.boxlib.math.geometry.Rect;
+import dev.boxadactle.boxlib.math.geometry.Vec3;
+import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
 public interface HudRenderer {
+
+    // HUD HELPERS
 
     default boolean ignoreTranslations() {
         return false;
@@ -30,8 +35,71 @@ public interface HudRenderer {
         drawInfo(guiGraphics, component, x, y, GuiUtils.WHITE);
     }
 
+
+
+    // text helpers
+
+    /** Do not override if you will not use the hud text helpers. */
+    default String getTranslationKey() {
+        throw new RuntimeException("Cannot use hud text helpers without specifying a translation key!");
+    };
+
+    default Component translation(String t, Object ...args) {
+        return Component.translatable(getTranslationKey() + t, args);
+    }
+
+    default Component definition(Component t) {
+        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().definitionColor);
+    }
+
+    default Component definition(String t) {
+        return GuiUtils.colorize(Component.literal(t), CoordinatesDisplay.getConfig().definitionColor);
+    }
+
+    default Component definition(String k, Object ...args) {
+        return definition(translation(k, args));
+    }
+
+    default Component value(String t) {
+        return GuiUtils.colorize(Component.literal(t), CoordinatesDisplay.getConfig().dataColor);
+    }
+
+    default Component value(Component t) {
+        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor);
+    }
+
+    default Component valueTranslation(String k, Object ...args) {
+        return value(translation(k, args));
+    }
+
+
+
+    // POSITION HELPER
+
+    default Triplet<String, String, String> roundPosition(Vec3<Double> pos, Vec3<Integer> blockPos, int decimalPlaces) {
+        if (decimalPlaces == 0) {
+            return new Triplet<>(
+                    Integer.toString(blockPos.getX()),
+                    Integer.toString(blockPos.getY()),
+                    Integer.toString(blockPos.getZ())
+            );
+        } else {
+            var n = new NumberFormatter<Double>(decimalPlaces);
+            return new Triplet<>(
+                    n.formatDecimal(pos.getX()),
+                    n.formatDecimal(pos.getY()),
+                    n.formatDecimal(pos.getZ())
+            );
+        }
+    }
+
+    default NumberFormatter<Double> genFormatter() {
+        return new NumberFormatter<>(CoordinatesDisplay.getConfig().decimalPlaces);
+    }
+
+
+    // HUD RENDERER METHOD
+
     Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos);
-
-
 
 }

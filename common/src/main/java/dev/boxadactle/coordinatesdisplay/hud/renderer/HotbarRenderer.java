@@ -7,13 +7,18 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
-public class HotbarRenderer extends HudTextHelper implements HudRenderer {
+public class HotbarRenderer implements HudRenderer {
+    @Override
+    public String getTranslationKey() {
+        return "hud.coordinatesdisplay.hotbar.";
+    }
+
     @Override
     public boolean ignoreTranslations() {
         return true;
@@ -21,12 +26,13 @@ public class HotbarRenderer extends HudTextHelper implements HudRenderer {
 
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
+        NumberFormatter<Double> formatter = genFormatter();
+        Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
         Component xyz = definition("xyz",
-                value(formatter.formatDecimal(pos.position.getPlayerPos().getX())),
-                value(formatter.formatDecimal(pos.position.getPlayerPos().getY())),
-                value(formatter.formatDecimal(pos.position.getPlayerPos().getZ()))
+                value(player.getA()),
+                value(player.getB()),
+                value(player.getC())
         );
 
         Component direction = definition("direction", translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
@@ -59,10 +65,5 @@ public class HotbarRenderer extends HudTextHelper implements HudRenderer {
         }
 
         return r;
-    }
-
-    @Override
-    protected String getKey() {
-        return "hud.coordinatesdisplay.hotbar.";
     }
 }

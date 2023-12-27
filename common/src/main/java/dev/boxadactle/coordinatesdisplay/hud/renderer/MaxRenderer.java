@@ -9,7 +9,6 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -17,11 +16,16 @@ import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 
-public class MaxRenderer extends HudTextHelper implements HudRenderer {
+public class MaxRenderer implements HudRenderer {
+
+    @Override
+    public String getTranslationKey() {
+        return "hud.coordinatesdisplay.max.";
+    }
 
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
+        NumberFormatter<Double> formatter = genFormatter();
 
         List<Component> toRender = Lists.newArrayList();
 
@@ -68,11 +72,6 @@ public class MaxRenderer extends HudTextHelper implements HudRenderer {
         }
 
         return new Rect<>(x, y, width, height);
-    }
-
-    @Override
-    protected String getKey() {
-        return "hud.coordinatesdisplay.max.";
     }
 
     private int calculateWidth(List<Component> texts) {

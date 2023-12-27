@@ -1,23 +1,22 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import dev.boxadactle.boxlib.math.geometry.Rect;
-import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.HudTextHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
 import java.util.Objects;
 
-public class NetherOverworldRenderer extends HudTextHelper implements HudRenderer {
+public class NetherOverworldRenderer implements HudRenderer {
 
     @Override
-    protected String getKey() {
+    public String getTranslationKey() {
         return "hud.coordinatesdisplay.netheroverworld.";
     }
 
@@ -29,7 +28,7 @@ public class NetherOverworldRenderer extends HudTextHelper implements HudRendere
 
             NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
 
-            Component[][] coords = Objects.requireNonNull(createXYZs(Dimension.toDimension(pos.world.getDimension(false)), formatter, pos.position.getPlayerPos()));
+            Component[][] coords = Objects.requireNonNull(createXYZs(Dimension.toDimension(pos.world.getDimension(false)), formatter, pos));
 
             int w = calculateWidth(coords, overworld, nether);
             int h = calculateHeight();
@@ -117,31 +116,33 @@ public class NetherOverworldRenderer extends HudTextHelper implements HudRendere
         };
     }
 
-    private Component[][] createXYZs(Dimension type, NumberFormatter<Double> d, Vec3<Double> pos) {
+    private Component[][] createXYZs(Dimension type, NumberFormatter<Double> d, Position pos) {
+        Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
+
         if (Objects.requireNonNull(type) == Dimension.OVERWORLD) {
             return new Component[][] {
                 createXYZ(
-                        d.formatDecimal(pos.getX()),
-                        d.formatDecimal(pos.getY()),
-                        d.formatDecimal(pos.getZ())
+                        player.getA(),
+                        player.getB(),
+                        player.getC()
                 ),
                 createXYZ(
-                        d.formatDecimal(pos.getX() / 8),
-                        d.formatDecimal(pos.getY() / 8),
-                        d.formatDecimal(pos.getZ() / 8)
+                        d.formatDecimal(pos.position.getPlayerPos().getX() / 8),
+                        d.formatDecimal(pos.position.getPlayerPos().getY() / 8),
+                        d.formatDecimal(pos.position.getPlayerPos().getZ() / 8)
                 )
             };
         } else if (Objects.requireNonNull(type) == Dimension.NETHER) {
             return new Component[][] {
                     createXYZ(
-                            d.formatDecimal(pos.getX() * 8),
-                            d.formatDecimal(pos.getY() * 8),
-                            d.formatDecimal(pos.getZ() * 8)
+                            d.formatDecimal(pos.position.getPlayerPos().getX() * 8),
+                            d.formatDecimal(pos.position.getPlayerPos().getY() * 8),
+                            d.formatDecimal(pos.position.getPlayerPos().getZ() * 8)
                     ),
                     createXYZ(
-                            d.formatDecimal(pos.getX()),
-                            d.formatDecimal(pos.getY()),
-                            d.formatDecimal(pos.getZ())
+                            player.getA(),
+                            player.getB(),
+                            player.getC()
                     )
             };
         } else {
