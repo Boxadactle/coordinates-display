@@ -61,7 +61,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
         boolean isDragging = MouseUtils.isMouseDown(0);
         HudPositionModifier modifier = CoordinatesDisplay.getConfig().startCorner.getModifier();
 
-        if (isDragging && delay == 0 && config().renderMode.getRenderer().allowMove()) {
+        if (isDragging && delay == 0) {
             if (CoordinatesDisplay.HUD.isScaleButtonHovered(mouseX, mouseY) && !scaleDelta && !moveDelta) scaleDelta = true;
 
             if (!scaleDelta) {
@@ -75,21 +75,6 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
                     hudOffsetX = distance.getWidth();
                     hudOffsetY = distance.getHeight();
                 }
-
-                /*Rect<Integer> clamped = Clamps.clampRect(
-                        new Rect<>(
-                                Math.round(mouseX / scale) - hudOffsetX,
-                                Math.round(mouseY / scale) - hudOffsetY,
-                                CoordinatesDisplay.OVERLAY.getWidth() / scale,
-                                CoordinatesDisplay.OVERLAY.getHeight() / scale
-                        ),
-                        new Rect<>(
-                                0, 0,
-                                this.width,
-                                this.height
-                        )
-
-                );*/
 
                 Vec2<Integer> vec = modifier.translateVector(new Vec2<>(
                                 Clamps.clamp(Math.round(mouseX / scale) - hudOffsetX, 0, Math.round(this.width / scale)),

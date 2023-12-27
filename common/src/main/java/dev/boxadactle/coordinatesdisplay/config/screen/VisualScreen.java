@@ -11,11 +11,14 @@ import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.function.Consumer;
 
 public class VisualScreen extends BOptionScreen implements HudHelper {
@@ -23,6 +26,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     Position pos;
 
     AbstractWidget startCornerButton;
+    AbstractWidget changeHudPosButton;
 
     public VisualScreen(Screen parent) {
         super(parent);
@@ -61,17 +65,11 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         ));
 
         // display mode
-        this.addConfigLine(new BEnumButton<>(
-                "button.coordinatesdisplay.displayMode",
-                config().renderMode,
-                ModConfig.RenderMode.class,
+        this.addConfigLine(new DisplayModeSelector(
                 newVal -> {
                     config().renderMode = newVal;
-                    startCornerButton.active = ModUtil.not(config().renderMode, ModConfig.RenderMode.HOTBAR);
-
-                    if (config().renderMode == ModConfig.RenderMode.HOTBAR) config().startCorner = ModConfig.StartCorner.TOP_LEFT;
-                },
-                GuiUtils.AQUA
+                    verifyButtons();
+                }
         ));
 
         // text shadow
@@ -88,10 +86,9 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                 newVal -> config().startCorner = newVal,
                 GuiUtils.AQUA
         )));
-        startCornerButton.active = ModUtil.not(config().renderMode, ModConfig.RenderMode.HOTBAR);
 
         // hud position screen
-        this.addConfigLine(new BConfigScreenButton(
+        changeHudPosButton = (AbstractWidget) addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.editHudPos"),
                 this,
                 HudPositionScreen::new
@@ -123,10 +120,17 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
-        for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
+        for (int i = 0; i < 4; i++) {
             this.addConfigLine(new BSpacingEntry());
         }
 
+        verifyButtons();
+
+    }
+
+    private void verifyButtons() {
+        startCornerButton.active = !CoordinatesHuds.getRenderer(config().renderMode).getMetadata().ignoreTranslations();
+        changeHudPosButton.active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().allowMove();
     }
 
     public static class DecimalPlacesSlider extends BIntegerSlider {
@@ -139,7 +143,28 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
 
         @Override
         protected String roundNumber(Integer input) {
-            return input == 0 ? "0 (block pos)" : super.roundNumber(input);
+            return input == 0 ? "0 (" + GuiUtils.getTranslatable("button.coordinatesdisplay.decimalPlaces.block_pos") + ")" : super.roundNumber(input);
+        }
+    }
+
+    public static class DisplayModeSelector extends BToggleButton<String> {
+        public DisplayModeSelector(Consumer<String> function) {
+            super(
+                    "button.coordinatesdisplay.displayMode",
+                    CoordinatesDisplay.getConfig().renderMode.toLowerCase(),
+                    CoordinatesHuds.registeredOverlays.keySet().stream().toList(),
+                    function
+            );
+        }
+
+        @Override
+        public String to(Component input) {
+            return list.get(index);
+        }
+
+        @Override
+        public Component from(String  input) {
+            return GuiUtils.colorize(CoordinatesHuds.getRenderer(list.get(index)).getComponent(), GuiUtils.AQUA);
         }
     }
 }

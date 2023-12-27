@@ -1,24 +1,19 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.math.geometry.Rect;
-import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
+@RendererMetadata("line")
 public class LineRenderer implements HudRenderer {
-
-    @Override
-    public String getTranslationKey() {
-        return "hud.coordinatesdisplay.line.";
-    }
 
     private int calculateWidth(Component line, int p) {
         int a = GuiUtils.getTextRenderer().width(line);
@@ -38,7 +33,7 @@ public class LineRenderer implements HudRenderer {
         Component ytext = definition("y", value(player.getB()));
         Component ztext = definition("z",value(player.getC()));
 
-        Component direction = definition("direction", valueTranslation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
+        Component direction = definition("direction", resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
 
         Component a = next(next(xtext, ytext), ztext);
         if (config().renderDirection) a = next(a, direction);

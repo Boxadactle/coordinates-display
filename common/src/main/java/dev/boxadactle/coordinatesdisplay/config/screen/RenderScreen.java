@@ -8,6 +8,7 @@ import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -38,18 +39,25 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
     protected void initConfigButtons() {
 
         // background
-        this.addConfigLine(new BBooleanButton(
+        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.background",
                 config().renderBackground,
                 newVal -> config().renderBackground = newVal
-        ));
+        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasBackground();
+
+        // XYZ
+        ((BBooleanButton)this.addConfigLine(new BBooleanButton(
+                "button.coordinatesdisplay.xyz",
+                config().renderXYZ,
+                newVal -> config().renderXYZ = newVal
+        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasXYZ();
 
         // chunk pos
         ((BBooleanButton)this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.chunkpos",
                 config().renderChunkData,
                 newVal -> config().renderChunkData = newVal
-        ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.DEFAULT, ModConfig.RenderMode.MAXIMUM);
+        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasChunkData();
 
         // direction
         BBooleanButton direction = new BBooleanButton(
@@ -66,8 +74,8 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
         );
 
         // add them
-        direction.active = !(config().renderMode.equals(ModConfig.RenderMode.MINIMUM));
-        directionint.active = !(config().renderMode.equals(ModConfig.RenderMode.LINE));
+        direction.active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasDirection();
+        directionint.active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasDirectionInt();
         this.addConfigLine(direction, directionint);
 
         // biome
@@ -75,14 +83,14 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
                 "button.coordinatesdisplay.biome",
                 config().renderBiome,
                 newVal -> config().renderBiome = newVal
-        ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.DEFAULT, ModConfig.RenderMode.MAXIMUM);
+        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasBiome();
 
         // mc version
         ((BBooleanButton)this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.mcversion",
                 config().renderMCVersion,
                 newVal -> config().renderMCVersion = newVal
-        ))).active = ModUtil.or(config().renderMode, ModConfig.RenderMode.MAXIMUM, ModConfig.RenderMode.DEFAULT);
+        ))).active = CoordinatesHuds.getRenderer(config().renderMode).getMetadata().hasMCVersion();
 
         this.addConfigLine(new BSpacingEntry());
 
@@ -91,7 +99,7 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
-        for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
+        for (int i = 0; i < 4; i++) {
             this.addConfigLine(new BSpacingEntry());
         }
 

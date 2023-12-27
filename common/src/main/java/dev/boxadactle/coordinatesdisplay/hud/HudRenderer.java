@@ -15,14 +15,6 @@ public interface HudRenderer {
 
     // HUD HELPERS
 
-    default boolean ignoreTranslations() {
-        return false;
-    }
-
-    default boolean allowMove() {
-        return true;
-    }
-
     default ModConfig config() {
         return CoordinatesDisplay.getConfig();
     }
@@ -39,10 +31,22 @@ public interface HudRenderer {
 
     // text helpers
 
-    /** Do not override if you will not use the hud text helpers. */
     default String getTranslationKey() {
-        throw new RuntimeException("Cannot use hud text helpers without specifying a translation key!");
-    };
+        return getNameKey() + ".";
+    }
+
+    default String getNameKey() {
+        RendererMetadata metadata = this.getClass().getAnnotation(RendererMetadata.class);
+        if (metadata != null) {
+            if (!metadata.translationKey().isEmpty()) {
+                return metadata.translationKey();
+            } else {
+                return "hud.coordinatesdisplay." + metadata.value();
+            }
+        } else {
+            throw new RuntimeException("Cannot use hud text helpers without specifying a translation key!");
+        }
+    }
 
     default Component translation(String t, Object ...args) {
         return Component.translatable(getTranslationKey() + t, args);
@@ -70,6 +74,18 @@ public interface HudRenderer {
 
     default Component valueTranslation(String k, Object ...args) {
         return value(translation(k, args));
+    }
+
+    default Component resolveDirection(String direction, boolean useShort) {
+        String key = "hud.coordinatesdisplay." + direction;
+        if (useShort) {
+            key += ".short";
+        }
+        return Component.translatable(key);
+    }
+
+    default Component resolveDirection(String direction) {
+        return resolveDirection(direction, false);
     }
 
 

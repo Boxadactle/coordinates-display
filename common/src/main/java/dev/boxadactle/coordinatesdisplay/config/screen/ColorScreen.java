@@ -79,7 +79,7 @@ public class ColorScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
-        for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
+        for (int i = 0; i < 4; i++) {
             this.addConfigLine(new BSpacingEntry());
         }
 

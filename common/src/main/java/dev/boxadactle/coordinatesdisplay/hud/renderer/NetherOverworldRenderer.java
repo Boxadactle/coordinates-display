@@ -5,6 +5,7 @@ import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
@@ -13,12 +14,8 @@ import oshi.util.tuples.Triplet;
 
 import java.util.Objects;
 
+@RendererMetadata("nether_overworld")
 public class NetherOverworldRenderer implements HudRenderer {
-
-    @Override
-    public String getTranslationKey() {
-        return "hud.coordinatesdisplay.netheroverworld.";
-    }
 
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {

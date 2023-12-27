@@ -9,8 +9,11 @@ import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
+import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.Minecraft;
 
@@ -47,8 +50,20 @@ public class CoordinatesDisplay {
 	public static Hud HUD;
 
 	public static void init() {
+		LOGGER.info("Initializing " + MOD_NAME + " v" + VERSION);
+
+		LOGGER.info("Loading config file");
 		CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 
+		LOGGER.info("Registering hud renderers");
+		CoordinatesHuds.register(DefaultRenderer.class);
+		CoordinatesHuds.register(MinRenderer.class);
+		CoordinatesHuds.register(MaxRenderer.class);
+		CoordinatesHuds.register(LineRenderer.class);
+		CoordinatesHuds.register(NetherOverworldRenderer.class);
+		CoordinatesHuds.register(HotbarRenderer.class);
+
+		LOGGER.info("Initializing hud");
 		HUD = new Hud();
 	}
 
@@ -146,16 +161,12 @@ public class CoordinatesDisplay {
 		}
 
 		public static void cycleDisplayMode() {
-			int i = CONFIG.get().renderMode.ordinal();
+			CoordinatesHuds.RegisteredRenderer renderer;
 
-			if (!InputConstants.isKeyDown(ClientUtils.getWindow(), 340)) i += 1;
-			else i -= 1;
+			if (!InputConstants.isKeyDown(ClientUtils.getWindow(), 340)) renderer = CoordinatesHuds.nextRenderer(getConfig().renderMode);
+			else renderer = CoordinatesHuds.previousRenderer(getConfig().renderMode);
 
-			i = Mappers.wrap(i, ModConfig.RenderMode.values().length);
-
-			LOGGER.info(i);
-
-			CONFIG.get().renderMode = ModConfig.RenderMode.values()[i];
+			getConfig().renderMode = renderer.getId();
 			CONFIG.save();
 		}
 	}

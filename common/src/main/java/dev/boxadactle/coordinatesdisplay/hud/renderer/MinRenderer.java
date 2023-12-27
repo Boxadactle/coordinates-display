@@ -5,18 +5,15 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
+@RendererMetadata("minimum")
 public class MinRenderer implements HudRenderer {
-
-    @Override
-    public String getTranslationKey() {
-        return "hud.coordinatesdisplay.min.";
-    }
 
     private int calculateWidth(int p, int th, int dpadding, Component xtext, Component ytext, Component ztext, Component biome) {
         int a = GuiUtils.getLongestLength(xtext, ytext, ztext, biome);
@@ -67,11 +64,9 @@ public class MinRenderer implements HudRenderer {
 
         double yaw = pos.headRot.wrapYaw();
         double pitch = pos.headRot.wrapPitch();
-        Component direction = translation(ModUtil.getDirectionFromYaw(yaw));
+        Component directionComponent = resolveDirection(ModUtil.getDirectionFromYaw(yaw), true);
         Component pitchComponent = Component.literal(pitch > 0 ? "+" : "-");
-        Component directionComponent = Component.translatable("hud.coordinatesdisplay.min." + ModUtil.getDirectionFromYaw(yaw), direction);
         Component yawComponent = Component.literal(yaw > 0 ? "+" : "-");
-
 
 
         int w = calculateWidth(p, th, tp, xtext, ytext, ztext, biome);

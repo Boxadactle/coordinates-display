@@ -8,6 +8,7 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
@@ -16,12 +17,8 @@ import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 
+@RendererMetadata("maximum")
 public class MaxRenderer implements HudRenderer {
-
-    @Override
-    public String getTranslationKey() {
-        return "hud.coordinatesdisplay.max.";
-    }
 
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
@@ -38,7 +35,7 @@ public class MaxRenderer implements HudRenderer {
         Component targeted = definition(translation("block.targeted", value(pos.block.getBlockX()), value(pos.block.getBlockY()), value(pos.block.getBlockZ())));
         Component chunk = definition(translation("chunk", value(Integer.toString(c.getX())), value(Integer.toString(pos.position.getChunkY())), value(Integer.toString(c.getY()))));
 
-        Component g = definition(translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
+        Component g = definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
         Component direction = definition(translation("direction", g, value(formatter.formatDecimal(pos.headRot.wrapYaw())), value(formatter.formatDecimal(pos.headRot.wrapPitch()))));
 
         Component biome = definition(translation("biome", value(pos.world.getBiome(false))));
