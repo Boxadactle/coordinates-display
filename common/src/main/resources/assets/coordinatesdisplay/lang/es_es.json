@@ -34,7 +34,8 @@
   "hud.coordinatesdisplay.default.chunk.z": "Pieza Z: %s",
   "hud.coordinatesdisplay.default.direction": "%s %s",
   "hud.coordinatesdisplay.default.biome": "Bioma: %s",
-  "hud.coordinatesdisplay.default.version": "Minecraft %s"
+  "hud.coordinatesdisplay.default.dimension": "Dimensión: %s",
+  "hud.coordinatesdisplay.default.version": "Minecraft %s",
 
   "hud.coordinatesdisplay.minimum": "Mínimo",
   "hud.coordinatesdisplay.minimum.x": "X: %s",
@@ -103,7 +104,7 @@
   "button.coordinatesdisplay.textpadding": "Espaciado del texto: %s",
   "button.coordinatesdisplay.background": "Fondo: %s",
   "button.coordinatesdisplay.xyz": "XYZ: %s",
-  "button.coordinatesdisplay.chunkpos": "Posición de la pieza: %s",
+  "button.coordinatesdisplay.chunkpos": "Pieza: %s",
   "button.coordinatesdisplay.direction": "Dirección: %s",
   "button.coordinatesdisplay.biome": "Bioma: %s",
   "button.coordinatesdisplay.directionint": "Numero de dirección: %s",

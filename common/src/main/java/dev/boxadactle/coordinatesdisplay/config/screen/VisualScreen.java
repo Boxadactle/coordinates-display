@@ -27,7 +27,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
 
     Position pos;
 
-    AbstractWidget startCornerButton;
+    BEnumButton<?> startCornerButton;
     AbstractWidget changeHudPosButton;
 
     public VisualScreen(Screen parent) {
@@ -66,13 +66,24 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                 newVal -> config().decimalPlaces = newVal
         ));
 
+        startCornerButton = new BEnumButton<>(
+                "button.coordinatesdisplay.startcorner",
+                config().startCorner,
+                ModConfig.StartCorner.class,
+                newVal -> config().startCorner = newVal,
+                GuiUtils.AQUA
+        );
+
         // display mode
-        this.addConfigLine(new DisplayModeSelector(
-                newVal -> {
-                    config().renderMode = newVal;
-                    verifyButtons();
-                }
-        ));
+        this.addConfigLine(
+                new DisplayModeSelector(
+                    newVal -> {
+                        config().renderMode = newVal;
+                        verifyButtons();
+                    }
+                ),
+                startCornerButton
+        );
 
         // text shadow
         this.addConfigLine(new BBooleanButton(
@@ -81,13 +92,21 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                 newVal -> config().hudTextShadow = newVal
         ));
 
-        startCornerButton = ((AbstractWidget)this.addConfigLine(new BEnumButton<>(
-                "button.coordinatesdisplay.startcorner",
-                config().startCorner,
-                ModConfig.StartCorner.class,
-                newVal -> config().startCorner = newVal,
-                GuiUtils.AQUA
-        )));
+        this.addConfigLine(
+                // biome colors
+                new BBooleanButton(
+                        "button.coordinatesdisplay.biomecolors",
+                        config().biomeColors,
+                        newVal -> config().biomeColors = newVal
+                ),
+
+                // dimension colors
+                new BBooleanButton(
+                        "button.coordinatesdisplay.dimensioncolors",
+                        config().dimensionColors,
+                        newVal -> config().dimensionColors = newVal
+                )
+        );
 
         // hud position screen
         changeHudPosButton = (AbstractWidget) addConfigLine(new BConfigScreenButton(

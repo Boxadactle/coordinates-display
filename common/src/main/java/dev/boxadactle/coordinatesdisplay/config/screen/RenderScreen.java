@@ -51,21 +51,23 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
                 metadata.hasBackground()
         ));
 
-        // XYZ
-        this.addConfigLine(new HudOption(
-                "button.coordinatesdisplay.xyz",
-                config().renderXYZ,
-                newVal -> config().renderXYZ = newVal,
-                metadata.hasXYZ()
-        ));
+        this.addConfigLine(
+                // XYZ
+                new HudOption(
+                        "button.coordinatesdisplay.xyz",
+                        config().renderXYZ,
+                        newVal -> config().renderXYZ = newVal,
+                        metadata.hasXYZ()
+                ),
 
-        // chunk pos
-        this.addConfigLine(new HudOption(
-                "button.coordinatesdisplay.chunkpos",
-                config().renderChunkData,
-                newVal -> config().renderChunkData = newVal,
-                metadata.hasChunkData()
-        ));
+                // chunk pos
+                new HudOption(
+                        "button.coordinatesdisplay.chunkpos",
+                        config().renderChunkData,
+                        newVal -> config().renderChunkData = newVal,
+                        metadata.hasChunkData()
+                )
+        );
 
         this.addConfigLine(
                 // direction
@@ -85,21 +87,13 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
                 )
         );
 
-        // biome
-        this.addConfigLine(new HudOption(
-                "button.coordinatesdisplay.biome",
-                config().renderBiome,
-                newVal -> config().renderBiome = newVal,
-                metadata.hasBiome()
-        ));
-
         this.addConfigLine(
-                // mc version
+                // biome
                 new HudOption(
-                        "button.coordinatesdisplay.mcversion",
-                        config().renderMCVersion,
-                        newVal -> config().renderMCVersion = newVal,
-                        metadata.hasMCVersion()
+                        "button.coordinatesdisplay.biome",
+                        config().renderBiome,
+                        newVal -> config().renderBiome = newVal,
+                        metadata.hasBiome()
                 ),
                 new HudOption(
                         "button.coordinatesdisplay.dimension",
@@ -108,6 +102,14 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
                         metadata.hasDimension()
                 )
         );
+
+        // mc version
+        this.addConfigLine(new HudOption(
+                "button.coordinatesdisplay.mcversion",
+                config().renderMCVersion,
+                newVal -> config().renderMCVersion = newVal,
+                metadata.hasMCVersion()
+        ));
 
         this.addConfigLine(new BSpacingEntry());
 

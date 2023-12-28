@@ -34,6 +34,7 @@
   "hud.coordinatesdisplay.default.chunk.z": "Чанк Z: %s",
   "hud.coordinatesdisplay.default.direction": "%s %s",
   "hud.coordinatesdisplay.default.biome": "Биом: %s",
+  "hud.coordinatesdisplay.default.dimension": "Размерность: %s",
   "hud.coordinatesdisplay.default.version": "Minecraft %s",
 
   "hud.coordinatesdisplay.minimum": "минимальный",

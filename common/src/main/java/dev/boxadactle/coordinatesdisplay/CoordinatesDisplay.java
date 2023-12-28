@@ -126,6 +126,21 @@ public class CoordinatesDisplay {
 
 		}
 
+		public static int getDimensionColor(String name, int defaultColor) {
+			return switch (name) {
+				case "Overworld" -> 0x00ff00;
+				case "Nether" -> 0xff0000;
+				case "End" -> 0x0000ff;
+				default -> {
+					if (name.contains("The ")) {
+						yield getDimensionColor(name.substring(4), defaultColor);
+					} else {
+						yield defaultColor;
+					}
+				}
+			};
+		}
+
 	}
 
 	public static class Bindings {

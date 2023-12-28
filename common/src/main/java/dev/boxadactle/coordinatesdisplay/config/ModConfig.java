@@ -31,6 +31,7 @@ public class ModConfig implements BConfig {
     public boolean renderDirectionInt = true;
     public boolean renderBiome = true;
     public boolean biomeColors = true;
+    public boolean dimensionColors = true;
     public boolean renderMCVersion = true;
     public boolean renderDimension = true;
 

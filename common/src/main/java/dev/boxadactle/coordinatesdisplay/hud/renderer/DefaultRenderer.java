@@ -8,6 +8,7 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -15,29 +16,21 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@RendererMetadata(
-        value = "default",
-        hasDimension = false
-)
+@RendererMetadata(value = "default")
 public class DefaultRenderer implements HudRenderer {
 
-    private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
+    private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biomeDimension, Component version) {
         int a = GuiUtils.getLongestLength(xtext, ytext, ztext);
         int b = GuiUtils.getLongestLength(chunkx, chunkz);
         int c = (config().renderXYZ ? a : 0) +
                 (config().renderChunkData ? b : 0) +
                 (config().renderXYZ && config().renderChunkData ? tp : 0);
 
-        int d = 0;
-        if (config().renderDirection) {
-            if (GuiUtils.getTextLength(direction) > d) d = GuiUtils.getLongestLength(direction);
-        }
-        if (config().renderBiome) {
-            if (GuiUtils.getTextLength(biome) > d) d = GuiUtils.getLongestLength(biome);
-        }
-        if (config().renderMCVersion) {
-            if (GuiUtils.getTextLength(version) > d) d = GuiUtils.getLongestLength(version);
-        }
+        int d = GuiUtils.getLongestLength(
+                (config().renderDirection ? direction : Component.empty()),
+                (config().renderBiome || config().renderDimension ? biomeDimension : Component.empty()),
+                (config().renderMCVersion ? version : Component.empty())
+        );
 
         return p + Math.max(c, d) + p;
     }
@@ -49,7 +42,7 @@ public class DefaultRenderer implements HudRenderer {
         if (config().renderDirection) {
             b += th;
         }
-        if (config().renderBiome) {
+        if (config().renderBiome || config().renderDimension) {
             b += th;
         }
         if (config().renderMCVersion) {
@@ -84,15 +77,33 @@ public class DefaultRenderer implements HudRenderer {
         );
 
         String biomestring = pos.world.getBiome(true);
+        Component coloredBiomestring = GuiUtils.colorize(
+                Component.literal(biomestring),
+                config().biomeColors ?
+                        CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, config().dataColor) :
+                        config().dataColor
+        );
         Component biome = definition(
                 "biome",
-                GuiUtils.colorize(
-                        Component.literal(biomestring),
-                        config().biomeColors ?
-                                CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, config().dataColor) :
-                                config().dataColor
-                )
+                coloredBiomestring
         );
+
+        String dimensionstring = pos.world.getDimension(true);
+        Component coloredDimensionstring = GuiUtils.colorize(
+                Component.literal(dimensionstring),
+                config().dimensionColors ?
+                        CoordinatesDisplay.BiomeColors.getDimensionColor(dimensionstring, config().dataColor) :
+                        config().dataColor
+        );
+        Component dimension = definition(
+                "dimension",
+                coloredDimensionstring
+        );
+
+        Component biomeDimension =
+            (config().renderDimension ? (config().renderBiome ? coloredDimensionstring : dimension).copy() : Component.empty())
+                .append(config().renderDimension && config().renderBiome ? definition(": ") : Component.empty())
+                .append(config().renderBiome ? (config().renderDimension ? coloredBiomestring : biome) : Component.empty());
 
         Component mcversion = definition("version", value(ClientUtils.getGameVersion()));
 
@@ -100,7 +111,7 @@ public class DefaultRenderer implements HudRenderer {
         int tp = config().textPadding;
         int th = GuiUtils.getTextHeight();
 
-        int w = calculateWidth(p, tp, xtext, ytext, ztext, chunkx, chunkz, direction, biome, mcversion);
+        int w = calculateWidth(p, tp, xtext, ytext, ztext, chunkx, chunkz, direction, biomeDimension, mcversion);
         int h = calculateHeight(th, p, tp);
 
         if (config().renderBackground) {
@@ -126,12 +137,12 @@ public class DefaultRenderer implements HudRenderer {
             drawInfo(guiGraphics, direction, x + p, y + offset, config().definitionColor);
         }
 
-        if (config().renderBiome) {
-            drawInfo(guiGraphics, biome, x + p, y + offset + (config().renderDirection ? th : 0), config().definitionColor);
+        if (config().renderBiome || config().renderDimension) {
+            drawInfo(guiGraphics, biomeDimension, x + p, y + offset + (config().renderDirection ? th : 0), config().definitionColor);
         }
 
         if (config().renderMCVersion) {
-            drawInfo(guiGraphics, mcversion, x + p, y + offset + (config().renderDirection ? th : 0) + (config().renderBiome ? th : 0), config().dataColor);
+            drawInfo(guiGraphics, mcversion, x + p, y + offset + (config().renderDirection ? th : 0) + (config().renderBiome || config().renderDimension ? th : 0), config().dataColor);
         }
 
 
