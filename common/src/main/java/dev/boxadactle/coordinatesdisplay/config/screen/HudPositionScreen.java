@@ -34,6 +34,8 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
 
     int delay = 10;
 
+    boolean isDragging = false;
+
     public HudPositionScreen(Screen parent) {
         super(parent);
 
@@ -54,11 +56,22 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
+    public boolean mouseClicked(double d, double e, int i) {
+        isDragging = true;
+        return super.mouseClicked(d, e, i);
+    }
+
+    @Override
+    public boolean mouseReleased(double d, double e, int i) {
+        isDragging = false;
+        return super.mouseReleased(d, e, i);
+    }
+
+    @Override
     public void render(GuiGraphics p_96562_, int mouseX, int mouseY, float delta) {
         this.renderBackground(p_96562_, mouseX, mouseY, delta);
         super.render(p_96562_, mouseX, mouseY, delta);
 
-        boolean isDragging = MouseUtils.isMouseDown(0);
         HudPositionModifier modifier = CoordinatesDisplay.getConfig().startCorner.getModifier();
 
         if (isDragging && delay == 0) {
