@@ -22,8 +22,8 @@ dependencies {
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
-    modApi("dev.boxadactle.boxlib:BoxLib-fabric:${rootProject.boxlib_version}") { transitive = true }
-    include("dev.boxadactle.boxlib:BoxLib-fabric:${rootProject.boxlib_version}") { transitive = true }
+    modApi("dev.boxadactle:Boxlib-fabric:${rootProject.boxlib_version}") { transitive = true }
+    include("dev.boxadactle:Boxlib-fabric:${rootProject.boxlib_version}") { transitive = true }
 
     modImplementation("com.terraformersmc:modmenu:${rootProject.modmenu_version}") {
         transitive = false
