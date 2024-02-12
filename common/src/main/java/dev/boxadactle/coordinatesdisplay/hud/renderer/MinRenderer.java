@@ -82,7 +82,7 @@ public class MinRenderer extends HudRenderer {
         Component direction = translation(ModUtil.getDirectionFromYaw(yaw));
         Component pitchComponent = Component.literal(pitch > 0 ? "+" : "-");
         Component directionComponent = Component.translatable("hud.coordinatesdisplay.min." + ModUtil.getDirectionFromYaw(yaw), direction);
-        Component yawComponent = Component.literal(yaw > 0 ? "+" : "-");
+        Component yawComponent = Component.literal(yaw < 0 ? "+" : "-");
 
 
 
