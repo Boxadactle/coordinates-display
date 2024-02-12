@@ -1,16 +1,16 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.config.gui.widget.button.*;
-import dev.boxadactle.boxlib.config.gui.widget.BSpacingEntry;
-import dev.boxadactle.boxlib.config.gui.BConfigScreen;
-import dev.boxadactle.boxlib.config.gui.widget.label.BCenteredLabel;
+import dev.boxadactle.boxlib.gui.BOptionScreen;
+import dev.boxadactle.boxlib.gui.widget.button.*;
+import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
+import dev.boxadactle.boxlib.gui.widget.label.BCenteredLabel;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-public class DeathPosScreen extends BConfigScreen implements HudHelper {
+public class DeathPosScreen extends BOptionScreen implements HudHelper {
 
     public DeathPosScreen(Screen parent) {
         super(parent);

@@ -1,6 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.config;
 
-import dev.boxadactle.boxlib.config.gui.widget.BCustomRenderingEntry;
+import dev.boxadactle.boxlib.gui.widget.BCustomRenderingEntry;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
