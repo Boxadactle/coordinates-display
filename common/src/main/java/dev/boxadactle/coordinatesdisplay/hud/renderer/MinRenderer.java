@@ -33,6 +33,29 @@ public class MinRenderer implements HudRenderer {
         return p + (th * 3) + (config().renderBiome ? th : 0) + p;
     }
 
+    private Component[] createDirectionComponents(double yaw) {
+        // compiled using the debug screen
+        String[][] directions = {
+                // X   Z
+                { " ", "+" },
+                { "-", "+" },
+                { "-", " " },
+                { "-", "-" },
+                { " ", "-" },
+                { "+", "-" },
+                { "+", " " },
+                { "+", "+" }
+        };
+
+        String[] direction = directions[(int) Math.round(yaw / 45.0F) & 7];
+
+        return new Component[] {
+                Component.literal(direction[0]),
+                resolveDirection(ModUtil.getDirectionFromYaw(yaw), true),
+                Component.literal(direction[1])
+        };
+    }
+
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
@@ -68,11 +91,10 @@ public class MinRenderer implements HudRenderer {
         int th = GuiUtils.getTextRenderer().lineHeight;
         int tp = CoordinatesDisplay.CONFIG.get().textPadding;
 
-        double yaw = pos.headRot.wrapYaw();
-        double pitch = pos.headRot.wrapPitch();
-        Component directionComponent = resolveDirection(ModUtil.getDirectionFromYaw(yaw), true);
-        Component pitchComponent = Component.literal(pitch > 0 ? "+" : "-");
-        Component yawComponent = Component.literal(yaw > 0 ? "+" : "-");
+        Component[] directionTexts = createDirectionComponents(pos.headRot.wrapYaw());
+        Component xDirection = directionTexts[0];
+        Component directionText = directionTexts[1];
+        Component zDirection = directionTexts[2];
 
 
         int w = calculateWidth(p, tp, xtext, ytext, ztext, biome);
@@ -91,12 +113,12 @@ public class MinRenderer implements HudRenderer {
             drawInfo(guiGraphics, biome, x + p, y + p + (th * 3), CoordinatesDisplay.CONFIG.get().definitionColor);
         }
         if (config().renderDirection) {
-            int dstart = (x + w) - p - GuiUtils.getTextRenderer().width(directionComponent);
-            int ypstart = (x + w) - p - GuiUtils.getTextRenderer().width(yawComponent);
+            int dstart = (x + w) - p - GuiUtils.getTextRenderer().width(directionText);
+            int ypstart = (x + w) - p - GuiUtils.getLongestLength(xDirection, zDirection);
 
-            drawInfo(guiGraphics, pitchComponent, ypstart, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-            drawInfo(guiGraphics, directionComponent, dstart, y + p + th, CoordinatesDisplay.CONFIG.get().dataColor);
-            drawInfo(guiGraphics, yawComponent, ypstart, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(guiGraphics, xDirection, ypstart, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(guiGraphics, directionText, dstart, y + p + th, CoordinatesDisplay.CONFIG.get().dataColor);
+            drawInfo(guiGraphics, zDirection, ypstart, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
         }
 
         return new Rect<>(x, y, w, h);
