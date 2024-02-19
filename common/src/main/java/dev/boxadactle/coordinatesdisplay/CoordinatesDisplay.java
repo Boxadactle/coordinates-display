@@ -62,6 +62,7 @@ public class CoordinatesDisplay {
 		CoordinatesHuds.register(LineRenderer.class);
 		CoordinatesHuds.register(NetherOverworldRenderer.class);
 		CoordinatesHuds.register(HotbarRenderer.class);
+		CoordinatesHuds.register(SpawnpointRenderer.class);
 
 		LOGGER.info("Initializing hud");
 		HUD = new Hud();
@@ -78,7 +79,7 @@ public class CoordinatesDisplay {
 		}
 
 		if (shouldCoordinatesGuiOpen) {
-			Position pos = Position.of(WorldUtils.getCamera());
+			Position pos = Position.of(WorldUtils.getPlayer());
 
 			ClientUtils.setScreen(new CoordinatesScreen(pos));
 

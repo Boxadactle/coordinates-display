@@ -8,15 +8,14 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
-import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@RendererMetadata(value = "default")
+@DisplayMode(value = "default")
 public class DefaultRenderer implements HudRenderer {
 
     private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biomeDimension, Component version) {

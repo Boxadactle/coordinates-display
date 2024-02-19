@@ -75,6 +75,14 @@
   "hud.coordinatesdisplay.hotbar.xyz": "XYZ: %s %s %s",
   "hud.coordinatesdisplay.hotbar.direction": "Facing %s",
 
+  "hud.coordinatesdisplay.spawnpoint": "Spawnpoint (Compass)",
+  "hud.coordinatesdisplay.spawnpoint.player": "Player",
+  "hud.coordinatesdisplay.spawnpoint.worldSpawn": "World Spawn",
+  "hud.coordinatesdisplay.spawnpoint.relative": "Relative",
+  "hud.coordinatesdisplay.spawnpoint.x": "X: %s",
+  "hud.coordinatesdisplay.spawnpoint.y": "Y: %s",
+  "hud.coordinatesdisplay.spawnpoint.z": "Z: %s",
+
   "screen.coordinatesdisplay.config": "Config for %s",
   "screen.coordinatesdisplay.confirmreset": "Confirm Reset to Default",
   "screen.coordinatesdisplay.render": "Rendering Config for %s",

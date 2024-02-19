@@ -5,7 +5,7 @@ import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,7 +14,7 @@ import oshi.util.tuples.Triplet;
 
 import java.util.Objects;
 
-@RendererMetadata(
+@DisplayMode(
         value = "nether_overworld",
         hasXYZ = false,
         hasChunkData = false,
@@ -114,7 +114,7 @@ public class NetherOverworldRenderer implements HudRenderer {
         return config().padding * 2 + GuiUtils.getTextRenderer().lineHeight * 3 + config().textPadding + 9 * 2 + config().padding;
     }
 
-    private Component[] createXYZ(String x, String y, String z) {
+    private Component[] createXYZComponents(String x, String y, String z) {
         return new Component[] {
                 definition(translation("x", value(x))),
                 definition(translation("y", value(y))),
@@ -127,12 +127,12 @@ public class NetherOverworldRenderer implements HudRenderer {
 
         if (Objects.requireNonNull(type) == Dimension.OVERWORLD) {
             return new Component[][] {
-                createXYZ(
+                createXYZComponents(
                         player.getA(),
                         player.getB(),
                         player.getC()
                 ),
-                createXYZ(
+                createXYZComponents(
                         d.formatDecimal(pos.position.getPlayerPos().getX() / 8),
                         "-",
                         d.formatDecimal(pos.position.getPlayerPos().getZ() / 8)
@@ -140,12 +140,12 @@ public class NetherOverworldRenderer implements HudRenderer {
             };
         } else if (Objects.requireNonNull(type) == Dimension.NETHER) {
             return new Component[][] {
-                    createXYZ(
+                    createXYZComponents(
                             d.formatDecimal(pos.position.getPlayerPos().getX() * 8),
                             "-",
                             d.formatDecimal(pos.position.getPlayerPos().getZ() * 8)
                     ),
-                    createXYZ(
+                    createXYZComponents(
                             player.getA(),
                             player.getB(),
                             player.getC()

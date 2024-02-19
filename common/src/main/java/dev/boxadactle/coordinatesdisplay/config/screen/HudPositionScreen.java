@@ -44,7 +44,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
         scale = CoordinatesDisplay.CONFIG.get().hudScale;
 
         pos = WorldUtils.getWorld() != null
-            ? Position.of(WorldUtils.getCamera())
+            ? Position.of(WorldUtils.getPlayer())
             : generatePositionData();
 
         CoordinatesDisplay.shouldHudRender = false;

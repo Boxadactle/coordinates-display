@@ -16,7 +16,7 @@ public class LocalPlayerMixin {
     @Inject(at = @At("RETURN"), method = "respawn")
     private void respawn(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().showDeathPosInChat) {
-            Position pos = Position.of(WorldUtils.getCamera());
+            Position pos = Position.of(WorldUtils.getPlayer());
 
             CoordinatesDisplay.LOGGER.player.chat(ModUtil.makeDeathPositionComponent(pos));
         }

@@ -6,13 +6,13 @@ import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@RendererMetadata(
+@DisplayMode(
         value = "line",
         hasChunkData = false,
         hasDirectionInt = false,

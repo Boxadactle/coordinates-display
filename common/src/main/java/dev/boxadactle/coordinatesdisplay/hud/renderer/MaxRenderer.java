@@ -8,7 +8,7 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
@@ -17,7 +17,7 @@ import org.apache.commons.compress.utils.Lists;
 
 import java.util.List;
 
-@RendererMetadata("maximum")
+@DisplayMode("maximum")
 public class MaxRenderer implements HudRenderer {
 
     @Override

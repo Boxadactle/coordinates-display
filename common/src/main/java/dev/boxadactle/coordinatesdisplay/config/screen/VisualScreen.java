@@ -3,24 +3,20 @@ package dev.boxadactle.coordinatesdisplay.config.screen;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.*;
-import dev.boxadactle.boxlib.gui.config.widget.field.*;
 import dev.boxadactle.boxlib.gui.config.widget.label.*;
 import dev.boxadactle.boxlib.gui.config.widget.slider.BIntegerSlider;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
-import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
-import java.util.List;
-import java.util.Locale;
 import java.util.function.Consumer;
 
 public class VisualScreen extends BOptionScreen implements HudHelper {
@@ -150,7 +146,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     }
 
     private void verifyButtons() {
-        RendererMetadata metadata = CoordinatesHuds.getRenderer(config().renderMode).getMetadata();
+        DisplayMode metadata = CoordinatesHuds.getRenderer(config().renderMode).getMetadata();
 
         if (!metadata.ignoreTranslations()) {
             startCornerButton.active = true;

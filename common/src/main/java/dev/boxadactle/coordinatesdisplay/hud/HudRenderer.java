@@ -36,7 +36,7 @@ public interface HudRenderer {
     }
 
     default String getNameKey() {
-        RendererMetadata metadata = this.getClass().getAnnotation(RendererMetadata.class);
+        DisplayMode metadata = this.getClass().getAnnotation(DisplayMode.class);
         if (metadata != null) {
             if (!metadata.translationKey().isEmpty()) {
                 return metadata.translationKey();
@@ -107,6 +107,32 @@ public interface HudRenderer {
                     n.formatDecimal(pos.getZ())
             );
         }
+    }
+
+    default Component createLine(String defKey, String value) {
+        return definition(
+                defKey,
+                value(value)
+        );
+    }
+
+    default Component createLine(String defKey, Component value) {
+        return definition(
+                defKey,
+                value
+        );
+    }
+
+    default Triplet<Component, Component, Component> createXYZ(String x, String y, String z) {
+        return new Triplet<>(
+                createLine("x", x),
+                createLine("y", y),
+                createLine("z", z)
+        );
+    }
+
+    default Triplet<Component, Component, Component> createXYZ(int x, int y, int z) {
+        return createXYZ(Integer.toString(x), Integer.toString(y), Integer.toString(z));
     }
 
     default NumberFormatter<Double> genFormatter() {

@@ -5,14 +5,14 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@RendererMetadata(
+@DisplayMode(
         value = "minimum",
         hasXYZ = false,
         hasChunkData = false,
@@ -60,20 +60,11 @@ public class MinRenderer implements HudRenderer {
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
-        Component xtext = definition(
-                "x",
-                value(player.getA())
-        );
+        Component xtext = createLine("x", player.getA());
 
-        Component ytext = definition(
-                "y",
-                value(player.getB())
-        );
+        Component ytext = createLine("y", player.getB());
 
-        Component ztext = definition(
-                "z",
-                value(player.getC())
-        );
+        Component ztext = createLine("z", player.getC());
 
 
         String biomestring = pos.world.getBiome(true);

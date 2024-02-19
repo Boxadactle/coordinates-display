@@ -8,6 +8,7 @@ import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.*;
@@ -209,6 +210,10 @@ public class ModUtil {
         }
 
         return toReturn;
+    }
+
+    public static BlockPos toBlockPos(Vec3<Integer> pos) {
+        return new BlockPos(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public static Vec3i doubleVecToIntVec(net.minecraft.world.phys.Vec3 vec) {
