@@ -1,180 +1,159 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
+import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
+import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
+import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
+import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
-import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
-import java.text.DecimalFormat;
+@DisplayMode(value = "default")
+public class DefaultRenderer implements HudRenderer {
 
-public class DefaultRenderer extends HudRenderer {
-
-    public DefaultRenderer() {
-        super("hud.coordinatesdisplay.");
-    }
-
-    private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
+    private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biomeDimension, Component version) {
         int a = GuiUtils.getLongestLength(xtext, ytext, ztext);
         int b = GuiUtils.getLongestLength(chunkx, chunkz);
-        int c = a + (CoordinatesDisplay.CONFIG.get().renderChunkData ? b + tp : 0);
+        int c = (config().renderXYZ ? a : 0) +
+                (config().renderChunkData ? b : 0) +
+                (config().renderXYZ && config().renderChunkData ? tp : 0);
 
-        int d = 0;
-        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
-            if (GuiUtils.getLongestLength(direction) > d) d = GuiUtils.getLongestLength(direction);
-        }
-        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
-            if (GuiUtils.getLongestLength(biome) > d) d = GuiUtils.getLongestLength(biome);
-        }
-        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
-            if (GuiUtils.getLongestLength(version) > d) d = GuiUtils.getLongestLength(version);
-        }
+        int d = GuiUtils.getLongestLength(
+                (config().renderDirection ? direction : Component.empty()),
+                (config().renderBiome || config().renderDimension ? biomeDimension : Component.empty()),
+                (config().renderMCVersion ? version : Component.empty())
+        );
 
         return p + Math.max(c, d) + p;
     }
 
     private int calculateHeight(int th, int p, int tp) {
-        int a = th * 3;
+        int a = config().renderXYZ ? th * 3 : (config().renderChunkData ? th * 2 : 0);
 
         int b = 0;
-        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
+        if (config().renderDirection) {
             b += th;
         }
-        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
+        if (config().renderBiome || config().renderDimension) {
             b += th;
         }
-        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
+        if (config().renderMCVersion) {
             b += th;
         }
 
-        boolean c = (CoordinatesDisplay.CONFIG.get().renderDirection || CoordinatesDisplay.CONFIG.get().renderBiome || CoordinatesDisplay.CONFIG.get().renderMCVersion);
+        boolean c = (config().renderXYZ || config().renderChunkData);
+        boolean d = (config().renderDirection || config().renderBiome || config().renderMCVersion);
 
-        return p + a + (c ? tp : 0) + b + p;
+        return p + a + (c || d ? tp : 0) + b + p;
     }
 
     @Override
-    protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        NumberFormatter<Double> formatter = new NumberFormatter<>(CoordinatesDisplay.CONFIG.get().decimalPlaces);
-        Vec3<Double> player = pos.position.getPlayerPos();
+    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+        NumberFormatter<Double> formatter = genFormatter();
+        Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
         Vec2<Integer> chunkPos = pos.position.getChunkPos();
 
-        Component xtext = GuiUtils.colorize(translation(
-                "x",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getX())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-        Component ytext = GuiUtils.colorize(translation(
-                "y",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getY())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-        Component ztext = GuiUtils.colorize(translation(
-                "z",
-                GuiUtils.colorize(
-                        Component.literal(formatter.formatDecimal(player.getZ())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-
-
-        Component chunkx = GuiUtils.colorize(translation(
-                "chunk.x",
-                GuiUtils.colorize(
-                        Component.literal(Integer.toString(chunkPos.getX())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-        Component chunkz = GuiUtils.colorize(translation(
-                "chunk.z",
-                GuiUtils.colorize(
-                        Component.literal(Integer.toString(chunkPos.getY())),
-                        config().dataColor
-                )
-        ), config().definitionColor);
-
-
-
-        Component direction = translation(
-                "direction",
-                GuiUtils.colorize(
-                        translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())),
-                        config().definitionColor
-                ),
-                config().renderDirectionInt ? GuiUtils.colorize(
-                        GuiUtils.parentheses(Component.literal(formatter.formatDecimal(pos.headRot.wrapYaw()))),
-                        config().dataColor
-                ) : Component.literal("")
-        );
-
-        String biomestring = pos.world.getBiome(true);
-        Component biome = GuiUtils.colorize(translation(
-                "biome",
-                GuiUtils.colorize(
-                        Component.literal(biomestring),
-                        CoordinatesDisplay.CONFIG.get().biomeColors ?
-                                CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
-                                CoordinatesDisplay.CONFIG.get().dataColor
-                )
-        ), config().definitionColor);
-
-        Component mcversion = GuiUtils.colorize(translation(
-                "version",
-                GuiUtils.colorize(
-                        Component.literal(ClientUtils.getGameVersion()),
-                        config().dataColor
-                )
-        ), config().definitionColor);
+        // rendering
 
         int p = config().padding;
         int tp = config().textPadding;
-        int th = GuiUtils.getTextRenderer().lineHeight;
 
-        int w = calculateWidth(p, tp, xtext, ytext, ztext, chunkx, chunkz, direction, biome, mcversion);
-        int h = calculateHeight(th, p, tp);
+        ColumnLayout hud = new ColumnLayout(0, 0, tp);
+        RowLayout row1 = new RowLayout(0, 0, tp);
+        ParagraphComponent row2 = new ParagraphComponent(0);
 
-        if (config().renderBackground) {
-            RenderUtils.drawSquare(guiGraphics, x, y, w, h, config().backgroundColor);
+        if (config().renderXYZ) {
+            Component xtext = definition("x", value(player.getA()));
+            Component ytext = definition("y", value(player.getB()));
+            Component ztext = definition("z", value(player.getC()));
+
+            row1.addComponent(new ParagraphComponent(
+                    0,
+                    xtext,
+                    ytext,
+                    ztext
+            ));
         }
 
-        // required
-        drawInfo(guiGraphics, xtext, x + p, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-        drawInfo(guiGraphics, ytext, x + p, y + p + th, CoordinatesDisplay.CONFIG.get().definitionColor);
-        drawInfo(guiGraphics, ztext, x + p, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
-
         if (config().renderChunkData) {
-            drawInfo(guiGraphics, chunkx, x + p + GuiUtils.getLongestLength(xtext, ytext, ztext) + tp, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-            drawInfo(guiGraphics, chunkz, x + p + GuiUtils.getLongestLength(xtext, ytext, ztext) + tp, y + p + (th), CoordinatesDisplay.CONFIG.get().definitionColor);
+            Component chunkx = definition("chunk.x", value(chunkPos.getX().toString()));
+            Component chunkz = definition("chunk.z", value(chunkPos.getY().toString()));
+
+            row1.addComponent(new ParagraphComponent(
+                    0,
+                    chunkx,
+                    chunkz
+            ));
         }
 
         if (config().renderDirection) {
-            drawInfo(guiGraphics, direction, x + p, y + p + (th * 3) + tp, CoordinatesDisplay.CONFIG.get().definitionColor);
+            Component direction = translation(
+                    "direction",
+                    definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))),
+                    config().renderDirectionInt ?
+                            value(GuiUtils.parentheses(Component.literal(formatter.formatDecimal(pos.headRot.wrapYaw()))))
+                            : Component.empty()
+            );
+
+            row2.add(direction);
         }
 
-        if (config().renderBiome) {
-            drawInfo(guiGraphics, biome, x + p, y + p + (th * 3) + tp + (CoordinatesDisplay.CONFIG.get().renderDirection ? th : 0), CoordinatesDisplay.CONFIG.get().definitionColor);
+        if (config().renderBiome || config().renderDimension) {
+            String biomestring = pos.world.getBiome(true);
+            Component coloredBiomestring = GuiUtils.colorize(
+                    Component.literal(biomestring),
+                    config().biomeColors ?
+                            CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, config().dataColor) :
+                            config().dataColor
+            );
+            Component biome = definition(
+                    "biome",
+                    coloredBiomestring
+            );
+
+            String dimensionstring = pos.world.getDimension(true);
+            Component coloredDimensionstring = GuiUtils.colorize(
+                    Component.literal(dimensionstring),
+                    config().dimensionColors ?
+                            CoordinatesDisplay.BiomeColors.getDimensionColor(dimensionstring, config().dataColor) :
+                            config().dataColor
+            );
+            Component dimension = definition(
+                    "dimension",
+                    coloredDimensionstring
+            );
+
+            Component biomeDimension =
+                    (config().renderDimension ? (config().renderBiome ? coloredDimensionstring : dimension).copy() : Component.empty())
+                            .append(config().renderDimension && config().renderBiome ? definition(": ") : Component.empty())
+                            .append(config().renderBiome ? (config().renderDimension ? coloredBiomestring : biome) : Component.empty());
+
+            row2.add(biomeDimension);
         }
 
         if (config().renderMCVersion) {
-            drawInfo(guiGraphics, mcversion, x + p, y + p + (th * 3) + tp + (CoordinatesDisplay.CONFIG.get().renderDirection ? th : 0) + (CoordinatesDisplay.CONFIG.get().renderBiome ? th : 0), CoordinatesDisplay.CONFIG.get().dataColor);
+            Component mcversion = definition("version", value(ClientUtils.getGameVersion()));
+
+            row2.add(mcversion);
         }
 
+        hud.addComponent(new LayoutContainerComponent(row1));
+        hud.addComponent(row2);
 
-        return new Rect<>(x, y, w, h);
+        PaddingLayout hudRenderer = new PaddingLayout(x, y, p, hud);
+
+        return renderHud(guiGraphics, hudRenderer);
     }
 }

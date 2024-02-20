@@ -2,13 +2,11 @@ package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.datafixers.util.Pair;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.boxlib.util.GuiUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.*;
@@ -26,8 +24,6 @@ import java.text.DecimalFormat;
 @SuppressWarnings("unchecked")
 public class ModUtil {
 
-    public static final int TRANSPARENT_GRAY = 0x5c5c5c60;
-    public static final int WHITE = 16777215;
 
     public static String parseText(String text, Position pos) {
         Minecraft c = ClientUtils.getClient();
@@ -58,22 +54,6 @@ public class ModUtil {
         return newTextComponent;
     }
 
-    public static String toTPCommand(Vec3<Double> pos, String dimension) {
-        int x = (int)Math.round(pos.getX());
-        int y = (int)Math.round(pos.getY());
-        int z = (int)Math.round(pos.getZ());
-
-        ModConfig.TeleportMode tpmode = CoordinatesDisplay.getConfig().teleportMode;
-
-        if (dimension != null && tpmode.equals(ModConfig.TeleportMode.EXECUTE)) {
-            return String.format("/execute in %s run tp @s %d %d %d", dimension, x, y, z);
-        } else if (tpmode.equals(ModConfig.TeleportMode.TP)) {
-            return String.format("/tp @s %d %d %d", x, y, z);
-        } else if(tpmode.equals(ModConfig.TeleportMode.BARITONE)) {
-            return String.format("#goto %s %s %s", x, y, z);
-        } else throw new RuntimeException("Invalid teleport mode!");
-    }
-
     public static String toExecuteCommand(Position pos) {
         int x = (int)Math.round(pos.position.getPlayerPos().getX());
         int y = (int)Math.round(pos.position.getPlayerPos().getY());
@@ -88,7 +68,6 @@ public class ModUtil {
         int y = (int)Math.round(pos.position.getPlayerPos().getY());
         int z = (int)Math.round(pos.position.getPlayerPos().getZ());
 
-        String dimension = pos.world.getDimension(false);
         return String.format("/tp @s %d %d %d", x, y, z);
     }
 
@@ -120,59 +99,9 @@ public class ModUtil {
         return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor((CoordinatesDisplay.CONFIG.get().definitionColor)));
     }
 
-    public static int calculateHudWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
-        int a = GuiUtils.getLongestLength(xtext, ytext, ztext);
-        int b = GuiUtils.getLongestLength(chunkx, chunkz);
-        int c = a + (CoordinatesDisplay.CONFIG.get().renderChunkData ? b + tp : 0);
-
-        int d = 0;
-        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
-            if (GuiUtils.getLongestLength(direction) > d) d = GuiUtils.getLongestLength(direction);
-        }
-        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
-            if (GuiUtils.getLongestLength(biome) > d) d = GuiUtils.getLongestLength(biome);
-        }
-        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
-            if (GuiUtils.getLongestLength(version) > d) d = GuiUtils.getLongestLength(version);
-        }
-
-        return p + Math.max(c, d) + p;
-    }
-
-    public static int calculateHudHeight(int th, int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biome, Component version) {
-        int a = th * 3;
-
-        int b = 0;
-        if (CoordinatesDisplay.CONFIG.get().renderDirection) {
-            b += th;
-        }
-        if (CoordinatesDisplay.CONFIG.get().renderBiome) {
-            b += th;
-        }
-        if (CoordinatesDisplay.CONFIG.get().renderMCVersion) {
-            b += th;
-        }
-
-        boolean c = (CoordinatesDisplay.CONFIG.get().renderDirection || CoordinatesDisplay.CONFIG.get().renderBiome || CoordinatesDisplay.CONFIG.get().renderMCVersion);
-
-        return p + a + (c ? tp : 0) + b + p;
-    }
-
     @ExpectPlatform
     public static String getBlockName(Block block) {
         throw new AssertionError("Expected platform-specific block name function.");
-    }
-
-    public static int calculateHudWidthMin(int p, int th, int dpadding, Component xtext, Component ytext, Component ztext, Component yaw, Component pitch, Component direction, Component biome) {
-        int a = GuiUtils.getLongestLength(xtext, ytext, ztext, biome);
-        int b = ClientUtils.getClient().font.width("NW");
-
-        return p + a + dpadding + b + p;
-    }
-
-    public static int calculateHudHeightMin(int p, int th) {
-        // this might become a real method later
-        return p + (th * 4) + p;
     }
 
 
@@ -186,7 +115,7 @@ public class ModUtil {
                 worked = true;
             } catch (IOException e) {
                 CoordinatesDisplay.LOGGER.error("Got an error: ");
-                e.printStackTrace();
+                CoordinatesDisplay.LOGGER.printStackTrace(e);
                 worked = false;
             }
         } else {
@@ -201,11 +130,6 @@ public class ModUtil {
         }
 
         return worked;
-    }
-
-    public static void reloadConfig() {
-        CoordinatesDisplay.CONFIG.load();
-        CoordinatesDisplay.LOGGER.info("Reloaded all config");
     }
 
     // method to turn an angle into a direction string
@@ -224,11 +148,7 @@ public class ModUtil {
     // copy + pasted from DebugHud.class
     public static String printBiome(Holder<Biome> p_205375_) {
         if (p_205375_ != null) {
-            return p_205375_.unwrap().map((p_205377_) -> {
-                return p_205377_.location().toString();
-            }, (p_205367_) -> {
-                return "[unregistered " + p_205367_ + "]";
-            });
+            return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
         } else {
             return "minecraft:plains";
         }
@@ -237,10 +157,6 @@ public class ModUtil {
     public static boolean isMouseHovering(int mouseX, int mouseY, int boxX, int boxY, int boxWidth, int boxHeight) {
         return mouseX >= boxX && mouseX <= boxX + boxWidth &&
                 mouseY >= boxY && mouseY <= boxY + boxHeight;
-    }
-
-    public static int clampToZero(int number) {
-        return Math.max(number, 0);
     }
 
     public static String getNamespace(String id) {
@@ -257,13 +173,6 @@ public class ModUtil {
     }
 
     public static float calculateMouseScale(int x, int y, int w, int h, int mouseX, int mouseY) {
-        CoordinatesDisplay.LOGGER.info("X:" + x);
-        CoordinatesDisplay.LOGGER.info("Y:" + y);
-        CoordinatesDisplay.LOGGER.info("W:" + w);
-        CoordinatesDisplay.LOGGER.info("H:" + h);
-        CoordinatesDisplay.LOGGER.info("MX: " + mouseX);
-        CoordinatesDisplay.LOGGER.info("MY: " + mouseY);
-
         int value1 = calculatePointDistance(x, y, x + w, y + h);
         int value2 = calculatePointDistance(x, y, mouseX, mouseY);
         float scaleFactor = (float) value2 / value1;
@@ -288,19 +197,6 @@ public class ModUtil {
         return toReturn;
     }
 
-    public static <T> boolean is(T val, T ...compare) {
-        boolean toReturn = true;
-
-        for (T t : compare) {
-            if (!val.equals(t)) {
-                toReturn = false;
-                break;
-            }
-        }
-
-        return toReturn;
-    }
-
     public static <T> boolean not(T val, T ...compare) {
         boolean toReturn = true;
 
@@ -314,16 +210,12 @@ public class ModUtil {
         return toReturn;
     }
 
+    public static BlockPos toBlockPos(Vec3<Integer> pos) {
+        return new BlockPos(pos.getX(), pos.getY(), pos.getZ());
+    }
+
     public static Vec3i doubleVecToIntVec(net.minecraft.world.phys.Vec3 vec) {
         return new Vec3i((int)Math.round(vec.x), (int)Math.round(vec.y), (int)Math.round(vec.z));
-    }
-
-    public static Vec3i toMinecraftVector(Vec3<Integer> vec) {
-        return new Vec3i(vec.getX(), vec.getY(), vec.getZ());
-    }
-
-    public static Vec3<Integer> fromMinecraftVector(Vec3i vec3i) {
-        return new Vec3<>(vec3i.getX(), vec3i.getY(), vec3i.getZ());
     }
 
     public static Vec3<Double> fromMinecraftVector(net.minecraft.world.phys.Vec3 vec3d) {

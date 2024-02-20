@@ -3,6 +3,7 @@ package dev.boxadactle.coordinatesdisplay.forge.command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
@@ -15,10 +16,10 @@ public class ModeCommand extends CoordinatesCommand {
     @Override
     public void build(LiteralArgumentBuilder<CommandSourceStack> builder) {
 
-        ModConfig.RenderMode[] modes =  ModConfig.RenderMode.values();
+        String[] modes = CoordinatesHuds.registeredOverlays.keySet().toArray(new String[0]);
 
-        for (ModConfig.RenderMode mode : modes) {
-            builder.then(Commands.literal(mode.name().toLowerCase())
+        for (String mode : modes) {
+            builder.then(Commands.literal(mode.toLowerCase())
                     .executes(c -> {
                         CoordinatesDisplay.getConfig().renderMode = mode;
                         CoordinatesDisplay.CONFIG.save();

@@ -5,11 +5,12 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.forge.init.Commands;
+import dev.boxadactle.coordinatesdisplay.forge.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
-import dev.boxadactle.coordinatesdisplay.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -19,7 +20,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 
-import static dev.boxadactle.coordinatesdisplay.init.Keybinds.*;
 import static net.minecraftforge.client.ConfigScreenHandler.*;
 
 @Mod(CoordinatesDisplay.MOD_ID)
@@ -39,9 +39,9 @@ public class CoordinatesDisplayForge {
     public static class ClientForgeEvents {
         @SubscribeEvent
         public static void keyInput(InputEvent.Key e) {
-            Entity camera = WorldUtils.getCamera();
-            if (camera != null) {
-                Keybinds.checkBindings(Position.of(camera));
+            Player player = WorldUtils.getPlayer();
+            if (player != null) {
+                Keybinds.checkBindings(Position.of(player));
             }
         }
 
@@ -60,7 +60,7 @@ public class CoordinatesDisplayForge {
 
                     CoordinatesDisplay.HUD.render(
                             e.getGuiGraphics(),
-                            Position.of(WorldUtils.getCamera()),
+                            Position.of(WorldUtils.getPlayer()),
                             config.hudX,
                             config.hudY,
                             config.renderMode,
@@ -81,15 +81,7 @@ public class CoordinatesDisplayForge {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void registerKeys(RegisterKeyMappingsEvent e) {
-            e.register(visibleKeybind);
-            e.register(coordinatesGUIKeybind);
-
-            e.register(copyLocation);
-            e.register(sendLocation);
-            e.register(copyPosTp);
-
-            e.register(changeHudPosition);
-            e.register(cycleDisplayMode);
+            Keybinds.register(e);
         }
     }
 }

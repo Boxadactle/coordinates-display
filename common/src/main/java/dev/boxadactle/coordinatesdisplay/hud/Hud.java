@@ -36,23 +36,27 @@ public class Hud {
         return scaleButton.containsPoint(new Vec2<>(Math.round(mouseX / scale), Math.round(mouseY / scale)));
     }
 
-    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, ModConfig.RenderMode renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay) {
+    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, String renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay) {
         try {
-            HudRenderer r = renderMode.getRenderer();
+            CoordinatesHuds.RegisteredRenderer overlay = CoordinatesHuds.getRenderer(renderMode);
+
+            if (overlay == null) {
+                throw new UnknownRendererException(renderMode);
+            }
 
             // only way to do this is the use the size of the hud from the previous frame
-            Rect<Integer> newPos = renderMode.getRenderer().ignoreTranslations() ? new Rect<>(x, y, size.getWidth(), size.getHeight()) : startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
+            Rect<Integer> newPos = overlay.getMetadata().ignoreTranslations() ? new Rect<>(x, y, size.getWidth(), size.getHeight()) : startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
                     Math.round(ClientUtils.getClient().getWindow().getGuiScaledWidth() / scale),
                     Math.round(ClientUtils.getClient().getWindow().getGuiScaledHeight() / scale)
             ), ModConfig.StartCorner.TOP_LEFT);
 
-            Rect<Integer> size = r.renderOverlay(guiGraphics, newPos.getX(), newPos.getY(), pos);
+            Rect<Integer> size = overlay.getRenderer().renderOverlay(guiGraphics, newPos.getX(), newPos.getY(), pos);
             this.size.setX(size.getX());
             this.size.setY(size.getY());
             this.size.setWidth(size.getWidth());
             this.size.setHeight(size.getHeight());
 
-            if (moveOverlay && renderMode.getRenderer().allowMove()) {
+            if (moveOverlay && overlay.getMetadata().allowMove()) {
                 renderMoveOverlay(guiGraphics, newPos.getX(), newPos.getY());
             }
         } catch (NullPointerException e) {
@@ -61,9 +65,15 @@ public class Hud {
         }
     }
 
-    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, ModConfig.RenderMode renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay, float scale) {
+    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, String renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay, float scale) {
         try {
-            if (!renderMode.getRenderer().ignoreTranslations()) {
+            CoordinatesHuds.RegisteredRenderer overlay = CoordinatesHuds.getRenderer(renderMode);
+
+            if (overlay == null) {
+                throw new UnknownRendererException(renderMode);
+            }
+
+            if (!overlay.getMetadata().ignoreTranslations()) {
                 PoseStack matrices = guiGraphics.pose();
 
                 matrices.pushPose();

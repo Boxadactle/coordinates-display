@@ -1,8 +1,8 @@
 package dev.boxadactle.coordinatesdisplay.mixin;
 
+import dev.boxadactle.boxlib.util.ClientUtils;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModUtil;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DeathScreen;
@@ -21,8 +21,6 @@ public class DeathScreenMixin extends Screen {
         super(title);
     }
 
-    Minecraft client = Minecraft.getInstance();
-
     @Inject(at = @At("RETURN"), method = "init")
     private void init(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
@@ -30,11 +28,11 @@ public class DeathScreenMixin extends Screen {
                 button.setMessage(Component.literal("button.coordinatesdisplay.copied"));
                 button.active = false;
 
-                int x = (int) Math.round(client.player.getX());
-                int y = (int) Math.round(client.player.getY());
-                int z = (int) Math.round(client.player.getZ());
+                int x = (int) Math.round(ClientUtils.getClient().player.getX());
+                int y = (int) Math.round(ClientUtils.getClient().player.getY());
+                int z = (int) Math.round(ClientUtils.getClient().player.getZ());
 
-                client.keyboardHandler.setClipboard(x + " " + y + " " + z);
+                ClientUtils.getClient().keyboardHandler.setClipboard(x + " " + y + " " + z);
                 CoordinatesDisplay.LOGGER.info("Copied death position to clipboard");
             }).bounds(this.width / 2 - 100, this.height / 4 + 120, 200, 20).build());
         }
@@ -45,11 +43,11 @@ public class DeathScreenMixin extends Screen {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
             DecimalFormat d = new DecimalFormat("0.00");
 
-            String x = d.format(client.player.getX());
-            String y = d.format(client.player.getY());
-            String z = d.format(client.player.getZ());
+            String x = d.format(ClientUtils.getClient().player.getX());
+            String y = d.format(ClientUtils.getClient().player.getY());
+            String z = d.format(ClientUtils.getClient().player.getZ());
             Component pos = Component.translatable("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
-            guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, ModUtil.WHITE);
+            guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, GuiUtils.WHITE);
         }
     }
 }

@@ -1,6 +1,7 @@
 package dev.boxadactle.coordinatesdisplay;
 
 import dev.boxadactle.boxlib.math.geometry.Vec3;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.MouseUtils;
@@ -15,8 +16,6 @@ import net.minecraft.network.chat.Component;
 public class CoordinatesScreen extends Screen {
 
     Position pos;
-
-    int white = 16777215;
 
     int buttonw = 300;
     int buttonh = 20;
@@ -39,8 +38,8 @@ public class CoordinatesScreen extends Screen {
         int z = (int)Math.round(player.getZ());
         int y = (int)Math.round(player.getY());
 
-        guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, white);
-        guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), white);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, GuiUtils.WHITE);
+        guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), GuiUtils.WHITE);
 
         super.render(guiGraphics, mouseX, mouseY, delta);
     }
@@ -63,7 +62,7 @@ public class CoordinatesScreen extends Screen {
         }).bounds(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh).build());
 
         this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copytp"), button -> {
-            ClientUtils.getClient().keyboardHandler.setClipboard(CoordinatesDisplay.getConfig().teleportMode.toCommand(Position.of(WorldUtils.getCamera())));
+            ClientUtils.getClient().keyboardHandler.setClipboard(CoordinatesDisplay.getConfig().teleportMode.toCommand(Position.of(WorldUtils.getPlayer())));
             CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             onClose();
         }).bounds(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh).build());

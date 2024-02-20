@@ -1,6 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.gui.BOptionScreen;
+import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
@@ -34,6 +34,8 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
 
     int delay = 10;
 
+    boolean isDragging = false;
+
     public HudPositionScreen(Screen parent) {
         super(parent);
 
@@ -42,7 +44,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
         scale = CoordinatesDisplay.CONFIG.get().hudScale;
 
         pos = WorldUtils.getWorld() != null
-            ? Position.of(WorldUtils.getCamera())
+            ? Position.of(WorldUtils.getPlayer())
             : generatePositionData();
 
         CoordinatesDisplay.shouldHudRender = false;
@@ -54,14 +56,25 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
+    public boolean mouseClicked(double d, double e, int i) {
+        isDragging = true;
+        return super.mouseClicked(d, e, i);
+    }
+
+    @Override
+    public boolean mouseReleased(double d, double e, int i) {
+        isDragging = false;
+        return super.mouseReleased(d, e, i);
+    }
+
+    @Override
     public void render(GuiGraphics p_96562_, int mouseX, int mouseY, float delta) {
         this.renderBackground(p_96562_, mouseX, mouseY, delta);
         super.render(p_96562_, mouseX, mouseY, delta);
 
-        boolean isDragging = MouseUtils.isMouseDown(0);
         HudPositionModifier modifier = CoordinatesDisplay.getConfig().startCorner.getModifier();
 
-        if (isDragging && delay == 0 && config().renderMode.getRenderer().allowMove()) {
+        if (isDragging && delay == 0) {
             if (CoordinatesDisplay.HUD.isScaleButtonHovered(mouseX, mouseY) && !scaleDelta && !moveDelta) scaleDelta = true;
 
             if (!scaleDelta) {
@@ -75,21 +88,6 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
                     hudOffsetX = distance.getWidth();
                     hudOffsetY = distance.getHeight();
                 }
-
-                /*Rect<Integer> clamped = Clamps.clampRect(
-                        new Rect<>(
-                                Math.round(mouseX / scale) - hudOffsetX,
-                                Math.round(mouseY / scale) - hudOffsetY,
-                                CoordinatesDisplay.OVERLAY.getWidth() / scale,
-                                CoordinatesDisplay.OVERLAY.getHeight() / scale
-                        ),
-                        new Rect<>(
-                                0, 0,
-                                this.width,
-                                this.height
-                        )
-
-                );*/
 
                 Vec2<Integer> vec = modifier.translateVector(new Vec2<>(
                                 Clamps.clamp(Math.round(mouseX / scale) - hudOffsetX, 0, Math.round(this.width / scale)),
