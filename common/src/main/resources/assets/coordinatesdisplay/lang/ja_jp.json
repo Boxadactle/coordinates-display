@@ -75,6 +75,14 @@
   "hud.coordinatesdisplay.hotbar.xyz": "XYZ座標: %s %s %s",
   "hud.coordinatesdisplay.hotbar.direction": "向いている方向 %s",
 
+  "hud.coordinatesdisplay.spawnpoint": "World Spawn (Compass)",
+  "hud.coordinatesdisplay.spawnpoint.player": "Player",
+  "hud.coordinatesdisplay.spawnpoint.worldSpawn": "World Spawn",
+  "hud.coordinatesdisplay.spawnpoint.relative": "Relative",
+  "hud.coordinatesdisplay.spawnpoint.x": "X: %s",
+  "hud.coordinatesdisplay.spawnpoint.y": "Y: %s",
+  "hud.coordinatesdisplay.spawnpoint.z": "Z: %s",
+
   "screen.coordinatesdisplay.config": "%sの設定",
   "screen.coordinatesdisplay.confirmreset": "デフォルトにリセットを確認",
   "screen.coordinatesdisplay.render": "%sの描画設定",

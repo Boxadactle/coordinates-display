@@ -75,7 +75,7 @@
   "hud.coordinatesdisplay.hotbar.xyz": "XYZ: %s %s %s",
   "hud.coordinatesdisplay.hotbar.direction": "Facing %s",
 
-  "hud.coordinatesdisplay.spawnpoint": "Spawnpoint (Compass)",
+  "hud.coordinatesdisplay.spawnpoint": "World Spawn (Compass)",
   "hud.coordinatesdisplay.spawnpoint.player": "Player",
   "hud.coordinatesdisplay.spawnpoint.worldSpawn": "World Spawn",
   "hud.coordinatesdisplay.spawnpoint.relative": "Relative",
