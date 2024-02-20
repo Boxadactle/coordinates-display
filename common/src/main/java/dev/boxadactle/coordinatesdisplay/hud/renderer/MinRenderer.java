@@ -77,37 +77,8 @@ public class MinRenderer implements HudRenderer {
             Component ytext = createLine("y", player.getB());
             Component ztext = createLine("z", player.getC());
 
-
-        String biomestring = pos.world.getBiome(true);
-        Component biome = GuiUtils.colorize(translation(
-                "biome",
-                GuiUtils.colorize(
-                        Component.literal(biomestring),
-                        CoordinatesDisplay.CONFIG.get().biomeColors ?
-                                CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
-                                CoordinatesDisplay.CONFIG.get().dataColor
-                )
-        ), config().definitionColor);
-
-        int p = CoordinatesDisplay.CONFIG.get().padding;
-        int th = GuiUtils.getTextRenderer().lineHeight;
-        int tp = CoordinatesDisplay.CONFIG.get().textPadding;
-
-        double yaw = pos.headRot.wrapYaw();
-        double pitch = pos.headRot.wrapPitch();
-        Component direction = translation(ModUtil.getDirectionFromYaw(yaw));
-        Component pitchComponent = Component.literal(pitch > 0 ? "+" : "-");
-        Component directionComponent = Component.translatable("hud.coordinatesdisplay.min." + ModUtil.getDirectionFromYaw(yaw), direction);
-        Component yawComponent = Component.literal(yaw < 0 ? "+" : "-");
-
-
-
-        int w = calculateWidth(p, th, tp, xtext, ytext, ztext, biome);
-        int h = calculateHeight(p, th);
-
-        // rendering
-        if (config().renderBackground) {
-            RenderUtils.drawSquare(guiGraphics, x, y, w, h, CoordinatesDisplay.CONFIG.get().backgroundColor);
+            ParagraphComponent paragraph = new ParagraphComponent(1, xtext, ytext, ztext);
+            row.addComponent(paragraph);
         }
 
         // biome
