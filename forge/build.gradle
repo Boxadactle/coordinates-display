@@ -1,5 +1,6 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
+    id "me.shedaniel.unified-publishing"
 }
 architectury {
     platformSetupLoomIde()
@@ -48,6 +49,12 @@ remapJar {
 
 jar {
     archiveClassifier.set("dev")
+
+    manifest {
+        attributes([
+                "MixinConfigs": "coordinatesdisplay-common.mixins.json"
+        ])
+    }
 }
 
 sourcesJar {
@@ -73,5 +80,35 @@ publishing {
     // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
     repositories {
         // Add repositories to publish to here.
+    }
+}
+
+unifiedPublishing {
+    project {
+        displayName = "[Forge ${rootProject.minecraft_version}] v${rootProject.mod_version}"
+        version = "${rootProject.mod_version}-forge"
+        changelog = "A changelog can be found here: https://github.com/Boxadactle/coordinates-display/releases/tag/${rootProject.mod_version}"
+        releaseType = "release"
+        gameVersions = [ "1.20.3", "1.20.4" ]
+        gameLoaders = [ "forge" ]
+
+        mainPublication tasks.remapJar
+
+        var cfToken = System.getenv("CURSEFORGE_TOKEN")
+        if (cfToken != null) {
+            curseforge {
+                token = cfToken
+                id = "646464"
+            }
+        }
+
+        var modrinthToken = System.getenv("MODRINTH_TOKEN")
+        if (modrinthToken != null) {
+            modrinth {
+                token = modrinthToken
+                id = "3mW8PdUo"
+                version = "${rootProject.mod_version}-${project.name}"
+            }
+        }
     }
 }

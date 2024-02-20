@@ -17,7 +17,7 @@ public class ModConfig implements BConfig {
 
     public boolean visible = true;
     public int decimalPlaces = 0;
-    public RenderMode renderMode = RenderMode.DEFAULT;
+    public String renderMode = "default";
     public StartCorner startCorner = StartCorner.TOP_LEFT;
     public int hudX = 0;
     public int hudY = 0;
@@ -25,12 +25,15 @@ public class ModConfig implements BConfig {
     public boolean hudTextShadow = true;
 
     public boolean renderBackground = true;
+    public boolean renderXYZ = true;
     public boolean renderChunkData = true;
     public boolean renderDirection = true;
     public boolean renderDirectionInt = true;
     public boolean renderBiome = true;
     public boolean biomeColors = true;
+    public boolean dimensionColors = true;
     public boolean renderMCVersion = true;
+    public boolean renderDimension = true;
 
     public int definitionColor = 0x55FF55;
     public int dataColor = 0xFFFFFF;
@@ -47,27 +50,6 @@ public class ModConfig implements BConfig {
     public String copyPosMessage = "{x}, {y}, {z}";
     public boolean shouldRoundWhenCopying = true;
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
-
-
-
-
-    public enum RenderMode {
-        DEFAULT(DefaultRenderer.class),
-        MINIMUM(MinRenderer.class),
-        MAXIMUM(MaxRenderer.class),
-        LINE(LineRenderer.class),
-        NETHER_OVERWORLD(NetherOverworldRenderer.class);
-
-        final HudRenderer renderer;
-
-        RenderMode(Class<? extends HudRenderer> renderer) {
-            this.renderer = BoxLib.initializeClass(renderer);
-        }
-
-        public HudRenderer getRenderer() {
-            return renderer;
-        }
-    }
 
     public enum TeleportMode {
         EXECUTE(ModUtil::toExecuteCommand),

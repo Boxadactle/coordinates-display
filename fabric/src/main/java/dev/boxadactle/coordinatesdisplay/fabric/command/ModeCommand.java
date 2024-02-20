@@ -3,6 +3,7 @@ package dev.boxadactle.coordinatesdisplay.fabric.command;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource;
 
@@ -15,10 +16,10 @@ public class ModeCommand extends CoordinatesCommand {
     @Override
     public void build(LiteralArgumentBuilder<FabricClientCommandSource> builder) {
 
-        ModConfig.RenderMode[] modes =  ModConfig.RenderMode.values();
+        String[] modes = CoordinatesHuds.registeredOverlays.keySet().toArray(new String[0]);
 
-        for (ModConfig.RenderMode mode : modes) {
-            builder.then(ClientCommandManager.literal(mode.name().toLowerCase())
+        for (String mode : modes) {
+            builder.then(ClientCommandManager.literal(mode.toLowerCase())
                     .executes(c -> {
                         CoordinatesDisplay.getConfig().renderMode = mode;
                         CoordinatesDisplay.CONFIG.save();

@@ -1,9 +1,9 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.gui.BOptionScreen;
-import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
-import dev.boxadactle.boxlib.gui.widget.field.*;
-import dev.boxadactle.boxlib.gui.widget.label.*;
+import dev.boxadactle.boxlib.gui.config.BOptionScreen;
+import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
+import dev.boxadactle.boxlib.gui.config.widget.field.*;
+import dev.boxadactle.boxlib.gui.config.widget.label.*;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
@@ -79,7 +79,7 @@ public class ColorScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
-        for (int i = 0; i < (ModUtil.not(config().renderMode, ModConfig.RenderMode.MAXIMUM) ? 3 : 4); i++) {
+        for (int i = 0; i < 4; i++) {
             this.addConfigLine(new BSpacingEntry());
         }
 

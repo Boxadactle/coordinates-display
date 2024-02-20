@@ -1,5 +1,8 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
+import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
+import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
@@ -7,72 +10,82 @@ import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
+import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.compress.utils.Lists;
+import oshi.util.tuples.Triplet;
 
-import java.text.DecimalFormat;
 import java.util.List;
 
-public class MaxRenderer extends HudRenderer {
-
-    public MaxRenderer() {
-        super("hud.coordinatesdisplay.max.");
-    }
+@DisplayMode("maximum")
+public class MaxRenderer implements HudRenderer {
 
     @Override
-    protected Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
-        NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
+    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+        NumberFormatter<Double> formatter = genFormatter();
 
-        List<Component> toRender = Lists.newArrayList();
+        ParagraphComponent component = new ParagraphComponent(config().textPadding);
 
-        Vec3<Double> b = pos.position.getPlayerPos();
-        Vec2<Integer> c = pos.position.getChunkPos();
-        Vec3<Integer> d = pos.position.getBlockPos();
-        Vec3<Integer> e = pos.position.getBlockPosInChunk();
-        Component xyz = definition(translation("xyz", value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ()))));
-        Component block = definition(translation("block", value(Integer.toString(d.getX())), value(Integer.toString(d.getY())), value(Integer.toString(d.getZ())), value(Integer.toString(e.getX())), value(Integer.toString(e.getY())), value(Integer.toString(e.getZ()))));
-        Component targeted = definition(translation("block.targeted", value(pos.block.getBlockX()), value(pos.block.getBlockY()), value(pos.block.getBlockZ())));
-        Component chunk = definition(translation("chunk", value(Integer.toString(c.getX())), value(Integer.toString(pos.position.getChunkY())), value(Integer.toString(c.getY()))));
+        if (config().renderXYZ) {
+            Vec3<Double> b = pos.position.getPlayerPos();
+            Vec3<Integer> d = pos.position.getBlockPos();
+            Vec3<Integer> e = pos.position.getBlockPosInChunk();
 
-        Component g = definition(translation(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
-        Component direction = definition(translation("direction", g, value(formatter.formatDecimal(pos.headRot.wrapYaw())), value(formatter.formatDecimal(pos.headRot.wrapPitch()))));
+            Component xyz = definition(translation("xyz", value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ()))));
+            Component block = definition(translation("block", value(Integer.toString(d.getX())), value(Integer.toString(d.getY())), value(Integer.toString(d.getZ())), value(Integer.toString(e.getX())), value(Integer.toString(e.getY())), value(Integer.toString(e.getZ()))));
+            Component targeted = definition(translation("block.targeted", value(pos.block.getBlockX()), value(pos.block.getBlockY()), value(pos.block.getBlockZ())));
 
-        Component biome = definition(translation("biome", value(pos.world.getBiome(false))));
-
-        Component version = definition(translation("version", value(ClientUtils.getGameVersion())));
-
-        String h = pos.world.getDimension(true);
-        String i = pos.world.getDimension(false);
-        Component dimension = definition(translation("dimension", value(h), value(ModUtil.getNamespace(i))));
-
-
-        toRender.add(xyz);
-        toRender.add(block);
-        toRender.add(targeted);
-        if (config().renderChunkData) toRender.add(chunk);
-
-        if (config().renderDirection) toRender.add(direction);
-        if (config().renderBiome) toRender.add(biome);
-        if (config().renderMCVersion) toRender.add(version);
-        toRender.add(dimension);
-
-        int width = calculateWidth(toRender);
-        int height = calculateHeight(toRender);
-
-        if (config().renderBackground) {
-            RenderUtils.drawSquare(guiGraphics, x, y, width, height, config().backgroundColor);
+            component.add(xyz);
+            component.add(block);
+            component.add(targeted);
         }
 
-        for (int j = 0; j < toRender.size(); j++) {
-            drawInfo(guiGraphics, toRender.get(j), x + config().padding, y + config().padding + 11 * j, GuiUtils.WHITE);
+        if (config().renderChunkData) {
+            Vec2<Integer> c = pos.position.getChunkPos();
+
+            Component chunk = definition(translation("chunk", value(Integer.toString(c.getX())), value(Integer.toString(pos.position.getChunkY())), value(Integer.toString(c.getY()))));
+            component.add(chunk);
         }
 
-        return new Rect<>(x, y, width, height);
+        if (config().renderDirection) {
+            Component f = definition("direction_int", value(formatter.formatDecimal(pos.headRot.wrapYaw())), value(formatter.formatDecimal(pos.headRot.wrapPitch())));
+            Component g = definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
+            Component direction = definition(translation(
+                    "direction", g,
+                    config().renderDirectionInt ? f : Component.empty()
+            ));
 
+            component.add(direction);
+        }
+
+        if (config().renderBiome) {
+            Component biome = definition(translation("biome", value(pos.world.getBiome(false))));
+
+            component.add(biome);
+        }
+
+        if (config().renderMCVersion) {
+            Component version = definition(translation("version", value(ClientUtils.getGameVersion())));
+
+            component.add(version);
+        }
+
+        if (config().renderDimension) {
+            String h = pos.world.getDimension(true);
+            String i = pos.world.getDimension(false);
+            Component dimension = definition(translation("dimension", value(h), value(ModUtil.getNamespace(i))));
+
+            component.add(dimension);
+        }
+
+        RowLayout r = new RowLayout(0, 0, 0);
+        r.addComponent(component);
+        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, r));
     }
 
     private int calculateWidth(List<Component> texts) {
@@ -82,5 +95,4 @@ public class MaxRenderer extends HudRenderer {
     private int calculateHeight(List<Component> texts) {
         return config().padding * 2 + 11 * texts.size();
     }
-
 }

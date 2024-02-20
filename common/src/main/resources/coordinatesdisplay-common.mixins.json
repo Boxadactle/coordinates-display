@@ -5,7 +5,8 @@
   "compatibilityLevel": "JAVA_17",
   "client": [
     "DeathScreenMixin",
-    "LocalPlayerMixin"
+    "LocalPlayerMixin",
+    "OverlayMessageTimeAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

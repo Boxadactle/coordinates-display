@@ -1,15 +1,21 @@
 package dev.boxadactle.coordinatesdisplay;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
+import dev.boxadactle.boxlib.math.mathutils.Mappers;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
+import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.Minecraft;
 
 public class CoordinatesDisplay {
 
@@ -17,7 +23,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "4.0.0";
+	public static final String VERSION = "6.0.0";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -44,9 +50,21 @@ public class CoordinatesDisplay {
 	public static Hud HUD;
 
 	public static void init() {
+		LOGGER.info("Initializing " + MOD_NAME + " v" + VERSION);
 
+		LOGGER.info("Loading config file");
 		CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 
+		LOGGER.info("Registering hud renderers");
+		CoordinatesHuds.register(DefaultRenderer.class);
+		CoordinatesHuds.register(MinRenderer.class);
+		CoordinatesHuds.register(MaxRenderer.class);
+		CoordinatesHuds.register(LineRenderer.class);
+		CoordinatesHuds.register(NetherOverworldRenderer.class);
+		CoordinatesHuds.register(HotbarRenderer.class);
+		CoordinatesHuds.register(SpawnpointRenderer.class);
+
+		LOGGER.info("Initializing hud");
 		HUD = new Hud();
 	}
 
@@ -61,7 +79,7 @@ public class CoordinatesDisplay {
 		}
 
 		if (shouldCoordinatesGuiOpen) {
-			Position pos = Position.of(WorldUtils.getCamera());
+			Position pos = Position.of(WorldUtils.getPlayer());
 
 			ClientUtils.setScreen(new CoordinatesScreen(pos));
 
@@ -109,6 +127,64 @@ public class CoordinatesDisplay {
 
 		}
 
+		public static int getDimensionColor(String name, int defaultColor) {
+			return switch (name) {
+				case "Overworld" -> 0x00ff00;
+				case "Nether" -> 0xff0000;
+				case "End" -> 0x0000ff;
+				default -> {
+					if (name.contains("The ")) {
+						yield getDimensionColor(name.substring(4), defaultColor);
+					} else {
+						yield defaultColor;
+					}
+				}
+			};
+		}
+
+	}
+
+	public static class Bindings {
+		public static void visible() {
+			CONFIG.get().visible = !CONFIG.get().visible;
+			CONFIG.save();
+			LOGGER.info("Updated visible property in config file");
+		}
+
+		public static void coordinatesGui() {
+			shouldCoordinatesGuiOpen = true;
+		}
+
+		public static void copyLocation(Position pos) {
+			ClientUtils.getKeyboard().setClipboard(ModUtil.parseText(CONFIG.get().copyPosMessage, pos));
+			LOGGER.player.info("Copied to clipboard!");
+			LOGGER.info("Copied location to clipboard");
+		}
+
+		public static void sendLocation(Position pos) {
+			LOGGER.player.info(ModUtil.parseText(CONFIG.get().posChatMessage, pos));
+			LOGGER.info("Sent position as chat message");
+		}
+
+		public static void copyTeleportCommand(Position pos) {
+			ClientUtils.getKeyboard().setClipboard(getConfig().teleportMode.toCommand(pos));
+
+			LOGGER.player.info("Copied position as teleport command!");
+		}
+
+		public static void openHudPositionGui() {
+			shouldHudPositionGuiOpen = true;
+		}
+
+		public static void cycleDisplayMode() {
+			CoordinatesHuds.RegisteredRenderer renderer;
+
+			if (!InputConstants.isKeyDown(ClientUtils.getWindow(), 340)) renderer = CoordinatesHuds.nextRenderer(getConfig().renderMode);
+			else renderer = CoordinatesHuds.previousRenderer(getConfig().renderMode);
+
+			getConfig().renderMode = renderer.getId();
+			CONFIG.save();
+		}
 	}
 
 }
