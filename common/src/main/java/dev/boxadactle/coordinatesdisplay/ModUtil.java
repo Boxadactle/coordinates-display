@@ -2,11 +2,9 @@ package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.datafixers.util.Pair;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.boxlib.util.GuiUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
