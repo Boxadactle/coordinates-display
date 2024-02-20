@@ -1,5 +1,12 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
+import dev.boxadactle.boxlib.layouts.component.LeftParagraphComponent;
+import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
+import dev.boxadactle.boxlib.layouts.component.TextComponent;
+import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
+import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
+import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
@@ -10,6 +17,7 @@ import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.levelgen.Column;
 import oshi.util.tuples.Triplet;
 
 @DisplayMode(
@@ -60,58 +68,47 @@ public class MinRenderer implements HudRenderer {
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
-        Component xtext = createLine("x", player.getA());
+        RowLayout layout = new RowLayout(0, 0, config().textPadding);
 
-        Component ytext = createLine("y", player.getB());
+        ColumnLayout row = new ColumnLayout(0, 0, config().textPadding / 2);
 
-        Component ztext = createLine("z", player.getC());
+        { // xyz
+            Component xtext = createLine("x", player.getA());
+            Component ytext = createLine("y", player.getB());
+            Component ztext = createLine("z", player.getC());
 
-
-        String biomestring = pos.world.getBiome(true);
-        Component biome = definition(
-                "biome",
-                GuiUtils.colorize(
-                        Component.literal(biomestring),
-                        CoordinatesDisplay.CONFIG.get().biomeColors ?
-                                CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
-                                CoordinatesDisplay.CONFIG.get().dataColor
-                )
-        );
-
-        int p = CoordinatesDisplay.CONFIG.get().padding;
-        int th = GuiUtils.getTextRenderer().lineHeight;
-        int tp = CoordinatesDisplay.CONFIG.get().textPadding;
-
-        Component[] directionTexts = createDirectionComponents(pos.headRot.wrapYaw());
-        Component xDirection = directionTexts[0];
-        Component directionText = directionTexts[1];
-        Component zDirection = directionTexts[2];
-
-
-        int w = calculateWidth(p, tp, xtext, ytext, ztext, biome);
-        int h = calculateHeight(p, th);
-
-        // rendering
-        if (config().renderBackground) {
-            RenderUtils.drawSquare(guiGraphics, x, y, w, h, CoordinatesDisplay.CONFIG.get().backgroundColor);
+            ParagraphComponent paragraph = new ParagraphComponent(1, xtext, ytext, ztext);
+            row.addComponent(paragraph);
         }
 
-        drawInfo(guiGraphics, xtext, x + p, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-        drawInfo(guiGraphics, ytext, x + p, y + p + th, CoordinatesDisplay.CONFIG.get().definitionColor);
-        drawInfo(guiGraphics, ztext, x + p, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
-
+        // biome
         if (config().renderBiome) {
-            drawInfo(guiGraphics, biome, x + p, y + p + (th * 3), CoordinatesDisplay.CONFIG.get().definitionColor);
+            String biomestring = pos.world.getBiome(true);
+            Component biome = definition(
+                    "biome",
+                    GuiUtils.colorize(
+                            Component.literal(biomestring),
+                            CoordinatesDisplay.CONFIG.get().biomeColors ?
+                                    CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
+                                    CoordinatesDisplay.CONFIG.get().dataColor
+                    )
+            );
+
+            row.addComponent(new TextComponent(biome));
         }
+
+        layout.addComponent(new LayoutContainerComponent(row));
+
+        // direction
         if (config().renderDirection) {
-            int dstart = (x + w) - p - GuiUtils.getTextRenderer().width(directionText);
-            int ypstart = (x + w) - p - GuiUtils.getLongestLength(xDirection, zDirection);
+            Component[] directionTexts = createDirectionComponents(pos.headRot.wrapYaw());
+            Component xDirection = definition(directionTexts[0]);
+            Component directionText = value(directionTexts[1]);
+            Component zDirection = definition(directionTexts[2]);
 
-            drawInfo(guiGraphics, xDirection, ypstart, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
-            drawInfo(guiGraphics, directionText, dstart, y + p + th, CoordinatesDisplay.CONFIG.get().dataColor);
-            drawInfo(guiGraphics, zDirection, ypstart, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
+            layout.addComponent(new LeftParagraphComponent(1, xDirection, directionText, zDirection));
         }
 
-        return new Rect<>(x, y, w, h);
+        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, layout));
     }
 }

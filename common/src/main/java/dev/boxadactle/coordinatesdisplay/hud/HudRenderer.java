@@ -1,9 +1,11 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -88,6 +90,17 @@ public interface HudRenderer {
         return resolveDirection(direction, false);
     }
 
+    default Rect<Integer> renderHud(GuiGraphics guiGraphics, RenderingLayout hudRenderer) {
+        Rect<Integer> r = hudRenderer.calculateRect();
+
+        if (config().renderBackground) {
+            RenderUtils.drawSquare(guiGraphics, r, config().backgroundColor);
+        }
+
+        hudRenderer.render(guiGraphics);
+
+        return r;
+    }
 
 
     // POSITION HELPER
