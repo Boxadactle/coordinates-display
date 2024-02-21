@@ -83,6 +83,16 @@
   "hud.coordinatesdisplay.spawnpoint.y": "Y: %s",
   "hud.coordinatesdisplay.spawnpoint.z": "Z: %s",
 
+  "hud.coordinatesdisplay.direction": "Dirección",
+  "hud.coordinatesdisplay.direction.x": "X: %s",
+  "hud.coordinatesdisplay.direction.y": "Y: %s",
+  "hud.coordinatesdisplay.direction.z": "Z: %s",
+  "hud.coordinatesdisplay.direction.direction": "Mirando al %s (%s)",
+  "hud.coordinatesdisplay.direction.yaw": "Yaw: %s (%s)",
+  "hud.coordinatesdisplay.direction.pitch": "Pitch: %s (%s)",
+  "hud.coordinatesdisplay.direction.positive": "%s positivo",
+  "hud.coordinatesdisplay.direction.negative": "%s negativo",
+
   "screen.coordinatesdisplay.config": "Configuración de %s",
   "screen.coordinatesdisplay.confirmreset": "Confirme que desea restaurar la configurción por defecto",
   "screen.coordinatesdisplay.render": "Configuración de renderizado de %s",

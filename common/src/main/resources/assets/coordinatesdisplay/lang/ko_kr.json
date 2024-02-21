@@ -83,6 +83,16 @@
   "hud.coordinatesdisplay.spawnpoint.y": "Y: %s",
   "hud.coordinatesdisplay.spawnpoint.z": "Z: %s",
 
+  "hud.coordinatesdisplay.direction": "Direction",
+  "hud.coordinatesdisplay.direction.x": "X: %s",
+  "hud.coordinatesdisplay.direction.y": "Y: %s",
+  "hud.coordinatesdisplay.direction.z": "Z: %s",
+  "hud.coordinatesdisplay.direction.direction": "Facing %s (%s)",
+  "hud.coordinatesdisplay.direction.yaw": "Yaw: %s (%s)",
+  "hud.coordinatesdisplay.direction.pitch": "Pitch: %s (%s)",
+  "hud.coordinatesdisplay.direction.positive": "positive %s",
+  "hud.coordinatesdisplay.direction.negative": "negative %s",
+
   "screen.coordinatesdisplay.config": "%s 환경설정",
   "screen.coordinatesdisplay.confirmreset": "기본값으로 초기화 확인",
   "screen.coordinatesdisplay.render": "%s 의 렌더링 구성",

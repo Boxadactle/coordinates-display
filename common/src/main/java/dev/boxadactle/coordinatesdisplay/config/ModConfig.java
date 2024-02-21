@@ -44,7 +44,7 @@ public class ModConfig implements BConfig {
     public boolean showDeathPosInChat = true;
 
     public int padding = 5;
-    public int textPadding = 10;
+    public int textPadding = 5;
 
     public String posChatMessage = "{x} {y} {z}";
     public String copyPosMessage = "{x}, {y}, {z}";
