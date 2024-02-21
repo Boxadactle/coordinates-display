@@ -35,11 +35,6 @@ import oshi.util.tuples.Triplet;
 )
 public class SpawnpointRenderer implements HudRenderer {
 
-    public static ResourceLocation SOUTH = new ResourceLocation("textures/item/compass_00.png");
-    public static ResourceLocation WEST = new ResourceLocation("textures/item/compass_07.png");
-    public static ResourceLocation NORTH = new ResourceLocation("textures/item/compass_16.png");
-    public static ResourceLocation EAST = new ResourceLocation("textures/item/compass_25.png");
-    
     // unfortunately, I don't think you can access the player's
     // spawnpoint unless your mod is server-side
     private BlockPos resolveWorldSpawn() {

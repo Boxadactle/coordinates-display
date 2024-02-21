@@ -30,7 +30,7 @@ public class CoordinatesScreen extends Screen {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
-        this.renderBackground(guiGraphics, mouseX, mouseY, delta);
+        this.renderBackground(guiGraphics);
 
         Vec3<Double> player = pos.position.getPlayerPos();
 
