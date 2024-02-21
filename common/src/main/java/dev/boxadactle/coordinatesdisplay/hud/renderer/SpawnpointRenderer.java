@@ -171,7 +171,7 @@ public class SpawnpointRenderer implements HudRenderer {
     public static class CompassRenderer extends LayoutComponent<Position> {
         BlockPos spawnpoint;
 
-        int size = 32;
+        public int size = 32;
 
         public CompassRenderer(Position component, BlockPos spawnpoint) {
             super(component);
@@ -189,7 +189,7 @@ public class SpawnpointRenderer implements HudRenderer {
             return size;
         }
 
-        private double calculateRelativeDirection(Vec3<Integer> pos1, Vec3<Integer> pos2, double yaw) {
+        public double calculateRelativeDirection(Vec3<Integer> pos1, Vec3<Integer> pos2, double yaw) {
             int x = pos2.getX() - pos1.getX();
             int z = pos2.getZ() - pos1.getZ();
 
@@ -232,7 +232,6 @@ public class SpawnpointRenderer implements HudRenderer {
         public void render(GuiGraphics graphics, int x, int y) {
             double degrees = calculateRelativeDirection(component.position.getBlockPos(), new Vec3<>(spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ()), component.headRot.wrapYaw());
             ResourceLocation compassTexture = resolveCompassTexture(degrees);
-            int size = 32;
             graphics.blit(
                     compassTexture,
                     x, y,
