@@ -23,7 +23,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "6.0.0";
+	public static final String VERSION = "7.0.0";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -62,6 +62,8 @@ public class CoordinatesDisplay {
 		CoordinatesHuds.register(LineRenderer.class);
 		CoordinatesHuds.register(NetherOverworldRenderer.class);
 		CoordinatesHuds.register(HotbarRenderer.class);
+		CoordinatesHuds.register(SpawnpointRenderer.class);
+		CoordinatesHuds.register(DirectionRenderer.class);
 
 		LOGGER.info("Initializing hud");
 		HUD = new Hud();
@@ -78,7 +80,7 @@ public class CoordinatesDisplay {
 		}
 
 		if (shouldCoordinatesGuiOpen) {
-			Position pos = Position.of(WorldUtils.getCamera());
+			Position pos = Position.of(WorldUtils.getPlayer());
 
 			ClientUtils.setScreen(new CoordinatesScreen(pos));
 

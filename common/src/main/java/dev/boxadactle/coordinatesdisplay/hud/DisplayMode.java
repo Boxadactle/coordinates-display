@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface   RendererMetadata {
+public @interface DisplayMode {
     /**
      * The id for the renderer.
      * <p></p>

@@ -1,9 +1,11 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -36,7 +38,7 @@ public interface HudRenderer {
     }
 
     default String getNameKey() {
-        RendererMetadata metadata = this.getClass().getAnnotation(RendererMetadata.class);
+        DisplayMode metadata = this.getClass().getAnnotation(DisplayMode.class);
         if (metadata != null) {
             if (!metadata.translationKey().isEmpty()) {
                 return metadata.translationKey();
@@ -88,6 +90,17 @@ public interface HudRenderer {
         return resolveDirection(direction, false);
     }
 
+    default Rect<Integer> renderHud(GuiGraphics guiGraphics, RenderingLayout hudRenderer) {
+        Rect<Integer> r = hudRenderer.calculateRect();
+
+        if (config().renderBackground) {
+            RenderUtils.drawSquare(guiGraphics, r, config().backgroundColor);
+        }
+
+        hudRenderer.render(guiGraphics);
+
+        return r;
+    }
 
 
     // POSITION HELPER
@@ -107,6 +120,32 @@ public interface HudRenderer {
                     n.formatDecimal(pos.getZ())
             );
         }
+    }
+
+    default Component createLine(String defKey, String value) {
+        return definition(
+                defKey,
+                value(value)
+        );
+    }
+
+    default Component createLine(String defKey, Component value) {
+        return definition(
+                defKey,
+                value
+        );
+    }
+
+    default Triplet<Component, Component, Component> createXYZ(String x, String y, String z) {
+        return new Triplet<>(
+                createLine("x", x),
+                createLine("y", y),
+                createLine("z", z)
+        );
+    }
+
+    default Triplet<Component, Component, Component> createXYZ(int x, int y, int z) {
+        return createXYZ(Integer.toString(x), Integer.toString(y), Integer.toString(z));
     }
 
     default NumberFormatter<Double> genFormatter() {
