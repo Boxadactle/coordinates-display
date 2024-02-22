@@ -5,8 +5,6 @@ import dev.boxadactle.boxlib.layouts.component.TextComponent;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
-import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
@@ -25,16 +23,6 @@ import oshi.util.tuples.Triplet;
         hasDimension = false
 )
 public class LineRenderer implements HudRenderer {
-
-    private int calculateWidth(Component line, int p) {
-        int a = GuiUtils.getTextLength(line);
-
-        return config().renderBackground ? p * 2 + a : a;
-    }
-
-    private int calculateHeight(int th, int p) {
-        return config().renderBackground ? p * 2 + th : th;
-    }
 
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
