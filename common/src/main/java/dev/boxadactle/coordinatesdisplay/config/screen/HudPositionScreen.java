@@ -1,10 +1,11 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.gui.BOptionScreen;
+import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.mathutils.Clamps;
+import dev.boxadactle.boxlib.util.MouseUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
@@ -43,7 +44,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
         scale = CoordinatesDisplay.CONFIG.get().hudScale;
 
         pos = WorldUtils.getWorld() != null
-            ? Position.of(WorldUtils.getPlayer())
+            ? Position.of(WorldUtils.getCamera())
             : generatePositionData();
 
         CoordinatesDisplay.shouldHudRender = false;
@@ -68,7 +69,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
 
     @Override
     public void render(GuiGraphics p_96562_, int mouseX, int mouseY, float delta) {
-        this.renderBackground(p_96562_);
+        this.renderBackground(p_96562_, mouseX, mouseY, delta);
         super.render(p_96562_, mouseX, mouseY, delta);
 
         HudPositionModifier modifier = CoordinatesDisplay.getConfig().startCorner.getModifier();

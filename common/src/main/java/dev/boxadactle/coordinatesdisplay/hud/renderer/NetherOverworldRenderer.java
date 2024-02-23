@@ -1,27 +1,20 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
-import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
-import dev.boxadactle.boxlib.layouts.component.TextComponent;
-import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
-import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
-import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-import java.util.List;
 import java.util.Objects;
 
-@DisplayMode(
+@RendererMetadata(
         value = "nether_overworld",
         hasXYZ = false,
         hasChunkData = false,
@@ -36,40 +29,56 @@ public class NetherOverworldRenderer implements HudRenderer {
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         try {
-            ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
-
             Component overworld = definition(translation("overworld"));
             Component nether = definition(translation("nether"));
 
-            NumberFormatter<Double> formatter = genFormatter();
+            NumberFormatter<Double> formatter = new NumberFormatter<>(config().decimalPlaces);
 
             Component[][] coords = Objects.requireNonNull(createXYZs(Dimension.toDimension(pos.world.getDimension(false)), formatter, pos));
 
-            RowLayout coordsLayout = new RowLayout(0, 0, config().textPadding);
+            int w = calculateWidth(coords, overworld, nether);
+            int h = calculateHeight();
 
-            // overworld
-            ParagraphComponent overworldCoords = new ParagraphComponent(1);
-            overworldCoords.add(overworld);
-            overworldCoords.getComponent().addAll(List.of(coords[0]));
+            if (config().renderBackground) {
+                RenderUtils.drawSquare(guiGraphics, x, y, w, h, CoordinatesDisplay.CONFIG.get().backgroundColor);
+            }
 
-            // nether
-            ParagraphComponent netherCoords = new ParagraphComponent(1);
-            netherCoords.add(nether);
-            netherCoords.getComponent().addAll(List.of(coords[1]));
+            // overworld coords
+            {
+                int a = x + config().padding;
+                int b = y + config().padding;
 
-            // add to layout
-            coordsLayout.addComponent(overworldCoords);
-            coordsLayout.addComponent(netherCoords);
+                drawInfo(guiGraphics, overworld, a, b);
+                b += 9 + config().padding;
 
-            // dimension
+                for (Component coord : coords[0]) {
+                    drawInfo(guiGraphics, coord, a, b);
+                    b += 9;
+                }
+            }
+
+            int c;
+
+            // nether coords
+            {
+                int a = x + config().padding + Math.max(GuiUtils.getLongestLength(coords[0]), GuiUtils.getTextRenderer().width(overworld)) + config().textPadding;
+                int b = y + config().padding;
+
+                drawInfo(guiGraphics, nether, a, b);
+                b += 9 + config().padding;
+
+                for (Component coord : coords[1]) {
+                    drawInfo(guiGraphics, coord, a, b);
+                    b += 9;
+                }
+
+                c = b + config().textPadding;
+            }
+
             Component dimensionText = value(pos.world.getDimension(true));
-            TextComponent dimensionComponent = new TextComponent(dimensionText);
+            drawInfo(guiGraphics, dimensionText, x + config().padding, c);
 
-            // add both to layout
-            hud.addComponent(new LayoutContainerComponent(coordsLayout));
-            hud.addComponent(dimensionComponent);
-
-            return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, hud));
+            return new Rect<>(x, y, w, h);
         } catch (NullPointerException ignored) {
             Component error = GuiUtils.colorize(translation("error"), GuiUtils.RED);
             Component dimensionText = definition(translation(
@@ -77,12 +86,20 @@ public class NetherOverworldRenderer implements HudRenderer {
                     value(pos.world.getDimension(true))
             ));
 
-            ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
+            int w = config().padding * 2 + GuiUtils.getLongestLength(error, dimensionText);
+            int h = config().padding * 3 + GuiUtils.getTextRenderer().lineHeight * 2;
 
-            hud.addComponent(new TextComponent(error));
-            hud.addComponent(new TextComponent(dimensionText));
+            if (config().renderBackground) {
+                RenderUtils.drawSquare(guiGraphics, x, y, w, h, CoordinatesDisplay.CONFIG.get().backgroundColor);
+            }
 
-            return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, hud));
+            int a = x + config().padding;
+            int b = y + config().padding;
+
+            drawInfo(guiGraphics, error, a, b);
+            drawInfo(guiGraphics, dimensionText, a, b + 9 + config().padding);
+
+            return new Rect<>(x, y, w, h);
         }
     }
 
@@ -97,7 +114,7 @@ public class NetherOverworldRenderer implements HudRenderer {
         return config().padding * 2 + GuiUtils.getTextRenderer().lineHeight * 3 + config().textPadding + 9 * 2 + config().padding;
     }
 
-    private Component[] createXYZComponents(String x, String y, String z) {
+    private Component[] createXYZ(String x, String y, String z) {
         return new Component[] {
                 definition(translation("x", value(x))),
                 definition(translation("y", value(y))),
@@ -110,12 +127,12 @@ public class NetherOverworldRenderer implements HudRenderer {
 
         if (Objects.requireNonNull(type) == Dimension.OVERWORLD) {
             return new Component[][] {
-                createXYZComponents(
+                createXYZ(
                         player.getA(),
                         player.getB(),
                         player.getC()
                 ),
-                createXYZComponents(
+                createXYZ(
                         d.formatDecimal(pos.position.getPlayerPos().getX() / 8),
                         "-",
                         d.formatDecimal(pos.position.getPlayerPos().getZ() / 8)
@@ -123,12 +140,12 @@ public class NetherOverworldRenderer implements HudRenderer {
             };
         } else if (Objects.requireNonNull(type) == Dimension.NETHER) {
             return new Component[][] {
-                    createXYZComponents(
+                    createXYZ(
                             d.formatDecimal(pos.position.getPlayerPos().getX() * 8),
                             "-",
                             d.formatDecimal(pos.position.getPlayerPos().getZ() * 8)
                     ),
-                    createXYZComponents(
+                    createXYZ(
                             player.getA(),
                             player.getB(),
                             player.getC()

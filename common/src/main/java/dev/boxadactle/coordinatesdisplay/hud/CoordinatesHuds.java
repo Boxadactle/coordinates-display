@@ -83,12 +83,12 @@ public class CoordinatesHuds {
 
     public static class RegisteredRenderer {
         HudRenderer renderer;
-        DisplayMode metadata;
+        RendererMetadata metadata;
 
         public RegisteredRenderer(Class<? extends HudRenderer> renderer) {
             this.renderer = BoxLib.initializeClass(renderer);
 
-            DisplayMode m = renderer.getAnnotation(DisplayMode.class);
+            RendererMetadata m = renderer.getAnnotation(RendererMetadata.class);
             if (m != null) {
                 metadata = m;
             } else {
@@ -100,7 +100,7 @@ public class CoordinatesHuds {
             return renderer;
         }
 
-        public DisplayMode getMetadata() {
+        public RendererMetadata getMetadata() {
             return metadata;
         }
 

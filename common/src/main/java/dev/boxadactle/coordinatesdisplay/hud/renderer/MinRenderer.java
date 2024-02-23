@@ -1,26 +1,18 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
-import dev.boxadactle.boxlib.layouts.component.LeftParagraphComponent;
-import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
-import dev.boxadactle.boxlib.layouts.component.TextComponent;
-import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
-import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
-import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.levelgen.Column;
 import oshi.util.tuples.Triplet;
 
-@DisplayMode(
+@RendererMetadata(
         value = "minimum",
         hasXYZ = false,
         hasChunkData = false,
@@ -41,74 +33,72 @@ public class MinRenderer implements HudRenderer {
         return p + (th * 3) + (config().renderBiome ? th : 0) + p;
     }
 
-    private Component[] createDirectionComponents(double yaw) {
-        // compiled using the debug screen
-        String[][] directions = {
-                // X   Z
-                { " ", "+" },
-                { "-", "+" },
-                { "-", " " },
-                { "-", "-" },
-                { " ", "-" },
-                { "+", "-" },
-                { "+", " " },
-                { "+", "+" }
-        };
-
-        String[] direction = directions[(int) Math.round(yaw / 45.0F) & 7];
-
-        return new Component[] {
-                Component.literal(direction[0]),
-                resolveDirection(ModUtil.getDirectionFromYaw(yaw), true),
-                Component.literal(direction[1])
-        };
-    }
-
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
-        RowLayout layout = new RowLayout(0, 0, config().textPadding);
+        Component xtext = definition(
+                "x",
+                value(player.getA())
+        );
 
-        ColumnLayout row = new ColumnLayout(0, 0, config().textPadding / 2);
+        Component ytext = definition(
+                "y",
+                value(player.getB())
+        );
 
-        { // xyz
-            Component xtext = createLine("x", player.getA());
-            Component ytext = createLine("y", player.getB());
-            Component ztext = createLine("z", player.getC());
+        Component ztext = definition(
+                "z",
+                value(player.getC())
+        );
 
-            ParagraphComponent paragraph = new ParagraphComponent(1, xtext, ytext, ztext);
-            row.addComponent(paragraph);
+
+        String biomestring = pos.world.getBiome(true);
+        Component biome = definition(
+                "biome",
+                GuiUtils.colorize(
+                        Component.literal(biomestring),
+                        CoordinatesDisplay.CONFIG.get().biomeColors ?
+                                CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
+                                CoordinatesDisplay.CONFIG.get().dataColor
+                )
+        );
+
+        int p = CoordinatesDisplay.CONFIG.get().padding;
+        int th = GuiUtils.getTextRenderer().lineHeight;
+        int tp = CoordinatesDisplay.CONFIG.get().textPadding;
+
+        double yaw = pos.headRot.wrapYaw();
+        double pitch = pos.headRot.wrapPitch();
+        Component directionComponent = resolveDirection(ModUtil.getDirectionFromYaw(yaw), true);
+        Component pitchComponent = Component.literal(pitch > 0 ? "+" : "-");
+        Component yawComponent = Component.literal(yaw > 0 ? "+" : "-");
+
+
+        int w = calculateWidth(p, tp, xtext, ytext, ztext, biome);
+        int h = calculateHeight(p, th);
+
+        // rendering
+        if (config().renderBackground) {
+            RenderUtils.drawSquare(guiGraphics, x, y, w, h, CoordinatesDisplay.CONFIG.get().backgroundColor);
         }
 
-        // biome
+        drawInfo(guiGraphics, xtext, x + p, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(guiGraphics, ytext, x + p, y + p + th, CoordinatesDisplay.CONFIG.get().definitionColor);
+        drawInfo(guiGraphics, ztext, x + p, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
+
         if (config().renderBiome) {
-            String biomestring = pos.world.getBiome(true);
-            Component biome = definition(
-                    "biome",
-                    GuiUtils.colorize(
-                            Component.literal(biomestring),
-                            CoordinatesDisplay.CONFIG.get().biomeColors ?
-                                    CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
-                                    CoordinatesDisplay.CONFIG.get().dataColor
-                    )
-            );
-
-            row.addComponent(new TextComponent(biome));
+            drawInfo(guiGraphics, biome, x + p, y + p + (th * 3), CoordinatesDisplay.CONFIG.get().definitionColor);
         }
-
-        layout.addComponent(new LayoutContainerComponent(row));
-
-        // direction
         if (config().renderDirection) {
-            Component[] directionTexts = createDirectionComponents(pos.headRot.wrapYaw());
-            Component xDirection = definition(directionTexts[0]);
-            Component directionText = value(directionTexts[1]);
-            Component zDirection = definition(directionTexts[2]);
+            int dstart = (x + w) - p - GuiUtils.getTextRenderer().width(directionComponent);
+            int ypstart = (x + w) - p - GuiUtils.getTextRenderer().width(yawComponent);
 
-            layout.addComponent(new LeftParagraphComponent(1, xDirection, directionText, zDirection));
+            drawInfo(guiGraphics, pitchComponent, ypstart, y + p, CoordinatesDisplay.CONFIG.get().definitionColor);
+            drawInfo(guiGraphics, directionComponent, dstart, y + p + th, CoordinatesDisplay.CONFIG.get().dataColor);
+            drawInfo(guiGraphics, yawComponent, ypstart, y + p + (th * 2), CoordinatesDisplay.CONFIG.get().definitionColor);
         }
 
-        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, layout));
+        return new Rect<>(x, y, w, h);
     }
 }

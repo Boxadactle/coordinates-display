@@ -14,7 +14,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 
 public class CoordinatesDisplayFabric implements ClientModInitializer {
 
@@ -32,9 +31,9 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
     }
 
     private void checkBindings(Minecraft client) {
-        Player player = WorldUtils.getPlayer();
-        if (player != null) {
-            Keybinds.checkBindings(Position.of(player));
+        Entity camera = WorldUtils.getCamera();
+        if (camera != null) {
+            Keybinds.checkBindings(Position.of(camera));
         }
     }
 
@@ -42,7 +41,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
         if (
                 !ClientUtils.getOptions().hideGui
                         && CoordinatesDisplay.CONFIG.get().visible
-                        && !ClientUtils.getClient().options.renderDebug
+                        && !ClientUtils.getClient().getDebugOverlay().showDebugScreen()
                         && CoordinatesDisplay.shouldHudRender
         ) {
             try {
@@ -52,7 +51,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
 
                 CoordinatesDisplay.HUD.render(
                         guiGraphics,
-                        Position.of(WorldUtils.getPlayer()),
+                        Position.of(WorldUtils.getCamera()),
                         config.hudX,
                         config.hudY,
                         config.renderMode,

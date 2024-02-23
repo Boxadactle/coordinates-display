@@ -38,7 +38,7 @@ public class PositionCommand extends CoordinatesCommand {
 
     private int sendPosInChat(CommandContext<CommandSourceStack> context) {
 
-        Position pos = Position.of(WorldUtils.getPlayer());
+        Position pos = Position.of(WorldUtils.getCamera());
 
         CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage, pos));
         CoordinatesDisplay.LOGGER.info("Sent position as chat message");
@@ -48,7 +48,7 @@ public class PositionCommand extends CoordinatesCommand {
 
     private int copyPos(CommandContext<CommandSourceStack> context) {
 
-        Position pos = Position.of(WorldUtils.getPlayer());
+        Position pos = Position.of(WorldUtils.getCamera());
 
         Minecraft.getInstance().keyboardHandler.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage, pos));
         CoordinatesDisplay.LOGGER.player.info(super.translatable("command.coordinatesdisplay.position.copy"));
@@ -59,8 +59,9 @@ public class PositionCommand extends CoordinatesCommand {
     }
 
     private int copyPosTp(CommandContext<CommandSourceStack> context) {
+
         try {
-            Position pos = Position.of(WorldUtils.getPlayer());
+            Position pos = Position.of(WorldUtils.getCamera());
 
             Minecraft.getInstance().keyboardHandler.setClipboard(CoordinatesDisplay.getConfig().teleportMode.toCommand(pos));
 
