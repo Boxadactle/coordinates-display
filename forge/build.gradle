@@ -89,7 +89,7 @@ unifiedPublishing {
         version = "${rootProject.mod_version}-forge"
         changelog = "A changelog can be found here: https://github.com/Boxadactle/coordinates-display/releases/tag/${rootProject.mod_version}"
         releaseType = "release"
-        gameVersions = [ "1.20.2" ]
+        gameVersions = [ "1.20", "1.20" ]
         gameLoaders = [ "forge" ]
 
         mainPublication tasks.remapJar
