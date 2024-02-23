@@ -1,10 +1,10 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.gui.BOptionScreen;
-import dev.boxadactle.boxlib.gui.widget.button.BBooleanButton;
-import dev.boxadactle.boxlib.gui.widget.button.BEnumButton;
-import dev.boxadactle.boxlib.gui.widget.field.BStringField;
-import dev.boxadactle.boxlib.gui.widget.label.BLabel;
+import dev.boxadactle.boxlib.gui.config.BOptionScreen;
+import dev.boxadactle.boxlib.gui.config.widget.button.BBooleanButton;
+import dev.boxadactle.boxlib.gui.config.widget.button.BEnumButton;
+import dev.boxadactle.boxlib.gui.config.widget.field.BStringField;
+import dev.boxadactle.boxlib.gui.config.widget.label.BLabel;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;

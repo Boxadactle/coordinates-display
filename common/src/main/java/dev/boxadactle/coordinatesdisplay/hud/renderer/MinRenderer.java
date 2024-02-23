@@ -30,6 +30,17 @@ import oshi.util.tuples.Triplet;
 )
 public class MinRenderer implements HudRenderer {
 
+    private int calculateWidth(int p, int dpadding, Component xtext, Component ytext, Component ztext, Component biome) {
+        int a = GuiUtils.getLongestLength(xtext, ytext, ztext, (config().renderBiome ? biome : Component.empty()));
+        int b = GuiUtils.getTextRenderer().width("NW");
+
+        return p + a + (config().renderDirection ? dpadding + b : 0) + p;
+    }
+
+    private int calculateHeight(int p, int th) {
+        return p + (th * 3) + (config().renderBiome ? th : 0) + p;
+    }
+
     private Component[] createDirectionComponents(double yaw) {
         // compiled using the debug screen
         String[][] directions = {

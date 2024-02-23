@@ -49,7 +49,7 @@ public class HotbarRenderer implements HudRenderer {
         );
 
         Component all = translation("all", xyz, direction, biome);
-        int i = GuiUtils.getTextSize(all);
+        int i = GuiUtils.getTextLength(all);
 
         Rect<Integer> r;
 
