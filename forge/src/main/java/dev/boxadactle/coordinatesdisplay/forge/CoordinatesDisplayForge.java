@@ -10,6 +10,7 @@ import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
@@ -38,9 +39,9 @@ public class CoordinatesDisplayForge {
     public static class ClientForgeEvents {
         @SubscribeEvent
         public static void keyInput(InputEvent.Key e) {
-            Entity camera = WorldUtils.getCamera();
-            if (camera != null) {
-                Keybinds.checkBindings(Position.of(camera));
+            Player player = WorldUtils.getPlayer();
+            if (player != null) {
+                Keybinds.checkBindings(Position.of(player));
             }
         }
 
@@ -59,7 +60,7 @@ public class CoordinatesDisplayForge {
 
                     CoordinatesDisplay.HUD.render(
                             e.getGuiGraphics(),
-                            Position.of(WorldUtils.getCamera()),
+                            Position.of(WorldUtils.getPlayer()),
                             config.hudX,
                             config.hudY,
                             config.renderMode,

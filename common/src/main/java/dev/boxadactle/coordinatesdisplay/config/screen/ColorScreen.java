@@ -1,12 +1,11 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import dev.boxadactle.boxlib.gui.config.BOptionScreen;
-import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
-import dev.boxadactle.boxlib.gui.config.widget.field.*;
-import dev.boxadactle.boxlib.gui.config.widget.label.*;
+import dev.boxadactle.boxlib.gui.BOptionScreen;
+import dev.boxadactle.boxlib.gui.widget.BSpacingEntry;
+import dev.boxadactle.boxlib.gui.widget.field.*;
+import dev.boxadactle.boxlib.gui.widget.label.*;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.screens.Screen;

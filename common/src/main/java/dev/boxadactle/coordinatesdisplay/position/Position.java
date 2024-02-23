@@ -3,6 +3,7 @@ package dev.boxadactle.coordinatesdisplay.position;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
 
 public class Position {
@@ -12,13 +13,13 @@ public class Position {
     public PlayerWorldData world;
     public PlayerTargetBlock block;
 
-    public static Position of(Entity camera) {
-        Vec3<Double> a = new Vec3<>(camera.getX(), camera.getY(), camera.getZ());
+    public static Position of(Player player) {
+        Vec3<Double> a = new Vec3<>(player.getX(), player.getY(), player.getZ());
 
         return new Position(
-                a, camera.chunkPosition(), camera.blockPosition(),
-                camera.getYHeadRot(), camera.getXRot(),
-                new PlayerTargetBlock(camera)
+                a, player.chunkPosition(), player.blockPosition(),
+                player.getYHeadRot(), player.getXRot(),
+                new PlayerTargetBlock(player)
         );
     }
 

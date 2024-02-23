@@ -6,14 +6,14 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.RendererMetadata;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@RendererMetadata(
+@DisplayMode(
         value = "hotbar",
         ignoreTranslations = true,
         allowMove = false,
@@ -49,7 +49,7 @@ public class HotbarRenderer implements HudRenderer {
         );
 
         Component all = translation("all", xyz, direction, biome);
-        int i = GuiUtils.getTextLength(all);
+        int i = GuiUtils.getTextSize(all);
 
         Rect<Integer> r;
 
