@@ -23,7 +23,7 @@ public class CoordinatesScreen extends Screen {
     int p = 5;
 
     public CoordinatesScreen(Position pos) {
-        super(Component.literal("Coordinates Screen"));
+        super(Component.literal("Coordinates GUI"));
 
         this.pos = pos;
     }
