@@ -1,15 +1,9 @@
-package dev.boxadactle.coordinatesdisplay.forge.init;
+package dev.boxadactle.coordinatesdisplay.neoforge.init;
 
-import com.mojang.blaze3d.platform.InputConstants;
-import dev.boxadactle.boxlib.math.mathutils.Mappers;
-import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.Minecraft;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import org.lwjgl.glfw.GLFW;
 
 public class Keybinds {

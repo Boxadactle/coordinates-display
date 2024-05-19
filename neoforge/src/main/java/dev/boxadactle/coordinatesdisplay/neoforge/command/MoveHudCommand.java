@@ -1,4 +1,4 @@
-package dev.boxadactle.coordinatesdisplay.forge.command;
+package dev.boxadactle.coordinatesdisplay.neoforge.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;

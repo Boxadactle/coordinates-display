@@ -1,29 +1,31 @@
-package dev.boxadactle.coordinatesdisplay.forge.command;
+package dev.boxadactle.coordinatesdisplay.neoforge.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
-public class CornerCommand extends CoordinatesCommand {
+public class ModeCommand extends CoordinatesCommand {
     @Override
     public String getName() {
-        return "corner";
+        return "mode";
     }
 
     @Override
     public void build(LiteralArgumentBuilder<CommandSourceStack> builder) {
-        ModConfig.StartCorner[] corners =  ModConfig.StartCorner.values();
 
-        for (ModConfig.StartCorner corner : corners) {
-            builder.then(Commands.literal(corner.name().toLowerCase())
+        String[] modes = CoordinatesHuds.registeredOverlays.keySet().toArray(new String[0]);
+
+        for (String mode : modes) {
+            builder.then(Commands.literal(mode.toLowerCase())
                     .executes(c -> {
-                        CoordinatesDisplay.getConfig().startCorner = corner;
+                        CoordinatesDisplay.getConfig().renderMode = mode;
                         CoordinatesDisplay.CONFIG.save();
                         return 0;
                     })
             );
         }
+
     }
 }

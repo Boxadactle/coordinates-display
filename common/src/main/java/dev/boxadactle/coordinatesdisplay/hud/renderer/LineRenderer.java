@@ -26,16 +26,6 @@ import oshi.util.tuples.Triplet;
 )
 public class LineRenderer implements HudRenderer {
 
-    private int calculateWidth(Component line, int p) {
-        int a = GuiUtils.getTextLength(line);
-
-        return config().renderBackground ? p * 2 + a : a;
-    }
-
-    private int calculateHeight(int th, int p) {
-        return config().renderBackground ? p * 2 + th : th;
-    }
-
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
@@ -65,13 +55,5 @@ public class LineRenderer implements HudRenderer {
         PaddingLayout hud = new PaddingLayout(x, y, p, layout);
 
         return renderHud(guiGraphics, hud);
-    }
-
-    private Component next(Component t1, Component t2) {
-        return t1.copy().append(t2);
-    }
-
-    private Component addTrailingSpace(Component input) {
-        return input.copy().append(" ");
     }
 }

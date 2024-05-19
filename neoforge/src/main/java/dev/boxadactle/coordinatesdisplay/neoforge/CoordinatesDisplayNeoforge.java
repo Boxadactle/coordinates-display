@@ -1,52 +1,52 @@
-package dev.boxadactle.coordinatesdisplay.forge;
+package dev.boxadactle.coordinatesdisplay.neoforge;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.forge.init.Commands;
-import dev.boxadactle.coordinatesdisplay.forge.init.Keybinds;
-import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.neoforge.init.Commands;
+import dev.boxadactle.coordinatesdisplay.neoforge.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RenderGuiEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-
-import static net.minecraftforge.client.ConfigScreenHandler.*;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.EventPriority;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
+import net.neoforged.neoforge.client.event.RenderGuiEvent;
+import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 @Mod(CoordinatesDisplay.MOD_ID)
-public class CoordinatesDisplayForge {
+public class CoordinatesDisplayNeoforge {
 
-    public CoordinatesDisplayForge() {
+    public CoordinatesDisplayNeoforge() {
         CoordinatesDisplay.init();
 
         Commands.register();
 
-        // what a pain
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenFactory.class, () ->
-                new ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen)));
+        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () ->
+                (minecraft, screen) -> new ConfigScreen(screen)
+        );
     }
 
-    @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT)
-    public static class ClientForgeEvents {
+    @EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT)
+    public static class ClientNeoforgeEvents {
+
         @SubscribeEvent
         public static void keyInput(InputEvent.Key e) {
             Player player = WorldUtils.getPlayer();
             if (player != null) {
-                Keybinds.checkBindings(Position.of(player));
+                 Keybinds.checkBindings(Position.of(player));
             }
         }
 
         @SubscribeEvent(priority = EventPriority.LOW)
-        public static void renderHud(RenderGuiEvent.Pre e) {
+        public static void renderHud(RenderGuiEvent.Post e) {
             if (
                     !ClientUtils.getOptions().hideGui
                             && CoordinatesDisplay.CONFIG.get().visible
@@ -72,16 +72,16 @@ public class CoordinatesDisplayForge {
                     CoordinatesDisplay.LOGGER.printStackTrace(exception);
                 }
             }
-
         }
 
     }
 
-    @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
         public static void registerKeys(RegisterKeyMappingsEvent e) {
-            Keybinds.register(e);
+             Keybinds.register(e);
         }
     }
+
 }

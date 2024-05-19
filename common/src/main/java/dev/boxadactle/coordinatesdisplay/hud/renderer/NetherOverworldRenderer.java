@@ -86,17 +86,6 @@ public class NetherOverworldRenderer implements HudRenderer {
         }
     }
 
-    private int calculateWidth(Component[][] coords, Component overworld, Component nether) {
-        int olength = Math.max(GuiUtils.getLongestLength(coords[0]), GuiUtils.getTextRenderer().width(overworld));
-        int nlength = Math.max(GuiUtils.getLongestLength(coords[1]), GuiUtils.getTextRenderer().width(nether));
-
-        return config().padding * 2 + olength + nlength + config().textPadding;
-    }
-
-    private int calculateHeight() {
-        return config().padding * 2 + GuiUtils.getTextRenderer().lineHeight * 3 + config().textPadding + 9 * 2 + config().padding;
-    }
-
     private Component[] createXYZComponents(String x, String y, String z) {
         return new Component[] {
                 definition(translation("x", value(x))),

@@ -42,7 +42,7 @@ public class SpawnpointRenderer implements HudRenderer {
     
     // unfortunately, I don't think you can access the player's
     // spawnpoint unless your mod is server-side
-    private BlockPos resolveWorldSpawn() {
+    public BlockPos resolveWorldSpawn() {
         try {
             return WorldUtils.getWorld().getSharedSpawnPos();
         } catch (Exception e) {
@@ -68,32 +68,6 @@ public class SpawnpointRenderer implements HudRenderer {
         );
 
         return new Tuple<>(relativeVec, relativeBlock);
-    }
-    
-    private int calculateWidth(
-            Component playerLabel,
-            Triplet<Component, Component, Component> player,
-            Component spawnpointLabel,
-            Triplet<Component, Component, Component> spawnpointXYZ
-    ) {
-        int p = CoordinatesDisplay.getConfig().padding;
-        int tp = CoordinatesDisplay.getConfig().textPadding;
-        
-        int pWidth = GuiUtils.getLongestLength(playerLabel, player.getA(), player.getB(), player.getC());
-        int sWidth = GuiUtils.getLongestLength(spawnpointLabel, spawnpointXYZ.getA(), spawnpointXYZ.getB(), spawnpointXYZ.getC());
-        
-        return (p * 2) + pWidth + tp + sWidth;
-    }
-    
-    private int calculateHeight() {
-        int p = CoordinatesDisplay.getConfig().padding;
-        int tp = CoordinatesDisplay.getConfig().textPadding;
-        
-        // we have 4 components (x, y, z, label)
-        int pHeight = GuiUtils.getTextHeight() * 4;
-        int rHeight = GuiUtils.getTextHeight() * 4;
-        
-        return (p * 2) + pHeight + tp + rHeight;
     }
 
     @Override

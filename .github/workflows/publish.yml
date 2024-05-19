@@ -37,11 +37,11 @@ jobs:
         name: fabric-build
         path: fabric/build/libs
         
-    - name: Upload forge
+    - name: Upload neoforge
       uses: actions/upload-artifact@v3
       with:
-        name: forge-build
-        path: forge/build/libs
+        name: neoforge-build
+        path: neoforge/build/libs
 
     - name: Publish
       run: ./gradlew publishUnified
