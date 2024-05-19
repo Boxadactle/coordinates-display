@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft;
 import org.lwjgl.glfw.GLFW;
 
 public class Keybinds {
-    public static KeyMapping visibleKeybind = new KeyMapping("key.coordinatesdisplay.visible", GLFW.GLFW_KEY_O, "category.coordinatesdisplay");
     public static KeyMapping coordinatesGUIKeybind = new KeyMapping("key.coordinatesdisplay.coordinatesgui", GLFW.GLFW_KEY_C, "category.coordinatesdisplay");
 
     public static KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", GLFW.GLFW_KEY_B, "category.coordinatesdisplay");
@@ -24,7 +23,6 @@ public class Keybinds {
     public static KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", GLFW.GLFW_KEY_M, "category.coordinatesdisplay");
 
     public static void register() {
-        KeyBindingHelper.registerKeyBinding(visibleKeybind);
         KeyBindingHelper.registerKeyBinding(coordinatesGUIKeybind);
 
         KeyBindingHelper.registerKeyBinding(copyLocation);
@@ -36,8 +34,6 @@ public class Keybinds {
     }
 
     public static void checkBindings(Position pos) {
-        if (visibleKeybind.consumeClick()) CoordinatesDisplay.Bindings.visible();
-
         if (coordinatesGUIKeybind.consumeClick()) CoordinatesDisplay.Bindings.coordinatesGui();
 
         if (copyLocation.consumeClick()) CoordinatesDisplay.Bindings.copyLocation(pos);

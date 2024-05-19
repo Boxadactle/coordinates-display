@@ -12,6 +12,8 @@ public class CoordinatesHuds {
 
     public static final HashMap<String, RegisteredRenderer> registeredOverlays = new HashMap<>();
 
+    public static final HashMap<String, RegisteredVisibilityFilter> registeredVisibilityFilters = new HashMap<>();
+
     public static RegisteredRenderer register(Class<? extends HudRenderer> renderer) {
         RegisteredRenderer overlay = new RegisteredRenderer(renderer);
 
@@ -24,11 +26,30 @@ public class CoordinatesHuds {
         return overlay;
     }
 
+    public static RegisteredVisibilityFilter registerVisibilityFilter(Class<? extends HudVisibilityFilter> filter) {
+        RegisteredVisibilityFilter visibilityFilter = new RegisteredVisibilityFilter(filter);
+
+        if (registeredVisibilityFilters.containsKey(visibilityFilter.getId())) {
+            throw new IllegalStateException("Attempting to register visibility filter with duplicate id: " + visibilityFilter.getId());
+        }
+
+        registeredVisibilityFilters.put(visibilityFilter.getId(), visibilityFilter);
+        CoordinatesDisplay.LOGGER.info("Registered visibility filter: " + visibilityFilter.getId());
+        return visibilityFilter;
+    }
+
     public static RegisteredRenderer getRenderer(String id) {
         String idLower = id.toLowerCase(Locale.ROOT);
         RegisteredRenderer r = registeredOverlays.get(idLower);
         if (r != null) return r;
         throw new UnknownRendererException(idLower);
+    }
+
+    public static RegisteredVisibilityFilter getVisibilityFilter(String id) {
+        String idLower = id.toLowerCase(Locale.ROOT);
+        RegisteredVisibilityFilter r = registeredVisibilityFilters.get(idLower);
+        if (r != null) return r;
+        throw new UnknownVisibilityFilterException(idLower);
     }
 
     public static RegisteredRenderer nextRenderer(String value) {
@@ -56,6 +77,31 @@ public class CoordinatesHuds {
         }
     }
 
+    public static RegisteredVisibilityFilter nextVisibilityFilter(String value) {
+        if (registeredVisibilityFilters.isEmpty()) {
+            throw new IllegalStateException("Attempting to get next visibility filter when there are no registered visibility filters!");
+        }
+
+        RegisteredVisibilityFilter filter = getVisibilityFilter(value);
+        if (filter == null) {
+            return registeredVisibilityFilters.values().iterator().next();
+        }
+
+        int index = 0;
+        for (RegisteredVisibilityFilter r : registeredVisibilityFilters.values()) {
+            if (r == filter) {
+                break;
+            }
+            index++;
+        }
+
+        if (index == registeredVisibilityFilters.size() - 1) {
+            return registeredVisibilityFilters.values().iterator().next();
+        } else {
+            return registeredVisibilityFilters.values().toArray(new RegisteredVisibilityFilter[0])[index + 1];
+        }
+    }
+
     public static RegisteredRenderer previousRenderer(String value) {
         if (registeredOverlays.isEmpty()) {
             throw new IllegalStateException("Attempting to get previous renderer when there are no registered renderers!");
@@ -78,6 +124,31 @@ public class CoordinatesHuds {
             return registeredOverlays.values().toArray(new RegisteredRenderer[0])[registeredOverlays.size() - 1];
         } else {
             return registeredOverlays.values().toArray(new RegisteredRenderer[0])[index - 1];
+        }
+    }
+
+    public static RegisteredVisibilityFilter previousVisibilityFilter(String value) {
+        if (registeredVisibilityFilters.isEmpty()) {
+            throw new IllegalStateException("Attempting to get previous visibility filter when there are no registered visibility filters!");
+        }
+
+        RegisteredVisibilityFilter filter = getVisibilityFilter(value);
+        if (filter == null) {
+            return registeredVisibilityFilters.values().iterator().next();
+        }
+
+        int index = 0;
+        for (RegisteredVisibilityFilter r : registeredVisibilityFilters.values()) {
+            if (r == filter) {
+                break;
+            }
+            index++;
+        }
+
+        if (index == 0) {
+            return registeredVisibilityFilters.values().toArray(new RegisteredVisibilityFilter[0])[registeredVisibilityFilters.size() - 1];
+        } else {
+            return registeredVisibilityFilters.values().toArray(new RegisteredVisibilityFilter[0])[index - 1];
         }
     }
 
@@ -115,6 +186,43 @@ public class CoordinatesHuds {
         public String getId() {
             return metadata.value();
         }
+    }
+
+    public static class RegisteredVisibilityFilter {
+        HudVisibilityFilter filter;
+        HudVisibility metadata;
+
+        public RegisteredVisibilityFilter(Class<? extends HudVisibilityFilter> filter) {
+            this.filter = BoxLib.initializeClass(filter);
+
+            HudVisibility m = filter.getAnnotation(HudVisibility.class);
+            if (m != null) {
+                metadata = m;
+            } else {
+                throw new IllegalStateException("Attempting to register Hud visibility filter without Hud.VisibilityFilter annotation!");
+            }
+        }
+
+        public HudVisibilityFilter getFilter() {
+            return filter;
+        }
+
+        public HudVisibility getMetadata() {
+            return metadata;
+        }
+
+        public Component getComponent() {
+            return Component.translatable(filter.getNameKey());
+        }
+
+        public String getName() {
+            return GuiUtils.getTranslatable(filter.getTranslationKey());
+        }
+
+        public String getId() {
+            return metadata.value();
+        }
+
     }
 
 }

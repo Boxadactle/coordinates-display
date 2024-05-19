@@ -31,7 +31,7 @@ public class HelpCommand extends CoordinatesCommand {
                 Component.translatable("command.coordinatesdisplay.mode"),
                 Component.translatable("command.coordinatesdisplay.movehud"),
                 Component.translatable("command.coordinatesdisplay.position"),
-                Component.translatable("command.coordinatesdisplay.toggle")
+                Component.translatable("command.coordinatesdisplay.visibility")
         );
 
         components.forEach(c -> {

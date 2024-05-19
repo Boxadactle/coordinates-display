@@ -13,7 +13,7 @@ public class Commands {
             list.add(ModeCommand::new);
             list.add(MoveHudCommand::new);
             list.add(PositionCommand::new);
-            list.add(ToggleCommand::new);
+            list.add(VisibilityFilterCommand::new);
         });
     }
 }

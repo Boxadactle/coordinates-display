@@ -36,6 +36,19 @@ public class Hud {
         return scaleButton.containsPoint(new Vec2<>(Math.round(mouseX / scale), Math.round(mouseY / scale)));
     }
 
+    public boolean shouldRender(String visibilityFilter) {
+        CoordinatesHuds.RegisteredVisibilityFilter filter = CoordinatesHuds.getVisibilityFilter(visibilityFilter);
+        boolean bl = true;
+
+        // have you ever seen anyone use this operand
+        bl &= !ClientUtils.getOptions().hideGui;
+        bl &= !ClientUtils.getClient().getDebugOverlay().showDebugScreen();
+        bl &= CoordinatesDisplay.shouldHudRender;
+        bl &= filter.getFilter().isVisible();
+
+        return bl;
+    }
+
     public void render(GuiGraphics guiGraphics, Position pos, int x, int y, String renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay) {
         try {
             CoordinatesHuds.RegisteredRenderer overlay = CoordinatesHuds.getRenderer(renderMode);

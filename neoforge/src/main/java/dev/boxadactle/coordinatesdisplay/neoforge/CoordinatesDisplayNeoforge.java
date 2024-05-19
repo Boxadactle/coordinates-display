@@ -47,12 +47,7 @@ public class CoordinatesDisplayNeoforge {
 
         @SubscribeEvent(priority = EventPriority.LOW)
         public static void renderHud(RenderGuiEvent.Post e) {
-            if (
-                    !ClientUtils.getOptions().hideGui
-                            && CoordinatesDisplay.CONFIG.get().visible
-                            && !ClientUtils.getClient().getDebugOverlay().showDebugScreen()
-                            && CoordinatesDisplay.shouldHudRender
-            ) {
+            if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
                 try {
                     RenderSystem.enableBlend();
 

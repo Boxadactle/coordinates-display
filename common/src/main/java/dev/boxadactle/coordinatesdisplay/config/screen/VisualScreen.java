@@ -48,11 +48,11 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     protected void initConfigButtons() {
 
         // visible
-        this.addConfigLine(new BBooleanButton(
-                "button.coordinatesdisplay.visible",
-                config().visible,
-                newVal -> config().visible = newVal
-        ));
+        addConfigLine(
+                new VisibilityFilterSlector(
+                        newVal -> config().visibilityFilter = newVal
+                )
+        );
 
         // decimal places
         this.addConfigLine(new DecimalPlacesSlider(
@@ -199,4 +199,26 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
             return GuiUtils.colorize(CoordinatesHuds.getRenderer(list.get(index)).getComponent(), GuiUtils.AQUA);
         }
     }
+
+    public static class VisibilityFilterSlector extends BToggleButton<String> {
+        public VisibilityFilterSlector(Consumer<String> function) {
+            super(
+                    "button.coordinatesdisplay.visibility",
+                    CoordinatesDisplay.getConfig().visibilityFilter.toLowerCase(),
+                    CoordinatesHuds.registeredVisibilityFilters.keySet().stream().toList(),
+                    function
+            );
+        }
+
+        @Override
+        public String to(Component input) {
+            return list.get(index);
+        }
+
+        @Override
+        public Component from(String  input) {
+            return GuiUtils.colorize(CoordinatesHuds.getVisibilityFilter(list.get(index)).getComponent(), GuiUtils.AQUA);
+        }
+    }
+
 }
