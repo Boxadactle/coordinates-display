@@ -79,7 +79,7 @@ unifiedPublishing {
         if (cfToken != null) {
             curseforge {
                 token = cfToken
-                projectID = rootProject.project_id_curseforge
+                id = rootProject.project_id_curseforge
             }
         }
 
