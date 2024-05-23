@@ -1,7 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.fabric;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.fabric.init.Commands;
@@ -13,7 +12,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
 public class CoordinatesDisplayFabric implements ClientModInitializer {
@@ -39,12 +37,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
     }
 
     private void renderHud(GuiGraphics guiGraphics, float tickDelta) {
-        if (
-                !ClientUtils.getOptions().hideGui
-                        && CoordinatesDisplay.CONFIG.get().visible
-                        && !ClientUtils.getClient().getDebugOverlay().showDebugScreen()
-                        && CoordinatesDisplay.shouldHudRender
-        ) {
+        if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
             try {
                 RenderSystem.enableBlend();
 

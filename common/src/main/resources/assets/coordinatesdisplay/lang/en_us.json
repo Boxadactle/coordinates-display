@@ -1,5 +1,4 @@
 {
-  "key.coordinatesdisplay.visible": "Toggle Hud",
   "key.coordinatesdisplay.coordinatesgui": "Open Coordinates GUI",
   "key.coordinatesdisplay.copypos": "Copy Current Position to Clipboard",
   "key.coordinatesdisplay.sendpos": "Send Current Position in Chat",
@@ -93,6 +92,11 @@
   "hud.coordinatesdisplay.direction.positive": "positive %s",
   "hud.coordinatesdisplay.direction.negative": "negative %s",
 
+  "hud.coordinatesdisplay.filter.always": "Always",
+  "hud.coordinatesdisplay.filter.never": "Never",
+  "hud.coordinatesdisplay.filter.hold_compass": "Holding a Compass",
+  "hud.coordinatesdisplay.filter.own_compass": "Have a Compass",
+
   "screen.coordinatesdisplay.config": "Config for %s",
   "screen.coordinatesdisplay.confirmreset": "Confirm Reset to Default",
   "screen.coordinatesdisplay.render": "Rendering Config for %s",
@@ -108,7 +112,7 @@
   "button.coordinatesdisplay.colorconfig": "Colors...",
   "button.coordinatesdisplay.deathpos": "Death Position...",
   "button.coordinatesdisplay.text": "Text Settings...",
-  "button.coordinatesdisplay.visible": "Visible: %s",
+  "button.coordinatesdisplay.visibility": "Visibility: %s",
   "button.coordinatesdisplay.decimalPlaces": "Decimal Places: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "block pos",
   "button.coordinatesdisplay.displayMode": "Display Mode: %s",
@@ -171,7 +175,6 @@
 
   "command.coordinatesdisplay.emptyArgs": "Error: please enter a valid sub-command",
   "command.coordinatesdisplay.internalError": "An internal error has occurred.",
-  "command.coordinatesdisplay.togglemessage": "Toggled Hud!",
   "command.coordinatesdisplay.position.copy": "Copied the location to the clipboard!",
   "command.coordinatesdisplay.position.copytp": "Copied position as /tp command",
   "command.coordinatesdisplay.config.reload": "Reloaded config!",
@@ -185,5 +188,5 @@
   "command.coordinatesdisplay.mode": "Mode: Select the display mode you want to be rendered on the screen.",
   "command.coordinatesdisplay.movehud": "Movehud: Open the gui where you can move the HUD.",
   "command.coordinatesdisplay.position": "Position: Do things with your position, such as sending in chat, and copying to the clipboard.",
-  "command.coordinatesdisplay.toggle": "Toggle: Toggle on/off the HUD."
+  "command.coordinatesdisplay.visibility": "Visibility: Toggle the visibility of the coordinates display."
 }

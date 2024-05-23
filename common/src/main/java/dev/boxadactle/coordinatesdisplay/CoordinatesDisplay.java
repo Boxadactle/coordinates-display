@@ -3,7 +3,6 @@ package dev.boxadactle.coordinatesdisplay;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
-import dev.boxadactle.boxlib.math.mathutils.Mappers;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
@@ -12,10 +11,12 @@ import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
 import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
+import dev.boxadactle.coordinatesdisplay.hud.visibility.AlwaysVisibility;
+import dev.boxadactle.coordinatesdisplay.hud.visibility.HoldCompassVisibility;
+import dev.boxadactle.coordinatesdisplay.hud.visibility.NeverVisibility;
+import dev.boxadactle.coordinatesdisplay.hud.visibility.OwnCompassVisibility;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.Minecraft;
 
 public class CoordinatesDisplay {
 
@@ -23,7 +24,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "9.0.0";
+	public static final String VERSION = "10.0.0";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -64,6 +65,12 @@ public class CoordinatesDisplay {
 		CoordinatesHuds.register(HotbarRenderer.class);
 		CoordinatesHuds.register(SpawnpointRenderer.class);
 		CoordinatesHuds.register(DirectionRenderer.class);
+
+		LOGGER.info("Registering hud visibility filters");
+		CoordinatesHuds.registerVisibilityFilter(AlwaysVisibility.class);
+		CoordinatesHuds.registerVisibilityFilter(NeverVisibility.class);
+		CoordinatesHuds.registerVisibilityFilter(HoldCompassVisibility.class);
+		CoordinatesHuds.registerVisibilityFilter(OwnCompassVisibility.class);
 
 		LOGGER.info("Initializing hud");
 		HUD = new Hud();
@@ -146,11 +153,6 @@ public class CoordinatesDisplay {
 	}
 
 	public static class Bindings {
-		public static void visible() {
-			CONFIG.get().visible = !CONFIG.get().visible;
-			CONFIG.save();
-			LOGGER.info("Updated visible property in config file");
-		}
 
 		public static void coordinatesGui() {
 			shouldCoordinatesGuiOpen = true;

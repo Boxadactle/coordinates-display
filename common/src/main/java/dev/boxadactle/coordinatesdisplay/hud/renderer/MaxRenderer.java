@@ -87,12 +87,4 @@ public class MaxRenderer implements HudRenderer {
         r.addComponent(component);
         return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, r));
     }
-
-    private int calculateWidth(List<Component> texts) {
-        return config().padding * 2 + GuiUtils.getLongestLength(texts.toArray(new Component[0]));
-    }
-
-    private int calculateHeight(List<Component> texts) {
-        return config().padding * 2 + 11 * texts.size();
-    }
 }

@@ -6,7 +6,6 @@ import dev.boxadactle.boxlib.gui.config.widget.field.*;
 import dev.boxadactle.boxlib.gui.config.widget.label.*;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.screens.Screen;

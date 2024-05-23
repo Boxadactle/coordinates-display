@@ -23,42 +23,6 @@ import oshi.util.tuples.Triplet;
 @DisplayMode(value = "default")
 public class DefaultRenderer implements HudRenderer {
 
-    private int calculateWidth(int p, int tp, Component xtext, Component ytext, Component ztext, Component chunkx, Component chunkz, Component direction, Component biomeDimension, Component version) {
-        int a = GuiUtils.getLongestLength(xtext, ytext, ztext);
-        int b = GuiUtils.getLongestLength(chunkx, chunkz);
-        int c = (config().renderXYZ ? a : 0) +
-                (config().renderChunkData ? b : 0) +
-                (config().renderXYZ && config().renderChunkData ? tp : 0);
-
-        int d = GuiUtils.getLongestLength(
-                (config().renderDirection ? direction : Component.empty()),
-                (config().renderBiome || config().renderDimension ? biomeDimension : Component.empty()),
-                (config().renderMCVersion ? version : Component.empty())
-        );
-
-        return p + Math.max(c, d) + p;
-    }
-
-    private int calculateHeight(int th, int p, int tp) {
-        int a = config().renderXYZ ? th * 3 : (config().renderChunkData ? th * 2 : 0);
-
-        int b = 0;
-        if (config().renderDirection) {
-            b += th;
-        }
-        if (config().renderBiome || config().renderDimension) {
-            b += th;
-        }
-        if (config().renderMCVersion) {
-            b += th;
-        }
-
-        boolean c = (config().renderXYZ || config().renderChunkData);
-        boolean d = (config().renderDirection || config().renderBiome || config().renderMCVersion);
-
-        return p + a + (c || d ? tp : 0) + b + p;
-    }
-
     @Override
     public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();

@@ -15,10 +15,10 @@ import java.util.function.Function;
 @BConfigFile("coordinates-display")
 public class ModConfig implements BConfig {
 
-    public boolean visible = true;
     public int decimalPlaces = 0;
     public String renderMode = "default";
     public StartCorner startCorner = StartCorner.TOP_LEFT;
+    public String visibilityFilter = "always";
     public int hudX = 0;
     public int hudY = 0;
     public float hudScale = 1.0f;
