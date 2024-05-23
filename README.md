@@ -7,7 +7,7 @@ Coordinates Display is a Client-side mod that adds an HUD to show your position,
 
 # Dependencies
 
-Both versions of this mod embed [BoxLib](https://github.com/Boxadactle/BoxLib/), a Client-side library mod developed by me.
+#### Versions 10.0.0+ of this mod require [BoxLib](https://modrinth.com/mod/boxlib) a Client-side library mod developed by me.
 
 ## Fabric
 
