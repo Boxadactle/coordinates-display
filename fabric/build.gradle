@@ -58,11 +58,11 @@ remapJar {
 
 unifiedPublishing {
     project {
-        displayName = "[Fabric ${project.minecraft_version}] v$project.mod_version"
-        version = "$project.version-fabric"
+        displayName = "[Fabric ${rootProject.minecraft_version}] v$rootProject.mod_version"
+        version = "$rootProject.version-fabric"
         changelog = "A changelog can be found here: https://github.com/Boxadactle/coordinates-display/releases/tag/$rootProject.mod_version"
-        releaseType = project.release_type
-        gameVersions = Arrays.asList(project.game_versions.split(","))
+        releaseType = rootProject.release_type
+        gameVersions = Arrays.asList(rootProject.game_versions.split(","))
         gameLoaders = [ "fabric", "quilt" ]
         relations {
             it.depends {
@@ -77,7 +77,7 @@ unifiedPublishing {
         if (cfToken != null) {
             curseforge {
                 token = cfToken
-                projectID = project.project_id_curseforge
+                projectID = rootProject.project_id_curseforge
             }
         }
 
@@ -86,7 +86,7 @@ unifiedPublishing {
             modrinth {
                 token = modrinthToken
                 id = "3mW8PdUo"
-                version = "${rootProject.mod_version}-${project.name}"
+                version = "${rootProject.mod_version}-${rootProject.name}"
             }
         }
     }
