@@ -4,7 +4,7 @@
   "key.coordinatesdisplay.sendpos": "Надіслати поточні координати в чат",
   "key.coordinatesdisplay.copypostp": "Скопіювати поточні координати як команду /tp",
   "key.coordinatesdisplay.changeHudPos": "Змінити положення інтерфейсу",
-  "key.coordinatesdisplay.cycleDisplayMode": "Перемкнути режим відображення (утримуйте Shift, щоб повернутися)",
+  "key.coordinatesdisplay.cycleDisplayMode": "Перемкнути режим відображення (Shift — назад)",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "Північ",
