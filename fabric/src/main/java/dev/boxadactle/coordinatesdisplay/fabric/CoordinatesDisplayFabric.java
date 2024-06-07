@@ -3,7 +3,6 @@ package dev.boxadactle.coordinatesdisplay.fabric;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.fabric.init.Commands;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.fabric.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -19,8 +18,6 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         CoordinatesDisplay.init();
-
-        Commands.register();
 
         ClientTickEvents.END_CLIENT_TICK.register(this::checkBindings);
 

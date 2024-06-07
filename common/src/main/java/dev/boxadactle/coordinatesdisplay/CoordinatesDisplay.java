@@ -1,11 +1,13 @@
 package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
+import dev.boxadactle.coordinatesdisplay.command.CoordinatesCommand;
 import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
 import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
@@ -71,6 +73,9 @@ public class CoordinatesDisplay {
 		CoordinatesHuds.registerVisibilityFilter(NeverVisibility.class);
 		CoordinatesHuds.registerVisibilityFilter(HoldCompassVisibility.class);
 		CoordinatesHuds.registerVisibilityFilter(OwnCompassVisibility.class);
+
+		LOGGER.info("Registering client commands");
+		BCommandManager.register(CoordinatesCommand.create());
 
 		LOGGER.info("Initializing hud");
 		HUD = new Hud();

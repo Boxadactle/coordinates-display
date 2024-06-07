@@ -1,12 +1,10 @@
 package dev.boxadactle.coordinatesdisplay.neoforge;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
-import dev.boxadactle.coordinatesdisplay.neoforge.init.Commands;
 import dev.boxadactle.coordinatesdisplay.neoforge.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.world.entity.player.Player;
@@ -26,8 +24,6 @@ public class CoordinatesDisplayNeoforge {
 
     public CoordinatesDisplayNeoforge() {
         CoordinatesDisplay.init();
-
-        Commands.register();
 
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () ->
                 (minecraft, screen) -> new ConfigScreen(screen)

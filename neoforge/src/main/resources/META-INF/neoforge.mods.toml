@@ -30,7 +30,7 @@ side = "BOTH"
 [[dependencies.coordinatesdisplay]]
 modId = "boxlib"
 type = "required"
-versionRange = "[13.0.0, 14.0.0)"
+versionRange = "[13.1.0, 14.0.0)"
 ordering = "NONE"
 side = "BOTH"
 
