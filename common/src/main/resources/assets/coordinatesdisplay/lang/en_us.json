@@ -96,6 +96,8 @@
   "hud.coordinatesdisplay.filter.never": "Never",
   "hud.coordinatesdisplay.filter.hold_compass": "Holding a Compass",
   "hud.coordinatesdisplay.filter.own_compass": "Have a Compass",
+  "hud.coordinatesdisplay.filter.hold_map": "Holding a Map",
+  "hud.coordinatesdisplay.filter.own_map": "Have a Map",
 
   "screen.coordinatesdisplay.config": "Config for %s",
   "screen.coordinatesdisplay.confirmreset": "Confirm Reset to Default",

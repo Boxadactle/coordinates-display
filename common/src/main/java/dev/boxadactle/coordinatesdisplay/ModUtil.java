@@ -20,6 +20,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class ModUtil {
@@ -39,13 +40,13 @@ public class ModUtil {
 
         String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.getXRot()));
 
-        Pair[] supported = new Pair[]{
+        Pair<String, ?>[] supported = new Pair[]{
                 new Pair<>("dimension", pos.world.getDimension(true)),
                 new Pair<>("x", x),
                 new Pair<>("y", y),
                 new Pair<>("z", z),
                 new Pair<>("direction", direction),
-                new Pair<>("name", c.player.getDisplayName().getString())
+                new Pair<>("name", Objects.requireNonNull(c.player.getDisplayName()).getString())
         };
         for (Pair<?, ?> pair : supported) {
             newTextComponent = newTextComponent.replaceAll("\\{" + pair.getFirst() + "}", (String) pair.getSecond());
@@ -208,10 +209,6 @@ public class ModUtil {
         }
 
         return toReturn;
-    }
-
-    public static BlockPos toBlockPos(Vec3<Integer> pos) {
-        return new BlockPos(pos.getX(), pos.getY(), pos.getZ());
     }
 
     public static Vec3i doubleVecToIntVec(net.minecraft.world.phys.Vec3 vec) {

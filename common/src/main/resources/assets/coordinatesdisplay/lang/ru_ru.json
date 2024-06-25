@@ -1,5 +1,4 @@
 {
-  "key.coordinatesdisplay.visible": "Переключить Hud",
   "key.coordinatesdisplay.coordinatesgui": "Открыть GUI для координат",
   "key.coordinatesdisplay.copypos": "Скопировать текущую позицию в буфер обмена",
   "key.coordinatesdisplay.sendpos": "Скопирать текущую позицию в чат",
@@ -93,6 +92,13 @@
   "hud.coordinatesdisplay.direction.positive": "positive %s",
   "hud.coordinatesdisplay.direction.negative": "negative %s",
 
+  "hud.coordinatesdisplay.filter.always": "Always",
+  "hud.coordinatesdisplay.filter.never": "Never",
+  "hud.coordinatesdisplay.filter.hold_compass": "Holding a Compass",
+  "hud.coordinatesdisplay.filter.own_compass": "Have a Compass",
+  "hud.coordinatesdisplay.filter.hold_map": "Holding a Map",
+  "hud.coordinatesdisplay.filter.own_map": "Have a Map",
+
   "screen.coordinatesdisplay.config": "Конфигурация для %s",
   "screen.coordinatesdisplay.confirmreset": "Подтвердить сброс настроек по умолчанию",
   "screen.coordinatesdisplay.render": "Рендеринг конфигурации для %s",
@@ -108,7 +114,6 @@
   "button.coordinatesdisplay.colorconfig": "Цвета...",
   "button.coordinatesdisplay.deathpos": "Позиция смерти...",
   "button.coordinatesdisplay.text": "Текстовые настройки...",
-  "button.coordinatesdisplay.visible": "Видимый: %s",
   "button.coordinatesdisplay.decimalPlaces": "Decimal Places: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "позиция блока",
   "button.coordinatesdisplay.displayMode": "Display Mode: %s",
@@ -171,7 +176,6 @@
 
   "command.coordinatesdisplay.emptyArgs": "Error: please enter a valid sub-command",
   "command.coordinatesdisplay.internalError": "An internal error has occurred.",
-  "command.coordinatesdisplay.togglemessage": "Toggled Hud!",
   "command.coordinatesdisplay.position.copy": "Copied the location to the clipboard!",
   "command.coordinatesdisplay.position.copytp": "Copied position as /tp command",
   "command.coordinatesdisplay.config.reload": "Reloaded config!",
@@ -184,6 +188,5 @@
   "command.coordinatesdisplay.help": "Help: View this list.",
   "command.coordinatesdisplay.mode": "Mode: Select the display mode you want to be rendered on the screen.",
   "command.coordinatesdisplay.movehud": "Movehud: Open the gui where you can move the HUD.",
-  "command.coordinatesdisplay.position": "Position: Do things with your position, such as sending in chat, and copying to the clipboard.",
-  "command.coordinatesdisplay.toggle": "Toggle: Toggle on/off the HUD."
+  "command.coordinatesdisplay.position": "Position: Do things with your position, such as sending in chat, and copying to the clipboard."
 }

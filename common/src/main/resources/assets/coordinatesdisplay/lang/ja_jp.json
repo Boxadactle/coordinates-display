@@ -1,5 +1,4 @@
 {
-  "key.coordinatesdisplay.visible": "HUDの切り替え",
   "key.coordinatesdisplay.coordinatesgui": "座標GUIを開く",
   "key.coordinatesdisplay.copypos": "現在の位置をクリップボードにコピー",
   "key.coordinatesdisplay.sendpos": "現在の位置をチャットで送信",
@@ -93,6 +92,13 @@
   "hud.coordinatesdisplay.direction.positive": "positive %s",
   "hud.coordinatesdisplay.direction.negative": "negative %s",
 
+  "hud.coordinatesdisplay.filter.always": "Always",
+  "hud.coordinatesdisplay.filter.never": "Never",
+  "hud.coordinatesdisplay.filter.hold_compass": "Holding a Compass",
+  "hud.coordinatesdisplay.filter.own_compass": "Have a Compass",
+  "hud.coordinatesdisplay.filter.hold_map": "Holding a Map",
+  "hud.coordinatesdisplay.filter.own_map": "Have a Map",
+
   "screen.coordinatesdisplay.config": "%sの設定",
   "screen.coordinatesdisplay.confirmreset": "デフォルトにリセットを確認",
   "screen.coordinatesdisplay.render": "%sの描画設定",
@@ -108,7 +114,6 @@
   "button.coordinatesdisplay.colorconfig": "色設定...",
   "button.coordinatesdisplay.deathpos": "死亡位置設定...",
   "button.coordinatesdisplay.text": "テキスト設定...",
-  "button.coordinatesdisplay.visible": "表示: %s",
   "button.coordinatesdisplay.decimalPlaces": "小数点以下桁数: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "ブロック位置",
   "button.coordinatesdisplay.displayMode": "表示モード: %s",
@@ -171,7 +176,6 @@
 
   "command.coordinatesdisplay.emptyArgs": "エラー: 有効なサブコマンドを入力してください",
   "command.coordinatesdisplay.internalError": "内部エラーが発生しました。",
-  "command.coordinatesdisplay.togglemessage": "HUDの切り替えが完了しました！",
   "command.coordinatesdisplay.position.copy": "位置をクリップボードにコピーしました！",
   "command.coordinatesdisplay.position.copytp": "/tpコマンドとして位置をコピーしました",
   "command.coordinatesdisplay.config.reload": "設定をリロードしました！",
@@ -184,6 +188,5 @@
   "command.coordinatesdisplay.help": "Help: このリストを表示します。",
   "command.coordinatesdisplay.mode": "Mode: 画面に表示される表示モードを選択します。",
   "command.coordinatesdisplay.movehud": "Movehud: HUDを移動できるGUIを開きます。",
-  "command.coordinatesdisplay.position": "Position: 位置に関する操作を行います。例: チャットに送信、クリップボードにコピー。",
-  "command.coordinatesdisplay.toggle": "Toggle: HUDの表示を切り替えます。"
+  "command.coordinatesdisplay.position": "Position: 位置に関する操作を行います。例: チャットに送信、クリップボードにコピー。"
 }

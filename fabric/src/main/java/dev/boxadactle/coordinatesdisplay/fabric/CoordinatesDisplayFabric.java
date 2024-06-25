@@ -9,6 +9,7 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
@@ -33,7 +34,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
         }
     }
 
-    private void renderHud(GuiGraphics guiGraphics, float tickDelta) {
+    private void renderHud(GuiGraphics guiGraphics, DeltaTracker tickDelta) {
         if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
             try {
                 RenderSystem.enableBlend();
