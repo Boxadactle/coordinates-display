@@ -1,5 +1,4 @@
 {
-  "key.coordinatesdisplay.visible": "Conmutar el HUD",
   "key.coordinatesdisplay.coordinatesgui": "Abrir GUI de coordenadas",
   "key.coordinatesdisplay.copypos": "Copiar la posición actual al portapapel",
   "key.coordinatesdisplay.sendpos": "Enviar la posición actual en chat",
@@ -93,6 +92,13 @@
   "hud.coordinatesdisplay.direction.positive": "%s positivo",
   "hud.coordinatesdisplay.direction.negative": "%s negativo",
 
+  "hud.coordinatesdisplay.filter.always": "Siempre",
+  "hud.coordinatesdisplay.filter.never": "Nunca",
+  "hud.coordinatesdisplay.filter.hold_compass": "Sostener una brújula",
+  "hud.coordinatesdisplay.filter.own_compass": "Tener una brújula",
+  "hud.coordinatesdisplay.filter.hold_map": "Sostener un mapa",
+  "hud.coordinatesdisplay.filter.own_map": "Tener un mapa",
+
   "screen.coordinatesdisplay.config": "Configuración de %s",
   "screen.coordinatesdisplay.confirmreset": "Confirme que desea restaurar la configurción por defecto",
   "screen.coordinatesdisplay.render": "Configuración de renderizado de %s",
@@ -108,7 +114,6 @@
   "button.coordinatesdisplay.colorconfig": "Colores...",
   "button.coordinatesdisplay.deathpos": "Posición de muerte...",
   "button.coordinatesdisplay.text": "Ajustes de texto...",
-  "button.coordinatesdisplay.visible": "Activado: %s",
   "button.coordinatesdisplay.decimalPlaces": "Cantidad de decimales: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "posición de bloque",
   "button.coordinatesdisplay.displayMode": "Modo: %s",
@@ -171,7 +176,6 @@
 
   "command.coordinatesdisplay.emptyArgs": "Error: por favor envia un subcomando válido",
   "command.coordinatesdisplay.internalError": "Un error interno se ha ocurrido",
-  "command.coordinatesdisplay.togglemessage": "¡El hud se ha conmutado!",
   "command.coordinatesdisplay.position.copy": "La posición se ha copiado al portapapel.",
   "command.coordinatesdisplay.position.copytp": "La posición se ha copiado como un comando de /tp",
   "command.coordinatesdisplay.config.reload": "¡Refrescó la configuración!",
@@ -184,6 +188,5 @@
   "command.coordinatesdisplay.help": "Help: Mostrar esta lista.",
   "command.coordinatesdisplay.mode": "Mode: Seleccionar el modo de visualizaciòn que quieres renderizar en la pantalla.",
   "command.coordinatesdisplay.movehud": "Movehud: Abrir el menù donde se puede mover el superposiciòn.",
-  "command.coordinatesdisplay.position": "Position: Hacer cosas con su posiciòn, como enviar en el chat, y copiando al portapapeles.",
-  "command.coordinatesdisplay.toggle": "Toggle: Conmutar activado/desactivado el superposiciòn."
+  "command.coordinatesdisplay.position": "Position: Hacer cosas con su posiciòn, como enviar en el chat, y copiando al portapapeles."
 }

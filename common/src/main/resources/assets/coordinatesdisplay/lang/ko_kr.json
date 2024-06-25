@@ -1,5 +1,4 @@
 {
-  "key.coordinatesdisplay.visible": "HUD 토글",
   "key.coordinatesdisplay.coordinatesgui": "좌표 GUI 열기",
   "key.coordinatesdisplay.copypos": "현재 위치를 클립 보드로 복사하십시오",
   "key.coordinatesdisplay.sendpos": "채팅에서 현재 위치를 보내십시오",
@@ -93,6 +92,13 @@
   "hud.coordinatesdisplay.direction.positive": "positive %s",
   "hud.coordinatesdisplay.direction.negative": "negative %s",
 
+  "hud.coordinatesdisplay.filter.always": "Always",
+  "hud.coordinatesdisplay.filter.never": "Never",
+  "hud.coordinatesdisplay.filter.hold_compass": "Holding a Compass",
+  "hud.coordinatesdisplay.filter.own_compass": "Have a Compass",
+  "hud.coordinatesdisplay.filter.hold_map": "Holding a Map",
+  "hud.coordinatesdisplay.filter.own_map": "Have a Map",
+
   "screen.coordinatesdisplay.config": "%s 환경설정",
   "screen.coordinatesdisplay.confirmreset": "기본값으로 초기화 확인",
   "screen.coordinatesdisplay.render": "%s 의 렌더링 구성",
@@ -108,7 +114,6 @@
   "button.coordinatesdisplay.colorconfig": "색상...",
   "button.coordinatesdisplay.deathpos": "죽음의 위치",
   "button.coordinatesdisplay.text": "텍스트 설정...",
-  "button.coordinatesdisplay.visible": "화면에 표시: %s",
   "button.coordinatesdisplay.decimalPlaces": "소수점 표시: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "블록 위치",
   "button.coordinatesdisplay.displayMode": "Display Mode: %s",
@@ -171,7 +176,6 @@
 
   "command.coordinatesdisplay.emptyArgs": "Error: please enter a valid sub-command",
   "command.coordinatesdisplay.internalError": "An internal error has occurred.",
-  "command.coordinatesdisplay.togglemessage": "Toggled Hud!",
   "command.coordinatesdisplay.position.copy": "Copied the location to the clipboard!",
   "command.coordinatesdisplay.position.copytp": "Copied position as /tp command",
   "command.coordinatesdisplay.config.reload": "Reloaded config!",
@@ -184,6 +188,5 @@
   "command.coordinatesdisplay.help": "Help: View this list.",
   "command.coordinatesdisplay.mode": "Mode: Select the display mode you want to be rendered on the screen.",
   "command.coordinatesdisplay.movehud": "Movehud: Open the gui where you can move the HUD.",
-  "command.coordinatesdisplay.position": "Position: Do things with your position, such as sending in chat, and copying to the clipboard.",
-  "command.coordinatesdisplay.toggle": "Toggle: Toggle on/off the HUD."
+  "command.coordinatesdisplay.position": "Position: Do things with your position, such as sending in chat, and copying to the clipboard."
 }

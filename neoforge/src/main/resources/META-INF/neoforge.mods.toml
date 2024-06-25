@@ -16,21 +16,21 @@ logoFile = "icon.png"
 [[dependencies.coordinatesdisplay]]
 modId = "neoforge"
 type = "required"
-versionRange = "[20.5,)"
+versionRange = "[21,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.coordinatesdisplay]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.20.5,)"
+versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.coordinatesdisplay]]
 modId = "boxlib"
 type = "required"
-versionRange = "[13.0.0, 14.0.0)"
+versionRange = "[14.0.0, 15.0.0)"
 ordering = "NONE"
 side = "BOTH"
 

@@ -31,6 +31,7 @@ public class CoordinatesScreen extends Screen {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         this.renderBackground(guiGraphics, mouseX, mouseY, delta);
+        super.render(guiGraphics, mouseX, mouseY, delta);
 
         Vec3<Double> player = pos.position.getPlayerPos();
 
@@ -40,8 +41,6 @@ public class CoordinatesScreen extends Screen {
 
         guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, GuiUtils.WHITE);
         guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), GuiUtils.WHITE);
-
-        super.render(guiGraphics, mouseX, mouseY, delta);
     }
 
     @Override
