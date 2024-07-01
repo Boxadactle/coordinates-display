@@ -18,6 +18,7 @@ public class CoordinatesCommand {
                 .registerSubcommand(new CornerSubcommand())
                 .registerSubcommand("help", CoordinatesCommand::showHelpMessage)
                 .registerSubcommand(new ModeSubcommand())
+                .registerSubcommand(new VisibilitySubcommand())
                 .registerSubcommand("movehud", CoordinatesCommand::moveHud)
                 .registerSubcommand(new PositionSubcommand());
     }

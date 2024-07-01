@@ -219,4 +219,8 @@ public class ModUtil {
         return new Vec3<>(vec3d.x, vec3d.y, vec3d.z);
     }
 
+    public static BlockPos toBlockPos(Vec3<Integer> vec) {
+        return new BlockPos(vec.getX(), vec.getY(), vec.getZ());
+    }
+
 }

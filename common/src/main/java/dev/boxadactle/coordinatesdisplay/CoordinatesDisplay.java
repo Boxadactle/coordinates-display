@@ -64,6 +64,7 @@ public class CoordinatesDisplay {
 		CoordinatesHuds.register(HotbarRenderer.class);
 		CoordinatesHuds.register(SpawnpointRenderer.class);
 		CoordinatesHuds.register(DirectionRenderer.class);
+		CoordinatesHuds.register(ChunkRenderer.class);
 
 		LOGGER.info("Registering hud visibility filters");
 		CoordinatesHuds.registerVisibilityFilter(AlwaysVisibility.class);
