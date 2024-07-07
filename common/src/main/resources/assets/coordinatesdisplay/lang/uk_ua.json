@@ -1,4 +1,5 @@
 {
+  "key.coordinatesdisplay.hudenabled": "Toggle HUD",
   "key.coordinatesdisplay.coordinatesgui": "Відкрити меню координат",
   "key.coordinatesdisplay.copypos": "Скопіювати поточні координати",
   "key.coordinatesdisplay.sendpos": "Надіслати поточні координати в чат",
@@ -92,8 +93,20 @@
   "hud.coordinatesdisplay.direction.positive": "додатне %s",
   "hud.coordinatesdisplay.direction.negative": "від'ємне %s",
 
+  "hud.coordinatesdisplay.chunk": "Chunk",
+  "hud.coordinatesdisplay.chunk.position": "Position",
+  "hud.coordinatesdisplay.chunk.position.x": "Chunk X: %s",
+  "hud.coordinatesdisplay.chunk.position.y": "Chunk Y: %s",
+  "hud.coordinatesdisplay.chunk.position.z": "Chunk Z: %s",
+  "hud.coordinatesdisplay.chunk.region": "Region",
+  "hud.coordinatesdisplay.chunk.chunks": "Chunks[C]",
+  "hud.coordinatesdisplay.chunk.chunks.cached": "Cached: %s",
+  "hud.coordinatesdisplay.chunk.chunks.memory": "Memory: %s",
+  "hud.coordinatesdisplay.chunk.c": "C",
+  "hud.coordinatesdisplay.chunk.c.rendered": "Rendered: %s",
+  "hud.coordinatesdisplay.chunk.c.loaded": "Loaded: %s",
+
   "hud.coordinatesdisplay.filter.always": "Завжди",
-  "hud.coordinatesdisplay.filter.never": "Ніколи",
   "hud.coordinatesdisplay.filter.hold_compass": "Тримаючи компас",
   "hud.coordinatesdisplay.filter.own_compass": "Маючи компас",
 
@@ -107,6 +120,7 @@
   "screen.coordinatesdisplay.text": "Налаштування тексту (%s)",
   "screen.coordinatesdispaly.hudposition": "Зміна положення інтерфейсу",
 
+  "button.coordinatesdisplay.enabled": "Enabled: %s",
   "button.coordinatesdisplay.visualconfig": "Налаштування вигляду...",
   "button.coordinatesdisplay.renderconfig": "Відображення...",
   "button.coordinatesdisplay.colorconfig": "Кольори...",

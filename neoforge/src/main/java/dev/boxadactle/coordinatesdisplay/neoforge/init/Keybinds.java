@@ -2,21 +2,14 @@ package dev.boxadactle.coordinatesdisplay.neoforge.init;
 
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.KeyMapping;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import org.lwjgl.glfw.GLFW;
+
+import static dev.boxadactle.coordinatesdisplay.CoordinatesDisplay.Bindings.*;
 
 public class Keybinds {
-    public static KeyMapping coordinatesGUIKeybind = new KeyMapping("key.coordinatesdisplay.coordinatesgui", GLFW.GLFW_KEY_C, "category.coordinatesdisplay");
-
-    public static KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", GLFW.GLFW_KEY_B, "category.coordinatesdisplay");
-    public static KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", GLFW.GLFW_KEY_X, "category.coordinatesdisplay");
-    public static KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", GLFW.GLFW_KEY_N, "category.coordinatesdisplay");
-
-    public static KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, "category.coordinatesdisplay");
-    public static KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", GLFW.GLFW_KEY_M, "category.coordinatesdisplay");
 
     public static void register(RegisterKeyMappingsEvent e) {
+        e.register(hudEnabled);
         e.register(coordinatesGUIKeybind);
 
         e.register(copyLocation);
@@ -28,6 +21,8 @@ public class Keybinds {
     }
 
     public static void checkBindings(Position pos) {
+        if (hudEnabled.consumeClick()) CoordinatesDisplay.Bindings.toggleHud();
+
         if (coordinatesGUIKeybind.consumeClick()) CoordinatesDisplay.Bindings.coordinatesGui();
 
         if (copyLocation.consumeClick()) CoordinatesDisplay.Bindings.copyLocation(pos);

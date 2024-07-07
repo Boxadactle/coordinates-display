@@ -20,7 +20,8 @@ public class CoordinatesCommand {
                 .registerSubcommand(new ModeSubcommand())
                 .registerSubcommand(new VisibilitySubcommand())
                 .registerSubcommand("movehud", CoordinatesCommand::moveHud)
-                .registerSubcommand(new PositionSubcommand());
+                .registerSubcommand(new PositionSubcommand())
+                .registerSubcommand("toggle", CoordinatesCommand::toggle);
     }
 
     private static int openCoordinatesScreen(CommandContext<BCommandSourceStack> ignored) {
@@ -29,6 +30,13 @@ public class CoordinatesCommand {
 
         return 0;
 
+    }
+
+    private static int toggle(CommandContext<BCommandSourceStack> ignored) {
+        CoordinatesDisplay.getConfig().enabled = !CoordinatesDisplay.getConfig().enabled;
+        CoordinatesDisplay.CONFIG.save();
+
+        return 0;
     }
 
     private static int showHelpMessage(CommandContext<BCommandSourceStack> ignored) {

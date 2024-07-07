@@ -15,6 +15,8 @@ import java.util.function.Function;
 @BConfigFile("coordinates-display")
 public class ModConfig implements BConfig {
 
+    public boolean enabled = true;
+
     public int decimalPlaces = 0;
     public String renderMode = "default";
     public StartCorner startCorner = StartCorner.TOP_LEFT;

@@ -1,4 +1,5 @@
 {
+  "key.coordinatesdisplay.hudenabled": "Toggle HUD",
   "key.coordinatesdisplay.coordinatesgui": "Открыть GUI для координат",
   "key.coordinatesdisplay.copypos": "Скопировать текущую позицию в буфер обмена",
   "key.coordinatesdisplay.sendpos": "Скопирать текущую позицию в чат",
@@ -92,8 +93,20 @@
   "hud.coordinatesdisplay.direction.positive": "positive %s",
   "hud.coordinatesdisplay.direction.negative": "negative %s",
 
+  "hud.coordinatesdisplay.chunk": "Chunk",
+  "hud.coordinatesdisplay.chunk.position": "Position",
+  "hud.coordinatesdisplay.chunk.position.x": "Chunk X: %s",
+  "hud.coordinatesdisplay.chunk.position.y": "Chunk Y: %s",
+  "hud.coordinatesdisplay.chunk.position.z": "Chunk Z: %s",
+  "hud.coordinatesdisplay.chunk.region": "Region",
+  "hud.coordinatesdisplay.chunk.chunks": "Chunks[C]",
+  "hud.coordinatesdisplay.chunk.chunks.cached": "Cached: %s",
+  "hud.coordinatesdisplay.chunk.chunks.memory": "Memory: %s",
+  "hud.coordinatesdisplay.chunk.c": "C",
+  "hud.coordinatesdisplay.chunk.c.rendered": "Rendered: %s",
+  "hud.coordinatesdisplay.chunk.c.loaded": "Loaded: %s",
+
   "hud.coordinatesdisplay.filter.always": "Always",
-  "hud.coordinatesdisplay.filter.never": "Never",
   "hud.coordinatesdisplay.filter.hold_compass": "Holding a Compass",
   "hud.coordinatesdisplay.filter.own_compass": "Have a Compass",
   "hud.coordinatesdisplay.filter.hold_map": "Holding a Map",
@@ -109,6 +122,7 @@
   "screen.coordinatesdisplay.text": "Текст конфигурации для %s",
   "screen.coordinatesdispaly.hudposition": "Modifying HUD Position",
 
+  "button.coordinatesdisplay.enabled": "Enabled: %s",
   "button.coordinatesdisplay.visualconfig": "Настройки видео...",
   "button.coordinatesdisplay.renderconfig": "Рендеринг...",
   "button.coordinatesdisplay.colorconfig": "Цвета...",

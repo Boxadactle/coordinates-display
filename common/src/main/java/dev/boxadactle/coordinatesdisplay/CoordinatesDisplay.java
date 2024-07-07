@@ -16,6 +16,8 @@ import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
 import dev.boxadactle.coordinatesdisplay.hud.visibility.*;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.KeyMapping;
+import org.lwjgl.glfw.GLFW;
 
 public class CoordinatesDisplay {
 
@@ -23,7 +25,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "11.0.1";
+	public static final String VERSION = "11.1.0";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -68,7 +70,6 @@ public class CoordinatesDisplay {
 
 		LOGGER.info("Registering hud visibility filters");
 		CoordinatesHuds.registerVisibilityFilter(AlwaysVisibility.class);
-		CoordinatesHuds.registerVisibilityFilter(NeverVisibility.class);
 		CoordinatesHuds.registerVisibilityFilter(HoldCompassVisibility.class);
 		CoordinatesHuds.registerVisibilityFilter(OwnCompassVisibility.class);
 		CoordinatesHuds.registerVisibilityFilter(HoldMapVisibility.class);
@@ -158,6 +159,22 @@ public class CoordinatesDisplay {
 	}
 
 	public static class Bindings {
+		public static final KeyMapping hudEnabled = new KeyMapping("key.coordinatesdisplay.hudenabled", GLFW.GLFW_KEY_H, "category.coordinatesdisplay");
+
+		public static final KeyMapping coordinatesGUIKeybind = new KeyMapping("key.coordinatesdisplay.coordinatesgui", GLFW.GLFW_KEY_C, "category.coordinatesdisplay");
+
+		public static final KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", GLFW.GLFW_KEY_B, "category.coordinatesdisplay");
+		public static final KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", GLFW.GLFW_KEY_X, "category.coordinatesdisplay");
+		public static final KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", GLFW.GLFW_KEY_N, "category.coordinatesdisplay");
+
+		public static final KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, "category.coordinatesdisplay");
+		public static final KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", GLFW.GLFW_KEY_M, "category.coordinatesdisplay");
+
+
+		public static void toggleHud() {
+			CONFIG.get().enabled = !CONFIG.get().enabled;
+			CONFIG.save();
+		}
 
 		public static void coordinatesGui() {
 			shouldCoordinatesGuiOpen = true;

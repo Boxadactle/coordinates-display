@@ -7,6 +7,7 @@ import dev.boxadactle.boxlib.gui.config.widget.button.*;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -39,6 +40,13 @@ public class ConfigScreen extends BOptionScreen {
 
     @Override
     protected void initConfigButtons() {
+
+        // enabled
+        this.addConfigLine(new BBooleanButton(
+                "button.coordinatesdisplay.enabled",
+                CoordinatesDisplay.getConfig().enabled,
+                (val) -> CoordinatesDisplay.getConfig().enabled = val
+        ));
 
         // visual settings
         this.addConfigLine(new BConfigScreenButton(
