@@ -152,7 +152,7 @@
   "button.coordinatesdisplay.dimension": "Dimensión: %s",
   "button.coordinatesdisplay.displayondeathscreen": "Mostrar en el menú de la muerte: %s",
   "button.coordinatesdisplay.sendinchat": "Enviar en chat: %s",
-  "button.coordinatesdisplay.roundwhencopying": "Redondear los decimales cuando copiando: %s",
+  "button.coordinatesdisplay.roundwhencopying": "Incluir los decimales cuando copiando: %s",
   "button.coordinatesdisplay.tpmode": "Modo de teletransporte: %s",
   "button.coordinatesdisplay.tpmode.execute": "/execute",
   "button.coordinatesdisplay.tpmode.tp": "/tp",

@@ -4,7 +4,7 @@ import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.button.BBooleanButton;
 import dev.boxadactle.boxlib.gui.config.widget.button.BEnumButton;
 import dev.boxadactle.boxlib.gui.config.widget.field.BStringField;
-import dev.boxadactle.boxlib.gui.config.widget.label.BLabel;
+import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
@@ -34,14 +34,14 @@ public class TextScreen extends BOptionScreen implements HudHelper {
     protected void initConfigButtons() {
 
         // coordinates chat message
-        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.posChatMessage")));
+        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.posChatMessage")));
         this.addConfigLine(new BStringField(
                 config().posChatMessage,
                 newVal -> config().posChatMessage = newVal
         ));
 
         // copy pos message
-        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.copyPosMessage")));
+        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.copyPosMessage")));
         this.addConfigLine(new BStringField(
                 config().copyPosMessage,
                 newVal -> config().copyPosMessage = newVal
@@ -50,8 +50,8 @@ public class TextScreen extends BOptionScreen implements HudHelper {
         // round when copying
         this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.roundwhencopying",
-                config().shouldRoundWhenCopying,
-                newVal -> config().shouldRoundWhenCopying = newVal
+                config().includeDecimalsWhenCopying,
+                newVal -> config().includeDecimalsWhenCopying = newVal
         ));
 
         // teleport mode

@@ -4,8 +4,6 @@ import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
-import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
 import dev.boxadactle.coordinatesdisplay.hud.modifier.*;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
@@ -50,7 +48,7 @@ public class ModConfig implements BConfig {
 
     public String posChatMessage = "{x} {y} {z}";
     public String copyPosMessage = "{x}, {y}, {z}";
-    public boolean shouldRoundWhenCopying = true;
+    public boolean includeDecimalsWhenCopying = true;
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
 
     public enum TeleportMode {
