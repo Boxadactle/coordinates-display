@@ -170,8 +170,8 @@ public class CoordinatesDisplay {
 		public static final KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, "category.coordinatesdisplay");
 		public static final KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", GLFW.GLFW_KEY_M, "category.coordinatesdisplay");
 
-
 		public static void toggleHud() {
+			CoordinatesDisplay.LOGGER.info("Toggling HUD visibility");
 			CONFIG.get().enabled = !CONFIG.get().enabled;
 			CONFIG.save();
 		}
