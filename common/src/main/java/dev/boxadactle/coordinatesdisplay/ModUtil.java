@@ -30,7 +30,7 @@ public class ModUtil {
         Minecraft c = ClientUtils.getClient();
         String newTextComponent = text;
 
-        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().shouldRoundWhenCopying ? "0.00" : "0");
+        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().includeDecimalsWhenCopying ? "0.00" : "0");
 
         Vec3<Double> player = pos.position.getPlayerPos();
 
@@ -217,6 +217,10 @@ public class ModUtil {
 
     public static Vec3<Double> fromMinecraftVector(net.minecraft.world.phys.Vec3 vec3d) {
         return new Vec3<>(vec3d.x, vec3d.y, vec3d.z);
+    }
+
+    public static BlockPos toBlockPos(Vec3<Integer> vec) {
+        return new BlockPos(vec.getX(), vec.getY(), vec.getZ());
     }
 
 }

@@ -46,7 +46,7 @@ public class Hud {
         bl &= CoordinatesDisplay.shouldHudRender;
         bl &= filter.getFilter().isVisible();
 
-        return bl;
+        return bl && CoordinatesDisplay.getConfig().enabled;
     }
 
     public void render(GuiGraphics guiGraphics, Position pos, int x, int y, String renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay) {
