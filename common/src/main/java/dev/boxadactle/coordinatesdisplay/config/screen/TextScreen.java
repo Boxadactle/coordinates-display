@@ -8,7 +8,7 @@ import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.config.TeleportMode;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -58,7 +58,7 @@ public class TextScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(new BEnumButton<>(
                 "button.coordinatesdisplay.tpmode",
                 config().teleportMode,
-                ModConfig.TeleportMode.class,
+                TeleportMode.class,
                 newVal -> config().teleportMode = newVal,
                 GuiUtils.AQUA
         ));

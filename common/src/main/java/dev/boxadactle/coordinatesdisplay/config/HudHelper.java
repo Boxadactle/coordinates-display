@@ -36,7 +36,7 @@ public interface HudHelper {
                     (x + width / 2) - CoordinatesDisplay.HUD.getWidth() / 2,
                     y + 3,
                     CoordinatesDisplay.getConfig().renderMode,
-                    ModConfig.StartCorner.TOP_LEFT,
+                    StartCorner.TOP_LEFT,
                     false
             );
         });

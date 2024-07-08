@@ -182,6 +182,7 @@
   "message.coordinatesdisplay.teleport": "Телепортуватися на місце смерті",
   "message.coordintatesdisplay.disabled": "Ця опція недоступна в обраному режимі.",
 
+
   "button.coordinatesdisplay.copy": "Скопіювати в буфер обміну",
   "button.coordinatesdisplay.copied": "Скопійовано!",
   "button.coordinatesdisplay.send": "Надіслати в чат",

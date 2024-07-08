@@ -6,7 +6,6 @@ import dev.boxadactle.boxlib.gui.config.widget.button.BBooleanButton;
 import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.components.Tooltip;
@@ -39,7 +38,7 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected void initConfigButtons() {
-        DisplayMode metadata = CoordinatesHuds.getRenderer(config().renderMode).getMetadata();
+        DisplayMode metadata = config().renderMode.getMetadata();
 
         // background
         this.addConfigLine(new HudOption(

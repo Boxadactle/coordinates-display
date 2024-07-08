@@ -182,6 +182,7 @@
   "message.coordinatesdisplay.deathpos": "死亡地点: %s",
   "message.coordinatesdisplay.teleport": "死亡位置にテレポート",
   "message.coordintatesdisplay.disabled": "このオプションはこの表示モードでは無効です。",
+  "message.coordinatesdisplay.configError": "There was an error loading your config file! Check console for stacktrace.",
 
   "button.coordinatesdisplay.copy": "クリップボードにコピー",
   "button.coordinatesdisplay.copied": "コピーしました！",

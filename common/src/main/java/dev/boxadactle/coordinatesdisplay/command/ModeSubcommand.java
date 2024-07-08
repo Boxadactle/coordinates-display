@@ -5,7 +5,7 @@ import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.command.BCommandSourceStack;
 import dev.boxadactle.boxlib.command.api.BClientSubcommand;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
+import dev.boxadactle.coordinatesdisplay.config.DisplayMode;
 
 public class ModeSubcommand implements BClientSubcommand {
     @Override
@@ -15,10 +15,10 @@ public class ModeSubcommand implements BClientSubcommand {
 
     @Override
     public void build(ArgumentBuilder<BCommandSourceStack, ?> builder) {
-        String[] modes = CoordinatesHuds.registeredOverlays.keySet().toArray(new String[0]);
+        DisplayMode[] modes = DisplayMode.values();
 
-        for (String mode : modes) {
-            builder.then(BCommandManager.literal(mode.toLowerCase())
+        for (DisplayMode mode : modes) {
+            builder.then(BCommandManager.literal(mode.getName().toLowerCase())
                     .executes(c -> {
                         CoordinatesDisplay.getConfig().renderMode = mode;
                         CoordinatesDisplay.CONFIG.save();

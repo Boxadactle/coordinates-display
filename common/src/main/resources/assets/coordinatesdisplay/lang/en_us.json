@@ -183,6 +183,7 @@
   "message.coordinatesdisplay.deathpos": "You died at %s",
   "message.coordinatesdisplay.teleport": "Teleport to death position",
   "message.coordintatesdisplay.disabled": "This option is disabled for this display mode.",
+  "message.coordinatesdisplay.configError": "There was an error loading your config file! Check console for stacktrace.",
 
   "button.coordinatesdisplay.copy": "Copy to Clipboard",
   "button.coordinatesdisplay.copied": "Copied!",
