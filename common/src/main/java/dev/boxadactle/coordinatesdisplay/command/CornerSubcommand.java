@@ -5,7 +5,7 @@ import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.command.BCommandSourceStack;
 import dev.boxadactle.boxlib.command.api.BClientSubcommand;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.config.StartCorner;
 
 public class CornerSubcommand implements BClientSubcommand {
     @Override
@@ -15,9 +15,9 @@ public class CornerSubcommand implements BClientSubcommand {
 
     @Override
     public void build(ArgumentBuilder<BCommandSourceStack, ?> builder) {
-        ModConfig.StartCorner[] corners =  ModConfig.StartCorner.values();
+        StartCorner[] corners =  StartCorner.values();
 
-        for (ModConfig.StartCorner corner : corners) {
+        for (StartCorner corner : corners) {
             builder.then(BCommandManager.literal(corner.name().toLowerCase())
                     .executes(c -> {
                         CoordinatesDisplay.getConfig().startCorner = corner;

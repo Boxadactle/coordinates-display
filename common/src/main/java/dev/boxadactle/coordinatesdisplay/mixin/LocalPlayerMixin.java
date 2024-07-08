@@ -22,8 +22,4 @@ public class LocalPlayerMixin {
         }
     }
 
-    @Inject(at = @At("RETURN"), method = "tick")
-    private void tick(CallbackInfo ci) {
-        CoordinatesDisplay.tick();
-    }
 }

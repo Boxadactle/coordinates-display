@@ -8,9 +8,9 @@ import dev.boxadactle.boxlib.gui.config.widget.slider.BIntegerSlider;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.config.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.config.StartCorner;
+import dev.boxadactle.coordinatesdisplay.config.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Tooltip;
@@ -47,12 +47,40 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     @Override
     protected void initConfigButtons() {
 
-        // visible
-        addConfigLine(
-                new VisibilityFilterSlector(
-                        newVal -> config().visibilityFilter = newVal
-                )
-        );
+        // visibility filters
+        Consumer<VisibilityFilter> var2 = newVal -> config().visibilityFilter = newVal;
+        try {
+            addConfigLine(new VisibilitySelector(config().visibilityFilter, var2));
+        } catch (RuntimeException ignored) {
+            CoordinatesDisplay.LOGGER.warn("Unknown visibility filter selected in config! Reverting to default.");
+            config().visibilityFilter = VisibilityFilter.ALWAYS;
+
+            addConfigLine(new VisibilitySelector(config().visibilityFilter, var2));
+        }
+
+        startCornerButton = addConfigLine(new BEnumButton<>(
+                "button.coordinatesdisplay.startcorner",
+                config().startCorner,
+                StartCorner.class,
+                newVal -> config().startCorner = newVal,
+                GuiUtils.AQUA
+        ));
+
+        // display mode
+        Consumer<DisplayMode> var4 = newVal -> {
+            config().renderMode = newVal;
+            verifyButtons();
+        };
+        try {
+            addConfigLine(new DisplayModeSelector(config().renderMode, var4));
+        } catch (RuntimeException e) {
+            CoordinatesDisplay.LOGGER.warn("Unknown hud renderer selected in config! Reverting to default.");
+            config().renderMode = DisplayMode.DEFAULT;
+
+            addConfigLine(new DisplayModeSelector(config().renderMode, var4));
+        }
+
+        addConfigLine(new BSpacingEntry());
 
         // decimal places
         this.addConfigLine(new DecimalPlacesSlider(
@@ -61,25 +89,6 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                 config().decimalPlaces,
                 newVal -> config().decimalPlaces = newVal
         ));
-
-        startCornerButton = new BEnumButton<>(
-                "button.coordinatesdisplay.startcorner",
-                config().startCorner,
-                ModConfig.StartCorner.class,
-                newVal -> config().startCorner = newVal,
-                GuiUtils.AQUA
-        );
-
-        // display mode
-        this.addConfigLine(
-                new DisplayModeSelector(
-                    newVal -> {
-                        config().renderMode = newVal;
-                        verifyButtons();
-                    }
-                ),
-                startCornerButton
-        );
 
         // text shadow
         this.addConfigLine(new BBooleanButton(
@@ -105,7 +114,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         );
 
         // hud position screen
-        changeHudPosButton = (AbstractWidget) addConfigLine(new BConfigScreenButton(
+        changeHudPosButton = addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.editHudPos"),
                 this,
                 HudPositionScreen::new
@@ -146,7 +155,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     }
 
     private void verifyButtons() {
-        DisplayMode metadata = CoordinatesHuds.getRenderer(config().renderMode).getMetadata();
+        dev.boxadactle.coordinatesdisplay.hud.DisplayMode metadata = config().renderMode.getMetadata();
 
         if (!metadata.ignoreTranslations()) {
             startCornerButton.active = true;
@@ -156,7 +165,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
             startCornerButton.setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
         }
 
-        if (CoordinatesHuds.getRenderer(config().renderMode).getMetadata().allowMove()) {
+        if (config().renderMode.getMetadata().allowMove()) {
             changeHudPosButton.active = true;
             changeHudPosButton.setTooltip(null);
         } else {
@@ -179,45 +188,37 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         }
     }
 
-    public static class DisplayModeSelector extends BToggleButton<String> {
-        public DisplayModeSelector(Consumer<String> function) {
+    public static class VisibilitySelector extends BEnumButton<VisibilityFilter> {
+        public VisibilitySelector(VisibilityFilter value, Consumer<VisibilityFilter> function) {
             super(
-                    "button.coordinatesdisplay.displayMode",
-                    CoordinatesDisplay.getConfig().renderMode.toLowerCase(),
-                    CoordinatesHuds.registeredOverlays.keySet().stream().toList(),
-                    function
+                    "button.coordinatesdisplay.visibility",
+                    value,
+                    VisibilityFilter.class,
+                    function,
+                    GuiUtils.AQUA
             );
         }
 
         @Override
-        public String to(Component input) {
-            return list.get(index);
-        }
-
-        @Override
-        public Component from(String  input) {
-            return GuiUtils.colorize(CoordinatesHuds.getRenderer(list.get(index)).getComponent(), GuiUtils.AQUA);
+        public Component from(VisibilityFilter input) {
+            return GuiUtils.colorize(input.getComponent(), valColor);
         }
     }
 
-    public static class VisibilityFilterSlector extends BToggleButton<String> {
-        public VisibilityFilterSlector(Consumer<String> function) {
+    public static class DisplayModeSelector extends BEnumButton<DisplayMode> {
+        public DisplayModeSelector(DisplayMode value, Consumer<DisplayMode> function) {
             super(
-                    "button.coordinatesdisplay.visibility",
-                    CoordinatesDisplay.getConfig().visibilityFilter.toLowerCase(),
-                    CoordinatesHuds.registeredVisibilityFilters.keySet().stream().toList(),
-                    function
+                    "button.coordinatesdisplay.displayMode",
+                    value,
+                    DisplayMode.class,
+                    function,
+                    GuiUtils.AQUA
             );
         }
 
         @Override
-        public String to(Component input) {
-            return list.get(index);
-        }
-
-        @Override
-        public Component from(String  input) {
-            return GuiUtils.colorize(CoordinatesHuds.getVisibilityFilter(list.get(index)).getComponent(), GuiUtils.AQUA);
+        public Component from(DisplayMode input) {
+            return GuiUtils.colorize(input.getComponent(), valColor);
         }
     }
 

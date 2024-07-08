@@ -1,14 +1,7 @@
 package dev.boxadactle.coordinatesdisplay.config;
 
-import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
-import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
-import dev.boxadactle.coordinatesdisplay.hud.modifier.*;
-import dev.boxadactle.coordinatesdisplay.position.Position;
-import dev.boxadactle.coordinatesdisplay.ModUtil;
-
-import java.util.function.Function;
 
 @BConfigFile("coordinates-display")
 public class ModConfig implements BConfig {
@@ -16,9 +9,9 @@ public class ModConfig implements BConfig {
     public boolean enabled = true;
 
     public int decimalPlaces = 0;
-    public String renderMode = "default";
+    public DisplayMode renderMode = DisplayMode.DEFAULT;
     public StartCorner startCorner = StartCorner.TOP_LEFT;
-    public String visibilityFilter = "always";
+    public VisibilityFilter visibilityFilter = VisibilityFilter.ALWAYS;
     public int hudX = 0;
     public int hudY = 0;
     public float hudScale = 1.0f;
@@ -50,38 +43,5 @@ public class ModConfig implements BConfig {
     public String copyPosMessage = "{x}, {y}, {z}";
     public boolean includeDecimalsWhenCopying = true;
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
-
-    public enum TeleportMode {
-        EXECUTE(ModUtil::toExecuteCommand),
-        TP(ModUtil::toTeleportCommand),
-        BARITONE(ModUtil::toBaritoneCommand);
-
-        final Function<Position, String> converter;
-
-        TeleportMode(Function<Position, String> converter) {
-            this.converter = converter;
-        }
-
-        public String toCommand(Position pos) {
-            return converter.apply(pos);
-        }
-    }
-
-    public enum StartCorner {
-        TOP_LEFT(TopLeftModifier.class),
-        TOP_RIGHT(TopRightModifier.class),
-        BOTTOM_LEFT(BottomLeftModifier.class),
-        BOTTOM_RIGHT(BottomRightModifier.class);
-
-        final HudPositionModifier modifier;
-
-        StartCorner(Class<? extends HudPositionModifier> modifier) {
-            this.modifier = BoxLib.initializeClass(modifier);
-        }
-
-        public HudPositionModifier getModifier() {
-            return modifier;
-        }
-    }
 
 }

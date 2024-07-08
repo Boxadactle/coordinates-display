@@ -5,11 +5,10 @@ import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.mathutils.Clamps;
-import dev.boxadactle.boxlib.util.MouseUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.config.StartCorner;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -97,7 +96,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
                                 Math.round(minecraft.getWindow().getGuiScaledWidth() / scale),
                                 Math.round(minecraft.getWindow().getGuiScaledHeight() / scale)
                         ),
-                        ModConfig.StartCorner.TOP_LEFT
+                        StartCorner.TOP_LEFT
                 );
 
                 x = vec.getX();
@@ -113,7 +112,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
                     hudOffsetY = config().hudY;
                 }
 
-                Vec2<Integer> mouse = ModConfig.StartCorner.TOP_LEFT.getModifier().translateVector(
+                Vec2<Integer> mouse = StartCorner.TOP_LEFT.getModifier().translateVector(
                         new Vec2<>(
                                 (mouseX),
                                 (mouseY)
@@ -156,7 +155,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
 
     }
 
-    private Vec2<Integer> calculateCorner(Rect<Integer> size, ModConfig.StartCorner corner) {
+    private Vec2<Integer> calculateCorner(Rect<Integer> size, StartCorner corner) {
         Vec2<Integer> s = new Vec2<>(size.getX(), size.getY());
 
         switch (corner) {

@@ -182,6 +182,7 @@
   "message.coordinatesdisplay.deathpos": "Вы умерли на %s",
   "message.coordinatesdisplay.teleport": "Телепортироваться в позицию смерти",
   "message.coordintatesdisplay.disabled": "This option is disabled for this display mode.",
+  "message.coordinatesdisplay.configError": "There was an error loading your config file! Check console for stacktrace.",
 
   "button.coordinatesdisplay.copy": "Скопировать в буфер обмена",
   "button.coordinatesdisplay.copied": "Скопировано!",

@@ -5,9 +5,12 @@ import com.mojang.brigadier.context.CommandContext;
 import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.command.BCommandSourceStack;
 import dev.boxadactle.boxlib.command.api.BClientSubcommand;
+import dev.boxadactle.boxlib.scheduling.Scheduling;
+import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
 
 public class ConfigSubcommand implements BClientSubcommand {
     @Override
@@ -32,7 +35,7 @@ public class ConfigSubcommand implements BClientSubcommand {
     }
 
     private int openConfigGui(CommandContext<BCommandSourceStack> ignored) {
-        CoordinatesDisplay.shouldConfigGuiOpen = true;
+        Scheduling.nextTick(() -> ClientUtils.setScreen(new ConfigScreen(null)));
         CoordinatesDisplay.LOGGER.info("Opening Config GUI");
 
         return 0;

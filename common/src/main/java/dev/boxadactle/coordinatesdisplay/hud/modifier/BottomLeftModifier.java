@@ -3,12 +3,12 @@ package dev.boxadactle.coordinatesdisplay.hud.modifier;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
+import dev.boxadactle.coordinatesdisplay.config.StartCorner;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 
 public class BottomLeftModifier implements HudPositionModifier {
     @Override
-    public Vec2<Integer> translateVector(Vec2<Integer> original, Dimension<Integer> window, ModConfig.StartCorner currentCorner) {
+    public Vec2<Integer> translateVector(Vec2<Integer> original, Dimension<Integer> window, StartCorner currentCorner) {
         int translatedX = original.getX();
         int translatedY = original.getY();
 
@@ -38,7 +38,7 @@ public class BottomLeftModifier implements HudPositionModifier {
     }
 
     @Override
-    public Rect<Integer> translateRect(Rect<Integer> rect, Dimension<Integer> window, ModConfig.StartCorner currentCorner) {
+    public Rect<Integer> translateRect(Rect<Integer> rect, Dimension<Integer> window, StartCorner currentCorner) {
         int translatedX = rect.getX();
         int translatedY = rect.getY();
 

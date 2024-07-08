@@ -1,12 +1,16 @@
 package dev.boxadactle.coordinatesdisplay.neoforge;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.hud.UnknownRendererException;
+import dev.boxadactle.coordinatesdisplay.hud.UnknownVisibilityFilterException;
 import dev.boxadactle.coordinatesdisplay.neoforge.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -19,8 +23,11 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
+@SuppressWarnings("unused")
 @Mod(CoordinatesDisplay.MOD_ID)
 public class CoordinatesDisplayNeoforge {
+
+    public static boolean deltaError = false;
 
     public CoordinatesDisplayNeoforge() {
         CoordinatesDisplay.init();
@@ -42,15 +49,15 @@ public class CoordinatesDisplayNeoforge {
         }
 
         @SubscribeEvent(priority = EventPriority.LOW)
-        public static void renderHud(RenderGuiEvent.Post e) {
-            if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
-                try {
+        public static void renderHud(RenderGuiEvent.Post event) {
+            try {
+                if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
                     RenderSystem.enableBlend();
 
                     ModConfig config = CoordinatesDisplay.getConfig();
 
                     CoordinatesDisplay.HUD.render(
-                            e.getGuiGraphics(),
+                            event.getGuiGraphics(),
                             Position.of(WorldUtils.getPlayer()),
                             config.hudX,
                             config.hudY,
@@ -59,9 +66,19 @@ public class CoordinatesDisplayNeoforge {
                             false,
                             config.hudScale
                     );
-                } catch (NullPointerException exception) {
-                    CoordinatesDisplay.LOGGER.printStackTrace(exception);
                 }
+            } catch (NullPointerException e) {
+                if (deltaError) {
+                    throw new RuntimeException(e);
+                }
+
+                CoordinatesDisplay.LOGGER.error("Unknown error from config file");
+                CoordinatesDisplay.LOGGER.printStackTrace(e);
+
+                CoordinatesDisplay.LOGGER.player.warn(GuiUtils.getTranslatable("message.coordinatesdisplay.configError"));
+                CoordinatesDisplay.CONFIG.resetConfig();
+
+                deltaError = true;
             }
         }
 

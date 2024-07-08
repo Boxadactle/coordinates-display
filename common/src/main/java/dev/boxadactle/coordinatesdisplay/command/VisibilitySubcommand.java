@@ -5,7 +5,7 @@ import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.command.BCommandSourceStack;
 import dev.boxadactle.boxlib.command.api.BClientSubcommand;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
+import dev.boxadactle.coordinatesdisplay.config.VisibilityFilter;
 
 public class VisibilitySubcommand implements BClientSubcommand {
     @Override
@@ -15,10 +15,10 @@ public class VisibilitySubcommand implements BClientSubcommand {
 
     @Override
     public void build(ArgumentBuilder<BCommandSourceStack, ?> builder) {
-        String[] modes = CoordinatesHuds.registeredVisibilityFilters.keySet().toArray(new String[0]);
+        VisibilityFilter[] modes = VisibilityFilter.values();
 
-        for (String mode : modes) {
-            builder.then(BCommandManager.literal(mode.toLowerCase())
+        for (VisibilityFilter mode : modes) {
+            builder.then(BCommandManager.literal(mode.getName().toLowerCase())
                     .executes(c -> {
                         CoordinatesDisplay.getConfig().visibilityFilter = mode;
                         CoordinatesDisplay.CONFIG.save();

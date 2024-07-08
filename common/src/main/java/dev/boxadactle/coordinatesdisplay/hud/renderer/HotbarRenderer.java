@@ -53,7 +53,7 @@ public class HotbarRenderer implements HudRenderer {
 
         Rect<Integer> r;
 
-        if (ClientUtils.getClient().level != null && ClientUtils.getCurrentScreen() == null) {
+        if (ClientUtils.getClient().level != null) {
             int j = guiGraphics.guiWidth() / 2;
             int k = guiGraphics.guiHeight() - 68 - 4;
 

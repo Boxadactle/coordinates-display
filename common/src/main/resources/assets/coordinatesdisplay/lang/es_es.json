@@ -182,6 +182,7 @@
   "message.coordinatesdisplay.deathpos": "Has muerto en %s",
   "message.coordinatesdisplay.teleport": "Ir a la posición de muerte",
   "message.coordintatesdisplay.disabled": "Este opcion está desactivado en este modo.",
+  "message.coordinatesdisplay.configError": "There was an error loading your config file! Check console for stacktrace.",
 
   "button.coordinatesdisplay.copy": "Copiar a portapapel",
   "button.coordinatesdisplay.copied": "¡Se copié la posición!",

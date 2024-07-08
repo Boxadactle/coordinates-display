@@ -7,8 +7,10 @@ import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.config.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.config.StartCorner;
+import dev.boxadactle.coordinatesdisplay.config.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -36,8 +38,7 @@ public class Hud {
         return scaleButton.containsPoint(new Vec2<>(Math.round(mouseX / scale), Math.round(mouseY / scale)));
     }
 
-    public boolean shouldRender(String visibilityFilter) {
-        CoordinatesHuds.RegisteredVisibilityFilter filter = CoordinatesHuds.getVisibilityFilter(visibilityFilter);
+    public boolean shouldRender(VisibilityFilter filter) throws UnknownVisibilityFilterException {
         boolean bl = true;
 
         // have you ever seen anyone use this operand
@@ -49,27 +50,21 @@ public class Hud {
         return bl && CoordinatesDisplay.getConfig().enabled;
     }
 
-    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, String renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay) {
+    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay) {
         try {
-            CoordinatesHuds.RegisteredRenderer overlay = CoordinatesHuds.getRenderer(renderMode);
-
-            if (overlay == null) {
-                throw new UnknownRendererException(renderMode);
-            }
-
             // only way to do this is the use the size of the hud from the previous frame
-            Rect<Integer> newPos = overlay.getMetadata().ignoreTranslations() ? new Rect<>(x, y, size.getWidth(), size.getHeight()) : startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
+            Rect<Integer> newPos = renderMode.getMetadata().ignoreTranslations() ? new Rect<>(x, y, size.getWidth(), size.getHeight()) : startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
                     Math.round(ClientUtils.getClient().getWindow().getGuiScaledWidth() / scale),
                     Math.round(ClientUtils.getClient().getWindow().getGuiScaledHeight() / scale)
-            ), ModConfig.StartCorner.TOP_LEFT);
+            ), StartCorner.TOP_LEFT);
 
-            Rect<Integer> size = overlay.getRenderer().renderOverlay(guiGraphics, newPos.getX(), newPos.getY(), pos);
+            Rect<Integer> size = renderMode.getRenderer().renderOverlay(guiGraphics, newPos.getX(), newPos.getY(), pos);
             this.size.setX(size.getX());
             this.size.setY(size.getY());
             this.size.setWidth(size.getWidth());
             this.size.setHeight(size.getHeight());
 
-            if (moveOverlay && overlay.getMetadata().allowMove()) {
+            if (moveOverlay && renderMode.getMetadata().allowMove()) {
                 renderMoveOverlay(guiGraphics, newPos.getX(), newPos.getY());
             }
         } catch (NullPointerException e) {
@@ -78,15 +73,9 @@ public class Hud {
         }
     }
 
-    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, String renderMode, ModConfig.StartCorner startCorner, boolean moveOverlay, float scale) {
+    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay, float scale) {
         try {
-            CoordinatesHuds.RegisteredRenderer overlay = CoordinatesHuds.getRenderer(renderMode);
-
-            if (overlay == null) {
-                throw new UnknownRendererException(renderMode);
-            }
-
-            if (!overlay.getMetadata().ignoreTranslations()) {
+            if (!renderMode.getMetadata().ignoreTranslations()) {
                 PoseStack matrices = guiGraphics.pose();
 
                 matrices.pushPose();
@@ -131,7 +120,7 @@ public class Hud {
         RenderUtils.drawSquare(guiGraphics, scaleX, scaleY, scaleSize, scaleSize, scaleColor);
     }
 
-    private Rect<Integer> calculateScaleButton(ModConfig.StartCorner corner) {
+    private Rect<Integer> calculateScaleButton(StartCorner corner) {
         Rect<Integer> pos = new Rect<>(
                 size.getX() + size.getWidth() - scaleSize,
                 size.getY() + size.getHeight() - scaleSize,

@@ -4,17 +4,15 @@ import com.mojang.blaze3d.platform.InputConstants;
 import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
+import dev.boxadactle.boxlib.scheduling.Scheduling;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.command.CoordinatesCommand;
-import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.config.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
-import dev.boxadactle.coordinatesdisplay.hud.CoordinatesHuds;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
-import dev.boxadactle.coordinatesdisplay.hud.visibility.*;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.KeyMapping;
 import org.lwjgl.glfw.GLFW;
@@ -41,10 +39,6 @@ public class CoordinatesDisplay {
 
 	public static final ModLogger LOGGER = new ModLogger(MOD_NAME);
 
-	public static boolean shouldConfigGuiOpen = false;
-	public static boolean shouldCoordinatesGuiOpen = false;
-	public static boolean shouldHudPositionGuiOpen = false;
-
 	public static boolean shouldHudRender = true;
 
 	public static BConfigClass<ModConfig> CONFIG;
@@ -57,24 +51,6 @@ public class CoordinatesDisplay {
 		LOGGER.info("Loading config file");
 		CONFIG = BConfigHandler.registerConfig(ModConfig.class);
 
-		LOGGER.info("Registering hud renderers");
-		CoordinatesHuds.register(DefaultRenderer.class);
-		CoordinatesHuds.register(MinRenderer.class);
-		CoordinatesHuds.register(MaxRenderer.class);
-		CoordinatesHuds.register(LineRenderer.class);
-		CoordinatesHuds.register(NetherOverworldRenderer.class);
-		CoordinatesHuds.register(HotbarRenderer.class);
-		CoordinatesHuds.register(SpawnpointRenderer.class);
-		CoordinatesHuds.register(DirectionRenderer.class);
-		CoordinatesHuds.register(ChunkRenderer.class);
-
-		LOGGER.info("Registering hud visibility filters");
-		CoordinatesHuds.registerVisibilityFilter(AlwaysVisibility.class);
-		CoordinatesHuds.registerVisibilityFilter(HoldCompassVisibility.class);
-		CoordinatesHuds.registerVisibilityFilter(OwnCompassVisibility.class);
-		CoordinatesHuds.registerVisibilityFilter(HoldMapVisibility.class);
-		CoordinatesHuds.registerVisibilityFilter(OwnMapVisibility.class);
-
 		LOGGER.info("Registering client commands");
 		BCommandManager.register(CoordinatesCommand.create());
 
@@ -84,26 +60,6 @@ public class CoordinatesDisplay {
 
 	public static ModConfig getConfig() {
 		return CONFIG.get();
-	}
-
-	public static void tick() {
-		if (shouldConfigGuiOpen) {
-			ClientUtils.setScreen(new ConfigScreen(null));
-			shouldConfigGuiOpen = false;
-		}
-
-		if (shouldCoordinatesGuiOpen) {
-			Position pos = Position.of(WorldUtils.getPlayer());
-
-			ClientUtils.setScreen(new CoordinatesScreen(pos));
-
-			shouldCoordinatesGuiOpen = false;
-		}
-
-		if (shouldHudPositionGuiOpen) {
-			ClientUtils.setScreen(new HudPositionScreen(null));
-			shouldHudPositionGuiOpen = false;
-		}
 	}
 
 	public static class BiomeColors {
@@ -177,7 +133,7 @@ public class CoordinatesDisplay {
 		}
 
 		public static void coordinatesGui() {
-			shouldCoordinatesGuiOpen = true;
+			Scheduling.nextTick(() -> ClientUtils.setScreen(new CoordinatesScreen(Position.of(WorldUtils.getPlayer()))));
 		}
 
 		public static void copyLocation(Position pos) {
@@ -187,7 +143,7 @@ public class CoordinatesDisplay {
 		}
 
 		public static void sendLocation(Position pos) {
-			LOGGER.player.info(ModUtil.parseText(CONFIG.get().posChatMessage, pos));
+			LOGGER.player.publicChat(ModUtil.parseText(CONFIG.get().posChatMessage, pos));
 			LOGGER.info("Sent position as chat message");
 		}
 
@@ -198,16 +154,13 @@ public class CoordinatesDisplay {
 		}
 
 		public static void openHudPositionGui() {
-			shouldHudPositionGuiOpen = true;
+			Scheduling.nextTick(() -> ClientUtils.setScreen(new HudPositionScreen(null)));
 		}
 
 		public static void cycleDisplayMode() {
-			CoordinatesHuds.RegisteredRenderer renderer;
+			if (!InputConstants.isKeyDown(ClientUtils.getWindow(), 340)) getConfig().renderMode = DisplayMode.nextMode(getConfig().renderMode);
+			else getConfig().renderMode = DisplayMode.previousMode(getConfig().renderMode);
 
-			if (!InputConstants.isKeyDown(ClientUtils.getWindow(), 340)) renderer = CoordinatesHuds.nextRenderer(getConfig().renderMode);
-			else renderer = CoordinatesHuds.previousRenderer(getConfig().renderMode);
-
-			getConfig().renderMode = renderer.getId();
 			CONFIG.save();
 		}
 	}

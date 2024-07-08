@@ -4,8 +4,14 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.brigadier.context.CommandContext;
 import dev.boxadactle.boxlib.command.BCommandSourceStack;
 import dev.boxadactle.boxlib.command.api.BClientCommand;
+import dev.boxadactle.boxlib.scheduling.Scheduling;
+import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import dev.boxadactle.coordinatesdisplay.CoordinatesScreen;
+import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
+import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
 
 import java.util.List;
@@ -25,11 +31,9 @@ public class CoordinatesCommand {
     }
 
     private static int openCoordinatesScreen(CommandContext<BCommandSourceStack> ignored) {
-
-        CoordinatesDisplay.shouldCoordinatesGuiOpen = true;
+        Scheduling.nextTick(() -> ClientUtils.setScreen(new CoordinatesScreen(Position.of(WorldUtils.getPlayer()))));
 
         return 0;
-
     }
 
     private static int toggle(CommandContext<BCommandSourceStack> ignored) {
@@ -59,7 +63,7 @@ public class CoordinatesCommand {
     }
 
     private static int moveHud(CommandContext<BCommandSourceStack> ignored) {
-        CoordinatesDisplay.shouldHudPositionGuiOpen = true;
+        Scheduling.nextTick(() -> ClientUtils.setScreen(new HudPositionScreen(null)));
 
         return 0;
     }
