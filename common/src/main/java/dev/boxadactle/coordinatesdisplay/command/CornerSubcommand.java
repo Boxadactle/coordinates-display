@@ -5,7 +5,7 @@ import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.command.BCommandSourceStack;
 import dev.boxadactle.boxlib.command.api.BClientSubcommand;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.StartCorner;
+import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 
 public class CornerSubcommand implements BClientSubcommand {
     @Override

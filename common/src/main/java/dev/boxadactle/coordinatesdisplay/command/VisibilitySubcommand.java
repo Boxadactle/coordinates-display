@@ -5,7 +5,7 @@ import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.command.BCommandSourceStack;
 import dev.boxadactle.boxlib.command.api.BClientSubcommand;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.VisibilityFilter;
+import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 
 public class VisibilitySubcommand implements BClientSubcommand {
     @Override

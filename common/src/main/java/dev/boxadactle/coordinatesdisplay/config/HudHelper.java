@@ -4,6 +4,7 @@ import dev.boxadactle.boxlib.gui.config.widget.BCustomEntry;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 

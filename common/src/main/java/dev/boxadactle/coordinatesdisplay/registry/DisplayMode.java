@@ -1,4 +1,4 @@
-package dev.boxadactle.coordinatesdisplay.config;
+package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.util.GuiUtils;
@@ -62,7 +62,7 @@ public enum DisplayMode {
             currentIndex++;
         }
 
-        if (currentIndex == 0) {
+        if (currentIndex <= 0) {
             return values[values.length - 1];
         } else {
             return values[currentIndex - 1];
@@ -80,10 +80,12 @@ public enum DisplayMode {
             currentIndex++;
         }
 
-        if (currentIndex == values.length) {
-            return values[0];
+        currentIndex++;
+
+        if (currentIndex < values.length) {
+            return values[currentIndex];
         } else {
-            return values[currentIndex + 1];
+            return values[0];
         }
     }
 

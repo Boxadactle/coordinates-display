@@ -2,6 +2,10 @@ package dev.boxadactle.coordinatesdisplay.config;
 
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
+import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
+import dev.boxadactle.coordinatesdisplay.registry.TeleportMode;
+import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 
 @BConfigFile("coordinates-display")
 public class ModConfig implements BConfig {

@@ -5,7 +5,7 @@ import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.command.BCommandSourceStack;
 import dev.boxadactle.boxlib.command.api.BClientSubcommand;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 
 public class ModeSubcommand implements BClientSubcommand {
     @Override

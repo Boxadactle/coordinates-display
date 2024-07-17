@@ -8,9 +8,9 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.config.DisplayMode;
-import dev.boxadactle.coordinatesdisplay.config.StartCorner;
-import dev.boxadactle.coordinatesdisplay.config.VisibilityFilter;
+import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
+import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 

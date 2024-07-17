@@ -1,4 +1,4 @@
-package dev.boxadactle.coordinatesdisplay.config;
+package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;

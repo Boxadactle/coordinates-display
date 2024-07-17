@@ -8,7 +8,7 @@ import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.config.TeleportMode;
+import dev.boxadactle.coordinatesdisplay.registry.TeleportMode;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
