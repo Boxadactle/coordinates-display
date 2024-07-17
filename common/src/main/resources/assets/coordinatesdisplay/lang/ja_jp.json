@@ -166,9 +166,9 @@
   "button.coordinatesdisplay.resetdefault": "デフォルトにリセット...",
 
   "label.coordinatesdisplay.preview": "プレビュー",
-  "label.coordinatesdisplay.definitionColor": "定義の色",
-  "label.coordinatesdisplay.dataColor": "データの色",
-  "label.coordinatesdisplay.deathposColor": "死亡位置の色",
+  "label.coordinatesdisplay.definitionColor": "定義の色: %s",
+  "label.coordinatesdisplay.dataColor": "データの色: %s",
+  "label.coordinatesdisplay.deathposColor": "死亡位置の色: %s",
   "label.coordinatesdisplay.backgroundColor": "背景の色 (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "座標のチャットメッセージ",
   "label.coordinatesdisplay.copyPosMessage": "位置をコピーするメッセージ",

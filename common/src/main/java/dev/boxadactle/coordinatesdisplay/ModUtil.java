@@ -7,7 +7,7 @@ import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
@@ -38,7 +38,7 @@ public class ModUtil {
         String y = decimalFormat.format(player.getY());
         String z = decimalFormat.format(player.getZ());
 
-        String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.getXRot()));
+        String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.xRot));
 
         Pair<String, ?>[] supported = new Pair[]{
                 new Pair<>("dimension", pos.world.getDimension(true)),
@@ -77,7 +77,6 @@ public class ModUtil {
         int y = (int)Math.round(pos.position.getPlayerPos().getY());
         int z = (int)Math.round(pos.position.getPlayerPos().getZ());
 
-        String dimension = pos.world.getDimension(false);
         return String.format("#goto %s %s %s", x, y, z);
     }
 
@@ -91,13 +90,13 @@ public class ModUtil {
         int y = (int)Math.round(player.getY());
         int z = (int)Math.round(player.getZ());
 
-        Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
-                .withColor((CoordinatesDisplay.CONFIG.get().deathPosColor))
-                .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
+        Component position = new TranslatableComponent("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
+                .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("message.coordinatesdisplay.teleport")))
+                .setColor((CoordinatesDisplay.CONFIG.get().deathPosColor))
+                .setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor((CoordinatesDisplay.CONFIG.get().definitionColor)));
+        return new TranslatableComponent("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.setColor((CoordinatesDisplay.CONFIG.get().definitionColor)));
     }
 
     @ExpectPlatform
@@ -147,12 +146,8 @@ public class ModUtil {
     }
 
     // copy + pasted from DebugHud.class
-    public static String printBiome(Holder<Biome> p_205375_) {
-        if (p_205375_ != null) {
-            return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
-        } else {
-            return "minecraft:plains";
-        }
+    public static String printBiome(Biome p_205375_) {
+        return Registry.BIOME.getKey(p_205375_).toString();
     }
 
     public static boolean isMouseHovering(int mouseX, int mouseY, int boxX, int boxY, int boxWidth, int boxHeight) {

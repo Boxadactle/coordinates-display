@@ -12,8 +12,7 @@ import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Tooltip;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -23,8 +22,8 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
 
     Position pos;
 
-    BEnumButton<?> startCornerButton;
-    AbstractWidget changeHudPosButton;
+    TooltipEnumButton<?> startCornerButton;
+    TooltipScreenButton changeHudPosButton;
 
     public VisualScreen(Screen parent) {
         super(parent);
@@ -33,15 +32,15 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.visual", CoordinatesDisplay.VERSION_STRING);
+    protected String getName() {
+        return GuiUtils.getTranslatable("screen.coordinatesdisplay.visual", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_VISUAL);
+        this.setWiki(GuiUtils.getTranslatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_VISUAL);
     }
 
     @Override
@@ -58,12 +57,12 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
             addConfigLine(new VisibilitySelector(config().visibilityFilter, var2));
         }
 
-        startCornerButton = addConfigLine(new BEnumButton<>(
+        startCornerButton = addConfigLine(new TooltipEnumButton<>(
                 "button.coordinatesdisplay.startcorner",
                 config().startCorner,
                 StartCorner.class,
                 newVal -> config().startCorner = newVal,
-                GuiUtils.AQUA
+                ChatFormatting.AQUA
         ));
 
         // display mode
@@ -114,8 +113,8 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         );
 
         // hud position screen
-        changeHudPosButton = addConfigLine(new BConfigScreenButton(
-                Component.translatable("button.coordinatesdisplay.editHudPos"),
+        changeHudPosButton = addConfigLine(new TooltipScreenButton(
+                GuiUtils.getTranslatable("button.coordinatesdisplay.editHudPos"),
                 this,
                 HudPositionScreen::new
         ));
@@ -142,7 +141,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(new BSpacingEntry());
 
         // hud rendering
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
+        this.addConfigLine(new BCenteredLabel(GuiUtils.getTranslatable("label.coordinatesdisplay.preview")));
         this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
@@ -162,7 +161,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
             startCornerButton.setTooltip(null);
         } else {
             startCornerButton.active = false;
-            startCornerButton.setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
+            startCornerButton.setTooltip(GuiUtils.getTranslatable("message.coordintatesdisplay.disabled"));
         }
 
         if (config().renderMode.getMetadata().allowMove()) {
@@ -170,7 +169,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
             changeHudPosButton.setTooltip(null);
         } else {
             changeHudPosButton.active = false;
-            changeHudPosButton.setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
+            changeHudPosButton.setTooltip(GuiUtils.getTranslatable("message.coordintatesdisplay.disabled"));
         }
     }
 
@@ -195,7 +194,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                     value,
                     VisibilityFilter.class,
                     function,
-                    GuiUtils.AQUA
+                    ChatFormatting.AQUA
             );
         }
 
@@ -212,13 +211,51 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                     value,
                     DisplayMode.class,
                     function,
-                    GuiUtils.AQUA
+                    ChatFormatting.AQUA
             );
         }
 
         @Override
         public Component from(DisplayMode input) {
             return GuiUtils.colorize(input.getComponent(), valColor);
+        }
+    }
+
+    public class TooltipEnumButton<T extends Enum<T>> extends BEnumButton<T> {
+        String tooltip;
+
+        public TooltipEnumButton(String key, T value, Class<T> tEnum, Consumer<T> function, ChatFormatting valColor) {
+            super(key, value, tEnum, function, valColor);
+        }
+
+        public void setTooltip(String tooltip) {
+            this.tooltip = tooltip;
+        }
+
+        @Override
+        public void renderToolTip(int i, int j) {
+            if (tooltip != null) {
+                VisualScreen.this.renderTooltip(tooltip, i, j);
+            }
+        }
+    }
+
+    public class TooltipScreenButton extends BConfigScreenButton {
+        String tooltip;
+
+        public TooltipScreenButton(String message, Screen parent, Provider<?> function) {
+            super(message, parent, function);
+        }
+
+        public void setTooltip(String tooltip) {
+            this.tooltip = tooltip;
+        }
+
+        @Override
+        public void renderToolTip(int i, int j) {
+            if (tooltip != null) {
+                VisualScreen.this.renderTooltip(tooltip, i, j);
+            }
         }
     }
 

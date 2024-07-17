@@ -4,13 +4,12 @@ import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.BBooleanButton;
 import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.Component;
 
 import java.util.function.Consumer;
 
@@ -25,15 +24,15 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.render", CoordinatesDisplay.VERSION_STRING);
+    protected String getName() {
+        return GuiUtils.getTranslatable("screen.coordinatesdisplay.render", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_RENDER);
+        this.setWiki(GuiUtils.getTranslatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_RENDER);
     }
 
     @Override
@@ -111,7 +110,7 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(new BSpacingEntry());
 
         // hud rendering
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
+        this.addConfigLine(new BCenteredLabel(GuiUtils.getTranslatable("label.coordinatesdisplay.preview")));
         this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
@@ -121,14 +120,17 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
 
     }
 
-    public static class HudOption extends BBooleanButton {
+    public class HudOption extends BBooleanButton {
         public HudOption(String key, Boolean value, Consumer<Boolean> function, boolean configEnabled) {
             super(key, value, function);
 
             this.active = configEnabled;
+        }
 
-            if (!configEnabled) {
-                this.setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
+        @Override
+        public void renderToolTip(int i, int j) {
+            if (!active) {
+                RenderScreen.this.renderTooltip(GuiUtils.getTranslatable("message.coordintatesdisplay.disabled"), i, j);
             }
         }
     }

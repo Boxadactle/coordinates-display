@@ -1,15 +1,24 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
+import com.google.common.collect.ImmutableList;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
+import dev.boxadactle.boxlib.gui.config.widget.button.BEnumButton;
+import dev.boxadactle.boxlib.gui.config.widget.button.BToggleButton;
 import dev.boxadactle.boxlib.gui.config.widget.field.*;
 import dev.boxadactle.boxlib.gui.config.widget.label.*;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+
+import java.util.List;
+import java.util.function.Consumer;
 
 public class ColorScreen extends BOptionScreen implements HudHelper {
 
@@ -22,46 +31,43 @@ public class ColorScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.color", CoordinatesDisplay.VERSION_STRING);
+    protected String getName() {
+        return GuiUtils.getTranslatable("screen.coordinatesdisplay.color", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_COLOR);
+        this.setWiki(GuiUtils.getTranslatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_COLOR);
     }
 
     @Override
     protected void initConfigButtons() {
 
         // definition color
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.definitionColor")));
-
-        this.addConfigLine(new BHexField(
-                CoordinatesDisplay.getConfig().definitionColor,
-                newVal -> CoordinatesDisplay.getConfig().definitionColor = newVal
+        this.addConfigLine(new ColorSelector(
+                "label.coordinatesdisplay.definitionColor",
+                config().definitionColor,
+                newVal -> config().definitionColor = newVal
         ));
 
         // data color
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.dataColor")));
-
-        this.addConfigLine(new BHexField(
-                CoordinatesDisplay.getConfig().dataColor,
-                newVal -> CoordinatesDisplay.getConfig().dataColor = newVal
+        this.addConfigLine(new ColorSelector(
+                "label.coordinatesdisplay.dataColor",
+                config().dataColor,
+                newVal -> config().dataColor = newVal
         ));
 
         // deathpos color
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.deathposColor")));
-
-        this.addConfigLine(new BHexField(
-                CoordinatesDisplay.getConfig().deathPosColor,
-                newVal -> CoordinatesDisplay.getConfig().deathPosColor = newVal
+        this.addConfigLine(new ColorSelector(
+                "label.coordinatesdisplay.deathposColor",
+                config().deathPosColor,
+                newVal -> config().deathPosColor = newVal
         ));
 
         // background color
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.backgroundColor")));
+        this.addConfigLine(new BCenteredLabel(GuiUtils.getTranslatable("label.coordinatesdisplay.backgroundColor")));
 
         this.addConfigLine(new BArgbField(
                 CoordinatesDisplay.getConfig().backgroundColor,
@@ -71,9 +77,9 @@ public class ColorScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(new BSpacingEntry());
 
         // hud rendering
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
+        this.addConfigLine(new BCenteredLabel(GuiUtils.getTranslatable("label.coordinatesdisplay.preview")));
 
-        addConfigLine(new BCenteredLabel(ModUtil.makeDeathPositionComponent(pos)));
+        addConfigLine(new BCenteredLabel(ModUtil.makeDeathPositionComponent(pos).getColoredString()));
 
         this.addConfigLine(this.createHudRenderEntry(pos));
 
@@ -82,6 +88,45 @@ public class ColorScreen extends BOptionScreen implements HudHelper {
             this.addConfigLine(new BSpacingEntry());
         }
 
+    }
+
+    public static class ColorSelector extends BToggleButton<ChatFormatting> {
+
+        public ColorSelector(String key, ChatFormatting value, Consumer<ChatFormatting> function) {
+            super(
+                    key,
+                    value,
+                    ImmutableList.of(
+                            ChatFormatting.BLACK,
+                            ChatFormatting.DARK_BLUE,
+                            ChatFormatting.DARK_GREEN,
+                            ChatFormatting.DARK_AQUA,
+                            ChatFormatting.DARK_RED,
+                            ChatFormatting.DARK_PURPLE,
+                            ChatFormatting.GOLD,
+                            ChatFormatting.GRAY,
+                            ChatFormatting.DARK_GRAY,
+                            ChatFormatting.BLUE,
+                            ChatFormatting.GREEN,
+                            ChatFormatting.AQUA,
+                            ChatFormatting.RED,
+                            ChatFormatting.LIGHT_PURPLE,
+                            ChatFormatting.YELLOW,
+                            ChatFormatting.WHITE
+                    ),
+                    function
+            );
+        }
+
+        @Override
+        public ChatFormatting to(Component component) {
+            return ChatFormatting.getByName(component.getString());
+        }
+
+        @Override
+        public Component from(ChatFormatting chatFormatting) {
+            return GuiUtils.colorize(new TextComponent(chatFormatting.toString()), chatFormatting);
+        }
     }
 
 }

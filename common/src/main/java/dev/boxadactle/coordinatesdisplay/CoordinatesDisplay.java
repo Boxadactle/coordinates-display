@@ -1,14 +1,12 @@
 package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
 import dev.boxadactle.boxlib.scheduling.Scheduling;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
-import dev.boxadactle.coordinatesdisplay.command.CoordinatesCommand;
 import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
@@ -23,7 +21,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "11.1.0";
+	public static final String VERSION = "1.5.0";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -50,9 +48,6 @@ public class CoordinatesDisplay {
 
 		LOGGER.info("Loading config file");
 		CONFIG = BConfigHandler.registerConfig(ModConfig.class);
-
-		LOGGER.info("Registering client commands");
-		BCommandManager.register(CoordinatesCommand.create());
 
 		LOGGER.info("Initializing hud");
 		HUD = new Hud();

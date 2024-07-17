@@ -165,9 +165,9 @@
   "button.coordinatesdisplay.resetdefault": "Скинути до усталеного...",
 
   "label.coordinatesdisplay.preview": "Попередній перегляд",
-  "label.coordinatesdisplay.definitionColor": "Колір параметра",
-  "label.coordinatesdisplay.dataColor": "Колір значення",
-  "label.coordinatesdisplay.deathposColor": "Колір місця смерті",
+  "label.coordinatesdisplay.definitionColor": "Колір параметра: %s",
+  "label.coordinatesdisplay.dataColor": "Колір значення: %s",
+  "label.coordinatesdisplay.deathposColor": "Колір місця смерті: %s",
   "label.coordinatesdisplay.backgroundColor": "Колір тла (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "Текст, що надсилається в чат",
   "label.coordinatesdisplay.copyPosMessage": "Текст, що копіюється",

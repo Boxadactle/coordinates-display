@@ -9,9 +9,9 @@ import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import oshi.util.tuples.Triplet;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public interface HudRenderer {
 
@@ -21,12 +21,12 @@ public interface HudRenderer {
         return CoordinatesDisplay.getConfig();
     }
 
-    default void drawInfo(GuiGraphics guiGraphics, Component component, int x, int y, int color) {
-        guiGraphics.drawString(GuiUtils.getTextRenderer(), component, x, y, color, CoordinatesDisplay.CONFIG.get().hudTextShadow);
+    default void drawInfo(Component component, int x, int y, int color) {
+        RenderUtils.drawText(component.getColoredString(), x, y, color);
     }
 
-    default void drawInfo(GuiGraphics guiGraphics, Component component, int x, int y) {
-        drawInfo(guiGraphics, component, x, y, GuiUtils.WHITE);
+    default void drawInfo(Component component, int x, int y) {
+        drawInfo(component, x, y, GuiUtils.WHITE);
     }
 
 
@@ -51,7 +51,7 @@ public interface HudRenderer {
     }
 
     default Component translation(String t, Object ...args) {
-        return Component.translatable(getTranslationKey() + t, args);
+        return new TranslatableComponent(getTranslationKey() + t, args);
     }
 
     default Component definition(Component t) {
@@ -59,7 +59,7 @@ public interface HudRenderer {
     }
 
     default Component definition(String t) {
-        return GuiUtils.colorize(Component.literal(t), CoordinatesDisplay.getConfig().definitionColor);
+        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().definitionColor);
     }
 
     default Component definition(String k, Object ...args) {
@@ -67,7 +67,7 @@ public interface HudRenderer {
     }
 
     default Component value(String t) {
-        return GuiUtils.colorize(Component.literal(t), CoordinatesDisplay.getConfig().dataColor);
+        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().dataColor);
     }
 
     default Component value(Component t) {
@@ -83,21 +83,21 @@ public interface HudRenderer {
         if (useShort) {
             key += ".short";
         }
-        return Component.translatable(key);
+        return new TranslatableComponent(key);
     }
 
     default Component resolveDirection(String direction) {
         return resolveDirection(direction, false);
     }
 
-    default Rect<Integer> renderHud(GuiGraphics guiGraphics, RenderingLayout hudRenderer) {
+    default Rect<Integer> renderHud(RenderingLayout hudRenderer) {
         Rect<Integer> r = hudRenderer.calculateRect();
 
         if (config().renderBackground) {
-            RenderUtils.drawSquare(guiGraphics, r, config().backgroundColor);
+            RenderUtils.drawSquare(r, config().backgroundColor);
         }
 
-        hudRenderer.render(guiGraphics);
+        hudRenderer.render();
 
         return r;
     }
@@ -155,6 +155,6 @@ public interface HudRenderer {
 
     // HUD RENDERER METHOD
 
-    Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos);
+    Rect<Integer> renderOverlay(int x, int y, Position pos);
 
 }

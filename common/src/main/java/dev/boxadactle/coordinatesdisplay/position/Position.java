@@ -14,11 +14,12 @@ public class Position {
     public PlayerTargetBlock block;
 
     public static Position of(Player player) {
-        Vec3<Double> a = new Vec3<>(player.getX(), player.getY(), player.getZ());
+        Vec3<Double> a = new Vec3<>(player.x, player.y, player.z);
+        BlockPos b = new BlockPos(player.x, player.y, player.z);
 
         return new Position(
-                a, player.chunkPosition(), player.blockPosition(),
-                player.getYHeadRot(), player.getXRot(),
+                a, new ChunkPos(b), b,
+                player.getYHeadRot(), player.xRot,
                 new PlayerTargetBlock(player)
         );
     }

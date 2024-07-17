@@ -167,9 +167,9 @@
   "button.coordinatesdisplay.resetdefault": "Reset to Default...",
 
   "label.coordinatesdisplay.preview": "Preview",
-  "label.coordinatesdisplay.definitionColor": "Definition Color",
-  "label.coordinatesdisplay.dataColor": "Data Color",
-  "label.coordinatesdisplay.deathposColor": "Death Position Color",
+  "label.coordinatesdisplay.definitionColor": "Definition Color: %s",
+  "label.coordinatesdisplay.dataColor": "Data Color: %s",
+  "label.coordinatesdisplay.deathposColor": "Death Position Color: %s",
   "label.coordinatesdisplay.backgroundColor": "Background Color (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "Coordinates Chat Message",
   "label.coordinatesdisplay.copyPosMessage": "Copy Position Message",

@@ -5,6 +5,7 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public enum DisplayMode {
     DEFAULT(DefaultRenderer.class),
@@ -40,7 +41,7 @@ public enum DisplayMode {
     }
 
     public Component getComponent() {
-        return Component.translatable(renderer.getNameKey());
+        return new TranslatableComponent(renderer.getNameKey());
     }
 
     public String getName() {

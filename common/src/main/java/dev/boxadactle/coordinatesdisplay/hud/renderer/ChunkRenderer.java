@@ -8,12 +8,10 @@ import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ChunkPos;
 
@@ -33,7 +31,7 @@ import java.util.regex.Pattern;
 public class ChunkRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
         RowLayout hud = new RowLayout(0, 0, config().textPadding);
 
         {
@@ -78,7 +76,7 @@ public class ChunkRenderer implements HudRenderer {
             // C
             Component c = definition(translation("c"));
 
-            String var2 = ClientUtils.getClient().level != null ? ClientUtils.getClient().levelRenderer.getSectionStatistics() : "C: 0/0";
+            String var2 = ClientUtils.getClient().level != null ? ClientUtils.getClient().levelRenderer.getChunkStatistics() : "C: 0/0";
 
             // why is this field private mojang
             Pattern cPattern = Pattern.compile("C: (\\d+)/(\\d+) \\(s\\)");
@@ -92,7 +90,7 @@ public class ChunkRenderer implements HudRenderer {
             hud.addComponent(new LayoutContainerComponent(right));
         }
 
-        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, hud));
+        return renderHud(new PaddingLayout(x, y, config().padding, hud));
     }
 
 }

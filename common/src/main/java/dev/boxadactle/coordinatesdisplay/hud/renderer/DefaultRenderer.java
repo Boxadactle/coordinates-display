@@ -11,20 +11,19 @@ import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import oshi.util.tuples.Triplet;
+import net.minecraft.network.chat.TextComponent;
 
 @DisplayMode(value = "default")
 public class DefaultRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
         Vec2<Integer> chunkPos = pos.position.getChunkPos();
@@ -67,8 +66,8 @@ public class DefaultRenderer implements HudRenderer {
                     "direction",
                     definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))),
                     config().renderDirectionInt ?
-                            value(GuiUtils.parentheses(Component.literal(formatter.formatDecimal(pos.headRot.wrapYaw()))))
-                            : Component.empty()
+                            value("(" + formatter.formatDecimal(pos.headRot.wrapYaw()) + ")")
+                            : new TextComponent("")
             );
 
             row2.add(direction);
@@ -76,12 +75,7 @@ public class DefaultRenderer implements HudRenderer {
 
         if (config().renderBiome || config().renderDimension) {
             String biomestring = pos.world.getBiome(true);
-            Component coloredBiomestring = GuiUtils.colorize(
-                    Component.literal(biomestring),
-                    config().biomeColors ?
-                            CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, config().dataColor) :
-                            config().dataColor
-            );
+            Component coloredBiomestring = GuiUtils.colorize(new TextComponent(biomestring), config().dataColor);
             Component biome = definition(
                     "biome",
                     coloredBiomestring
@@ -89,10 +83,8 @@ public class DefaultRenderer implements HudRenderer {
 
             String dimensionstring = pos.world.getDimension(true);
             Component coloredDimensionstring = GuiUtils.colorize(
-                    Component.literal(dimensionstring),
-                    config().dimensionColors ?
-                            CoordinatesDisplay.BiomeColors.getDimensionColor(dimensionstring, config().dataColor) :
-                            config().dataColor
+                    new TextComponent(dimensionstring),
+                    config().dataColor
             );
             Component dimension = definition(
                     "dimension",
@@ -100,9 +92,9 @@ public class DefaultRenderer implements HudRenderer {
             );
 
             Component biomeDimension =
-                    (config().renderDimension ? (config().renderBiome ? coloredDimensionstring : dimension).copy() : Component.empty())
-                            .append(config().renderDimension && config().renderBiome ? definition(": ") : Component.empty())
-                            .append(config().renderBiome ? (config().renderDimension ? coloredBiomestring : biome) : Component.empty());
+                    (config().renderDimension ? (config().renderBiome ? coloredDimensionstring : dimension).copy() : new TextComponent(""))
+                            .append(config().renderDimension && config().renderBiome ? definition(": ") : new TextComponent(""))
+                            .append(config().renderBiome ? (config().renderDimension ? coloredBiomestring : biome) : new TextComponent(""));
 
             row2.add(biomeDimension);
         }
@@ -118,6 +110,6 @@ public class DefaultRenderer implements HudRenderer {
 
         PaddingLayout hudRenderer = new PaddingLayout(x, y, p, hud);
 
-        return renderHud(guiGraphics, hudRenderer);
+        return renderHud(hudRenderer);
     }
 }

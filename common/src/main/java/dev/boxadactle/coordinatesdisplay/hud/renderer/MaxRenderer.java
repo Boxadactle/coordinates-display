@@ -8,25 +8,18 @@ import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.boxlib.util.RenderUtils;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import org.apache.commons.compress.utils.Lists;
-import oshi.util.tuples.Triplet;
-
-import java.util.List;
+import net.minecraft.network.chat.TextComponent;
 
 @DisplayMode("maximum")
 public class MaxRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
 
         ParagraphComponent component = new ParagraphComponent(config().textPadding);
@@ -57,7 +50,7 @@ public class MaxRenderer implements HudRenderer {
             Component g = definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
             Component direction = definition(translation(
                     "direction", g,
-                    config().renderDirectionInt ? f : Component.empty()
+                    config().renderDirectionInt ? f : new TextComponent("")
             ));
 
             component.add(direction);
@@ -85,6 +78,6 @@ public class MaxRenderer implements HudRenderer {
 
         RowLayout r = new RowLayout(0, 0, 0);
         r.addComponent(component);
-        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, r));
+        return renderHud(new PaddingLayout(x, y, config().padding, r));
     }
 }
