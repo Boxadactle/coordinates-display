@@ -3,7 +3,7 @@ package dev.boxadactle.coordinatesdisplay.hud.modifier;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
-import dev.boxadactle.coordinatesdisplay.config.StartCorner;
+import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
 
 public class BottomLeftModifier implements HudPositionModifier {

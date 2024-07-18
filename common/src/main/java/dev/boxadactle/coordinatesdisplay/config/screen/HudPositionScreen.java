@@ -5,14 +5,14 @@ import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.mathutils.Clamps;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.config.StartCorner;
+import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -67,9 +67,9 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    public void render(GuiGraphics p_96562_, int mouseX, int mouseY, float delta) {
-        this.renderBackground(p_96562_, mouseX, mouseY, delta);
-        super.render(p_96562_, mouseX, mouseY, delta);
+    public void render(int mouseX, int mouseY, float delta) {
+        this.renderBackground();
+        super.render(mouseX, mouseY, delta);
 
         HudPositionModifier modifier = CoordinatesDisplay.getConfig().startCorner.getModifier();
 
@@ -93,8 +93,8 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
                                 Clamps.clamp(Math.round(mouseY / scale) - hudOffsetY, 0, Math.round(this.height / scale))
                         ),
                         new Dimension<>(
-                                Math.round(minecraft.getWindow().getGuiScaledWidth() / scale),
-                                Math.round(minecraft.getWindow().getGuiScaledHeight() / scale)
+                                Math.round(minecraft.window.getGuiScaledWidth() / scale),
+                                Math.round(minecraft.window.getGuiScaledHeight() / scale)
                         ),
                         StartCorner.TOP_LEFT
                 );
@@ -117,8 +117,8 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
                                 (mouseX),
                                 (mouseY)
                         ), new Dimension<>(
-                                Math.round(minecraft.getWindow().getGuiScaledWidth()),
-                                Math.round(minecraft.getWindow().getGuiScaledHeight())
+                                Math.round(minecraft.window.getGuiScaledWidth()),
+                                Math.round(minecraft.window.getGuiScaledHeight())
                         ),
                         config().startCorner
                 );
@@ -144,7 +144,6 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
         }
 
         CoordinatesDisplay.HUD.render(
-                p_96562_,
                 pos,
                 x, y,
                 CoordinatesDisplay.getConfig().renderMode,
@@ -195,13 +194,13 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    protected Component getName() {
-        return  Component.translatable("screen.coordinatesdispaly.hudposition");
+    protected String getName() {
+        return GuiUtils.getTranslatable("screen.coordinatesdispaly.hudposition");
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
-        this.addRenderableWidget(createSaveButton(startX, startY, b -> this.onClose()));
+        addButton(createSaveButton(startX, startY, b -> this.onClose()));
     }
 
     @Override

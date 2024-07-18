@@ -4,6 +4,7 @@ import dev.boxadactle.boxlib.gui.config.widget.BCustomEntry;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.ChunkPos;
 
@@ -29,9 +30,8 @@ public interface HudHelper {
     }
 
     default BCustomEntry createHudRenderEntry(Position pos) {
-        return new BCustomEntry((drawContext, x, y, width, height, mouseX, mouseY, tickDelta) -> {
+        return new BCustomEntry((x, y, width, height, mouseX, mouseY, tickDelta) -> {
             CoordinatesDisplay.HUD.render(
-                    drawContext,
                     pos,
                     (x + width / 2) - CoordinatesDisplay.HUD.getWidth() / 2,
                     y + 3,

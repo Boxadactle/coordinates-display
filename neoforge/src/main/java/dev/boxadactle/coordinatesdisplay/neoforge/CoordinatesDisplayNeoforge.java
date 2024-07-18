@@ -1,4 +1,4 @@
-package dev.boxadactle.coordinatesdisplay.neoforge;
+package dev.boxadactle.coordinatesdisplay.forge;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.util.GuiUtils;
@@ -8,7 +8,7 @@ import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
 import dev.boxadactle.coordinatesdisplay.hud.UnknownRendererException;
 import dev.boxadactle.coordinatesdisplay.hud.UnknownVisibilityFilterException;
-import dev.boxadactle.coordinatesdisplay.neoforge.init.Keybinds;
+import dev.boxadactle.coordinatesdisplay.forge.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;

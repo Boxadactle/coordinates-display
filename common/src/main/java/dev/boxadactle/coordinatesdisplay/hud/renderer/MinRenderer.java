@@ -3,22 +3,19 @@ package dev.boxadactle.coordinatesdisplay.hud.renderer;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.LeftParagraphComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
-import dev.boxadactle.boxlib.layouts.component.TextComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.level.levelgen.Column;
-import oshi.util.tuples.Triplet;
+import net.minecraft.network.chat.TextComponent;
 
 @DisplayMode(
         value = "minimum",
@@ -47,14 +44,14 @@ public class MinRenderer implements HudRenderer {
         String[] direction = directions[(int) Math.round(yaw / 45.0F) & 7];
 
         return new Component[] {
-                Component.literal(direction[0]),
+                new TextComponent(direction[0]),
                 resolveDirection(ModUtil.getDirectionFromYaw(yaw), true),
-                Component.literal(direction[1])
+                new TextComponent(direction[1])
         };
     }
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
         RowLayout layout = new RowLayout(0, 0, config().textPadding);
@@ -76,14 +73,12 @@ public class MinRenderer implements HudRenderer {
             Component biome = definition(
                     "biome",
                     GuiUtils.colorize(
-                            Component.literal(biomestring),
-                            CoordinatesDisplay.CONFIG.get().biomeColors ?
-                                    CoordinatesDisplay.BiomeColors.getBiomeColor(biomestring, CoordinatesDisplay.CONFIG.get().dataColor) :
-                                    CoordinatesDisplay.CONFIG.get().dataColor
+                            new TextComponent(biomestring),
+                            CoordinatesDisplay.CONFIG.get().dataColor.color()
                     )
             );
 
-            row.addComponent(new TextComponent(biome));
+            row.addComponent(new dev.boxadactle.boxlib.layouts.component.TextComponent(biome));
         }
 
         layout.addComponent(new LayoutContainerComponent(row));
@@ -98,6 +93,6 @@ public class MinRenderer implements HudRenderer {
             layout.addComponent(new LeftParagraphComponent(1, xDirection, directionText, zDirection));
         }
 
-        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, layout));
+        return renderHud(new PaddingLayout(x, y, config().padding, layout));
     }
 }

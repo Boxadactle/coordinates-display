@@ -36,7 +36,7 @@ dependencies {
 
     modImplementation("dev.boxadactle:Boxlib-fabric:${rootProject.boxlib_version}") { transitive = false }
 
-    modImplementation("com.terraformersmc:modmenu:${rootProject.modmenu_version}") { transitive = true }
+    modImplementation("io.github.prospector:modmenu:${rootProject.modmenu_version}") { transitive = true }
 }
 
 processResources {

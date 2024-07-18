@@ -5,12 +5,14 @@ import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.*;
 import dev.boxadactle.boxlib.util.ClientUtils;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class ConfigScreen extends BOptionScreen {
 
@@ -21,13 +23,13 @@ public class ConfigScreen extends BOptionScreen {
     }
 
     @Override
-    protected Component getName() {
-        return Component.translatable("screen.coordinatesdisplay.config", CoordinatesDisplay.VERSION_STRING);
+    protected String getName() {
+        return GuiUtils.getTranslatable("screen.coordinatesdisplay.config", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
-        this.addRenderableWidget(createHalfCancelButton(startX, startY, b -> {
+        addButton(createHalfCancelButton(startX, startY, b -> {
             ClientUtils.setScreen(parent);
             CoordinatesDisplay.CONFIG.restoreCache();
         }));
@@ -50,54 +52,54 @@ public class ConfigScreen extends BOptionScreen {
 
         // visual settings
         this.addConfigLine(new BConfigScreenButton(
-                Component.translatable("button.coordinatesdisplay.visualconfig"),
+                GuiUtils.getTranslatable("button.coordinatesdisplay.visualconfig"),
                 this,
                 VisualScreen::new
         ));
 
         // render settings
         this.addConfigLine(new BConfigScreenButton(
-                Component.translatable("button.coordinatesdisplay.renderconfig"),
+                GuiUtils.getTranslatable("button.coordinatesdisplay.renderconfig"),
                 this,
                 RenderScreen::new
         ));
 
         // color settings
         this.addConfigLine(new BConfigScreenButton(
-                Component.translatable("button.coordinatesdisplay.colorconfig"),
+                GuiUtils.getTranslatable("button.coordinatesdisplay.colorconfig"),
                 this,
                 ColorScreen::new
         ));
 
         // death pos settings
         this.addConfigLine(new BConfigScreenButton(
-                Component.translatable("button.coordinatesdisplay.deathpos"),
+                GuiUtils.getTranslatable("button.coordinatesdisplay.deathpos"),
                 this,
                 DeathPosScreen::new
         ));
 
         // text settings
         this.addConfigLine(new BConfigScreenButton(
-                Component.translatable("button.coordinatesdisplay.text"),
+                GuiUtils.getTranslatable("button.coordinatesdisplay.text"),
                 this,
                 TextScreen::new
         ));
 
         this.addConfigLine(new BSpacingEntry());
 
-        this.addConfigLine(new BCustomButton(Component.translatable("button.coordinatesdisplay.configfile")) {
+        this.addConfigLine(new BCustomButton(GuiUtils.getTranslatable("button.coordinatesdisplay.configfile")) {
             @Override
             protected void buttonClicked(BOptionButton<?> button) {
                 button.active = false;
                 if (ModUtil.openConfigFile()) {
-                    button.setMessage(Component.translatable("button.coordinatesdisplay.configfilesuccess"));
+                    button.setMessage(GuiUtils.getTranslatable("button.coordinatesdisplay.configfilesuccess"));
                 } else {
-                    button.setMessage(Component.translatable("button.coordinatesdisplay.configfilefail"));
+                    button.setMessage(GuiUtils.getTranslatable("button.coordinatesdisplay.configfilefail"));
                 }
             }
         });
 
-        this.addConfigLine(new BCustomButton(Component.translatable("button.coordinatesdisplay.resetdefault")) {
+        this.addConfigLine(new BCustomButton(GuiUtils.getTranslatable("button.coordinatesdisplay.resetdefault")) {
             @Override
             protected void buttonClicked(BOptionButton<?> button) {
                 Screen configScreen = ClientUtils.getCurrentScreen();
@@ -109,13 +111,13 @@ public class ConfigScreen extends BOptionScreen {
                         ClientUtils.setScreen(configScreen);
                     }
                 },
-                        Component.translatable("screen.coordinatesdisplay.confirmreset"),
-                        Component.translatable("message.coordinatesdisplay.confirmreset")
+                        new TranslatableComponent("screen.coordinatesdisplay.confirmreset"),
+                        new TranslatableComponent("message.coordinatesdisplay.confirmreset")
                 ));
             }
         });
 
-        this.addConfigLine(new BLinkButton(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI));
+        this.addConfigLine(new BLinkButton(GuiUtils.getTranslatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI));
 
     }
 }

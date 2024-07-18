@@ -10,8 +10,8 @@ import net.minecraft.world.item.Items;
 public class HoldMapVisibility implements HudVisibilityFilter {
     @Override
     public boolean isVisible() {
-        ItemStack p = WorldUtils.getPlayer().getInventory().getSelected();
+        ItemStack p = WorldUtils.getPlayer().inventory.getSelected();
 
-        return p.is(Items.MAP) || p.is(Items.FILLED_MAP);
+        return p.getItem() == Items.MAP || p.getItem() == Items.FILLED_MAP;
     }
 }

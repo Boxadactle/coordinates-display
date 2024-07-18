@@ -1,4 +1,4 @@
-package dev.boxadactle.coordinatesdisplay.neoforge.init;
+package dev.boxadactle.coordinatesdisplay.forge.init;
 
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
