@@ -55,11 +55,11 @@ public interface HudRenderer {
     }
 
     default Component definition(Component t) {
-        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().definitionColor);
+        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().definitionColor.color());
     }
 
     default Component definition(String t) {
-        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().definitionColor);
+        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().definitionColor.color());
     }
 
     default Component definition(String k, Object ...args) {
@@ -67,11 +67,11 @@ public interface HudRenderer {
     }
 
     default Component value(String t) {
-        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().dataColor);
+        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().dataColor.color());
     }
 
     default Component value(Component t) {
-        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor);
+        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor.color());
     }
 
     default Component valueTranslation(String k, Object ...args) {

@@ -75,7 +75,7 @@ public class DefaultRenderer implements HudRenderer {
 
         if (config().renderBiome || config().renderDimension) {
             String biomestring = pos.world.getBiome(true);
-            Component coloredBiomestring = GuiUtils.colorize(new TextComponent(biomestring), config().dataColor);
+            Component coloredBiomestring = GuiUtils.colorize(new TextComponent(biomestring), config().dataColor.color());
             Component biome = definition(
                     "biome",
                     coloredBiomestring
@@ -84,7 +84,7 @@ public class DefaultRenderer implements HudRenderer {
             String dimensionstring = pos.world.getDimension(true);
             Component coloredDimensionstring = GuiUtils.colorize(
                     new TextComponent(dimensionstring),
-                    config().dataColor
+                    config().dataColor.color()
             );
             Component dimension = definition(
                     "dimension",

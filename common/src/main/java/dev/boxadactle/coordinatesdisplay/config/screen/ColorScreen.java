@@ -1,10 +1,8 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
-import com.google.common.collect.ImmutableList;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.BEnumButton;
-import dev.boxadactle.boxlib.gui.config.widget.button.BToggleButton;
 import dev.boxadactle.boxlib.gui.config.widget.field.*;
 import dev.boxadactle.boxlib.gui.config.widget.label.*;
 import dev.boxadactle.boxlib.util.GuiUtils;
@@ -12,12 +10,12 @@ import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import dev.boxadactle.coordinatesdisplay.registry.HudColor;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class ColorScreen extends BOptionScreen implements HudHelper {
@@ -90,42 +88,21 @@ public class ColorScreen extends BOptionScreen implements HudHelper {
 
     }
 
-    public static class ColorSelector extends BToggleButton<ChatFormatting> {
+    public static class ColorSelector extends BEnumButton<HudColor> {
 
-        public ColorSelector(String key, ChatFormatting value, Consumer<ChatFormatting> function) {
+        public ColorSelector(String key, HudColor value, Consumer<HudColor> function) {
             super(
                     key,
                     value,
-                    ImmutableList.of(
-                            ChatFormatting.BLACK,
-                            ChatFormatting.DARK_BLUE,
-                            ChatFormatting.DARK_GREEN,
-                            ChatFormatting.DARK_AQUA,
-                            ChatFormatting.DARK_RED,
-                            ChatFormatting.DARK_PURPLE,
-                            ChatFormatting.GOLD,
-                            ChatFormatting.GRAY,
-                            ChatFormatting.DARK_GRAY,
-                            ChatFormatting.BLUE,
-                            ChatFormatting.GREEN,
-                            ChatFormatting.AQUA,
-                            ChatFormatting.RED,
-                            ChatFormatting.LIGHT_PURPLE,
-                            ChatFormatting.YELLOW,
-                            ChatFormatting.WHITE
-                    ),
-                    function
+                    HudColor.class,
+                    function,
+                    ChatFormatting.WHITE
             );
         }
 
         @Override
-        public ChatFormatting to(Component component) {
-            return ChatFormatting.getByName(component.getString());
-        }
-
-        @Override
-        public Component from(ChatFormatting chatFormatting) {
-            return GuiUtils.colorize(new TextComponent(chatFormatting.toString()), chatFormatting);
+        public Component from(HudColor color) {
+            return GuiUtils.colorize(new TextComponent(color.toString().toLowerCase()), color.color());
         }
     }
 

@@ -2,10 +2,7 @@ package dev.boxadactle.coordinatesdisplay.config;
 
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
-import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
-import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
-import dev.boxadactle.coordinatesdisplay.registry.TeleportMode;
-import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
+import dev.boxadactle.coordinatesdisplay.registry.*;
 import net.minecraft.ChatFormatting;
 
 @BConfigFile("coordinates-display")
@@ -33,9 +30,9 @@ public class ModConfig implements BConfig {
     public boolean renderMCVersion = true;
     public boolean renderDimension = true;
 
-    public ChatFormatting definitionColor = ChatFormatting.GREEN;
-    public ChatFormatting dataColor = ChatFormatting.WHITE;
-    public ChatFormatting deathPosColor = ChatFormatting.AQUA;
+    public HudColor definitionColor = HudColor.GREEN;
+    public HudColor dataColor = HudColor.WHITE;
+    public HudColor deathPosColor = HudColor.AQUA;
     public int backgroundColor = 0x405c5c5c;
 
     public boolean displayPosOnDeathScreen = true;
