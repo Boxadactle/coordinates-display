@@ -28,5 +28,8 @@
     "minecraft": "1.15.*",
     "boxlib": "3.*.*",
     "fabric": "*"
+  },
+  "recommends": {
+    "modmenu": "*"
   }
 }

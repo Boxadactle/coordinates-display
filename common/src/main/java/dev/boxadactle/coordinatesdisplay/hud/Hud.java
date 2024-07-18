@@ -77,17 +77,15 @@ public class Hud {
     public void render(Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay, float scale) {
         try {
             if (!renderMode.getMetadata().ignoreTranslations()) {
-                PoseStack stack = new PoseStack();
+                RenderSystem.pushMatrix();
 
-                stack.pushPose();
-
-                stack.scale(scale, scale, scale);
+                RenderSystem.scalef(scale, scale, scale);
 
                 this.scale = scale;
 
                 render(pos, x, y, renderMode, startCorner, moveOverlay);
 
-                stack.popPose();
+                RenderSystem.popMatrix();
             } else render(pos, x, y, renderMode, startCorner, moveOverlay);
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.printStackTrace(e);
