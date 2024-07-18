@@ -65,7 +65,7 @@ public class ChunkRenderer implements HudRenderer {
 
             String var1 = ClientUtils.getClient().level != null ? ClientUtils.getClient().level.gatherChunkSourceStats() : "Chunks[C] W: 0/0";
 
-            Pattern chunksPattern = Pattern.compile("Chunks\\[C] W: (\\d+), (\\d+) E:");
+            Pattern chunksPattern = Pattern.compile("Client Chunk Cache: (\\d+), (\\d+)");
             Matcher chunksMatcher = chunksPattern.matcher(var1);
             boolean var3 = chunksMatcher.find();
             Component cached = definition(translation("chunks.cached", value(var3 ? chunksMatcher.group(1) : "0")));
