@@ -1,6 +1,8 @@
 package dev.boxadactle.coordinatesdisplay.forge;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
@@ -49,7 +51,7 @@ public class CoordinatesDisplayForge {
         public static void renderHud(RenderGameOverlayEvent.Post event) {
             try {
                 if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
-                    GlStateManager.enableBlend();
+                    RenderSystem.enableBlend();
 
                     ModConfig config = CoordinatesDisplay.getConfig();
 

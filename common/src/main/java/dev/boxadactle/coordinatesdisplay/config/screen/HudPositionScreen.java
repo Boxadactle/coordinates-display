@@ -93,8 +93,8 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
                                 Clamps.clamp(Math.round(mouseY / scale) - hudOffsetY, 0, Math.round(this.height / scale))
                         ),
                         new Dimension<>(
-                                Math.round(minecraft.window.getGuiScaledWidth() / scale),
-                                Math.round(minecraft.window.getGuiScaledHeight() / scale)
+                                Math.round(minecraft.getWindow().getGuiScaledWidth() / scale),
+                                Math.round(minecraft.getWindow().getGuiScaledHeight() / scale)
                         ),
                         StartCorner.TOP_LEFT
                 );
@@ -117,8 +117,8 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
                                 (mouseX),
                                 (mouseY)
                         ), new Dimension<>(
-                                Math.round(minecraft.window.getGuiScaledWidth()),
-                                Math.round(minecraft.window.getGuiScaledHeight())
+                                Math.round(minecraft.getWindow().getGuiScaledWidth()),
+                                Math.round(minecraft.getWindow().getGuiScaledHeight())
                         ),
                         config().startCorner
                 );

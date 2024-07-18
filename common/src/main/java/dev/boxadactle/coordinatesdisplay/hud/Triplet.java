@@ -1,7 +1,5 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
-import net.minecraft.network.chat.Component;
-
 public class Triplet<F, S, T> {
     F first;
     S second;

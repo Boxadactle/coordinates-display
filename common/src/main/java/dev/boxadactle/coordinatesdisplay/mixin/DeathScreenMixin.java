@@ -29,9 +29,9 @@ public class DeathScreenMixin extends Screen {
                 button.setMessage(GuiUtils.getTranslatable("button.coordinatesdisplay.copied"));
                 button.active = false;
 
-                int x = (int) Math.round(ClientUtils.getClient().player.x);
-                int y = (int) Math.round(ClientUtils.getClient().player.y);
-                int z = (int) Math.round(ClientUtils.getClient().player.z);
+                int x = (int) Math.round(ClientUtils.getClient().player.getX());
+                int y = (int) Math.round(ClientUtils.getClient().player.getY());
+                int z = (int) Math.round(ClientUtils.getClient().player.getZ());
 
                 ClientUtils.getClient().keyboardHandler.setClipboard(x + " " + y + " " + z);
                 CoordinatesDisplay.LOGGER.info("Copied death position to clipboard");
@@ -44,9 +44,9 @@ public class DeathScreenMixin extends Screen {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
             DecimalFormat d = new DecimalFormat("0.00");
 
-            String x = d.format(ClientUtils.getClient().player.x);
-            String y = d.format(ClientUtils.getClient().player.y);
-            String z = d.format(ClientUtils.getClient().player.z);
+            String x = d.format(ClientUtils.getClient().player.getX());
+            String y = d.format(ClientUtils.getClient().player.getY());
+            String z = d.format(ClientUtils.getClient().player.getZ());
             Component pos = new TranslatableComponent("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.setColor(CoordinatesDisplay.CONFIG.get().deathPosColor.color()));
             RenderUtils.drawTextCentered(new TranslatableComponent("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, GuiUtils.WHITE);
         }
