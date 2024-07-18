@@ -52,8 +52,8 @@ public class HotbarRenderer implements HudRenderer {
         Rect<Integer> r;
 
         if (ClientUtils.getClient().level != null) {
-            int j = ClientUtils.getClient().window.getGuiScaledWidth() / 2;
-            int k = ClientUtils.getClient().window.getGuiScaledHeight() - 68 - 4;
+            int j = ClientUtils.getClient().getWindow().getGuiScaledWidth() / 2;
+            int k = ClientUtils.getClient().getWindow().getGuiScaledHeight() - 68 - 4;
 
             // make sure we don't render over any actionbar titles
             if (((OverlayMessageTimeAccessor)ClientUtils.getClient().gui).getOverlayMessageTime() == 0)

@@ -1,6 +1,8 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
@@ -53,8 +55,8 @@ public class Hud {
         try {
             // only way to do this is the use the size of the hud from the previous frame
             Rect<Integer> newPos = renderMode.getMetadata().ignoreTranslations() ? new Rect<>(x, y, size.getWidth(), size.getHeight()) : startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
-                    Math.round(ClientUtils.getClient().window.getGuiScaledWidth() / scale),
-                    Math.round(ClientUtils.getClient().window.getGuiScaledHeight() / scale)
+                    Math.round(ClientUtils.getClient().getWindow().getGuiScaledWidth() / scale),
+                    Math.round(ClientUtils.getClient().getWindow().getGuiScaledHeight() / scale)
             ), StartCorner.TOP_LEFT);
 
             Rect<Integer> size = renderMode.getRenderer().renderOverlay(newPos.getX(), newPos.getY(), pos);
@@ -75,15 +77,17 @@ public class Hud {
     public void render(Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay, float scale) {
         try {
             if (!renderMode.getMetadata().ignoreTranslations()) {
-                GlStateManager.pushMatrix();
+                PoseStack stack = new PoseStack();
 
-                GlStateManager.scalef(scale, scale, scale);
+                stack.pushPose();
+
+                stack.scale(scale, scale, scale);
 
                 this.scale = scale;
 
                 render(pos, x, y, renderMode, startCorner, moveOverlay);
 
-                GlStateManager.popMatrix();
+                stack.popPose();
             } else render(pos, x, y, renderMode, startCorner, moveOverlay);
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.printStackTrace(e);
