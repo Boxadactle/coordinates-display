@@ -43,7 +43,7 @@ public class HotbarRenderer implements HudRenderer {
         String biomestring = pos.world.getBiome(true);
         Component biome = GuiUtils.colorize(
                 new TextComponent(biomestring),
-                CoordinatesDisplay.CONFIG.get().dataColor
+                CoordinatesDisplay.CONFIG.get().dataColor.color()
         );
 
         Component all = translation("all", xyz, direction, biome);

@@ -74,7 +74,7 @@ public class MinRenderer implements HudRenderer {
                     "biome",
                     GuiUtils.colorize(
                             new TextComponent(biomestring),
-                            CoordinatesDisplay.CONFIG.get().dataColor
+                            CoordinatesDisplay.CONFIG.get().dataColor.color()
                     )
             );
 

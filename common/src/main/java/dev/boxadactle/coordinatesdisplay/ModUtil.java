@@ -92,11 +92,11 @@ public class ModUtil {
 
         Component position = new TranslatableComponent("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
                 .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("message.coordinatesdisplay.teleport")))
-                .setColor((CoordinatesDisplay.CONFIG.get().deathPosColor))
+                .setColor((CoordinatesDisplay.CONFIG.get().deathPosColor.color()))
                 .setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return new TranslatableComponent("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.setColor((CoordinatesDisplay.CONFIG.get().definitionColor)));
+        return new TranslatableComponent("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.setColor(CoordinatesDisplay.CONFIG.get().definitionColor.color()));
     }
 
     @ExpectPlatform
