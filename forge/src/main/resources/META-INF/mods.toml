@@ -1,29 +1,32 @@
-modLoader="javafml" #mandatory
-loaderVersion="[37,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+modLoader="javafml"
+loaderVersion="[0,)"
 license="MIT"
-[[mods]] #mandatory
-modId="coordinatesdisplay" #mandatory
-version="2.0.0" #mandatory
-displayName="Coordinates Display" #mandatory
-authors="Boxadactle" #optional
-description='''
-A coordinates display mod for Forge
-'''
-[[dependencies.coordinatesdisplay]] #optional
-   modId="forge" #mandatory
-   mandatory=true #mandatory
-   versionRange="[37,)" #mandatory
-   ordering="NONE"
-   side="BOTH"
-# Here's another dependency
+
+[[mods]]
+modId="coordinatesdisplay"
+version="${version}"
+displayName="Coordinates Display"
+authors="Boxadactle"
+description='''A mod that displays your coordinates on the in-game HUD.'''
+logoFile='icon.png'
+
 [[dependencies.coordinatesdisplay]]
-   modId="minecraft"
-   mandatory=true
-   versionRange="[1.17.1]"
-   ordering="NONE"
-   side="BOTH"
+modId="forge"
+mandatory=true
+versionRange="[0,)"
+ordering="NONE"
+side="BOTH"
+
 [[dependencies.coordinatesdisplay]]
-   modId="cloth_config"
-   mandatory=true
-   versionRange="[5.3.63]"
-   side="CLIENT"
+modId="minecraft"
+mandatory=true
+versionRange="[1.16,1.17)"
+ordering="NONE"
+side="BOTH"
+
+[[dependencies.coordinatesdisplay]]
+modId="boxlib"
+mandatory=true
+versionRange="[4.0.0,5.0.0)"
+ordering="NONE"
+side="CLIENT"

@@ -1,0 +1,38 @@
+modLoader = "javafml"
+loaderVersion = "[2,)"
+#issueTrackerURL = ""
+license = "MIT"
+
+[[mods]]
+modId = "coordinatesdisplay"
+version = "${version}"
+displayName = "CoordinatesDisplay"
+authors = "Boxadactle"
+description = '''
+The most basic client-slide mod
+'''
+logoFile = "icon.png"
+
+[[dependencies.coordinatesdisplay]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.coordinatesdisplay]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.coordinatesdisplay]]
+modId = "boxlib"
+type = "required"
+versionRange = "[14.0.0, 15.0.0)"
+ordering = "NONE"
+side = "BOTH"
+
+[[mixins]]
+config = "coordinatesdisplay-common.mixins.json"
