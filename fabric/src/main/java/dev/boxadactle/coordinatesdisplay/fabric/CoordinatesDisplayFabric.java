@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.fabric;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
@@ -34,12 +35,13 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
         }
     }
 
-    private void renderHud(float f) {
+    private void renderHud(PoseStack stack, float f) {
         try {
             if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
                 ModConfig config = CoordinatesDisplay.getConfig();
 
                 CoordinatesDisplay.HUD.render(
+                        stack,
                         Position.of(WorldUtils.getPlayer()),
                         config.hudX,
                         config.hudY,

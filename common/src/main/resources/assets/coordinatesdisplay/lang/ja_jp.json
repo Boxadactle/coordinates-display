@@ -26,6 +26,8 @@
   "hud.coordinatesdisplay.west.short": "西",
   "hud.coordinatesdisplay.northwest.short": "北西",
 
+  "hud.coordinatesdisplay.biome.unknown": "Unknown",
+
   "hud.coordinatesdisplay.default": "デフォルト",
   "hud.coordinatesdisplay.default.x": "X座標: %s",
   "hud.coordinatesdisplay.default.y": "Y座標: %s",
@@ -166,9 +168,9 @@
   "button.coordinatesdisplay.resetdefault": "デフォルトにリセット...",
 
   "label.coordinatesdisplay.preview": "プレビュー",
-  "label.coordinatesdisplay.definitionColor": "定義の色: %s",
-  "label.coordinatesdisplay.dataColor": "データの色: %s",
-  "label.coordinatesdisplay.deathposColor": "死亡位置の色: %s",
+  "label.coordinatesdisplay.definitionColor": "定義の色",
+  "label.coordinatesdisplay.dataColor": "データの色",
+  "label.coordinatesdisplay.deathposColor": "死亡位置の色",
   "label.coordinatesdisplay.backgroundColor": "背景の色 (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "座標のチャットメッセージ",
   "label.coordinatesdisplay.copyPosMessage": "位置をコピーするメッセージ",

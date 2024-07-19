@@ -14,6 +14,7 @@ import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import org.lwjgl.opengl.GL11;
 
 public class Hud {
 
@@ -51,7 +52,7 @@ public class Hud {
         return bl && CoordinatesDisplay.getConfig().enabled;
     }
 
-    public void render(Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay) {
+    public void render(PoseStack stack, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay) {
         try {
             // only way to do this is the use the size of the hud from the previous frame
             Rect<Integer> newPos = renderMode.getMetadata().ignoreTranslations() ? new Rect<>(x, y, size.getWidth(), size.getHeight()) : startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
@@ -59,14 +60,14 @@ public class Hud {
                     Math.round(ClientUtils.getClient().getWindow().getGuiScaledHeight() / scale)
             ), StartCorner.TOP_LEFT);
 
-            Rect<Integer> size = renderMode.getRenderer().renderOverlay(newPos.getX(), newPos.getY(), pos);
+            Rect<Integer> size = renderMode.getRenderer().renderOverlay(stack, newPos.getX(), newPos.getY(), pos);
             this.size.setX(size.getX());
             this.size.setY(size.getY());
             this.size.setWidth(size.getWidth());
             this.size.setHeight(size.getHeight());
 
             if (moveOverlay && renderMode.getMetadata().allowMove()) {
-                renderMoveOverlay(newPos.getX(), newPos.getY());
+                renderMoveOverlay(stack, newPos.getX(), newPos.getY());
             }
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.error("An unexpected error occurred!");
@@ -74,19 +75,19 @@ public class Hud {
         }
     }
 
-    public void render(Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay, float scale) {
+    public void render(PoseStack stack, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay, float scale) {
         try {
             if (!renderMode.getMetadata().ignoreTranslations()) {
-                RenderSystem.pushMatrix();
+                GL11.glPushMatrix();
 
-                RenderSystem.scalef(scale, scale, scale);
+                GL11.glScalef(scale, scale, scale);
 
                 this.scale = scale;
 
-                render(pos, x, y, renderMode, startCorner, moveOverlay);
+                render(stack, pos, x, y, renderMode, startCorner, moveOverlay);
 
-                RenderSystem.popMatrix();
-            } else render(pos, x, y, renderMode, startCorner, moveOverlay);
+                GL11.glPopMatrix();
+            } else render(stack, pos, x, y, renderMode, startCorner, moveOverlay);
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.printStackTrace(e);
         }
@@ -104,19 +105,19 @@ public class Hud {
         return size.getHeight();
     }
 
-    private void renderMoveOverlay(int x, int y) {
+    private void renderMoveOverlay(PoseStack stack, int x, int y) {
         int color = 0x50c7c7c7;
         scaleSize = 5;
         int scaleColor = 0x99d9fffa;
 
         // overlay color
-        RenderUtils.drawSquare(x, y, size.getWidth(), size.getHeight(), color);
+        RenderUtils.drawSquare(stack, x, y, size.getWidth(), size.getHeight(), color);
 
         // scale square
         scaleButton = calculateScaleButton(CoordinatesDisplay.getConfig().startCorner);
         int scaleX = scaleButton.getX();
         int scaleY = scaleButton.getY();
-        RenderUtils.drawSquare(scaleX, scaleY, scaleSize, scaleSize, scaleColor);
+        RenderUtils.drawSquare(stack, scaleX, scaleY, scaleSize, scaleSize, scaleColor);
     }
 
     private Rect<Integer> calculateScaleButton(StartCorner corner) {

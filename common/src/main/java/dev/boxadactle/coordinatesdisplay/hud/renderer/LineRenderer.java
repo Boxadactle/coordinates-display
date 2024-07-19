@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.TextComponent;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
@@ -24,7 +25,7 @@ import net.minecraft.network.chat.Component;
 public class LineRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
         RowLayout layout = new RowLayout(0, 0, config().textPadding);
@@ -51,6 +52,6 @@ public class LineRenderer implements HudRenderer {
         int p = config().renderBackground ? config().padding : 0;
         PaddingLayout hud = new PaddingLayout(x, y, p, layout);
 
-        return renderHud(hud);
+        return renderHud(stack, hud);
     }
 }

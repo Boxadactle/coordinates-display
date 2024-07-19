@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
@@ -71,7 +72,7 @@ public class DirectionRenderer implements HudRenderer {
     }
 
     @Override
-    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
@@ -149,6 +150,6 @@ public class DirectionRenderer implements HudRenderer {
 
         hud.addComponent(direction);
 
-        return renderHud(new PaddingLayout(x, y, config().padding, hud));
+        return renderHud(new PoseStack(), new PaddingLayout(x, y, config().padding, hud));
     }
 }

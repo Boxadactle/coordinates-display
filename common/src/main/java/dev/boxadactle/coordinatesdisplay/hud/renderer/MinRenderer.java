@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.LeftParagraphComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
@@ -51,7 +52,7 @@ public class MinRenderer implements HudRenderer {
     }
 
     @Override
-    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
         RowLayout layout = new RowLayout(0, 0, config().textPadding);
@@ -69,13 +70,9 @@ public class MinRenderer implements HudRenderer {
 
         // biome
         if (config().renderBiome) {
-            String biomestring = pos.world.getBiome(true);
             Component biome = definition(
                     "biome",
-                    GuiUtils.colorize(
-                            new TextComponent(biomestring),
-                            CoordinatesDisplay.CONFIG.get().dataColor.color()
-                    )
+                    ModUtil.getBiomeComponent(pos.world.getBiome(), config().biomeColors, config().dataColor)
             );
 
             row.addComponent(new dev.boxadactle.boxlib.layouts.component.TextComponent(biome));
@@ -93,6 +90,6 @@ public class MinRenderer implements HudRenderer {
             layout.addComponent(new LeftParagraphComponent(1, xDirection, directionText, zDirection));
         }
 
-        return renderHud(new PaddingLayout(x, y, config().padding, layout));
+        return renderHud(stack, new PaddingLayout(x, y, config().padding, layout));
     }
 }

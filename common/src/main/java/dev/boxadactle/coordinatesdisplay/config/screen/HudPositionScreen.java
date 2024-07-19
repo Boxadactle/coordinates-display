@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.config.screen;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
@@ -15,6 +16,7 @@ import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class HudPositionScreen extends BOptionScreen implements HudHelper {
 
@@ -67,9 +69,9 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float delta) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, delta);
+    public void render(PoseStack poseStack, int mouseX, int mouseY, float delta) {
+        this.renderBackground(poseStack);
+        super.render(poseStack, mouseX, mouseY, delta);
 
         HudPositionModifier modifier = CoordinatesDisplay.getConfig().startCorner.getModifier();
 
@@ -144,6 +146,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
         }
 
         CoordinatesDisplay.HUD.render(
+                poseStack,
                 pos,
                 x, y,
                 CoordinatesDisplay.getConfig().renderMode,
@@ -194,8 +197,8 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    protected String getName() {
-        return GuiUtils.getTranslatable("screen.coordinatesdispaly.hudposition");
+    protected Component getName() {
+        return new TranslatableComponent("screen.coordinatesdispaly.hudposition");
     }
 
     @Override

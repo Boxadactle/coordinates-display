@@ -1,8 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.forge;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
@@ -18,7 +16,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
@@ -56,6 +53,7 @@ public class CoordinatesDisplayForge {
                     ModConfig config = CoordinatesDisplay.getConfig();
 
                     CoordinatesDisplay.HUD.render(
+                            event.getMatrixStack(),
                             Position.of(WorldUtils.getPlayer()),
                             config.hudX,
                             config.hudY,

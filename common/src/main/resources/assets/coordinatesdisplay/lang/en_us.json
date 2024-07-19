@@ -26,6 +26,8 @@
   "hud.coordinatesdisplay.west.short": "W",
   "hud.coordinatesdisplay.northwest.short": "NW",
 
+  "hud.coordinatesdisplay.biome.unknown": "Unknown",
+
   "hud.coordinatesdisplay.default": "Default",
   "hud.coordinatesdisplay.default.x": "X: %s",
   "hud.coordinatesdisplay.default.y": "Y: %s",
@@ -167,9 +169,9 @@
   "button.coordinatesdisplay.resetdefault": "Reset to Default...",
 
   "label.coordinatesdisplay.preview": "Preview",
-  "label.coordinatesdisplay.definitionColor": "Definition Color: %s",
-  "label.coordinatesdisplay.dataColor": "Data Color: %s",
-  "label.coordinatesdisplay.deathposColor": "Death Position Color: %s",
+  "label.coordinatesdisplay.definitionColor": "Definition Color",
+  "label.coordinatesdisplay.dataColor": "Data Color",
+  "label.coordinatesdisplay.deathposColor": "Death Position Color",
   "label.coordinatesdisplay.backgroundColor": "Background Color (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "Coordinates Chat Message",
   "label.coordinatesdisplay.copyPosMessage": "Copy Position Message",
