@@ -26,7 +26,7 @@ public class DeathScreenMixin extends Screen {
     @Inject(at = @At("RETURN"), method = "init")
     private void init(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
-            addButton(new Button(this.width / 2 - 100, this.height / 4 + 120, 200, 20, new TranslatableComponent("button.coordinatesdisplay.copy"), (button) -> {
+            addRenderableWidget(new Button(this.width / 2 - 100, this.height / 4 + 120, 200, 20, new TranslatableComponent("button.coordinatesdisplay.copy"), (button) -> {
                 button.setMessage(new TranslatableComponent("button.coordinatesdisplay.copied"));
                 button.active = false;
 

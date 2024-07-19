@@ -203,7 +203,7 @@ public class HudPositionScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected void initFooter(int startX, int startY) {
-        addButton(createSaveButton(startX, startY, b -> this.onClose()));
+        addRenderableWidget(createSaveButton(startX, startY, b -> this.onClose()));
     }
 
     @Override

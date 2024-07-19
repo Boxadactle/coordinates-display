@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.forge;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
@@ -14,10 +15,10 @@ import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fmlclient.ConfigGuiHandler;
 
 @SuppressWarnings("unused")
 @Mod(CoordinatesDisplay.MOD_ID)
@@ -28,8 +29,8 @@ public class CoordinatesDisplayForge {
     public CoordinatesDisplayForge() {
         CoordinatesDisplay.init();
 
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () ->
-                (minecraft, screen) -> new ConfigScreen(screen)
+        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class, () ->
+                new ConfigGuiHandler.ConfigGuiFactory((minecraft, screen) -> new ConfigScreen(screen))
         );
     }
 
@@ -44,8 +45,8 @@ public class CoordinatesDisplayForge {
             }
         }
 
-        @SubscribeEvent(priority = EventPriority.LOW)
-        public static void renderHud(RenderGameOverlayEvent.Post event) {
+        @SubscribeEvent(priority = EventPriority.HIGH)
+        public static void renderHud(RenderGameOverlayEvent.Pre event) {
             try {
                 if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
                     RenderSystem.enableBlend();

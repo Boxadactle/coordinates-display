@@ -19,7 +19,7 @@ public class Position {
 
         return new Position(
                 a, new ChunkPos(b), b,
-                player.getYHeadRot(), player.xRot,
+                player.getYHeadRot(), player.getXRot(),
                 new PlayerTargetBlock(player)
         );
     }
