@@ -19,8 +19,6 @@ import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.level.biome.Biome;
 
 @DisplayMode(value = "default")
 public class DefaultRenderer implements HudRenderer {
@@ -84,7 +82,7 @@ public class DefaultRenderer implements HudRenderer {
             Component coloredDimensionstring = GuiUtils.colorize(
                     new TextComponent(dimensionstring),
                     config().biomeColors ?
-                            CoordinatesDisplay.BiomeColors.getDimensionColor(dimensionstring, config().definitionColor) :
+                            CoordinatesDisplay.WorldColors.getDimensionColor(dimensionstring, config().definitionColor) :
                             config().definitionColor
             );
             Component dimension = definition(

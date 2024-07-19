@@ -11,7 +11,7 @@ import net.minecraft.world.item.Items;
 public class OwnMapVisibility implements HudVisibilityFilter {
     @Override
     public boolean isVisible() {
-        Inventory inventory = WorldUtils.getPlayer().inventory;
+        Inventory inventory = WorldUtils.getPlayer().getInventory();
 
         return inventory.contains(new ItemStack(Items.MAP)) || inventory.contains(new ItemStack(Items.FILLED_MAP));
     }

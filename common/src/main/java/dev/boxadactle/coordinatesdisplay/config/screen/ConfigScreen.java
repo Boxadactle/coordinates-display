@@ -29,7 +29,7 @@ public class ConfigScreen extends BOptionScreen {
 
     @Override
     protected void initFooter(int startX, int startY) {
-        addButton(createHalfCancelButton(startX, startY, b -> {
+        addRenderableWidget(createHalfCancelButton(startX, startY, b -> {
             ClientUtils.setScreen(parent);
             CoordinatesDisplay.CONFIG.restoreCache();
         }));

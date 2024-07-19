@@ -78,15 +78,15 @@ public class Hud {
     public void render(PoseStack stack, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay, float scale) {
         try {
             if (!renderMode.getMetadata().ignoreTranslations()) {
-                GL11.glPushMatrix();
+                stack.pushPose();
 
-                GL11.glScalef(scale, scale, scale);
+                stack.scale(scale, scale, scale);
 
                 this.scale = scale;
 
                 render(stack, pos, x, y, renderMode, startCorner, moveOverlay);
 
-                GL11.glPopMatrix();
+                stack.popPose();
             } else render(stack, pos, x, y, renderMode, startCorner, moveOverlay);
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.printStackTrace(e);
