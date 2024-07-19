@@ -26,6 +26,8 @@
   "hud.coordinatesdisplay.west.short": "W",
   "hud.coordinatesdisplay.northwest.short": "NW",
 
+  "hud.coordinatesdisplay.biome.unknown": "Unknown",
+
   "hud.coordinatesdisplay.default": "Por defecto",
   "hud.coordinatesdisplay.default.x": "X: %s",
   "hud.coordinatesdisplay.default.y": "Y: %s",
@@ -166,9 +168,9 @@
   "button.coordinatesdisplay.resetdefault": "Restaurar la configuración por defecto...",
 
   "label.coordinatesdisplay.preview": "Previsualizar",
-  "label.coordinatesdisplay.definitionColor": "Color de los definiciones: %s",
-  "label.coordinatesdisplay.dataColor": "Color de los datos: %s",
-  "label.coordinatesdisplay.deathposColor": "Color de la posición de muerte: %s",
+  "label.coordinatesdisplay.definitionColor": "Color de los definiciones",
+  "label.coordinatesdisplay.dataColor": "Color de los datos",
+  "label.coordinatesdisplay.deathposColor": "Color de la posición de muerte",
   "label.coordinatesdisplay.backgroundColor": "Color del fondo (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "Mensaje de coordenadas de chat",
   "label.coordinatesdisplay.copyPosMessage": "Mensaje de copiar la posición",

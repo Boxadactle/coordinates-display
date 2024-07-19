@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
@@ -31,7 +32,7 @@ import java.util.regex.Pattern;
 public class ChunkRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
         RowLayout hud = new RowLayout(0, 0, config().textPadding);
 
         {
@@ -90,7 +91,7 @@ public class ChunkRenderer implements HudRenderer {
             hud.addComponent(new LayoutContainerComponent(right));
         }
 
-        return renderHud(new PaddingLayout(x, y, config().padding, hud));
+        return renderHud(stack, new PaddingLayout(x, y, config().padding, hud));
     }
 
 }

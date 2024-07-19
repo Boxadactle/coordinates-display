@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.LayoutComponent;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
@@ -37,7 +38,7 @@ public class SpawnpointRenderer implements HudRenderer {
     // spawnpoint unless your mod is server-side
     public BlockPos resolveWorldSpawn() {
         try {
-            return WorldUtils.getWorld().getSharedSpawnPos();
+            return null;
         } catch (Exception e) {
             return new BlockPos(0, 0, 0);
         }
@@ -64,7 +65,7 @@ public class SpawnpointRenderer implements HudRenderer {
     }
 
     @Override
-    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
         BlockPos spawnpoint = resolveWorldSpawn();
 
         ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
@@ -132,7 +133,7 @@ public class SpawnpointRenderer implements HudRenderer {
         hud.addComponent(new LayoutContainerComponent(row1));
         hud.addComponent(new LayoutContainerComponent(row2));
 
-        return renderHud(new PaddingLayout(x, y, config().padding, hud));
+        return renderHud(stack, new PaddingLayout(x, y, config().padding, hud));
     }
 
     public static class CompassRenderer extends LayoutComponent<Position> {
@@ -196,9 +197,10 @@ public class SpawnpointRenderer implements HudRenderer {
         }
 
         @Override
-        public void render(int x, int y) {
+        public void render(PoseStack stack, int x, int y) {
             double degrees = calculateRelativeDirection(component.position.getBlockPos(), new Vec3<>(spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ()), component.headRot.wrapYaw());
             RenderUtils.drawTexture(resolveCompassTexture(degrees),
+                    stack,
                     x, y,
                     size, size,
                     0, 0

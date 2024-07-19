@@ -13,7 +13,10 @@ import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.world.level.biome.Biome;
 import org.lwjgl.glfw.GLFW;
+
+import java.awt.*;
 
 public class CoordinatesDisplay {
 
@@ -59,44 +62,22 @@ public class CoordinatesDisplay {
 
 	public static class BiomeColors {
 
-		public static int getBiomeColor(String name, int defaultColor) {
-
-			return switch (name) {
-				case "Eroded Badlands", "Badlands" -> 0xb55a26;
-				case "Bamboo Jungle" -> 0x2be625;
-				case "Snowy Beach", "Snowy Plains", "Snowy Slopes", "Snowy Taiga", "Basalt Deltas" -> 0xadadad;
-				case "Beach" -> 0xc5c93a;
-				case "Birch Forest", "Old Growth Birch Forest" -> 0xdecc7a;
-				case "Cold Ocean" -> 0x738ae6;
-				case "Crimson Forest", "Nether Wastes" -> 0xad201d;
-				case "Dark Forest" -> 0x452309;
-				case "River", "Ocean", "Deep Cold Ocean" -> 0x161d78;
-				case "Deep Dark" -> 0x03273d;
-				case "Deep Frozen Ocean" -> 0x1e4054;
-				case "Deep Lukewarm Ocean" -> 0x235b63;
-				case "Deep Ocean" -> 0x15115c;
-				case "End Barrens", "End Highlands", "End Midlands", "Small End Islands", "Desert" -> 0xb3ac30;
-				case "Dripstone Caves" -> 0x665f50;
-				case "Flower Forest", "Forest", "Lush Caves", "Meadow" -> 0x32701c;
-				case "Frozen Ocean", "Frozen Peaks", "Frozen River", "Ice Spikes" -> 0x34c4c9;
-				case "Grove", "Jagged Peaks" -> 0xacb0a7;
-				case "Jungle" -> 0x85c41f;
-				case "Lukewarm Ocean" -> 0x3d9ba8;
-				case "Mushroom Fields" -> 0x4c4654;
-				case "Old Growth Pine Taiga", "Old Growth Spruce Forest" -> 0x3b230d;
-				case "Plains", "Sunflower Plains" -> 0x4dd115;
-				case "Savanna", "Savanna Plateau" -> 0x5c701c;
-				case "Cherry Grove" -> 0xd863e0;
-				default -> defaultColor;
+		public static int getBiomeColor(Biome biome) {
+			return switch (biome.getBiomeCategory()) {
+				case THEEND -> 0xC5BE8B;
+				case OCEAN, RIVER, SWAMP -> biome.getWaterColor();
+				case NETHER -> new Color(biome.getFogColor()).brighter().brighter().getRGB();
+				case ICY -> 0x84ecf0;
+				case BEACH -> 0xfade55;
+				default -> biome.getFoliageColor();
 			};
-
 		}
 
 		public static int getDimensionColor(String name, int defaultColor) {
-			return switch (name) {
-				case "Overworld" -> 0x00ff00;
-				case "Nether" -> 0xff0000;
-				case "End" -> 0x0000ff;
+			return switch (name.toLowerCase()) {
+				case "overworld" -> 0x00ff00;
+				case "nether" -> 0xff0000;
+				case "end" -> 0xC5BE8B;
 				default -> {
 					if (name.contains("The ")) {
 						yield getDimensionColor(name.substring(4), defaultColor);
@@ -114,9 +95,9 @@ public class CoordinatesDisplay {
 
 		public static final KeyMapping coordinatesGUIKeybind = new KeyMapping("key.coordinatesdisplay.coordinatesgui", GLFW.GLFW_KEY_C, "category.coordinatesdisplay");
 
-		public static final KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", GLFW.GLFW_KEY_B, "category.coordinatesdisplay");
-		public static final KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", GLFW.GLFW_KEY_X, "category.coordinatesdisplay");
-		public static final KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", GLFW.GLFW_KEY_N, "category.coordinatesdisplay");
+		public static final KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", -1, "category.coordinatesdisplay");
+		public static final KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", -1, "category.coordinatesdisplay");
+		public static final KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", -1, "category.coordinatesdisplay");
 
 		public static final KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, "category.coordinatesdisplay");
 		public static final KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", GLFW.GLFW_KEY_M, "category.coordinatesdisplay");

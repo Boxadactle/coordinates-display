@@ -26,6 +26,8 @@
   "hud.coordinatesdisplay.west.short": "서",
   "hud.coordinatesdisplay.northwest.short": "북서",
 
+  "hud.coordinatesdisplay.biome.unknown": "Unknown",
+
   "hud.coordinatesdisplay.default": "기본값",
   "hud.coordinatesdisplay.default.x": "X: %s",
   "hud.coordinatesdisplay.default.y": "Y: %s",
@@ -166,9 +168,9 @@
   "button.coordinatesdisplay.resetdefault": "기본값으로 초기화...",
 
   "label.coordinatesdisplay.preview": "Preview",
-  "label.coordinatesdisplay.definitionColor": "정의의 색상: %s",
-  "label.coordinatesdisplay.dataColor": "값의 색상: %s",
-  "label.coordinatesdisplay.deathposColor": "사망 위치의 색상: %s",
+  "label.coordinatesdisplay.definitionColor": "정의의 색상",
+  "label.coordinatesdisplay.dataColor": "값의 색상",
+  "label.coordinatesdisplay.deathposColor": "사망 위치의 색상",
   "label.coordinatesdisplay.backgroundColor": "배경색(ARGB)",
   "label.coordinatesdisplay.posChatMessage": "채팅 메시지를 조정합니다",
   "label.coordinatesdisplay.copyPosMessage": "위치 메시지를 복사하십시오",

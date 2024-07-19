@@ -14,7 +14,7 @@ public enum DisplayMode {
     LINE(LineRenderer.class),
     NETHER_OVERWORLD(NetherOverworldRenderer.class),
     HOTBAR(HotbarRenderer.class),
-    SPAWNPOINT(SpawnpointRenderer.class),
+//    SPAWNPOINT(SpawnpointRenderer.class), spawnpoint cannot be accessed in 1.16.5
     DIRECTION(DirectionRenderer.class),
     CHUNK(ChunkRenderer.class);
 

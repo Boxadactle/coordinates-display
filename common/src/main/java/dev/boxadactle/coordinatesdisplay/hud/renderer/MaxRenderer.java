@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
@@ -12,6 +13,7 @@ import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 
@@ -19,7 +21,7 @@ import net.minecraft.network.chat.TextComponent;
 public class MaxRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
 
         ParagraphComponent component = new ParagraphComponent(config().textPadding);
@@ -57,7 +59,7 @@ public class MaxRenderer implements HudRenderer {
         }
 
         if (config().renderBiome) {
-            Component biome = definition(translation("biome", value(pos.world.getBiome(false))));
+            Component biome = definition(translation("biome", value(pos.world.getBiomeKey().toString())));
 
             component.add(biome);
         }
@@ -78,6 +80,6 @@ public class MaxRenderer implements HudRenderer {
 
         RowLayout r = new RowLayout(0, 0, 0);
         r.addComponent(component);
-        return renderHud(new PaddingLayout(x, y, config().padding, r));
+        return renderHud(stack, new PaddingLayout(x, y, config().padding, r));
     }
 }
