@@ -11,6 +11,7 @@ import dev.boxadactle.coordinatesdisplay.forge.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -18,7 +19,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fmlclient.ConfigGuiHandler;
 
 @SuppressWarnings("unused")
 @Mod(CoordinatesDisplay.MOD_ID)
@@ -45,7 +45,7 @@ public class CoordinatesDisplayForge {
             }
         }
 
-        @SubscribeEvent(priority = EventPriority.HIGH)
+        @SubscribeEvent(priority = EventPriority.LOW)
         public static void renderHud(RenderGameOverlayEvent.Pre event) {
             try {
                 if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {

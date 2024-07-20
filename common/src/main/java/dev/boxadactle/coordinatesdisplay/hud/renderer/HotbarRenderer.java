@@ -11,6 +11,7 @@ import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.level.biome.Biome;
@@ -42,7 +43,7 @@ public class HotbarRenderer implements HudRenderer {
 
         Component direction = definition("direction", resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
 
-        Biome b = pos.world.getBiome();
+        Holder<Biome> b = pos.world.getBiome();
         Component biome = ModUtil.getBiomeComponent(b, config().biomeColors, config().dataColor);
 
         Component all = translation("all", xyz, direction, biome);
