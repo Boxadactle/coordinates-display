@@ -20,7 +20,7 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 
-@DisplayMode(value = "default")
+@DisplayMode("default")
 public class DefaultRenderer implements HudRenderer {
 
     @Override

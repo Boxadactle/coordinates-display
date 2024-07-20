@@ -1,18 +1,22 @@
 package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
+import dev.boxadactle.boxlib.keybind.KeybindHelper;
 import dev.boxadactle.boxlib.scheduling.Scheduling;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
+import dev.boxadactle.coordinatesdisplay.command.CoordinatesCommand;
 import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.core.Holder;
 import net.minecraft.world.level.biome.Biome;
 import org.lwjgl.glfw.GLFW;
 
@@ -24,7 +28,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "4.1.0";
+	public static final String VERSION = "5.1.0";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -46,6 +50,11 @@ public class CoordinatesDisplay {
 
 	public static Hud HUD;
 
+	static {
+		LOGGER.info("Registering client commands");
+		BCommandManager.register(CoordinatesCommand.create());
+	}
+
 	public static void init() {
 		LOGGER.info("Initializing " + MOD_NAME + " v" + VERSION);
 
@@ -62,14 +71,15 @@ public class CoordinatesDisplay {
 
 	public static class WorldColors {
 
-		public static int getBiomeColor(Biome biome) {
-			return switch (biome.getBiomeCategory()) {
+		@SuppressWarnings("deprecation")
+		public static int getBiomeColor(Holder<Biome> biome) {
+			return switch (Biome.getBiomeCategory(biome)) {
 				case THEEND -> 0xC5BE8B;
-				case OCEAN, RIVER, SWAMP -> biome.getWaterColor();
-				case NETHER -> new Color(biome.getFogColor()).brighter().brighter().getRGB();
+				case OCEAN, RIVER, SWAMP -> biome.value().getWaterColor();
+				case NETHER -> new Color(biome.value().getFogColor()).brighter().brighter().getRGB();
 				case ICY -> 0x84ecf0;
 				case BEACH -> 0xfade55;
-				default -> biome.getFoliageColor();
+				default -> biome.value().getFoliageColor();
 			};
 		}
 

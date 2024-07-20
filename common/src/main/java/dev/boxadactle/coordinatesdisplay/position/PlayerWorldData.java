@@ -1,24 +1,20 @@
 package dev.boxadactle.coordinatesdisplay.position;
 
-import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModUtil;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.data.BuiltinRegistries;
-import net.minecraft.data.worldgen.biome.Biomes;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 
 public class PlayerWorldData {
 
     ResourceLocation dimension;
 
-    Biome biome;
+    Holder<Biome> biome;
 
     public PlayerWorldData(BlockPos player) {
         if (WorldUtils.getWorld() != null) {
@@ -30,7 +26,7 @@ public class PlayerWorldData {
 
             dimension = new ResourceLocation("minecraft", "overworld");
 
-            biome = Biomes.PLAINS;
+            biome = BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS);
         }
     }
 
@@ -48,12 +44,12 @@ public class PlayerWorldData {
         return formatted ? formatName(dimension.getPath()) : dimension.toString();
     }
 
-    public Biome getBiome() {
+    public Holder<Biome> getBiome() {
         return biome;
     }
 
     public ResourceLocation getBiomeKey() {
         Registry<Biome> registry = WorldUtils.getWorld() != null ? WorldUtils.getWorld().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY) : BuiltinRegistries.BIOME;
-        return registry.getKey(biome);
+        return registry.getKey(biome.value());
     }
 }
