@@ -25,7 +25,7 @@ public class DeathScreenMixin extends Screen {
     private void init(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
             this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copy"), (button) -> {
-                button.setMessage(Component.literal("button.coordinatesdisplay.copied"));
+                button.setMessage(Component.translatable("button.coordinatesdisplay.copied"));
                 button.active = false;
 
                 int x = (int) Math.round(ClientUtils.getClient().player.getX());
