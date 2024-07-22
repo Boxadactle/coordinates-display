@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "CoordinatesDisplay",
-  "description": "A mod that displays your coordinates on the in-game HUD.\n",
+  "description": "A mod that displays your coordinates on the in-game HUD.",
   "authors": [ "Boxadactle" ],
   "contact": {},
 
@@ -21,11 +21,15 @@
     ]
   },
   "mixins": [
-    "coordinatesdisplay.mixins.json",
     "coordinatesdisplay-common.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.21",
-    "minecraft": ">=1.20.2"
+    "fabricloader": ">=0.15.10",
+    "minecraft": "1.20",
+    "boxlib": "10.*",
+    "fabric": "*"
+  },
+  "recommends": {
+    "modmenu": "*"
   }
 }

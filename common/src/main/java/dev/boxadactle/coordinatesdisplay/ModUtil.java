@@ -2,15 +2,17 @@ package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.datafixers.util.Pair;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -20,6 +22,7 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 @SuppressWarnings("unchecked")
 public class ModUtil {
@@ -29,7 +32,7 @@ public class ModUtil {
         Minecraft c = ClientUtils.getClient();
         String newTextComponent = text;
 
-        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().shouldRoundWhenCopying ? "0.00" : "0");
+        DecimalFormat decimalFormat = new DecimalFormat(CoordinatesDisplay.CONFIG.get().includeDecimalsWhenCopying ? "0.00" : "0");
 
         Vec3<Double> player = pos.position.getPlayerPos();
 
@@ -39,13 +42,13 @@ public class ModUtil {
 
         String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.getXRot()));
 
-        Pair[] supported = new Pair[]{
+        Pair<String, ?>[] supported = new Pair[]{
                 new Pair<>("dimension", pos.world.getDimension(true)),
                 new Pair<>("x", x),
                 new Pair<>("y", y),
                 new Pair<>("z", z),
                 new Pair<>("direction", direction),
-                new Pair<>("name", c.player.getDisplayName().getString())
+                new Pair<>("name", Objects.requireNonNull(c.player.getDisplayName()).getString())
         };
         for (Pair<?, ?> pair : supported) {
             newTextComponent = newTextComponent.replaceAll("\\{" + pair.getFirst() + "}", (String) pair.getSecond());
@@ -76,7 +79,6 @@ public class ModUtil {
         int y = (int)Math.round(pos.position.getPlayerPos().getY());
         int z = (int)Math.round(pos.position.getPlayerPos().getZ());
 
-        String dimension = pos.world.getDimension(false);
         return String.format("#goto %s %s %s", x, y, z);
     }
 
@@ -92,11 +94,11 @@ public class ModUtil {
 
         Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
                 .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
-                .withColor((CoordinatesDisplay.CONFIG.get().deathPosColor))
+                .withColor(TextColor.fromRgb(CoordinatesDisplay.CONFIG.get().deathPosColor))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return Component.translatable("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.withColor((CoordinatesDisplay.CONFIG.get().definitionColor)));
+        return GuiUtils.colorize(Component.translatable("message.coordinatesdisplay.deathpos", position), CoordinatesDisplay.CONFIG.get().definitionColor);
     }
 
     @ExpectPlatform
@@ -145,13 +147,17 @@ public class ModUtil {
         return direction;
     }
 
-    // copy + pasted from DebugHud.class
-    public static String printBiome(Holder<Biome> p_205375_) {
-        if (p_205375_ != null) {
-            return p_205375_.unwrap().map((p_205377_) -> p_205377_.location().toString(), (p_205367_) -> "[unregistered " + p_205367_ + "]");
-        } else {
-            return "minecraft:plains";
+    public static Component getBiomeComponent(ResourceLocation key, Biome biome, boolean colored, int defaultColor) {
+        if (biome == null && WorldUtils.getWorld() != null) {
+            return GuiUtils.colorize(Component.translatable("hud.coordinatesdisplay.biome.unknown"), defaultColor);
         }
+
+        return GuiUtils.colorize(
+                Component.translatable("biome." + key.getNamespace() + "." + key.getPath()),
+                colored ?
+                        WorldColors.getBiomeColor(key, biome):
+                        defaultColor
+        );
     }
 
     public static boolean isMouseHovering(int mouseX, int mouseY, int boxX, int boxY, int boxWidth, int boxHeight) {
@@ -163,25 +169,13 @@ public class ModUtil {
         return id.split(":")[0];
     }
 
-    public static int calculatePointDistance(int x, int y, int x1, int y1) {
+    public static float calculatePointDistance(int x, int y, int x1, int y1) {
         int deltaX = x1 - x;
         int deltaY = y1 - y;
 
         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        return (int) Math.abs(distance);
-    }
-
-    public static float calculateMouseScale(int x, int y, int w, int h, int mouseX, int mouseY) {
-        int value1 = calculatePointDistance(x, y, x + w, y + h);
-        int value2 = calculatePointDistance(x, y, mouseX, mouseY);
-        float scaleFactor = (float) value2 / value1;
-
-        scaleFactor = Math.max(0.5f, Math.min(2.0f, scaleFactor));
-
-        scaleFactor = Math.round(scaleFactor * 100.0f) / 100.0f;
-
-        return scaleFactor;
+        return (float) distance;
     }
 
     public static <T> boolean or(T val, T ...compare) {
@@ -210,16 +204,16 @@ public class ModUtil {
         return toReturn;
     }
 
-    public static BlockPos toBlockPos(Vec3<Integer> pos) {
-        return new BlockPos(pos.getX(), pos.getY(), pos.getZ());
-    }
-
     public static Vec3i doubleVecToIntVec(net.minecraft.world.phys.Vec3 vec) {
         return new Vec3i((int)Math.round(vec.x), (int)Math.round(vec.y), (int)Math.round(vec.z));
     }
 
     public static Vec3<Double> fromMinecraftVector(net.minecraft.world.phys.Vec3 vec3d) {
         return new Vec3<>(vec3d.x, vec3d.y, vec3d.z);
+    }
+
+    public static BlockPos toBlockPos(Vec3<Integer> vec) {
+        return new BlockPos(vec.getX(), vec.getY(), vec.getZ());
     }
 
 }

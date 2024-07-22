@@ -1,53 +1,51 @@
 package dev.boxadactle.coordinatesdisplay.fabric;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import dev.boxadactle.boxlib.util.ClientUtils;
+import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
+import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.fabric.init.Commands;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import dev.boxadactle.coordinatesdisplay.fabric.init.Keybinds;
+import dev.boxadactle.coordinatesdisplay.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 
 public class CoordinatesDisplayFabric implements ClientModInitializer {
+
+    public static boolean deltaError = false;
 
     @Override
     public void onInitializeClient() {
         CoordinatesDisplay.init();
 
-        Commands.register();
-
         ClientTickEvents.END_CLIENT_TICK.register(this::checkBindings);
 
         HudRenderCallback.EVENT.register(this::renderHud);
 
-        Keybinds.register();
+        KeyBindingHelper.registerKeyBinding(Bindings.hudEnabled);
+        KeyBindingHelper.registerKeyBinding(Bindings.coordinatesGUIKeybind);
+        KeyBindingHelper.registerKeyBinding(Bindings.copyLocation);
+        KeyBindingHelper.registerKeyBinding(Bindings.sendLocation);
+        KeyBindingHelper.registerKeyBinding(Bindings.copyPosTp);
+        KeyBindingHelper.registerKeyBinding(Bindings.changeHudPosition);
+        KeyBindingHelper.registerKeyBinding(Bindings.cycleDisplayMode);
     }
 
     private void checkBindings(Minecraft client) {
         Player player = WorldUtils.getPlayer();
         if (player != null) {
-            Keybinds.checkBindings(Position.of(player));
+            Bindings.checkBindings(Position.of(player));
         }
     }
 
-    private void renderHud(GuiGraphics guiGraphics, float tickDelta) {
-        if (
-                !ClientUtils.getOptions().hideGui
-                        && CoordinatesDisplay.CONFIG.get().visible
-                        && !ClientUtils.getClient().getDebugOverlay().showDebugScreen()
-                        && CoordinatesDisplay.shouldHudRender
-        ) {
-            try {
-                RenderSystem.enableBlend();
-
+    private void renderHud(GuiGraphics guiGraphics, float f) {
+        try {
+            if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
                 ModConfig config = CoordinatesDisplay.getConfig();
 
                 CoordinatesDisplay.HUD.render(
@@ -57,12 +55,21 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
                         config.hudY,
                         config.renderMode,
                         config.startCorner,
-                        false,
                         config.hudScale
                 );
-            } catch (NullPointerException exception) {
-                CoordinatesDisplay.LOGGER.printStackTrace(exception);
             }
+        } catch (NullPointerException e) {
+            if (CoordinatesDisplayFabric.deltaError) {
+                throw new RuntimeException(e);
+            }
+
+            CoordinatesDisplay.LOGGER.error("Unknown error from config file");
+            CoordinatesDisplay.LOGGER.printStackTrace(e);
+
+            CoordinatesDisplay.LOGGER.player.warn(GuiUtils.getTranslatable("message.coordinatesdisplay.configError"));
+            CoordinatesDisplay.CONFIG.resetConfig();
+
+            CoordinatesDisplayFabric.deltaError = true;
         }
     }
 
