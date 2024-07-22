@@ -123,6 +123,7 @@
   "screen.coordinatesdisplay.position": "更改抬頭顯示器的位置",
   "screen.coordinatesdisplay.text": "%s 的文字設定",
   "screen.coordinatesdispaly.hudposition": "修改抬頭顯示器位置",
+  "screen.coordinatesdisplay.startcorner": "變更起始角落",
 
   "button.coordinatesdisplay.enabled": "已啟用：%s",
   "button.coordinatesdisplay.visualconfig": "視覺設定…",
