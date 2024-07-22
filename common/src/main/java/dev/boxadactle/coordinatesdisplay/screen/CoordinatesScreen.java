@@ -6,6 +6,7 @@ import dev.boxadactle.boxlib.util.*;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -26,9 +27,9 @@ public class CoordinatesScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
-        this.renderBackground(stack);
-        super.render(stack, mouseX, mouseY, delta);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        this.renderBackground(guiGraphics);
+        super.render(guiGraphics, mouseX, mouseY, delta);
 
         Vec3<Double> player = pos.position.getPlayerPos();
 
@@ -36,8 +37,8 @@ public class CoordinatesScreen extends Screen {
         int z = (int)Math.round(player.getZ());
         int y = (int)Math.round(player.getY());
 
-        RenderUtils.drawTextCentered(stack, Component.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, GuiUtils.WHITE);
-        RenderUtils.drawTextCentered(stack, Component.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), GuiUtils.WHITE);
+        RenderUtils.drawTextCentered(guiGraphics, Component.translatable("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, GuiUtils.WHITE);
+        RenderUtils.drawTextCentered(guiGraphics, Component.translatable("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), GuiUtils.WHITE);
     }
 
     @Override

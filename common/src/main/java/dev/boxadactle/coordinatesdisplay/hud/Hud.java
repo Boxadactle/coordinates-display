@@ -14,6 +14,7 @@ import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.gui.GuiGraphics;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -75,9 +76,9 @@ public class Hud {
         }
     }
 
-    public void render(PoseStack stack, RenderingLayout layout, DisplayMode renderMode) {
+    public void render(GuiGraphics guiGraphics, RenderingLayout layout, DisplayMode renderMode) {
         try {
-            Rect<Integer> size = HudRenderer.renderHud(stack, layout, renderMode.getMetadata().hasBackground());
+            Rect<Integer> size = HudRenderer.renderHud(guiGraphics, layout, renderMode.getMetadata().hasBackground());
 
             this.size.setX(size.getX());
             this.size.setY(size.getY());
@@ -89,25 +90,27 @@ public class Hud {
         }
     }
 
-    public void render(PoseStack stack, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
+    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
         RenderingLayout layout = preRender(pos, x, y, renderMode, startCorner);
 
-        render(stack, layout, renderMode);
+        render(guiGraphics, layout, renderMode);
     }
 
-    public void render(PoseStack stack, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, float scale) {
+    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, float scale) {
         try {
             if (!renderMode.getMetadata().ignoreTranslations()) {
+                PoseStack stack = guiGraphics.pose();
+
                 stack.pushPose();
 
                 stack.scale(scale, scale, scale);
 
                 this.scale = scale;
 
-                render(stack, pos, x, y, renderMode, startCorner);
+                render(guiGraphics, pos, x, y, renderMode, startCorner);
 
                 stack.popPose();
-            } else render(stack, pos, x, y, renderMode, startCorner);
+            } else render(guiGraphics, pos, x, y, renderMode, startCorner);
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.printStackTrace(e);
         }
@@ -125,13 +128,13 @@ public class Hud {
         return size.getHeight();
     }
 
-    public void renderMoveOverlay(PoseStack stack, int x, int y) {
+    public void renderMoveOverlay(GuiGraphics guiGraphics, int x, int y) {
         int color = 0x50c7c7c7;
         scaleSize = 5;
         int scaleColor = 0x99d9fffa;
 
         // overlay color
-        RenderUtils.drawSquare(stack, x, y, size.getWidth(), size.getHeight(), color);
+        RenderUtils.drawSquare(guiGraphics, x, y, size.getWidth(), size.getHeight(), color);
 
         // scale square
         scaleButton = new Rect<>(
@@ -141,7 +144,7 @@ public class Hud {
         );
         int scaleX = scaleButton.getX();
         int scaleY = scaleButton.getY();
-        RenderUtils.drawSquare(stack, scaleX, scaleY, scaleSize, scaleSize, scaleColor);
+        RenderUtils.drawSquare(guiGraphics, scaleX, scaleY, scaleSize, scaleSize, scaleColor);
     }
 
     public float calculateScale(int x, int y, int mouseX, int mouseY) {

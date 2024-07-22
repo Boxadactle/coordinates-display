@@ -9,6 +9,8 @@ import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
 import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -121,19 +123,14 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
 
     }
 
-    public class HudOption extends BBooleanButton {
+    public static class HudOption extends BBooleanButton {
         public HudOption(String key, Boolean value, Consumer<Boolean> function, boolean configEnabled) {
             super(key, value, function);
 
             this.active = configEnabled;
-        }
 
-        @Override
-        public void render(PoseStack poseStack, int i, int j, float f) {
-            super.render(poseStack, i, j, f);
-
-            if (!active && isHovered) {
-                RenderScreen.this.renderTooltip(poseStack, Component.translatable("message.coordintatesdisplay.disabled"), i, j);
+            if (!configEnabled) {
+                setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
             }
         }
     }
