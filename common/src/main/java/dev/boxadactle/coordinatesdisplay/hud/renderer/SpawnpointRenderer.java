@@ -2,17 +2,17 @@ package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.LayoutComponent;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -23,7 +23,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.Tuple;
 
 // this is a bit of a mess, but it still works
-@DisplayMode(
+@HudDisplayMode(
         value = "spawnpoint",
         hasChunkData = false,
         hasDirection = false,
@@ -38,7 +38,7 @@ public class SpawnpointRenderer implements HudRenderer {
     // spawnpoint unless your mod is server-side
     public BlockPos resolveWorldSpawn() {
         try {
-            return null;
+            return WorldUtils.getWorld().getSharedSpawnPos();
         } catch (Exception e) {
             return new BlockPos(0, 0, 0);
         }
@@ -65,7 +65,7 @@ public class SpawnpointRenderer implements HudRenderer {
     }
 
     @Override
-    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         BlockPos spawnpoint = resolveWorldSpawn();
 
         ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
@@ -133,7 +133,7 @@ public class SpawnpointRenderer implements HudRenderer {
         hud.addComponent(new LayoutContainerComponent(row1));
         hud.addComponent(new LayoutContainerComponent(row2));
 
-        return renderHud(stack, new PaddingLayout(x, y, config().padding, hud));
+        return new PaddingLayout(x, y, config().padding, hud);
     }
 
     public static class CompassRenderer extends LayoutComponent<Position> {

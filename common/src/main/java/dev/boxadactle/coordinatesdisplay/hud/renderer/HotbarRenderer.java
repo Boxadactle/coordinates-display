@@ -1,24 +1,30 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
+import dev.boxadactle.boxlib.layouts.component.CenteredParagraphComponent;
+import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
+import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
+import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.level.biome.Biome;
 
-@DisplayMode(
+@HudDisplayMode(
         value = "hotbar",
         ignoreTranslations = true,
+        positionModifier = HotbarRenderer.HotbarPosition.class,
         allowMove = false,
         hasBackground = false,
         hasXYZ = false,
@@ -32,7 +38,7 @@ import net.minecraft.world.level.biome.Biome;
 public class HotbarRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
         Component xyz = definition("xyz",
@@ -47,24 +53,29 @@ public class HotbarRenderer implements HudRenderer {
         Component biome = ModUtil.getBiomeComponent(b, config().biomeColors, config().dataColor);
 
         Component all = translation("all", xyz, direction, biome);
-        int i = GuiUtils.getTextSize(all);
 
-        Rect<Integer> r;
+        ColumnLayout hud = new ColumnLayout(0, 0, 0);
+        hud.addComponent(new CenteredParagraphComponent(0, all));
 
-        if (ClientUtils.getClient().level != null) {
+        return hud;
+    }
+
+    public static class HotbarPosition implements HudPositionModifier.BasicPositionModifier {
+        @Override
+        public Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored) {
             int j = ClientUtils.getClient().getWindow().getGuiScaledWidth() / 2;
             int k = ClientUtils.getClient().getWindow().getGuiScaledHeight() - 68 - 4;
 
-            // make sure we don't render over any actionbar titles
-            if (((OverlayMessageTimeAccessor)ClientUtils.getClient().gui).getOverlayMessageTime() == 0)
-                drawInfo(stack, all, j - i / 2, k, GuiUtils.WHITE);
+            if (ClientUtils.getClient().level != null) {
+                Rect<Integer> r = rect.clone();
 
-            r = new Rect<>(j - i / 2, k, i, 9);
-        } else {
-            drawInfo(stack, all, x, y, GuiUtils.WHITE);
-            r = new Rect<>(x, y, i, 9);
+                r.setX(j - rect.getWidth() / 2);
+                r.setY(k);
+
+                return r;
+            } else {
+                return rect;
+            }
         }
-
-        return r;
     }
 }
