@@ -29,7 +29,7 @@ public class MaxRenderer implements HudRenderer {
             Vec3<Integer> d = pos.position.getBlockPos();
             Vec3<Integer> e = pos.position.getBlockPosInChunk();
 
-            Component xyz = definition(translation("xyz", value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ()))));
+            Component xyz = definition(GlobalTexts.XYZ, value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ())));
             Component block = definition(translation("block", value(Integer.toString(d.getX())), value(Integer.toString(d.getY())), value(Integer.toString(d.getZ())), value(Integer.toString(e.getX())), value(Integer.toString(e.getY())), value(Integer.toString(e.getZ()))));
             Component targeted = definition(translation("block.targeted", value(pos.block.getBlockX()), value(pos.block.getBlockY()), value(pos.block.getBlockZ())));
 

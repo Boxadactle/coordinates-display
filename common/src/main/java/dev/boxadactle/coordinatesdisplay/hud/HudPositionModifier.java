@@ -3,8 +3,6 @@ package dev.boxadactle.coordinatesdisplay.hud;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
-import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 
 public interface HudPositionModifier {
 
@@ -25,7 +23,7 @@ public interface HudPositionModifier {
         Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored);
     }
 
-    class Empty implements BasicPositionModifier {
+    class Basic implements BasicPositionModifier {
 
         @Override
         public Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored) {

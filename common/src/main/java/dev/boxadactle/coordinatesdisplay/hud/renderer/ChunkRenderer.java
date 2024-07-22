@@ -41,9 +41,9 @@ public class ChunkRenderer implements HudRenderer {
             // position
             Vec2<Integer> chunkPos = pos.position.getChunkPos();
             Component position = definition(translation("position"));
-            Component chunkX = definition(translation("position.x", value(Integer.toString(chunkPos.getX()))));
-            Component chunkY = definition(translation("position.y", value(Integer.toString(pos.position.getChunkY()))));
-            Component chunkZ = definition(translation("position.z", value(Integer.toString(chunkPos.getY()))));
+            Component chunkX = definition(GlobalTexts.CHUNK_X, value(Integer.toString(chunkPos.getX())));
+            Component chunkY = definition(GlobalTexts.CHUNK_Y, value(Integer.toString(pos.position.getChunkY())));
+            Component chunkZ = definition(GlobalTexts.CHUNK_Z, value(Integer.toString(chunkPos.getY())));
 
             left.addComponent(new ParagraphComponent(2, position, chunkX, chunkY, chunkZ));
 
