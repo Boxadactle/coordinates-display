@@ -42,7 +42,7 @@ public class Hud {
         return scaleButton.containsPoint(new Vec2<>(Math.round(mouseX / scale), Math.round(mouseY / scale)));
     }
 
-    public boolean shouldRender(VisibilityFilter filter) throws UnknownVisibilityFilterException {
+    public boolean shouldRender(VisibilityFilter filter) {
         boolean bl = true;
 
         // have you ever seen anyone use this operand
@@ -54,7 +54,7 @@ public class Hud {
         return bl && CoordinatesDisplay.getConfig().enabled;
     }
 
-    public RenderingLayout preRender(Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
+    public RenderingLayout preRender(RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
         try {
             RenderingLayout layout = renderMode.getRenderer().renderOverlay(x, y, pos);
 
@@ -65,7 +65,7 @@ public class Hud {
                     Math.round(ClientUtils.getClient().getWindow().getGuiScaledHeight() / scale)
             );
             Rect<Integer> newPos = renderMode.getMetadata().ignoreTranslations() ?
-                    renderMode.getMetadata().positionModifier().getDeclaredConstructor().newInstance().getPosition(startSize, window) :
+                    renderMode.getMetadata().positionModifier().getDeclaredConstructor().newInstance().getPosition(startSize, window, thread) :
                     startCorner.getModifier().translateRect(startSize, window);
 
             layout.setPosition(newPos.getX(), newPos.getY());
@@ -90,13 +90,13 @@ public class Hud {
         }
     }
 
-    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
-        RenderingLayout layout = preRender(pos, x, y, renderMode, startCorner);
+    public void render(GuiGraphics guiGraphics, RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
+        RenderingLayout layout = preRender(thread, pos, x, y, renderMode, startCorner);
 
         render(guiGraphics, layout, renderMode);
     }
 
-    public void render(GuiGraphics guiGraphics, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, float scale) {
+    public void render(GuiGraphics guiGraphics, RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, float scale) {
         try {
             if (!renderMode.getMetadata().ignoreTranslations()) {
                 PoseStack stack = guiGraphics.pose();
@@ -107,10 +107,10 @@ public class Hud {
 
                 this.scale = scale;
 
-                render(guiGraphics, pos, x, y, renderMode, startCorner);
+                render(guiGraphics, thread, pos, x, y, renderMode, startCorner);
 
                 stack.popPose();
-            } else render(guiGraphics, pos, x, y, renderMode, startCorner);
+            } else render(guiGraphics, thread, pos, x, y, renderMode, startCorner);
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.printStackTrace(e);
         }
@@ -165,5 +165,10 @@ public class Hud {
 
     public int getY() {
         return size.getY();
+    }
+
+    public enum RenderType {
+        SCREEN,
+        HUD
     }
 }

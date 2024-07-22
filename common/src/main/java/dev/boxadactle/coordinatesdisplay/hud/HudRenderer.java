@@ -1,6 +1,5 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
@@ -12,6 +11,7 @@ import dev.boxadactle.coordinatesdisplay.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
 public interface HudRenderer {
 

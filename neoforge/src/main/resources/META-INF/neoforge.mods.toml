@@ -1,36 +1,35 @@
 modLoader = "javafml"
-loaderVersion = "[2,)"
-#issueTrackerURL = ""
+loaderVersion = "[0,)"
 license = "MIT"
 
 [[mods]]
 modId = "coordinatesdisplay"
 version = "${version}"
-displayName = "CoordinatesDisplay"
+displayName = "Coordinates Display"
 authors = "Boxadactle"
 description = '''
-The most basic client-slide mod
+A mod that displays your coordinates on the in-game HUD.
 '''
 logoFile = "icon.png"
 
 [[dependencies.coordinatesdisplay]]
 modId = "neoforge"
 type = "required"
-versionRange = "[21,)"
+versionRange = "[0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.coordinatesdisplay]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21,)"
+versionRange = "[1.20.5,1.21)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.coordinatesdisplay]]
 modId = "boxlib"
 type = "required"
-versionRange = "[14.0.0, 15.0.0)"
+versionRange = "[13.0.0,14.0.0)"
 ordering = "NONE"
 side = "BOTH"
 
