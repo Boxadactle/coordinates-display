@@ -9,3 +9,4 @@
 - Added LEFT start corner
 - Added RIGHT start corner
 - Added BOTTOM start corner
+- Added traditional Chinese translation by (yichifauzi)[https://github.com/yichifauzi]
