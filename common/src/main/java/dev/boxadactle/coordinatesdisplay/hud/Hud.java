@@ -153,10 +153,6 @@ public class Hud {
         scaleFactor = Math.round(scaleFactor * 10) / 10.0f;
         scaleFactor = Clamps.clamp(scaleFactor, 0.5f, 2.0f);
 
-        CoordinatesDisplay.LOGGER.info("Rect size: " + rectSize);
-        CoordinatesDisplay.LOGGER.info("Mouse size: " + mouseSize);
-        CoordinatesDisplay.LOGGER.info("Scale factor: " + scaleFactor);
-
         return scaleFactor;
     }
 
