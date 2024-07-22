@@ -6,7 +6,6 @@ import dev.boxadactle.coordinatesdisplay.hud.HudVisibility;
 import dev.boxadactle.coordinatesdisplay.hud.HudVisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.hud.visibility.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public enum VisibilityFilter {
     ALWAYS(AlwaysVisibility.class),
@@ -38,7 +37,7 @@ public enum VisibilityFilter {
     }
 
     public Component getComponent() {
-        return new TranslatableComponent(filter.getNameKey());
+        return Component.translatable(filter.getNameKey());
     }
 
     public String getName() {

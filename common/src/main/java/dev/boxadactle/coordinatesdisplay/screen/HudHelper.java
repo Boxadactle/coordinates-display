@@ -1,7 +1,8 @@
-package dev.boxadactle.coordinatesdisplay.config;
+package dev.boxadactle.coordinatesdisplay.screen;
 
 import dev.boxadactle.boxlib.gui.config.widget.BCustomEntry;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import dev.boxadactle.coordinatesdisplay.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
@@ -37,8 +38,7 @@ public interface HudHelper {
                     (x + width / 2) - CoordinatesDisplay.HUD.getWidth() / 2,
                     y + 3,
                     CoordinatesDisplay.getConfig().renderMode,
-                    StartCorner.TOP_LEFT,
-                    false
+                    StartCorner.TOP_LEFT
             );
         });
     }

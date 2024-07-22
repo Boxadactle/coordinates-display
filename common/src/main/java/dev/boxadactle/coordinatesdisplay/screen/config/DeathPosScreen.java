@@ -1,16 +1,14 @@
-package dev.boxadactle.coordinatesdisplay.config.screen;
+package dev.boxadactle.coordinatesdisplay.screen.config;
 
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.button.*;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
-import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.HudHelper;
+import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public class DeathPosScreen extends BOptionScreen implements HudHelper {
 
@@ -20,14 +18,14 @@ public class DeathPosScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected Component getName() {
-        return new TranslatableComponent("screen.coordinatesdisplay.deathpos", CoordinatesDisplay.VERSION_STRING);
+        return Component.translatable("screen.coordinatesdisplay.deathpos", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(new TranslatableComponent("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_DEATHPOS);
+        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_DEATHPOS);
     }
 
     @Override

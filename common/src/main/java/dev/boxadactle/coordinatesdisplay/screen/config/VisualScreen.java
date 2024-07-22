@@ -1,4 +1,4 @@
-package dev.boxadactle.coordinatesdisplay.config.screen;
+package dev.boxadactle.coordinatesdisplay.screen.config;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
@@ -8,15 +8,14 @@ import dev.boxadactle.boxlib.gui.config.widget.label.*;
 import dev.boxadactle.boxlib.gui.config.widget.slider.BIntegerSlider;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.HudHelper;
+import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.function.Consumer;
 
@@ -35,14 +34,14 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected Component getName() {
-        return new TranslatableComponent("screen.coordinatesdisplay.visual", CoordinatesDisplay.VERSION_STRING);
+        return Component.translatable("screen.coordinatesdisplay.visual", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(new TranslatableComponent("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_VISUAL);
+        this.setWiki(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_VISUAL);
     }
 
     @Override
@@ -116,9 +115,9 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
 
         // hud position screen
         changeHudPosButton = addConfigLine(new TooltipScreenButton(
-                new TranslatableComponent("button.coordinatesdisplay.editHudPos"),
+                Component.translatable("button.coordinatesdisplay.editHudPos"),
                 this,
-                HudPositionScreen::new
+                PositionScreen::new
         ));
 
         this.addConfigLine(
@@ -143,7 +142,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         this.addConfigLine(new BSpacingEntry());
 
         // hud rendering
-        this.addConfigLine(new BCenteredLabel(new TranslatableComponent("label.coordinatesdisplay.preview")));
+        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
         this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
@@ -156,14 +155,14 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     }
 
     private void verifyButtons() {
-        dev.boxadactle.coordinatesdisplay.hud.DisplayMode metadata = config().renderMode.getMetadata();
+        HudDisplayMode metadata = config().renderMode.getMetadata();
 
         if (!metadata.ignoreTranslations()) {
             startCornerButton.active = true;
             startCornerButton.setTooltip(null);
         } else {
             startCornerButton.active = false;
-            startCornerButton.setTooltip(new TranslatableComponent("message.coordintatesdisplay.disabled"));
+            startCornerButton.setTooltip(Component.translatable("message.coordintatesdisplay.disabled"));
         }
 
         if (config().renderMode.getMetadata().allowMove()) {
@@ -171,7 +170,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
             changeHudPosButton.setTooltip(null);
         } else {
             changeHudPosButton.active = false;
-            changeHudPosButton.setTooltip(new TranslatableComponent("message.coordintatesdisplay.disabled"));
+            changeHudPosButton.setTooltip(Component.translatable("message.coordintatesdisplay.disabled"));
         }
     }
 

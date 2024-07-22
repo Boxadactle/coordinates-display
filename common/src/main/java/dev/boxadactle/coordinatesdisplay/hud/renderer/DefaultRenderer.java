@@ -1,6 +1,7 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
@@ -8,23 +9,22 @@ import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import dev.boxadactle.coordinatesdisplay.WorldColors;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 
-@DisplayMode("default")
+@HudDisplayMode("default")
 public class DefaultRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
         Vec2<Integer> chunkPos = pos.position.getChunkPos();
@@ -68,7 +68,7 @@ public class DefaultRenderer implements HudRenderer {
                     definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))),
                     config().renderDirectionInt ?
                             value("(" + formatter.formatDecimal(pos.headRot.wrapYaw()) + ")")
-                            : new TextComponent("")
+                            : Component.empty()
             );
 
             row2.add(direction);
@@ -80,9 +80,9 @@ public class DefaultRenderer implements HudRenderer {
 
             String dimensionstring = pos.world.getDimension(true);
             Component coloredDimensionstring = GuiUtils.colorize(
-                    new TextComponent(dimensionstring),
+                    Component.literal(dimensionstring),
                     config().biomeColors ?
-                            CoordinatesDisplay.WorldColors.getDimensionColor(dimensionstring, config().definitionColor) :
+                            WorldColors.getDimensionColor(dimensionstring, config().definitionColor) :
                             config().definitionColor
             );
             Component dimension = definition(
@@ -91,9 +91,9 @@ public class DefaultRenderer implements HudRenderer {
             );
 
             Component biomeDimension =
-                    (config().renderDimension ? (config().renderBiome ? coloredDimensionstring : dimension).copy() : new TextComponent(""))
-                            .append(config().renderDimension && config().renderBiome ? definition(": ") : new TextComponent(""))
-                            .append(config().renderBiome ? (config().renderDimension ? biomeString : biome) : new TextComponent(""));
+                    (config().renderDimension ? (config().renderBiome ? coloredDimensionstring : dimension).copy() : Component.empty())
+                            .append(config().renderDimension && config().renderBiome ? definition(": ") : Component.empty())
+                            .append(config().renderBiome ? (config().renderDimension ? biomeString : biome) : Component.empty());
 
             row2.add(biomeDimension);
         }
@@ -107,8 +107,6 @@ public class DefaultRenderer implements HudRenderer {
         hud.addComponent(new LayoutContainerComponent(row1));
         hud.addComponent(row2);
 
-        PaddingLayout hudRenderer = new PaddingLayout(x, y, p, hud);
-
-        return renderHud(stack, hudRenderer);
+        return new PaddingLayout(x, y, p, hud);
     }
 }

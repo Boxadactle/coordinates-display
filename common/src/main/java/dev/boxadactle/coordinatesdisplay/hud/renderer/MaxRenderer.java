@@ -1,27 +1,25 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 
-@DisplayMode("maximum")
+@HudDisplayMode("maximum")
 public class MaxRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
 
         ParagraphComponent component = new ParagraphComponent(config().textPadding);
@@ -52,7 +50,7 @@ public class MaxRenderer implements HudRenderer {
             Component g = definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
             Component direction = definition(translation(
                     "direction", g,
-                    config().renderDirectionInt ? f : new TextComponent("")
+                    config().renderDirectionInt ? f : Component.empty()
             ));
 
             component.add(direction);
@@ -80,6 +78,6 @@ public class MaxRenderer implements HudRenderer {
 
         RowLayout r = new RowLayout(0, 0, 0);
         r.addComponent(component);
-        return renderHud(stack, new PaddingLayout(x, y, config().padding, r));
+        return new PaddingLayout(x, y, config().padding, r);
     }
 }
