@@ -1,9 +1,10 @@
 package dev.boxadactle.coordinatesdisplay.mixin;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DeathScreen;
 import net.minecraft.client.gui.screens.Screen;
@@ -24,8 +25,8 @@ public class DeathScreenMixin extends Screen {
     @Inject(at = @At("RETURN"), method = "init")
     private void init(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
-            this.addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copy"), (button) -> {
-                button.setMessage(Component.literal("button.coordinatesdisplay.copied"));
+            addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copy"), (button) -> {
+                button.setMessage(Component.translatable("button.coordinatesdisplay.copied"));
                 button.active = false;
 
                 int x = (int) Math.round(ClientUtils.getClient().player.getX());
@@ -39,15 +40,15 @@ public class DeathScreenMixin extends Screen {
     }
 
     @Inject(at = @At("RETURN"), method = "render")
-    private void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    private void render(PoseStack stack, int mouseX, int mouseY, float delta, CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
             DecimalFormat d = new DecimalFormat("0.00");
 
             String x = d.format(ClientUtils.getClient().player.getX());
             String y = d.format(ClientUtils.getClient().player.getY());
             String z = d.format(ClientUtils.getClient().player.getZ());
-            Component pos = Component.translatable("message.coordinatesdisplay.location", x, y, z).withStyle(style -> style.withColor(CoordinatesDisplay.CONFIG.get().deathPosColor));
-            guiGraphics.drawCenteredString(this.font, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, GuiUtils.WHITE);
+            Component pos = GuiUtils.colorize(Component.translatable("message.coordinatesdisplay.location", x, y, z), CoordinatesDisplay.CONFIG.get().deathPosColor);
+            RenderUtils.drawTextCentered(stack, Component.translatable("message.coordinatesdisplay.deathpos", pos), this.width / 2, 115, GuiUtils.WHITE);
         }
     }
 }

@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
@@ -7,11 +8,9 @@ import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import oshi.util.tuples.Triplet;
 
 public interface HudRenderer {
 
@@ -21,12 +20,16 @@ public interface HudRenderer {
         return CoordinatesDisplay.getConfig();
     }
 
-    default void drawInfo(GuiGraphics guiGraphics, Component component, int x, int y, int color) {
-        guiGraphics.drawString(GuiUtils.getTextRenderer(), component, x, y, color, CoordinatesDisplay.CONFIG.get().hudTextShadow);
+    default void drawInfo(PoseStack poseStack, Component component, int x, int y, int color) {
+        RenderUtils.drawText(poseStack, component, x, y, color);
     }
 
-    default void drawInfo(GuiGraphics guiGraphics, Component component, int x, int y) {
-        drawInfo(guiGraphics, component, x, y, GuiUtils.WHITE);
+    default void drawInfo(PoseStack stack, Component component, int x, int y) {
+        drawInfo(stack, component, x, y, GuiUtils.WHITE);
+    }
+
+    default void updateHudSize(Rect<Integer> newSize) {
+        CoordinatesDisplay.HUD.size = newSize.clone();
     }
 
 
@@ -38,7 +41,7 @@ public interface HudRenderer {
     }
 
     default String getNameKey() {
-        DisplayMode metadata = this.getClass().getAnnotation(DisplayMode.class);
+        HudDisplayMode metadata = this.getClass().getAnnotation(HudDisplayMode.class);
         if (metadata != null) {
             if (!metadata.translationKey().isEmpty()) {
                 return metadata.translationKey();
@@ -62,6 +65,10 @@ public interface HudRenderer {
         return GuiUtils.colorize(Component.literal(t), CoordinatesDisplay.getConfig().definitionColor);
     }
 
+    default Component definition(GlobalTexts t, Object ...args) {
+        return definition(t.get(args));
+    }
+
     default Component definition(String k, Object ...args) {
         return definition(translation(k, args));
     }
@@ -74,8 +81,8 @@ public interface HudRenderer {
         return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor);
     }
 
-    default Component valueTranslation(String k, Object ...args) {
-        return value(translation(k, args));
+    default Component value(GlobalTexts t, Object ...args) {
+        return value(t.get(args));
     }
 
     default Component resolveDirection(String direction, boolean useShort) {
@@ -90,14 +97,14 @@ public interface HudRenderer {
         return resolveDirection(direction, false);
     }
 
-    default Rect<Integer> renderHud(GuiGraphics guiGraphics, RenderingLayout hudRenderer) {
+    static Rect<Integer> renderHud(PoseStack stack, RenderingLayout hudRenderer, boolean background) {
         Rect<Integer> r = hudRenderer.calculateRect();
 
-        if (config().renderBackground) {
-            RenderUtils.drawSquare(guiGraphics, r, config().backgroundColor);
+        if (CoordinatesDisplay.getConfig().renderBackground && background) {
+            RenderUtils.drawSquare(stack, r, CoordinatesDisplay.getConfig().backgroundColor);
         }
 
-        hudRenderer.render(guiGraphics);
+        hudRenderer.render(stack);
 
         return r;
     }
@@ -122,25 +129,11 @@ public interface HudRenderer {
         }
     }
 
-    default Component createLine(String defKey, String value) {
-        return definition(
-                defKey,
-                value(value)
-        );
-    }
-
-    default Component createLine(String defKey, Component value) {
-        return definition(
-                defKey,
-                value
-        );
-    }
-
     default Triplet<Component, Component, Component> createXYZ(String x, String y, String z) {
         return new Triplet<>(
-                createLine("x", x),
-                createLine("y", y),
-                createLine("z", z)
+                definition(GlobalTexts.X, value(x)),
+                definition(GlobalTexts.Y, value(y)),
+                definition(GlobalTexts.Z, value(z))
         );
     }
 
@@ -155,6 +148,29 @@ public interface HudRenderer {
 
     // HUD RENDERER METHOD
 
-    Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos);
+    RenderingLayout renderOverlay(int x, int y, Position pos);
+
+    enum GlobalTexts {
+        X("hud.coordinatesdisplay.x"),
+        Y("hud.coordinatesdisplay.y"),
+        Z("hud.coordinatesdisplay.z"),
+        XYZ("hud.coordinatesdisplay.xyz"),
+        CHUNK_X("hud.coordinatesdisplay.chunk_x"),
+        CHUNK_Y("hud.coordinatesdisplay.chunk_y"),
+        CHUNK_Z("hud.coordinatesdisplay.chunk_z"),
+        FACING("hud.corodinatesdisplay.facing"),
+        BIOME("hud.coordinatesdisplay.biome"),
+        DIMENSION("hud.coordinatesdisplay.dimension");
+
+        final String key;
+
+        GlobalTexts(String key) {
+            this.key = key;
+        }
+
+        public Component get(Object ...args) {
+            return Component.translatable(key, args);
+        }
+    }
 
 }
