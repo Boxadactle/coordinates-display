@@ -9,8 +9,6 @@ name: Publish
 on:
   push:
     branches: [ "latest" ]
-  pull_request:
-    branches: [ "latest" ]
 
 permissions:
   contents: read

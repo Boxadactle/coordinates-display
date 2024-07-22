@@ -70,7 +70,7 @@ public class MinRenderer implements HudRenderer {
         if (config().renderBiome) {
             Component biome = definition(
                     "biome",
-                    ModUtil.getBiomeComponent(pos.world.getBiome(), config().biomeColors, config().dataColor)
+                    ModUtil.getBiomeComponent(pos.world.getBiomeKey(), pos.world.getBiome(), config().biomeColors, config().dataColor)
             );
 
             row.addComponent(new dev.boxadactle.boxlib.layouts.component.TextComponent(biome));

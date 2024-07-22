@@ -62,7 +62,7 @@ unifiedPublishing {
     project {
         displayName = "[NeoForge ${rootProject.minecraft_version}] v$rootProject.mod_version"
         version = "$rootProject.version-neoforge"
-        changelog = "A changelog can be found here: ${rootProject.releases_page}tag/$rootProject.mod_version"
+        changelog = new File(rootProject.rootDir, rootProject.changelog_file).text
         releaseType = rootProject.release_type
         gameVersions = Arrays.asList(rootProject.game_versions.split(","))
         gameLoaders = [ "neoforge" ]

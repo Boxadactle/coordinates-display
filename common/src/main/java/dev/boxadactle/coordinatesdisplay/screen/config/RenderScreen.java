@@ -129,9 +129,11 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
         }
 
         @Override
-        public void renderToolTip(PoseStack poseStack, int i, int j) {
-            if (!active) {
-                RenderScreen.this.renderTooltip(poseStack, Component.translatable("message.coordintatesdisplay.disabled"), i, j);
+        public void renderButton(PoseStack p_93657_, int mouseX, int mouseY, float delta) {
+            super.renderButton(p_93657_, mouseX, mouseY, delta);
+
+            if (!active && isHovered) {
+                RenderScreen.this.renderTooltip(p_93657_, Component.translatable("message.coordintatesdisplay.disabled"), mouseX, mouseY);
             }
         }
     }
