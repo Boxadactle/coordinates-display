@@ -11,6 +11,7 @@ import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -53,9 +54,9 @@ public class PositionScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    public void render(PoseStack stack, int i, int j, float f) {
-        renderBackground(stack);
-        super.render(stack, i, j, f);
+    public void render(GuiGraphics guiGraphics, int i, int j, float f) {
+        renderBackground(guiGraphics);
+        super.render(guiGraphics, i, j, f);
 
         if (moveHud(i, j)) {
             Rect<Integer> rect = Clamps.clampRect(
@@ -72,7 +73,7 @@ public class PositionScreen extends BOptionScreen implements HudHelper {
         }
 
         CoordinatesDisplay.HUD.render(
-                stack,
+                guiGraphics,
                 pos,
                 x,
                 y,
@@ -82,10 +83,12 @@ public class PositionScreen extends BOptionScreen implements HudHelper {
         );
 
         if (CoordinatesDisplay.HUD.isHovered(i, j)) {
+            PoseStack stack = guiGraphics.pose();
+
             stack.pushPose();
             stack.scale(scale, scale, scale);
 
-            CoordinatesDisplay.HUD.renderMoveOverlay(stack, x, y);
+            CoordinatesDisplay.HUD.renderMoveOverlay(guiGraphics, x, y);
 
             stack.popPose();
         }

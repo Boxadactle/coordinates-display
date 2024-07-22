@@ -1,6 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.layouts.LayoutComponent;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
@@ -9,13 +9,13 @@ import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
-import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -193,18 +193,15 @@ public class SpawnpointRenderer implements HudRenderer {
             };
 
             String texture = "textures/" + textures[(int) (range1 * textures.length)] + ".png";
-            return new ResourceLocation(texture);
+            return new ResourceLocation("minecraft", texture);
         }
 
         @Override
-        public void render(PoseStack stack, int x, int y) {
+        public void render(GuiGraphics guiGraphics, int x, int y) {
             double degrees = calculateRelativeDirection(component.position.getBlockPos(), new Vec3<>(spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ()), component.headRot.wrapYaw());
-            RenderUtils.drawTexture(resolveCompassTexture(degrees),
-                    stack,
-                    x, y,
-                    size, size,
-                    0, 0
-            );
+
+            RenderSystem.enableBlend();
+            guiGraphics.blit(resolveCompassTexture(degrees), x, y, 0, 0, size, size);
         }
     }
 }

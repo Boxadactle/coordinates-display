@@ -53,7 +53,7 @@ public class CoordinatesDisplayForge {
                     ModConfig config = CoordinatesDisplay.getConfig();
 
                     CoordinatesDisplay.HUD.render(
-                            event.getPoseStack(),
+                            event.getGuiGraphics(),
                             Position.of(WorldUtils.getPlayer()),
                             config.hudX,
                             config.hudY,

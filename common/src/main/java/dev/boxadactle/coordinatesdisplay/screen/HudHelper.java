@@ -31,9 +31,9 @@ public interface HudHelper {
     }
 
     default BCustomEntry createHudRenderEntry(Position pos) {
-        return new BCustomEntry((poseStack, x, y, width, height, mouseX, mouseY, tickDelta) -> {
+        return new BCustomEntry((guiGraphics, x, y, width, height, mouseX, mouseY, tickDelta) -> {
             CoordinatesDisplay.HUD.render(
-                    poseStack,
+                    guiGraphics,
                     pos,
                     (x + width / 2) - CoordinatesDisplay.HUD.getWidth() / 2,
                     y + 3,
