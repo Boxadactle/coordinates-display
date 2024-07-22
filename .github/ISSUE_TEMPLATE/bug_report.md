@@ -1,32 +1,29 @@
 ---
 name: Bug report
-about: Create a bug report
-title: Bug Report
+about: Report any bugs that cause issues when playing
+title: ''
 labels: bug
 assignees: ''
 
 ---
 
-**Describe the bug**
-Please give a brief and concise description of this bug.
+## Clear and Consise description of the issue
 
-**Reproduce the bug**
-Steps to reproduce the behavior:
-1. Go to '...'
-2. Click on '....'
-3. Scroll down to '....'
-4. See error
+**What happened**?
 
-**Expected behavior**
-A brief description of what you think should have happened.
 
-**Screenshots**
-Optional, but it would make understanding the bug easier
+**What did you expect to happen?**
 
-**Version of Mod (please fill out so I know which version to look for the bug)**
-Mod Version:
-Mod Loader:
-Minecraft Version:
 
-**Additional context**
-Add any other context about the problem here.
+**Steps to reproduce the issue:**
+
+
+## Mod Information
+**Minecraft version:**
+**Mod version:**
+**Other relevant mods:**
+
+**Relevant logs (if applicable):**
+Pastebin link or attachment
+
+## Screenshots or videos: (Optional)

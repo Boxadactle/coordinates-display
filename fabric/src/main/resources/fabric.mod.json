@@ -2,37 +2,34 @@
   "schemaVersion": 1,
   "id": "coordinatesdisplay",
   "version": "${version}",
-  "name": "Coordinates Display",
-  "description": "A simple and customizable coordinates display mod for Fabric.",
-  "authors": [
-    "Boxadactle"
-  ],
-  "contact": {
-    "homepage": "https://github.com/Boxadactle",
-    "sources": "https://github.com/Boxadactle/coordinates-display",
-    "issues": "https://github.com/Boxadactle/coordinates-display/issues",
-    "wiki": "https://boxadactle.github.io/wiki/coordinates-display/"
-  },
+
+  "name": "CoordinatesDisplay",
+  "description": "A mod that displays your coordinates on the in-game HUD.",
+  "authors": [ "Boxadactle" ],
+  "contact": {},
+
   "license": "MIT",
-  "icon": "assets/coordinatesdisplay/icon.png",
-  "environment": "client",
+  "icon": "icon.png",
+
+  "environment": "*",
   "entrypoints": {
     "client": [
-      "me.boxadactle.coordinatesdisplay.CoordinatesDisplay"
+      "dev.boxadactle.coordinatesdisplay.fabric.CoordinatesDisplayFabric"
     ],
     "modmenu": [
-      "me.boxadactle.coordinatesdisplay.CoordinatesDisplayModMenu"
+      "dev.boxadactle.coordinatesdisplay.fabric.ModMenuIntegration"
     ]
   },
   "mixins": [
-    "CoordinatesDisplay.mixins.json"
+    "coordinatesdisplay-common.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.8",
-    "fabric": "*",
-    "minecraft": "1.19.3"
+    "fabricloader": ">=0.15.10",
+    "minecraft": "1.19.*",
+    "boxlib": "7.*",
+    "fabric": "*"
   },
   "recommends": {
-    "modmenu": ">=5.0.0"
+    "modmenu": "*"
   }
 }
