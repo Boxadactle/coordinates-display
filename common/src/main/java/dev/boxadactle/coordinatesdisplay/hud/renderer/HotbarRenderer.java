@@ -1,14 +1,11 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.CenteredParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
-import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
@@ -17,7 +14,6 @@ import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
@@ -46,13 +42,13 @@ public class HotbarRenderer implements HudRenderer {
 
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
-        Component xyz = definition("xyz",
+        Component xyz = definition(GlobalTexts.XYZ,
                 value(player.getA()),
                 value(player.getB()),
                 value(player.getC())
         );
 
-        Component direction = definition("direction", resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
+        Component direction = definition(GlobalTexts.FACING, value(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))));
 
         ResourceLocation bKey = pos.world.getBiomeKey();
         Biome b = pos.world.getBiome();
@@ -60,7 +56,7 @@ public class HotbarRenderer implements HudRenderer {
 
         Component all = translation("all", xyz, direction, biome);
 
-        ColumnLayout hud = new ColumnLayout(0, 0, 0);
+        ColumnLayout hud = new ColumnLayout(x, y, 0);
         hud.addComponent(new CenteredParagraphComponent(0, all));
 
         return hud;

@@ -5,6 +5,7 @@ import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.LeftParagraphComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
+import dev.boxadactle.boxlib.layouts.component.TextComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
@@ -58,9 +59,9 @@ public class MinRenderer implements HudRenderer {
         ColumnLayout row = new ColumnLayout(0, 0, config().textPadding / 2);
 
         { // xyz
-            Component xtext = createLine("x", player.getA());
-            Component ytext = createLine("y", player.getB());
-            Component ztext = createLine("z", player.getC());
+            Component xtext = definition(GlobalTexts.X, value(player.getA()));
+            Component ytext = definition(GlobalTexts.Y, value(player.getB()));
+            Component ztext = definition(GlobalTexts.Z, value(player.getC()));
 
             ParagraphComponent paragraph = new ParagraphComponent(1, xtext, ytext, ztext);
             row.addComponent(paragraph);
@@ -68,12 +69,9 @@ public class MinRenderer implements HudRenderer {
 
         // biome
         if (config().renderBiome) {
-            Component biome = definition(
-                    "biome",
-                    ModUtil.getBiomeComponent(pos.world.getBiomeKey(), pos.world.getBiome(), config().biomeColors, config().dataColor)
-            );
+            Component biome = ModUtil.getBiomeComponent(pos.world.getBiomeKey(), pos.world.getBiome(), config().biomeColors, config().definitionColor);
 
-            row.addComponent(new dev.boxadactle.boxlib.layouts.component.TextComponent(biome));
+            row.addComponent(new TextComponent(biome));
         }
 
         layout.addComponent(new LayoutContainerComponent(row));

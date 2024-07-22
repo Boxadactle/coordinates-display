@@ -1,9 +1,5 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
-import dev.boxadactle.boxlib.function.Function2;
-import dev.boxadactle.boxlib.math.geometry.Dimension;
-import dev.boxadactle.boxlib.math.geometry.Rect;
-
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -58,7 +54,7 @@ public @interface HudDisplayMode {
      *
      * @return the class for the position modifier
      */
-    Class<? extends HudPositionModifier.BasicPositionModifier> positionModifier() default HudPositionModifier.Empty.class;
+    Class<? extends HudPositionModifier.BasicPositionModifier> positionModifier() default HudPositionModifier.Basic.class;
 
     /**
      * Whether to allow the hud to be moved by the user

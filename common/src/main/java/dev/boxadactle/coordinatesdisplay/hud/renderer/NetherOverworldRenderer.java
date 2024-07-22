@@ -71,10 +71,10 @@ public class NetherOverworldRenderer implements HudRenderer {
             return new PaddingLayout(x, y, config().padding, hud);
         } catch (NullPointerException ignored) {
             Component error = GuiUtils.colorize(translation("error"), GuiUtils.RED);
-            Component dimensionText = definition(translation(
-                    "dimension",
+            Component dimensionText = definition(
+                    GlobalTexts.DIMENSION,
                     value(pos.world.getDimension(true))
-            ));
+            );
 
             ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
 
@@ -87,9 +87,9 @@ public class NetherOverworldRenderer implements HudRenderer {
 
     private Component[] createXYZComponents(String x, String y, String z) {
         return new Component[] {
-                definition(translation("x", value(x))),
-                definition(translation("y", value(y))),
-                definition(translation("z", value(z)))
+                definition(GlobalTexts.X, value(x)),
+                definition(GlobalTexts.Y, value(y)),
+                definition(GlobalTexts.Z, value(z))
         };
     }
 

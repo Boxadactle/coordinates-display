@@ -31,9 +31,9 @@ public class LineRenderer implements HudRenderer {
         RowLayout layout = new RowLayout(0, 0, config().textPadding);
 
         if (config().renderXYZ) {
-            Component xtext = definition("x", value(player.getA()));
-            Component ytext = definition("y", value(player.getB()));
-            Component ztext = definition("z", value(player.getC()));
+            Component xtext = definition(GlobalTexts.X, value(player.getA()));
+            Component ytext = definition(GlobalTexts.Y, value(player.getB()));
+            Component ztext = definition(GlobalTexts.Z, value(player.getC()));
 
             RowLayout xyz = new RowLayout(0, 0, 3);
             xyz.addComponent(new TextComponent(xtext));
@@ -44,7 +44,7 @@ public class LineRenderer implements HudRenderer {
         }
 
         if (config().renderDirection) {
-            Component direction = definition("direction", value(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))));
+            Component direction = definition(GlobalTexts.FACING, value(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))));
 
             layout.addComponent(new TextComponent(direction));
         }

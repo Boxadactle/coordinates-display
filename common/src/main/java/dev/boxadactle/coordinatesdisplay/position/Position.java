@@ -15,7 +15,7 @@ public class Position {
 
     public static Position of(Player player) {
         Vec3<Double> a = new Vec3<>(player.getX(), player.getY(), player.getZ());
-        BlockPos b = new BlockPos(player.getX(), player.getY(), player.getZ());
+        BlockPos b = new BlockPos(player.getBlockX(), player.getBlockY(), player.getBlockZ());
 
         return new Position(
                 a, new ChunkPos(b), b,

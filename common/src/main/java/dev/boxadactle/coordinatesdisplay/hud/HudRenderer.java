@@ -65,6 +65,10 @@ public interface HudRenderer {
         return GuiUtils.colorize(Component.literal(t), CoordinatesDisplay.getConfig().definitionColor);
     }
 
+    default Component definition(GlobalTexts t, Object ...args) {
+        return definition(t.get(args));
+    }
+
     default Component definition(String k, Object ...args) {
         return definition(translation(k, args));
     }
@@ -75,6 +79,10 @@ public interface HudRenderer {
 
     default Component value(Component t) {
         return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor);
+    }
+
+    default Component value(GlobalTexts t, Object ...args) {
+        return value(t.get(args));
     }
 
     default Component resolveDirection(String direction, boolean useShort) {
@@ -121,25 +129,11 @@ public interface HudRenderer {
         }
     }
 
-    default Component createLine(String defKey, String value) {
-        return definition(
-                defKey,
-                value(value)
-        );
-    }
-
-    default Component createLine(String defKey, Component value) {
-        return definition(
-                defKey,
-                value
-        );
-    }
-
     default Triplet<Component, Component, Component> createXYZ(String x, String y, String z) {
         return new Triplet<>(
-                createLine("x", x),
-                createLine("y", y),
-                createLine("z", z)
+                definition(GlobalTexts.X, value(x)),
+                definition(GlobalTexts.Y, value(y)),
+                definition(GlobalTexts.Z, value(z))
         );
     }
 
@@ -155,5 +149,28 @@ public interface HudRenderer {
     // HUD RENDERER METHOD
 
     RenderingLayout renderOverlay(int x, int y, Position pos);
+
+    enum GlobalTexts {
+        X("hud.coordinatesdisplay.x"),
+        Y("hud.coordinatesdisplay.y"),
+        Z("hud.coordinatesdisplay.z"),
+        XYZ("hud.coordinatesdisplay.xyz"),
+        CHUNK_X("hud.coordinatesdisplay.chunk_x"),
+        CHUNK_Y("hud.coordinatesdisplay.chunk_y"),
+        CHUNK_Z("hud.coordinatesdisplay.chunk_z"),
+        FACING("hud.corodinatesdisplay.facing"),
+        BIOME("hud.coordinatesdisplay.biome"),
+        DIMENSION("hud.coordinatesdisplay.dimension");
+
+        final String key;
+
+        GlobalTexts(String key) {
+            this.key = key;
+        }
+
+        public Component get(Object ...args) {
+            return Component.translatable(key, args);
+        }
+    }
 
 }
