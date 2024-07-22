@@ -1,11 +1,11 @@
 package dev.boxadactle.coordinatesdisplay.fabric;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModConfig;
+import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -50,6 +50,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
 
                 CoordinatesDisplay.HUD.render(
                         guiGraphics,
+                        Hud.RenderType.HUD,
                         Position.of(WorldUtils.getPlayer()),
                         config.hudX,
                         config.hudY,

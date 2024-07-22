@@ -8,15 +8,16 @@ import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
+import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
-import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
+import oshi.util.tuples.Triplet;
 
 @HudDisplayMode(
         value = "hotbar",
@@ -64,20 +65,21 @@ public class HotbarRenderer implements HudRenderer {
 
     public static class HotbarPosition implements HudPositionModifier.BasicPositionModifier {
         @Override
-        public Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored) {
-            int j = ClientUtils.getClient().getWindow().getGuiScaledWidth() / 2;
-            int k = ClientUtils.getClient().getWindow().getGuiScaledHeight() - 68 - 4;
+        public Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored, Hud.RenderType type) {
+            return switch (type) {
+                case SCREEN -> rect;
+                case HUD -> {
+                    int j = ClientUtils.getClient().getWindow().getGuiScaledWidth() / 2;
+                    int k = ClientUtils.getClient().getWindow().getGuiScaledHeight() - 68 - 4;
 
-            if (ClientUtils.getClient().level != null) {
-                Rect<Integer> r = rect.clone();
+                    Rect<Integer> r = rect.clone();
 
-                r.setX(j - rect.getWidth() / 2);
-                r.setY(k);
+                    r.setX(j - rect.getWidth() / 2);
+                    r.setY(k);
 
-                return r;
-            } else {
-                return rect;
-            }
+                    yield r;
+                }
+            };
         }
     }
 }

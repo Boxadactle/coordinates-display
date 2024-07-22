@@ -3,6 +3,7 @@ package dev.boxadactle.coordinatesdisplay.screen;
 import dev.boxadactle.boxlib.gui.config.widget.BCustomEntry;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModConfig;
+import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
@@ -34,6 +35,7 @@ public interface HudHelper {
         return new BCustomEntry((guiGraphics, x, y, width, height, mouseX, mouseY, tickDelta) -> {
             CoordinatesDisplay.HUD.render(
                     guiGraphics,
+                    Hud.RenderType.SCREEN,
                     pos,
                     (x + width / 2) - CoordinatesDisplay.HUD.getWidth() / 2,
                     y + 3,

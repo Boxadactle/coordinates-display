@@ -14,7 +14,7 @@ permissions:
 jobs:
   build:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -23,18 +23,21 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
+
+    - name: Set up gradlew
+      run: chmod +x ./gradlew
         
     - name: Build with Gradle
       run: ./gradlew build
       
     - name: Upload fabric
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: fabric-build
         path: fabric/build/libs
         
     - name: Upload forge
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: forge-build
         path: forge/build/libs

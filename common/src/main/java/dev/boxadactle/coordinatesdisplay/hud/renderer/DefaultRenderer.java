@@ -14,10 +14,10 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.WorldColors;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
 @HudDisplayMode("default")
 public class DefaultRenderer implements HudRenderer {
