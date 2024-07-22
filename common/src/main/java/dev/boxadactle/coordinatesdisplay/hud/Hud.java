@@ -47,7 +47,7 @@ public class Hud {
 
         // have you ever seen anyone use this operand
         bl &= !ClientUtils.getOptions().hideGui;
-        bl &= !ClientUtils.getOptions().renderDebug;
+        bl &= !ClientUtils.getClient().getDebugOverlay().showDebugScreen();
         bl &= CoordinatesDisplay.shouldHudRender;
         bl &= filter.getFilter().isVisible();
 
