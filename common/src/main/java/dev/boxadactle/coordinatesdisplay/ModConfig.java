@@ -1,10 +1,11 @@
-package dev.boxadactle.coordinatesdisplay.config;
+package dev.boxadactle.coordinatesdisplay;
 
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.registry.*;
-import net.minecraft.ChatFormatting;
+
+import java.lang.reflect.Field;
 
 @BConfigFile("coordinatesdisplay")
 public class ModConfig implements BConfig {
@@ -46,5 +47,19 @@ public class ModConfig implements BConfig {
     public String copyPosMessage = "{x}, {y}, {z}";
     public boolean includeDecimalsWhenCopying = true;
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
+
+    public static void checkValidity(ModConfig config) throws NullPointerException {
+        Class<?> clazz = config.getClass();
+
+        for (Field field : clazz.getDeclaredFields()) {
+            try {
+                if (field.get(config) == null) {
+                    throw new NullPointerException("Field " + field.getName() + " is null");
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

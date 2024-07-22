@@ -123,6 +123,7 @@
   "screen.coordinatesdisplay.position": "Change Position of HUD",
   "screen.coordinatesdisplay.text": "Text Config for %s",
   "screen.coordinatesdispaly.hudposition": "Modifying HUD Position",
+  "screen.coordinatesdisplay.startcorner": "Changing Start Corner",
 
   "button.coordinatesdisplay.enabled": "Enabled: %s",
   "button.coordinatesdisplay.visualconfig": "Visual Settings...",
@@ -142,6 +143,10 @@
   "button.coordinatesdisplay.startcorner.top_right": "Top Right",
   "button.coordinatesdisplay.startcorner.bottom_left": "Bottom Left",
   "button.coordinatesdisplay.startcorner.bottom_right": "Bottom Right",
+  "button.coordinatesdisplay.startcorner.top": "Top",
+  "button.coordinatesdisplay.startcorner.bottom": "Bottom",
+  "button.coordinatesdisplay.startcorner.left": "Left",
+  "button.coordinatesdisplay.startcorner.right": "Right",
   "button.coordinatesdisplay.editHudPos": "Edit Position of HUD...",
   "button.coordinatesdisplay.padding": "Padding: %s",
   "button.coordinatesdisplay.textpadding": "Text Padding: %s",

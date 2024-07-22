@@ -3,6 +3,7 @@ plugins {
     id 'architectury-plugin' version '3.4-SNAPSHOT'
     id 'com.github.johnrengelman.shadow' version '8.1.1' apply false
     id "me.shedaniel.unified-publishing" version "0.1.+"
+    id "com.github.breadmoirai.github-release" version "2.5.2"
 }
 
 architectury {
@@ -65,4 +66,23 @@ subprojects {
             // retrieving dependencies.
         }
     }
+}
+
+githubRelease {
+    owner = "Boxadactle"
+    repo = "coordinates-display"
+    tagName = "$project.version"
+    targetCommitish = "latest"
+    releaseName = "Coordinates Display $project.version"
+    generateReleaseNotes = true
+    body = "Coordinates Display $project.version for Minecraft $project.minecraft_version"
+    authorization = "Token ${System.getenv("GITHUB_TOKEN")}"
+
+    var files = [];
+    for (String platform : project.enabled_platforms.split(',')) {
+        files += fileTree("$platform/build/libs") {
+            include "*$project.version*"
+        }
+    }
+    releaseAssets = files
 }

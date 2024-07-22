@@ -3,12 +3,13 @@ package dev.boxadactle.coordinatesdisplay.fabric;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
+import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import dev.boxadactle.coordinatesdisplay.fabric.init.Keybinds;
+import dev.boxadactle.coordinatesdisplay.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
@@ -25,13 +26,19 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
 
         HudRenderCallback.EVENT.register(this::renderHud);
 
-        Keybinds.register();
+        KeyBindingHelper.registerKeyBinding(Bindings.hudEnabled);
+        KeyBindingHelper.registerKeyBinding(Bindings.coordinatesGUIKeybind);
+        KeyBindingHelper.registerKeyBinding(Bindings.copyLocation);
+        KeyBindingHelper.registerKeyBinding(Bindings.sendLocation);
+        KeyBindingHelper.registerKeyBinding(Bindings.copyPosTp);
+        KeyBindingHelper.registerKeyBinding(Bindings.changeHudPosition);
+        KeyBindingHelper.registerKeyBinding(Bindings.cycleDisplayMode);
     }
 
     private void checkBindings(Minecraft client) {
         Player player = WorldUtils.getPlayer();
         if (player != null) {
-            Keybinds.checkBindings(Position.of(player));
+            Bindings.checkBindings(Position.of(player));
         }
     }
 
@@ -47,7 +54,6 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
                         config.hudY,
                         config.renderMode,
                         config.startCorner,
-                        false,
                         config.hudScale
                 );
             }

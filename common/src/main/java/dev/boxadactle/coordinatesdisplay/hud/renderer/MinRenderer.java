@@ -1,24 +1,22 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.LeftParagraphComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
-import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 
-@DisplayMode(
+@HudDisplayMode(
         value = "minimum",
         hasXYZ = false,
         hasChunkData = false,
@@ -45,14 +43,14 @@ public class MinRenderer implements HudRenderer {
         String[] direction = directions[(int) Math.round(yaw / 45.0F) & 7];
 
         return new Component[] {
-                new TextComponent(direction[0]),
+                Component.literal(direction[0]),
                 resolveDirection(ModUtil.getDirectionFromYaw(yaw), true),
-                new TextComponent(direction[1])
+                Component.literal(direction[1])
         };
     }
 
     @Override
-    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
         RowLayout layout = new RowLayout(0, 0, config().textPadding);
@@ -90,6 +88,6 @@ public class MinRenderer implements HudRenderer {
             layout.addComponent(new LeftParagraphComponent(1, xDirection, directionText, zDirection));
         }
 
-        return renderHud(stack, new PaddingLayout(x, y, config().padding, layout));
+        return new PaddingLayout(x, y, config().padding, layout);
     }
 }

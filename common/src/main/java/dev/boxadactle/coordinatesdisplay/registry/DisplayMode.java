@@ -2,10 +2,10 @@ package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 public enum DisplayMode {
     DEFAULT(DefaultRenderer.class),
@@ -14,17 +14,17 @@ public enum DisplayMode {
     LINE(LineRenderer.class),
     NETHER_OVERWORLD(NetherOverworldRenderer.class),
     HOTBAR(HotbarRenderer.class),
-//    SPAWNPOINT(SpawnpointRenderer.class), spawnpoint cannot be accessed in 1.16.5
+    SPAWNPOINT(SpawnpointRenderer.class),
     DIRECTION(DirectionRenderer.class),
     CHUNK(ChunkRenderer.class);
 
     final HudRenderer renderer;
-    final dev.boxadactle.coordinatesdisplay.hud.DisplayMode metadata;
+    final HudDisplayMode metadata;
 
     DisplayMode(Class<? extends HudRenderer> renderer) {
         this.renderer = BoxLib.initializeClass(renderer);
 
-        dev.boxadactle.coordinatesdisplay.hud.DisplayMode m = renderer.getAnnotation(dev.boxadactle.coordinatesdisplay.hud.DisplayMode.class);
+        HudDisplayMode m = renderer.getAnnotation(HudDisplayMode.class);
         if (m != null) {
             metadata = m;
         } else {
@@ -36,12 +36,12 @@ public enum DisplayMode {
         return renderer;
     }
 
-    public dev.boxadactle.coordinatesdisplay.hud.DisplayMode getMetadata() {
+    public HudDisplayMode getMetadata() {
         return metadata;
     }
 
     public Component getComponent() {
-        return new TranslatableComponent(renderer.getNameKey());
+        return Component.translatable(renderer.getNameKey());
     }
 
     public String getName() {

@@ -9,11 +9,10 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.CoordinatesScreen;
-import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
+import dev.boxadactle.coordinatesdisplay.screen.CoordinatesScreen;
+import dev.boxadactle.coordinatesdisplay.screen.config.PositionScreen;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.List;
 
@@ -46,14 +45,14 @@ public class CoordinatesCommand {
 
     private static int showHelpMessage(CommandContext<BCommandSourceStack> ignored) {
         List<Component> components = ImmutableList.of(
-                GuiUtils.colorize(new TranslatableComponent("command.coordinatesdisplay.helpmenu"), GuiUtils.AQUA),
-                new TranslatableComponent("command.coordinatesdisplay.config"),
-                new TranslatableComponent("command.coordinatesdisplay.gui"),
-                new TranslatableComponent("command.coordinatesdisplay.help"),
-                new TranslatableComponent("command.coordinatesdisplay.mode"),
-                new TranslatableComponent("command.coordinatesdisplay.movehud"),
-                new TranslatableComponent("command.coordinatesdisplay.position"),
-                new TranslatableComponent("command.coordinatesdisplay.visibility")
+                GuiUtils.colorize(Component.translatable("command.coordinatesdisplay.helpmenu"), GuiUtils.AQUA),
+                Component.translatable("command.coordinatesdisplay.config"),
+                Component.translatable("command.coordinatesdisplay.gui"),
+                Component.translatable("command.coordinatesdisplay.help"),
+                Component.translatable("command.coordinatesdisplay.mode"),
+                Component.translatable("command.coordinatesdisplay.movehud"),
+                Component.translatable("command.coordinatesdisplay.position"),
+                Component.translatable("command.coordinatesdisplay.visibility")
         );
 
         components.forEach(c -> {
@@ -64,7 +63,7 @@ public class CoordinatesCommand {
     }
 
     private static int moveHud(CommandContext<BCommandSourceStack> ignored) {
-        Scheduling.nextTick(() -> ClientUtils.setScreen(new HudPositionScreen(null)));
+        Scheduling.nextTick(() -> ClientUtils.setScreen(new PositionScreen(null)));
 
         return 0;
     }

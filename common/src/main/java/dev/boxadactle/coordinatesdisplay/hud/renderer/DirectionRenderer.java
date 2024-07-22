@@ -1,26 +1,24 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 
-@DisplayMode(
+@HudDisplayMode(
         value = "direction",
         hasChunkData = false,
         hasBiome = false,
@@ -30,13 +28,13 @@ import net.minecraft.network.chat.TranslatableComponent;
 public class DirectionRenderer implements HudRenderer {
 
     private enum Direction {
-        POSITIVE_Z(new TranslatableComponent("hud.coordinatesdisplay.direction.positive", "Z")), // south
-        NEGATIVE_X(new TranslatableComponent("hud.coordinatesdisplay.direction.negative", "X")), // east
-        NEGATIVE_Z(new TranslatableComponent("hud.coordinatesdisplay.direction.negative", "Z")), // north
-        POSITIVE_X(new TranslatableComponent("hud.coordinatesdisplay.direction.positive", "X")), // west
+        POSITIVE_Z(Component.translatable("hud.coordinatesdisplay.direction.positive", "Z")), // south
+        NEGATIVE_X(Component.translatable("hud.coordinatesdisplay.direction.negative", "X")), // east
+        NEGATIVE_Z(Component.translatable("hud.coordinatesdisplay.direction.negative", "Z")), // north
+        POSITIVE_X(Component.translatable("hud.coordinatesdisplay.direction.positive", "X")), // west
 
-        POSITIVE_Y(new TranslatableComponent("hud.coordinatesdisplay.direction.positive", "Y")), // up
-        NEGATIVE_Y(new TranslatableComponent("hud.coordinatesdisplay.direction.negative", "Y")); // down
+        POSITIVE_Y(Component.translatable("hud.coordinatesdisplay.direction.positive", "Y")), // up
+        NEGATIVE_Y(Component.translatable("hud.coordinatesdisplay.direction.negative", "Y")); // down
 
         public final Component component;
 
@@ -72,7 +70,7 @@ public class DirectionRenderer implements HudRenderer {
     }
 
     @Override
-    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
@@ -110,7 +108,7 @@ public class DirectionRenderer implements HudRenderer {
         if (config().renderDirection) {
             String[] components = createYawComponents(yaw);
             Component intText = definition(
-                    new TextComponent(
+                    Component.literal(
                             components[0] + " (" +
                                     formatter.formatDecimal(compassRenderer.calculateRelativeDirection(pos.position.getBlockPos(), new Vec3<>(0, 0, 0), yaw)) + "°) " +
                                     components[1]
@@ -150,6 +148,6 @@ public class DirectionRenderer implements HudRenderer {
 
         hud.addComponent(direction);
 
-        return renderHud(new PoseStack(), new PaddingLayout(x, y, config().padding, hud));
+        return new PaddingLayout(x, y, config().padding, hud);
     }
 }
