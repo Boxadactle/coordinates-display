@@ -52,4 +52,4 @@ jobs:
     - name: Create GitHub release
       run: ./gradlew githubRelease
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}
