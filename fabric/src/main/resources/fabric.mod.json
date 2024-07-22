@@ -25,8 +25,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.15.10",
-    "minecraft": "<=1.20.2",
-    "boxlib": "11.*",
+    "minecraft": "<=1.20.4",
+    "boxlib": "12.*",
     "fabric": "*"
   },
   "recommends": {
