@@ -12,6 +12,6 @@ public class HoldCompassVisibility implements HudVisibilityFilter {
     public boolean isVisible() {
         ItemStack p = WorldUtils.getPlayer().getInventory().getSelected();
 
-        return p.is(Items.COMPASS);
+        return p.getItem() == Items.COMPASS;
     }
 }

@@ -1,18 +1,17 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import dev.boxadactle.boxlib.layouts.LayoutComponent;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
-import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
@@ -24,7 +23,7 @@ import net.minecraft.util.Tuple;
 import oshi.util.tuples.Triplet;
 
 // this is a bit of a mess, but it still works
-@DisplayMode(
+@HudDisplayMode(
         value = "spawnpoint",
         hasChunkData = false,
         hasDirection = false,
@@ -34,11 +33,6 @@ import oshi.util.tuples.Triplet;
         hasDimension = false
 )
 public class SpawnpointRenderer implements HudRenderer {
-
-    public static ResourceLocation SOUTH = ResourceLocation.withDefaultNamespace("textures/item/compass_00.png");
-    public static ResourceLocation WEST = ResourceLocation.withDefaultNamespace("textures/item/compass_07.png");
-    public static ResourceLocation NORTH = ResourceLocation.withDefaultNamespace("textures/item/compass_16.png");
-    public static ResourceLocation EAST = ResourceLocation.withDefaultNamespace("textures/item/compass_25.png");
     
     // unfortunately, I don't think you can access the player's
     // spawnpoint unless your mod is server-side
@@ -71,7 +65,7 @@ public class SpawnpointRenderer implements HudRenderer {
     }
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         BlockPos spawnpoint = resolveWorldSpawn();
 
         ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
@@ -139,7 +133,7 @@ public class SpawnpointRenderer implements HudRenderer {
         hud.addComponent(new LayoutContainerComponent(row1));
         hud.addComponent(new LayoutContainerComponent(row2));
 
-        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, hud));
+        return new PaddingLayout(x, y, config().padding, hud);
     }
 
     public static class CompassRenderer extends LayoutComponent<Position> {
@@ -191,28 +185,22 @@ public class SpawnpointRenderer implements HudRenderer {
 
             // this copied from the minecraft compass json model
             String[] textures = {
-                    "item/compass_16", "item/compass_17", "item/compass_18", "item/compass_19", "item/compass_20", "item/compass_21", "item/compass_22", "item/compass_23",
-                    "item/compass_24", "item/compass_25", "item/compass_26", "item/compass_27", "item/compass_28", "item/compass_29", "item/compass_30", "item/compass_31",
-                    "item/compass_00", "item/compass_01", "item/compass_02", "item/compass_03", "item/compass_04", "item/compass_05", "item/compass_06", "item/compass_07",
-                    "item/compass_08", "item/compass_09", "item/compass_10", "item/compass_11", "item/compass_12", "item/compass_13", "item/compass_14", "item/compass_15",
-                    "item/compass_16"
+                    "compass_16", "compass_17", "compass_18", "compass_19", "compass_20", "compass_21", "compass_22", "compass_23",
+                    "compass_24", "compass_25", "compass_26", "compass_27", "compass_28", "compass_29", "compass_30", "compass_31",
+                    "compass_00", "compass_01", "compass_02", "compass_03", "compass_04", "compass_05", "compass_06", "compass_07",
+                    "compass_08", "compass_09", "compass_10", "compass_11", "compass_12", "compass_13", "compass_14", "compass_15",
+                    "compass_16"
             };
 
-            String texture = "textures/" + textures[(int) (range1 * textures.length)] + ".png";
-            return ResourceLocation.withDefaultNamespace(texture);
+            String texture = "textures/item/" + textures[(int) (range1 * textures.length)] + ".png";
+            return new ResourceLocation(texture);
         }
 
         @Override
-        public void render(GuiGraphics graphics, int x, int y) {
+        public void render(GuiGraphics guiGraphics, int x, int y) {
             double degrees = calculateRelativeDirection(component.position.getBlockPos(), new Vec3<>(spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ()), component.headRot.wrapYaw());
-            ResourceLocation compassTexture = resolveCompassTexture(degrees);
-            graphics.blit(
-                    compassTexture,
-                    x, y,
-                    size, size,
-                    size, size,
-                    size, size
-            );
+
+            guiGraphics.blit(resolveCompassTexture(degrees), x, y, 0, 0, size, size, size, size);
         }
     }
 }

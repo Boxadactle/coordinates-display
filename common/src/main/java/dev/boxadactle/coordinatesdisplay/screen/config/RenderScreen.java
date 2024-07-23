@@ -1,13 +1,15 @@
-package dev.boxadactle.coordinatesdisplay.config.screen;
+package dev.boxadactle.coordinatesdisplay.screen.config;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.BBooleanButton;
 import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.HudHelper;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -38,7 +40,7 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected void initConfigButtons() {
-        DisplayMode metadata = config().renderMode.getMetadata();
+        HudDisplayMode metadata = config().renderMode.getMetadata();
 
         // background
         this.addConfigLine(new HudOption(
@@ -128,7 +130,7 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
             this.active = configEnabled;
 
             if (!configEnabled) {
-                this.setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
+                setTooltip(Tooltip.create(Component.translatable("message.coordintatesdisplay.disabled")));
             }
         }
     }

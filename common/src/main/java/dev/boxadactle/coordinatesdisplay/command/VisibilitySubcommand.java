@@ -18,7 +18,7 @@ public class VisibilitySubcommand implements BClientSubcommand {
         VisibilityFilter[] modes = VisibilityFilter.values();
 
         for (VisibilityFilter mode : modes) {
-            builder.then(BCommandManager.literal(mode.getName().toLowerCase())
+            builder.then(BCommandManager.literal(mode.getId())
                     .executes(c -> {
                         CoordinatesDisplay.getConfig().visibilityFilter = mode;
                         CoordinatesDisplay.CONFIG.save();

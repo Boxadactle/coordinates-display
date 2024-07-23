@@ -1,11 +1,11 @@
-package dev.boxadactle.coordinatesdisplay.config.screen;
+package dev.boxadactle.coordinatesdisplay.screen.config;
 
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.field.*;
 import dev.boxadactle.boxlib.gui.config.widget.label.*;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.HudHelper;
+import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.screens.Screen;
@@ -37,27 +37,24 @@ public class ColorScreen extends BOptionScreen implements HudHelper {
     protected void initConfigButtons() {
 
         // definition color
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.definitionColor")));
-
-        this.addConfigLine(new BHexField(
-                CoordinatesDisplay.getConfig().definitionColor,
-                newVal -> CoordinatesDisplay.getConfig().definitionColor = newVal
+        addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.definitionColor")));
+        addConfigLine(new BHexField(
+                config().definitionColor,
+                newVal -> config().definitionColor = newVal
         ));
 
         // data color
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.dataColor")));
-
-        this.addConfigLine(new BHexField(
-                CoordinatesDisplay.getConfig().dataColor,
-                newVal -> CoordinatesDisplay.getConfig().dataColor = newVal
+        addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.dataColor")));
+        addConfigLine(new BHexField(
+                config().dataColor,
+                newVal -> config().dataColor = newVal
         ));
 
         // deathpos color
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.deathposColor")));
-
-        this.addConfigLine(new BHexField(
-                CoordinatesDisplay.getConfig().deathPosColor,
-                newVal -> CoordinatesDisplay.getConfig().deathPosColor = newVal
+        addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.deathposColor")));
+        addConfigLine(new BHexField(
+                config().deathPosColor,
+                newVal -> config().deathPosColor = newVal
         ));
 
         // background color

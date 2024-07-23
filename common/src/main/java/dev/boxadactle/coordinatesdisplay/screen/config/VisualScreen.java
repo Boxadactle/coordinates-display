@@ -1,5 +1,6 @@
-package dev.boxadactle.coordinatesdisplay.config.screen;
+package dev.boxadactle.coordinatesdisplay.screen.config;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.*;
@@ -7,7 +8,8 @@ import dev.boxadactle.boxlib.gui.config.widget.label.*;
 import dev.boxadactle.boxlib.gui.config.widget.slider.BIntegerSlider;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.HudHelper;
+import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
@@ -23,7 +25,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
 
     Position pos;
 
-    BEnumButton<?> startCornerButton;
+    AbstractWidget startCornerButton;
     AbstractWidget changeHudPosButton;
 
     public VisualScreen(Screen parent) {
@@ -117,7 +119,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         changeHudPosButton = addConfigLine(new BConfigScreenButton(
                 Component.translatable("button.coordinatesdisplay.editHudPos"),
                 this,
-                HudPositionScreen::new
+                PositionScreen::new
         ));
 
         this.addConfigLine(
@@ -155,7 +157,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     }
 
     private void verifyButtons() {
-        dev.boxadactle.coordinatesdisplay.hud.DisplayMode metadata = config().renderMode.getMetadata();
+        HudDisplayMode metadata = config().renderMode.getMetadata();
 
         if (!metadata.ignoreTranslations()) {
             startCornerButton.active = true;

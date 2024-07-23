@@ -1,32 +1,25 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.boxlib.util.RenderUtils;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import org.apache.commons.compress.utils.Lists;
-import oshi.util.tuples.Triplet;
 
-import java.util.List;
-
-@DisplayMode("maximum")
+@HudDisplayMode("maximum")
 public class MaxRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
 
         ParagraphComponent component = new ParagraphComponent(config().textPadding);
@@ -36,7 +29,7 @@ public class MaxRenderer implements HudRenderer {
             Vec3<Integer> d = pos.position.getBlockPos();
             Vec3<Integer> e = pos.position.getBlockPosInChunk();
 
-            Component xyz = definition(translation("xyz", value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ()))));
+            Component xyz = definition(GlobalTexts.XYZ, value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ())));
             Component block = definition(translation("block", value(Integer.toString(d.getX())), value(Integer.toString(d.getY())), value(Integer.toString(d.getZ())), value(Integer.toString(e.getX())), value(Integer.toString(e.getY())), value(Integer.toString(e.getZ()))));
             Component targeted = definition(translation("block.targeted", value(pos.block.getBlockX()), value(pos.block.getBlockY()), value(pos.block.getBlockZ())));
 
@@ -64,7 +57,7 @@ public class MaxRenderer implements HudRenderer {
         }
 
         if (config().renderBiome) {
-            Component biome = definition(translation("biome", value(pos.world.getBiome(false))));
+            Component biome = definition(translation("biome", value(pos.world.getBiomeKey().toString())));
 
             component.add(biome);
         }
@@ -85,6 +78,6 @@ public class MaxRenderer implements HudRenderer {
 
         RowLayout r = new RowLayout(0, 0, 0);
         r.addComponent(component);
-        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, r));
+        return new PaddingLayout(x, y, config().padding, r);
     }
 }

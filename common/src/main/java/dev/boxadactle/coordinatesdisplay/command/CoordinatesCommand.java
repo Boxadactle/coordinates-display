@@ -9,8 +9,8 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.CoordinatesScreen;
-import dev.boxadactle.coordinatesdisplay.config.screen.HudPositionScreen;
+import dev.boxadactle.coordinatesdisplay.screen.CoordinatesScreen;
+import dev.boxadactle.coordinatesdisplay.screen.config.PositionScreen;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
 
@@ -63,7 +63,7 @@ public class CoordinatesCommand {
     }
 
     private static int moveHud(CommandContext<BCommandSourceStack> ignored) {
-        Scheduling.nextTick(() -> ClientUtils.setScreen(new HudPositionScreen(null)));
+        Scheduling.nextTick(() -> ClientUtils.setScreen(new PositionScreen(null)));
 
         return 0;
     }

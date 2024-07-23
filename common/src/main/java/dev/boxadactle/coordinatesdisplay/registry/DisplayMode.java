@@ -2,6 +2,7 @@ package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
 import net.minecraft.network.chat.Component;
@@ -18,12 +19,12 @@ public enum DisplayMode {
     CHUNK(ChunkRenderer.class);
 
     final HudRenderer renderer;
-    final dev.boxadactle.coordinatesdisplay.hud.DisplayMode metadata;
+    final HudDisplayMode metadata;
 
     DisplayMode(Class<? extends HudRenderer> renderer) {
         this.renderer = BoxLib.initializeClass(renderer);
 
-        dev.boxadactle.coordinatesdisplay.hud.DisplayMode m = renderer.getAnnotation(dev.boxadactle.coordinatesdisplay.hud.DisplayMode.class);
+        HudDisplayMode m = renderer.getAnnotation(HudDisplayMode.class);
         if (m != null) {
             metadata = m;
         } else {
@@ -35,7 +36,7 @@ public enum DisplayMode {
         return renderer;
     }
 
-    public dev.boxadactle.coordinatesdisplay.hud.DisplayMode getMetadata() {
+    public HudDisplayMode getMetadata() {
         return metadata;
     }
 

@@ -1,13 +1,13 @@
-package dev.boxadactle.coordinatesdisplay.config;
+package dev.boxadactle.coordinatesdisplay;
 
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
-import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
-import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
-import dev.boxadactle.coordinatesdisplay.registry.TeleportMode;
-import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
+import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.coordinatesdisplay.registry.*;
 
-@BConfigFile("coordinates-display")
+import java.lang.reflect.Field;
+
+@BConfigFile("coordinatesdisplay")
 public class ModConfig implements BConfig {
 
     public boolean enabled = true;
@@ -32,9 +32,9 @@ public class ModConfig implements BConfig {
     public boolean renderMCVersion = true;
     public boolean renderDimension = true;
 
-    public int definitionColor = 0x55FF55;
-    public int dataColor = 0xFFFFFF;
-    public int deathPosColor = 0x55FFFF;
+    public int definitionColor = GuiUtils.GREEN;
+    public int dataColor = GuiUtils.WHITE;
+    public int deathPosColor = GuiUtils.AQUA;
     public int backgroundColor = 0x405c5c5c;
 
     public boolean displayPosOnDeathScreen = true;
@@ -47,5 +47,19 @@ public class ModConfig implements BConfig {
     public String copyPosMessage = "{x}, {y}, {z}";
     public boolean includeDecimalsWhenCopying = true;
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
+
+    public static void checkValidity(ModConfig config) throws NullPointerException {
+        Class<?> clazz = config.getClass();
+
+        for (Field field : clazz.getDeclaredFields()) {
+            try {
+                if (field.get(config) == null) {
+                    throw new NullPointerException("Field " + field.getName() + " is null");
+                }
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

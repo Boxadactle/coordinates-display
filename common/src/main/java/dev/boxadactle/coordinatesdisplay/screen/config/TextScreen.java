@@ -1,4 +1,4 @@
-package dev.boxadactle.coordinatesdisplay.config.screen;
+package dev.boxadactle.coordinatesdisplay.screen.config;
 
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.button.BBooleanButton;
@@ -7,7 +7,7 @@ import dev.boxadactle.boxlib.gui.config.widget.field.BStringField;
 import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.HudHelper;
+import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
 import dev.boxadactle.coordinatesdisplay.registry.TeleportMode;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;

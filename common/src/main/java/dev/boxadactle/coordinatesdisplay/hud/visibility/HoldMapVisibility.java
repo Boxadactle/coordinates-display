@@ -12,6 +12,6 @@ public class HoldMapVisibility implements HudVisibilityFilter {
     public boolean isVisible() {
         ItemStack p = WorldUtils.getPlayer().getInventory().getSelected();
 
-        return p.is(Items.MAP) || p.is(Items.FILLED_MAP);
+        return p.getItem() == Items.MAP || p.getItem() == Items.FILLED_MAP;
     }
 }

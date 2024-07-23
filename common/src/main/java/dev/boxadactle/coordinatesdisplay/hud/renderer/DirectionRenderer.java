@@ -1,24 +1,23 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@DisplayMode(
+@HudDisplayMode(
         value = "direction",
         hasChunkData = false,
         hasBiome = false,
@@ -70,7 +69,7 @@ public class DirectionRenderer implements HudRenderer {
     }
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
@@ -78,9 +77,9 @@ public class DirectionRenderer implements HudRenderer {
         RowLayout row = new RowLayout(0, 0, config().textPadding * 2);
 
         if (config().renderXYZ) {
-            Component xtext = definition("x", value(player.getA()));
-            Component ytext = definition("y", value(player.getB()));
-            Component ztext = definition("z", value(player.getC()));
+            Component xtext = definition(GlobalTexts.X, value(player.getA()));
+            Component ytext = definition(GlobalTexts.Y, value(player.getB()));
+            Component ztext = definition(GlobalTexts.Z, value(player.getC()));
 
             row.addComponent(new ParagraphComponent(
                     0,
@@ -148,6 +147,6 @@ public class DirectionRenderer implements HudRenderer {
 
         hud.addComponent(direction);
 
-        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, hud));
+        return new PaddingLayout(x, y, config().padding, hud);
     }
 }

@@ -1,26 +1,25 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.ChunkPos;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@DisplayMode(
+@HudDisplayMode(
         value = "chunk",
         hasXYZ = false,
         hasBiome = false,
@@ -33,7 +32,7 @@ import java.util.regex.Pattern;
 public class ChunkRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         RowLayout hud = new RowLayout(0, 0, config().textPadding);
 
         {
@@ -42,9 +41,9 @@ public class ChunkRenderer implements HudRenderer {
             // position
             Vec2<Integer> chunkPos = pos.position.getChunkPos();
             Component position = definition(translation("position"));
-            Component chunkX = definition(translation("position.x", value(Integer.toString(chunkPos.getX()))));
-            Component chunkY = definition(translation("position.y", value(Integer.toString(pos.position.getChunkY()))));
-            Component chunkZ = definition(translation("position.z", value(Integer.toString(chunkPos.getY()))));
+            Component chunkX = definition(GlobalTexts.CHUNK_X, value(Integer.toString(chunkPos.getX())));
+            Component chunkY = definition(GlobalTexts.CHUNK_Y, value(Integer.toString(pos.position.getChunkY())));
+            Component chunkZ = definition(GlobalTexts.CHUNK_Z, value(Integer.toString(chunkPos.getY())));
 
             left.addComponent(new ParagraphComponent(2, position, chunkX, chunkY, chunkZ));
 
@@ -67,7 +66,7 @@ public class ChunkRenderer implements HudRenderer {
 
             String var1 = ClientUtils.getClient().level != null ? ClientUtils.getClient().level.gatherChunkSourceStats() : "Chunks[C] W: 0/0";
 
-            Pattern chunksPattern = Pattern.compile("Chunks\\[C] W: (\\d+), (\\d+) E:");
+            Pattern chunksPattern = Pattern.compile("Client Chunk Cache: (\\d+), (\\d+)");
             Matcher chunksMatcher = chunksPattern.matcher(var1);
             boolean var3 = chunksMatcher.find();
             Component cached = definition(translation("chunks.cached", value(var3 ? chunksMatcher.group(1) : "0")));
@@ -92,7 +91,7 @@ public class ChunkRenderer implements HudRenderer {
             hud.addComponent(new LayoutContainerComponent(right));
         }
 
-        return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, hud));
+        return new PaddingLayout(x, y, config().padding, hud);
     }
 
 }

@@ -9,16 +9,14 @@ name: Publish
 on:
   push:
     branches: [ "latest" ]
-  pull_request:
-    branches: [ "latest" ]
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  publish:
 
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -27,18 +25,21 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
+
+    - name: Set up gradlew
+      run: chmod +x ./gradlew
         
     - name: Build with Gradle
       run: ./gradlew build
       
     - name: Upload fabric
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: fabric-build
         path: fabric/build/libs
         
     - name: Upload neoforge
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: neoforge-build
         path: neoforge/build/libs
@@ -48,3 +49,8 @@ jobs:
       env:
         CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
         MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+
+    - name: Create GitHub release
+      run: ./gradlew githubRelease
+      env:
+        GITHUB_TOKEN: ${{ secrets.REPOSITORY_TOKEN }}

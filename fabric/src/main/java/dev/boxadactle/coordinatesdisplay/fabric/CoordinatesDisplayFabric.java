@@ -1,26 +1,23 @@
 package dev.boxadactle.coordinatesdisplay.fabric;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
+import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
-import dev.boxadactle.coordinatesdisplay.fabric.init.Keybinds;
-import dev.boxadactle.coordinatesdisplay.hud.UnknownRendererException;
-import dev.boxadactle.coordinatesdisplay.hud.UnknownVisibilityFilterException;
+import dev.boxadactle.coordinatesdisplay.ModConfig;
+import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 
 public class CoordinatesDisplayFabric implements ClientModInitializer {
 
-    boolean deltaError = false;
+    public static boolean deltaError = false;
 
     @Override
     public void onInitializeClient() {
@@ -30,36 +27,40 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
 
         HudRenderCallback.EVENT.register(this::renderHud);
 
-        Keybinds.register();
+        KeyBindingHelper.registerKeyBinding(Bindings.hudEnabled);
+        KeyBindingHelper.registerKeyBinding(Bindings.coordinatesGUIKeybind);
+        KeyBindingHelper.registerKeyBinding(Bindings.copyLocation);
+        KeyBindingHelper.registerKeyBinding(Bindings.sendLocation);
+        KeyBindingHelper.registerKeyBinding(Bindings.copyPosTp);
+        KeyBindingHelper.registerKeyBinding(Bindings.changeHudPosition);
+        KeyBindingHelper.registerKeyBinding(Bindings.cycleDisplayMode);
     }
 
     private void checkBindings(Minecraft client) {
         Player player = WorldUtils.getPlayer();
         if (player != null) {
-            Keybinds.checkBindings(Position.of(player));
+            Bindings.checkBindings(Position.of(player));
         }
     }
 
-    private void renderHud(GuiGraphics guiGraphics, DeltaTracker tickDelta) {
+    private void renderHud(GuiGraphics guiGraphics, float f) {
         try {
             if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
-                RenderSystem.enableBlend();
-
                 ModConfig config = CoordinatesDisplay.getConfig();
 
                 CoordinatesDisplay.HUD.render(
                         guiGraphics,
+                        Hud.RenderType.HUD,
                         Position.of(WorldUtils.getPlayer()),
                         config.hudX,
                         config.hudY,
                         config.renderMode,
                         config.startCorner,
-                        false,
                         config.hudScale
                 );
             }
         } catch (NullPointerException e) {
-            if (deltaError) {
+            if (CoordinatesDisplayFabric.deltaError) {
                 throw new RuntimeException(e);
             }
 
@@ -69,7 +70,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
             CoordinatesDisplay.LOGGER.player.warn(GuiUtils.getTranslatable("message.coordinatesdisplay.configError"));
             CoordinatesDisplay.CONFIG.resetConfig();
 
-            deltaError = true;
+            CoordinatesDisplayFabric.deltaError = true;
         }
     }
 

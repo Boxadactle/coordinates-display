@@ -1,27 +1,25 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.component.TextComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
 import java.util.List;
 import java.util.Objects;
 
-@DisplayMode(
+@HudDisplayMode(
         value = "nether_overworld",
         hasXYZ = false,
         hasChunkData = false,
@@ -34,7 +32,7 @@ import java.util.Objects;
 public class NetherOverworldRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(GuiGraphics guiGraphics, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         try {
             ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
 
@@ -69,28 +67,28 @@ public class NetherOverworldRenderer implements HudRenderer {
             hud.addComponent(new LayoutContainerComponent(coordsLayout));
             hud.addComponent(dimensionComponent);
 
-            return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, hud));
+            return new PaddingLayout(x, y, config().padding, hud);
         } catch (NullPointerException ignored) {
             Component error = GuiUtils.colorize(translation("error"), GuiUtils.RED);
-            Component dimensionText = definition(translation(
-                    "dimension",
+            Component dimensionText = definition(
+                    GlobalTexts.DIMENSION,
                     value(pos.world.getDimension(true))
-            ));
+            );
 
             ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
 
             hud.addComponent(new TextComponent(error));
             hud.addComponent(new TextComponent(dimensionText));
 
-            return renderHud(guiGraphics, new PaddingLayout(x, y, config().padding, hud));
+            return new PaddingLayout(x, y, config().padding, hud);
         }
     }
 
     private Component[] createXYZComponents(String x, String y, String z) {
         return new Component[] {
-                definition(translation("x", value(x))),
-                definition(translation("y", value(y))),
-                definition(translation("z", value(z)))
+                definition(GlobalTexts.X, value(x)),
+                definition(GlobalTexts.Y, value(y)),
+                definition(GlobalTexts.Z, value(z))
         };
     }
 

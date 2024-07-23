@@ -18,7 +18,7 @@ public class ModeSubcommand implements BClientSubcommand {
         DisplayMode[] modes = DisplayMode.values();
 
         for (DisplayMode mode : modes) {
-            builder.then(BCommandManager.literal(mode.getName().toLowerCase())
+            builder.then(BCommandManager.literal(mode.getId())
                     .executes(c -> {
                         CoordinatesDisplay.getConfig().renderMode = mode;
                         CoordinatesDisplay.CONFIG.save();

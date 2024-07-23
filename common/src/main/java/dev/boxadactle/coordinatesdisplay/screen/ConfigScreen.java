@@ -1,13 +1,15 @@
-package dev.boxadactle.coordinatesdisplay.config.screen;
+package dev.boxadactle.coordinatesdisplay.screen;
 
 import dev.boxadactle.boxlib.gui.config.BOptionButton;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.*;
+import dev.boxadactle.boxlib.prompt.Prompts;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.ModConfig;
+import dev.boxadactle.coordinatesdisplay.screen.config.*;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -17,7 +19,19 @@ public class ConfigScreen extends BOptionScreen {
     public ConfigScreen(Screen parent) {
         super(parent);
 
-        CoordinatesDisplay.CONFIG.cacheConfig();
+        try {
+            ModConfig.checkValidity(CoordinatesDisplay.CONFIG.get());
+
+            CoordinatesDisplay.CONFIG.cacheConfig();
+        } catch (NullPointerException e) {
+            Prompts.alert(this, Component.translatable("message.coordinatesdisplay.configError"));
+
+            CoordinatesDisplay.CONFIG.resetConfig();
+            CoordinatesDisplay.CONFIG.save();
+            CoordinatesDisplay.CONFIG.cacheConfig();
+
+            CoordinatesDisplay.LOGGER.printStackTrace(e);
+        }
     }
 
     @Override
@@ -27,7 +41,7 @@ public class ConfigScreen extends BOptionScreen {
 
     @Override
     protected void initFooter(int startX, int startY) {
-        this.addRenderableWidget(createHalfCancelButton(startX, startY, b -> {
+        addRenderableWidget(createHalfCancelButton(startX, startY, b -> {
             ClientUtils.setScreen(parent);
             CoordinatesDisplay.CONFIG.restoreCache();
         }));
