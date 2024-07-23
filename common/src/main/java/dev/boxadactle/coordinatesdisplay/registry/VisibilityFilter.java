@@ -41,7 +41,7 @@ public enum VisibilityFilter {
     }
 
     public String getName() {
-        return GuiUtils.getTranslatable(filter.getTranslationKey());
+        return GuiUtils.getTranslatable(filter.getNameKey());
     }
 
     public String getId() {

@@ -169,6 +169,7 @@
   "message.coordinatesdisplay.teleport": "死亡位置にテレポート",
   "message.coordintatesdisplay.disabled": "このオプションはこの表示モードでは無効です。",
   "message.coordinatesdisplay.configError": "There was an error loading your config file! Check console for stacktrace.",
+  "message.coordinatesdisplay.movehud.error": "Cannot move HUD while in display mode %s!",
 
   "button.coordinatesdisplay.copy": "クリップボードにコピー",
   "button.coordinatesdisplay.copied": "コピーしました！",
@@ -182,13 +183,6 @@
   "command.coordinatesdisplay.config.reload": "設定をリロードしました！",
   "command.coordinatesdisplay.config.open.success": "設定ファイルを正常に開きました",
   "command.coordinatesdisplay.config.open.fail": "設定ファイルを開けませんでした",
-
-  "command.coordinatesdisplay.helpmenu": "/coordinates サブコマンド",
-  "command.coordinatesdisplay.config": "Config: 設定ファイルを読み込み/保存します。引数なしでGUIを開くには指定しないでください。",
-  "command.coordinatesdisplay.gui": "Gui: 座標画面を開き、座標に関連するさまざまな操作を行います。",
-  "command.coordinatesdisplay.help": "Help: このリストを表示します。",
-  "command.coordinatesdisplay.mode": "Mode: 画面に表示される表示モードを選択します。",
-  "command.coordinatesdisplay.movehud": "Movehud: HUDを移動できるGUIを開きます。",
-  "command.coordinatesdisplay.position": "Position: 位置に関する操作を行います。例: チャットに送信、クリップボードにコピー。",
-  "command.coordinatesdisplay.visibility": "Visibility: Toggle the visibility of the coordinates display."
+  "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
 }

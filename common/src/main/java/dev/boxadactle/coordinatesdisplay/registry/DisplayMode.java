@@ -45,7 +45,7 @@ public enum DisplayMode {
     }
 
     public String getName() {
-        return GuiUtils.getTranslatable(renderer.getTranslationKey());
+        return GuiUtils.getTranslatable(renderer.getNameKey());
     }
 
     public String getId() {

@@ -169,6 +169,7 @@
   "message.coordinatesdisplay.teleport": "사망 위치로 순간 이동",
   "message.coordintatesdisplay.disabled": "This option is disabled for this display mode.",
   "message.coordinatesdisplay.configError": "There was an error loading your config file! Check console for stacktrace.",
+  "message.coordinatesdisplay.movehud.error": "Cannot move HUD while in display mode %s!",
 
   "button.coordinatesdisplay.copy": "클립보드로 복사",
   "button.coordinatesdisplay.copied": "복사됨!",
@@ -182,13 +183,6 @@
   "command.coordinatesdisplay.config.reload": "Reloaded config!",
   "command.coordinatesdisplay.config.open.success": "Successfully opened config file",
   "command.coordinatesdisplay.config.open.fail": "Could not open config file",
-
-  "command.coordinatesdisplay.helpmenu": "/coordinates sub-commands",
-  "command.coordinatesdisplay.config": "Config: Load/save the config file. Specify no args to open the gui",
-  "command.coordinatesdisplay.gui": "Gui: Open the coordinates screen, where you can do things with your coordinates.",
-  "command.coordinatesdisplay.help": "Help: View this list.",
-  "command.coordinatesdisplay.mode": "Mode: Select the display mode you want to be rendered on the screen.",
-  "command.coordinatesdisplay.movehud": "Movehud: Open the gui where you can move the HUD.",
-  "command.coordinatesdisplay.position": "Position: Do things with your position, such as sending in chat, and copying to the clipboard.",
-  "command.coordinatesdisplay.visibility": "Visibility: Toggle the visibility of the coordinates display."
+  "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
 }

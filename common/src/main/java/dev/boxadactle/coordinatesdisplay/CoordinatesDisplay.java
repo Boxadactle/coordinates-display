@@ -13,7 +13,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "12.0.0";
+	public static final String VERSION = "13.0.0";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -39,7 +39,7 @@ public class CoordinatesDisplay {
 		LOGGER.info("Initializing " + MOD_NAME + " v" + VERSION);
 
 		// register commands
-		BCommandManager.register(CoordinatesCommand.create());
+		BCommandManager.register(CoordinatesCommand.createCommand());
 	}
 
 	public static void init() {

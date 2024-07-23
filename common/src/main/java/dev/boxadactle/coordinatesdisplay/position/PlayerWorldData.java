@@ -22,7 +22,7 @@ public class PlayerWorldData {
         } else {
             CoordinatesDisplay.LOGGER.warn("Client world is null! Resorting to default values.");
 
-            dimension = new ResourceLocation("minecraft", "overworld");
+            dimension = ResourceLocation.withDefaultNamespace("overworld");
         }
     }
 
@@ -49,7 +49,7 @@ public class PlayerWorldData {
     }
 
     public ResourceLocation getBiomeKey() {
-        ResourceLocation def = new ResourceLocation("minecraft", "plains");
+        ResourceLocation def = ResourceLocation.withDefaultNamespace("plains");
         if (biome == null) {
             return def;
         }

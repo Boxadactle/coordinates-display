@@ -6,6 +6,7 @@ import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.mathutils.Clamps;
+import dev.boxadactle.boxlib.prompt.Prompts;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
@@ -46,6 +47,14 @@ public class PositionScreen extends BOptionScreen implements HudHelper {
     @Override
     protected void init() {
         super.init();
+
+        if (!config().renderMode.getMetadata().allowMove()) {
+            CoordinatesDisplay.LOGGER.error("Cannot open the position screen when the render mode is set to " + config().renderMode);
+
+            Prompts.alert(parent, Component.translatable("message.coordinatesdisplay.movehud.error", config().renderMode.getComponent()));
+
+            CoordinatesDisplay.shouldHudRender = true;
+        }
 
         Rect<Integer> hud = CoordinatesDisplay.HUD.preRender(Hud.RenderType.SCREEN, pos, config().hudX, config().hudY, config().renderMode, config().startCorner).calculateRect();
 
