@@ -169,6 +169,7 @@
   "message.coordinatesdisplay.teleport": "Ir a la posición de muerte",
   "message.coordintatesdisplay.disabled": "Este opcion está desactivado en este modo.",
   "message.coordinatesdisplay.configError": "¡Hubo una problema al cargar tu archivo de configuración! Revisar la consola para el stacktrace.",
+  "message.coordinatesdisplay.movehud.error": "Cannot move HUD while in display mode %s!",
 
   "button.coordinatesdisplay.copy": "Copiar a portapapel",
   "button.coordinatesdisplay.copied": "¡Se copié la posición!",
@@ -182,13 +183,6 @@
   "command.coordinatesdisplay.config.reload": "¡Refrescó la configuración!",
   "command.coordinatesdisplay.config.open.success": "Abrió el archivo de configuración con éxito.",
   "command.coordinatesdisplay.config.open.fail": "No se pudo abrir el archivo de configuración.",
-
-  "command.coordinatesdisplay.helpmenu": "/coordinates subcomandos",
-  "command.coordinatesdisplay.config": "Config: Refrescar/guardar el archivo de configuraciòn. Enviar sin argumentos para abrir el menù.",
-  "command.coordinatesdisplay.gui": "Gui: Abrir el menù de coordenadas, donde se puede hacer cosas sobre sus coordenadas.",
-  "command.coordinatesdisplay.help": "Help: Mostrar esta lista.",
-  "command.coordinatesdisplay.mode": "Mode: Seleccionar el modo de visualizaciòn que quieres renderizar en la pantalla.",
-  "command.coordinatesdisplay.movehud": "Movehud: Abrir el menù donde se puede mover el superposiciòn.",
-  "command.coordinatesdisplay.position": "Position: Hacer cosas con su posiciòn, como enviar en el chat, y copiando al portapapeles.",
-  "command.coordinatesdisplay.visibility": "Visibility: Conmutar la visibilidad del hud."
+  "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
 }

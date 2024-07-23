@@ -168,7 +168,7 @@
   "message.coordinatesdisplay.deathpos": "Ви померли на %s",
   "message.coordinatesdisplay.teleport": "Телепортуватися на місце смерті",
   "message.coordintatesdisplay.disabled": "Ця опція недоступна в обраному режимі.",
-
+  "message.coordinatesdisplay.movehud.error": "Cannot move HUD while in display mode %s!",
 
   "button.coordinatesdisplay.copy": "Скопіювати в буфер обміну",
   "button.coordinatesdisplay.copied": "Скопійовано!",
@@ -182,13 +182,6 @@
   "command.coordinatesdisplay.config.reload": "Перезавантажено налаштування!",
   "command.coordinatesdisplay.config.open.success": "Успішно відкрито файл налаштувань",
   "command.coordinatesdisplay.config.open.fail": "Не вдалося відкрити файл налаштувань",
-
-  "command.coordinatesdisplay.helpmenu": "Підкоманди /coordinates",
-  "command.coordinatesdisplay.config": "Config: Завантажити/збережти файл налаштувнь. Не вказуйте аргументів, щоб відкрити меню.",
-  "command.coordinatesdisplay.gui": "Gui: Відкрити екран координат, де ви можете робити дії з вашими координатами.",
-  "command.coordinatesdisplay.help": "Help: Переглянути цей список.",
-  "command.coordinatesdisplay.mode": "Mode: Виберіть режим показу інтерфейсу на екрані.",
-  "command.coordinatesdisplay.movehud": "Movehud: Відкриває меню, де ви можете переміщати інтерфейс.",
-  "command.coordinatesdisplay.position": "Position: Дії з вашою позицією, накшталт, надіслати її в чат або скопіювати в буфер обміну.",
-  "command.coordinatesdisplay.visibility": "Visibility: Перемикання видимості показу координат."
+  "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
 }

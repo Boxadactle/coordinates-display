@@ -193,7 +193,7 @@ public class SpawnpointRenderer implements HudRenderer {
             };
 
             String texture = "textures/item/" + textures[(int) (range1 * textures.length)] + ".png";
-            return new ResourceLocation(texture);
+            return ResourceLocation.withDefaultNamespace(texture);
         }
 
         @Override

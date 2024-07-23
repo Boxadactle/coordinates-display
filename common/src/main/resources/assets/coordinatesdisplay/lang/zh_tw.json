@@ -169,6 +169,7 @@
   "message.coordinatesdisplay.teleport": "傳送到死亡位置",
   "message.coordintatesdisplay.disabled": "此選項在此顯示模式下已停用。",
   "message.coordinatesdisplay.configError": "載入設定檔案時發生錯誤！檢查主控台以獲取堆疊追蹤。",
+  "message.coordinatesdisplay.movehud.error": "Cannot move HUD while in display mode %s!",
 
   "button.coordinatesdisplay.copy": "複製到剪貼簿",
   "button.coordinatesdisplay.copied": "已複製！",
@@ -182,13 +183,6 @@
   "command.coordinatesdisplay.config.reload": "已重新載入設定！",
   "command.coordinatesdisplay.config.open.success": "已成功開啟設定檔案",
   "command.coordinatesdisplay.config.open.fail": "無法開啟設定檔案",
-
-  "command.coordinatesdisplay.helpmenu": "/coordinates 子指令",
-  "command.coordinatesdisplay.config": "設定：載入／儲存設定檔案。未指定參數時開啟介面",
-  "command.coordinatesdisplay.gui": "介面：開啟座標畫面，您可以在其中使用座標進行操作。",
-  "command.coordinatesdisplay.help": "協助：查看此清單。",
-  "command.coordinatesdisplay.mode": "模式：選擇要在畫面上渲染的顯示模式。",
-  "command.coordinatesdisplay.movehud": "Movehud：開啟可以移動抬頭顯示器的介面。",
-  "command.coordinatesdisplay.position": "位置：對你的位置進行操作，例如在聊天中傳送以及複製到剪貼簿。",
-  "command.coordinatesdisplay.visibility": "可見度：切換座標顯示的可見度。"
+  "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
 }
