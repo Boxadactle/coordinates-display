@@ -75,14 +75,19 @@ githubRelease {
     targetCommitish = "latest"
     releaseName = "Coordinates Display $project.version"
     generateReleaseNotes = true
-    body = "Coordinates Display $project.version for Minecraft $project.minecraft_version"
+    body = """Coordinates Display $project.version for Minecraft $project.minecraft_version
+
+${new File(rootProject.rootDir, project.changelog_file).text}
+"""
     authorization = "Token ${System.getenv("GITHUB_TOKEN")}"
 
-    var files = [];
+    var files = []
     for (String platform : project.enabled_platforms.split(',')) {
         files += fileTree("$platform/build/libs") {
             include "*$project.version*"
         }
     }
     releaseAssets = files
+
+//    dryRun = true
 }
