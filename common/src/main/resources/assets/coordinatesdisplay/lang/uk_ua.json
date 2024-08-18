@@ -1,5 +1,5 @@
 {
-  "key.coordinatesdisplay.hudenabled": "Toggle HUD",
+  "key.coordinatesdisplay.hudenabled": "Перемкнути інтерфейс",
   "key.coordinatesdisplay.coordinatesgui": "Відкрити меню координат",
   "key.coordinatesdisplay.copypos": "Скопіювати поточні координати",
   "key.coordinatesdisplay.sendpos": "Надіслати поточні координати в чат",
@@ -26,7 +26,7 @@
   "hud.coordinatesdisplay.west.short": "ЗХ",
   "hud.coordinatesdisplay.northwest.short": "ПН-ЗХ",
 
-  "hud.coordinatesdisplay.biome.unknown": "Unknown",
+  "hud.coordinatesdisplay.biome.unknown": "Невідомо",
 
   "hud.coordinatesdisplay.x": "X: %s",
   "hud.coordinatesdisplay.y": "Y: %s",
@@ -67,7 +67,7 @@
   "hud.coordinatesdisplay.spawnpoint": "Точка появи у світі (компас)",
   "hud.coordinatesdisplay.spawnpoint.player": "Гравець",
   "hud.coordinatesdisplay.spawnpoint.worldSpawn": "Точка появи у світі",
-  "hud.coordinatesdisplay.spawnpoint.relative": "Відносно",
+  "hud.coordinatesdisplay.spawnpoint.relative": "Відносна відстань",
 
   "hud.coordinatesdisplay.direction": "Напрямки",
   "hud.coordinatesdisplay.direction.direction": "Напрямок: %s (%s)",
@@ -76,21 +76,21 @@
   "hud.coordinatesdisplay.direction.positive": "додатне %s",
   "hud.coordinatesdisplay.direction.negative": "від'ємне %s",
 
-  "hud.coordinatesdisplay.chunk": "Chunk",
-  "hud.coordinatesdisplay.chunk.position": "Position",
-  "hud.coordinatesdisplay.chunk.region": "Region",
-  "hud.coordinatesdisplay.chunk.chunks": "Chunks[C]",
-  "hud.coordinatesdisplay.chunk.chunks.cached": "Cached: %s",
-  "hud.coordinatesdisplay.chunk.chunks.memory": "Memory: %s",
+  "hud.coordinatesdisplay.chunk": "Чанк",
+  "hud.coordinatesdisplay.chunk.position": "Положення",
+  "hud.coordinatesdisplay.chunk.region": "Регіон",
+  "hud.coordinatesdisplay.chunk.chunks": "Чанки[C]",
+  "hud.coordinatesdisplay.chunk.chunks.cached": "Кешовано: %s",
+  "hud.coordinatesdisplay.chunk.chunks.memory": "Пам'ять: %s",
   "hud.coordinatesdisplay.chunk.c": "C",
-  "hud.coordinatesdisplay.chunk.c.rendered": "Rendered: %s",
-  "hud.coordinatesdisplay.chunk.c.loaded": "Loaded: %s",
+  "hud.coordinatesdisplay.chunk.c.rendered": "Промальовано: %s",
+  "hud.coordinatesdisplay.chunk.c.loaded": "Завантажено: %s",
 
   "hud.coordinatesdisplay.filter.always": "Завжди",
   "hud.coordinatesdisplay.filter.hold_compass": "Тримаючи компас",
   "hud.coordinatesdisplay.filter.own_compass": "Маючи компас",
-  "hud.coordinatesdisplay.filter.hold_map": "Holding a Map",
-  "hud.coordinatesdisplay.filter.own_map": "Have a Map",
+  "hud.coordinatesdisplay.filter.hold_map": "Тримаючи мапу",
+  "hud.coordinatesdisplay.filter.own_map": "Маючи мапу",
 
   "screen.coordinatesdisplay.config": "Налаштування %s",
   "screen.coordinatesdisplay.confirmreset": "Підтвердження скидання до усталеного",
@@ -101,9 +101,9 @@
   "screen.coordinatesdisplay.position": "Змінити положення інтерфейсу",
   "screen.coordinatesdisplay.text": "Налаштування тексту (%s)",
   "screen.coordinatesdispaly.hudposition": "Зміна положення інтерфейсу",
-  "screen.coordinatesdisplay.startcorner": "Changing Start Corner",
+  "screen.coordinatesdisplay.startcorner": "Зміна куту початку",
 
-  "button.coordinatesdisplay.enabled": "Enabled: %s",
+  "button.coordinatesdisplay.enabled": "Увімкнено: %s",
   "button.coordinatesdisplay.visualconfig": "Налаштування вигляду...",
   "button.coordinatesdisplay.renderconfig": "Відображення...",
   "button.coordinatesdisplay.colorconfig": "Кольори...",
@@ -121,10 +121,10 @@
   "button.coordinatesdisplay.startcorner.top_right": "Правий верхній",
   "button.coordinatesdisplay.startcorner.bottom_left": "Лівий нижній",
   "button.coordinatesdisplay.startcorner.bottom_right": "Правий нижній",
-  "button.coordinatesdisplay.startcorner.top": "Top",
-  "button.coordinatesdisplay.startcorner.bottom": "Bottom",
-  "button.coordinatesdisplay.startcorner.left": "Left",
-  "button.coordinatesdisplay.startcorner.right": "Right",
+  "button.coordinatesdisplay.startcorner.top": "Верхній",
+  "button.coordinatesdisplay.startcorner.bottom": "Нижній",
+  "button.coordinatesdisplay.startcorner.left": "Лівий",
+  "button.coordinatesdisplay.startcorner.right": "Правий",
   "button.coordinatesdisplay.editHudPos": "Змінити положення інтерфейсу...",
   "button.coordinatesdisplay.padding": "Зовнішній відступ: %s",
   "button.coordinatesdisplay.textpadding": "Текстовий відступ: %s",
@@ -168,7 +168,7 @@
   "message.coordinatesdisplay.deathpos": "Ви померли на %s",
   "message.coordinatesdisplay.teleport": "Телепортуватися на місце смерті",
   "message.coordintatesdisplay.disabled": "Ця опція недоступна в обраному режимі.",
-  "message.coordinatesdisplay.movehud.error": "Cannot move HUD while in display mode %s!",
+  "message.coordinatesdisplay.movehud.error": "У режимі «%s» неможливо змінити положення інтерфейсу!",
 
   "button.coordinatesdisplay.copy": "Скопіювати в буфер обміну",
   "button.coordinatesdisplay.copied": "Скопійовано!",
@@ -182,6 +182,6 @@
   "command.coordinatesdisplay.config.reload": "Перезавантажено налаштування!",
   "command.coordinatesdisplay.config.open.success": "Успішно відкрито файл налаштувань",
   "command.coordinatesdisplay.config.open.fail": "Не вдалося відкрити файл налаштувань",
-  "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
-  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
+  "command.coordinatesdisplay.movehud.fail": "Не вказане значення Y!",
+  "command.coordinatesdisplay.movehud.get": "Поточне положення інтерфейсу: %s, %s"
 }
