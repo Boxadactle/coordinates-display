@@ -34,4 +34,4 @@ ordering = "NONE"
 side = "BOTH"
 
 [[mixins]]
-config = "coordinatesdisplay-common.mixins.json"
+config = "coordinatesdisplay.mixins.json"

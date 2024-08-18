@@ -6,15 +6,15 @@ import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModConfig;
-import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RenderGuiEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
@@ -34,46 +34,13 @@ public class CoordinatesDisplayForge {
     }
 
     @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT)
-    public static class ClientNeoforgeEvents {
+    public static class ClientForgeEvents {
 
         @SubscribeEvent
         public static void keyInput(InputEvent.Key e) {
             Player player = WorldUtils.getPlayer();
             if (player != null) {
-                 Bindings.checkBindings(Position.of(player));
-            }
-        }
-
-        @SubscribeEvent(priority = EventPriority.LOW)
-        public static void renderHud(RenderGuiEvent.Pre event) {
-            try {
-                if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
-                    RenderSystem.enableBlend();
-
-                    ModConfig config = CoordinatesDisplay.getConfig();
-
-                    CoordinatesDisplay.HUD.render(
-                            event.getGuiGraphics(),
-                            Position.of(WorldUtils.getPlayer()),
-                            config.hudX,
-                            config.hudY,
-                            config.renderMode,
-                            config.startCorner,
-                            config.hudScale
-                    );
-                }
-            } catch (NullPointerException e) {
-                if (deltaError) {
-                    throw new RuntimeException(e);
-                }
-
-                CoordinatesDisplay.LOGGER.error("Unknown error from config file");
-                CoordinatesDisplay.LOGGER.printStackTrace(e);
-
-                CoordinatesDisplay.LOGGER.player.warn(GuiUtils.getTranslatable("message.coordinatesdisplay.configError"));
-                CoordinatesDisplay.CONFIG.resetConfig();
-
-                deltaError = true;
+                Bindings.checkBindings(Position.of(player));
             }
         }
 
@@ -82,7 +49,7 @@ public class CoordinatesDisplayForge {
     @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
-        public static void clientSetup(RegisterKeyMappingsEvent e) {
+        public static void registerKeys(RegisterKeyMappingsEvent e) {
             e.register(Bindings.hudEnabled);
             e.register(Bindings.coordinatesGUIKeybind);
             e.register(Bindings.copyLocation);
