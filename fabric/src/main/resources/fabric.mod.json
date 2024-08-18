@@ -21,7 +21,7 @@
     ]
   },
   "mixins": [
-    "coordinatesdisplay-common.mixins.json"
+    "coordinatesdisplay.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.15.10",

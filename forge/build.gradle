@@ -10,7 +10,7 @@ architectury {
 
 loom {
     forge {
-        mixinConfig "coordinatesdisplay-common.mixins.json"
+        mixinConfig "coordinatesdisplay.mixins.json", "coordinatesdisplay-forge.mixins.json"
     }
 }
 
