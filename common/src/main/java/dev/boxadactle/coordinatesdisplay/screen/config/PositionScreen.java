@@ -8,6 +8,7 @@ import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.mathutils.Clamps;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.screen.HudHelper;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -46,7 +47,7 @@ public class PositionScreen extends BOptionScreen implements HudHelper {
     protected void init() {
         super.init();
 
-        Rect<Integer> hud = CoordinatesDisplay.HUD.preRender(pos, config().hudX, config().hudY, config().renderMode, config().startCorner).calculateRect();
+        Rect<Integer> hud = CoordinatesDisplay.HUD.preRender(Hud.RenderType.SCREEN, pos, config().hudX, config().hudY, config().renderMode, config().startCorner).calculateRect();
 
         x = hud.getX();
         y = hud.getY();
@@ -74,6 +75,7 @@ public class PositionScreen extends BOptionScreen implements HudHelper {
 
         CoordinatesDisplay.HUD.render(
                 guiGraphics,
+                Hud.RenderType.SCREEN,
                 pos,
                 x,
                 y,

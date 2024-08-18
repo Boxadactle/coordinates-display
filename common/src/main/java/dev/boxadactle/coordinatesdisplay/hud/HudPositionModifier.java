@@ -20,13 +20,13 @@ public interface HudPositionModifier {
 
     @FunctionalInterface
     interface BasicPositionModifier {
-        Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored);
+        Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored, Hud.RenderType type);
     }
 
     class Basic implements BasicPositionModifier {
 
         @Override
-        public Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored) {
+        public Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored, Hud.RenderType ignored2) {
             return rect;
         }
     }

@@ -1,6 +1,5 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
@@ -13,10 +12,10 @@ import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import oshi.util.tuples.Triplet;
 
 @HudDisplayMode(
         value = "direction",

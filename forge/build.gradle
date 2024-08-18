@@ -10,7 +10,7 @@ architectury {
 
 loom {
     forge {
-        mixinConfig "coordinatesdisplay-common.mixins.json"
+        mixinConfig "coordinatesdisplay.mixins.json", "coordinatesdisplay-forge.mixins.json"
     }
 }
 
@@ -29,6 +29,10 @@ configurations {
         canBeResolved = true
         canBeConsumed = false
     }
+}
+
+configurations.configureEach {
+    resolutionStrategy.force("net.sf.jopt-simple:jopt-simple:5.0.4")
 }
 
 dependencies {

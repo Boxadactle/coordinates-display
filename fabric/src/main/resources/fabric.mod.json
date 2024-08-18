@@ -21,12 +21,12 @@
     ]
   },
   "mixins": [
-    "coordinatesdisplay-common.mixins.json"
+    "coordinatesdisplay.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.15.10",
-    "minecraft": "<=1.20.4",
-    "boxlib": "12.*",
+    "minecraft": ">=1.20.5",
+    "boxlib": "13.*",
     "fabric": "*"
   },
   "recommends": {
