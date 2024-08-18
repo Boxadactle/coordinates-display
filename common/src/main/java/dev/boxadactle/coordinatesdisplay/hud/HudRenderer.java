@@ -7,11 +7,11 @@ import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModConfig;
+import dev.boxadactle.coordinatesdisplay.config.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import oshi.util.tuples.Triplet;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public interface HudRenderer {
 
@@ -21,8 +21,12 @@ public interface HudRenderer {
         return CoordinatesDisplay.getConfig();
     }
 
-    default void drawInfo(GuiGraphics guiGraphics, Component component, int x, int y, int color) {
-        RenderUtils.drawText(guiGraphics, component, x, y, color);
+    default void drawInfo(Component component, int x, int y, int color) {
+        RenderUtils.drawText(component.getColoredString(), x, y, color);
+    }
+
+    default void drawInfo(Component component, int x, int y) {
+        drawInfo(component, x, y, GuiUtils.WHITE);
     }
 
 
@@ -34,7 +38,7 @@ public interface HudRenderer {
     }
 
     default String getNameKey() {
-        HudDisplayMode metadata = this.getClass().getAnnotation(HudDisplayMode.class);
+        DisplayMode metadata = this.getClass().getAnnotation(DisplayMode.class);
         if (metadata != null) {
             if (!metadata.translationKey().isEmpty()) {
                 return metadata.translationKey();
@@ -47,19 +51,15 @@ public interface HudRenderer {
     }
 
     default Component translation(String t, Object ...args) {
-        return Component.translatable(getTranslationKey() + t, args);
+        return new TranslatableComponent(getTranslationKey() + t, args);
     }
 
     default Component definition(Component t) {
-        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().definitionColor);
+        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().definitionColor.color());
     }
 
     default Component definition(String t) {
-        return GuiUtils.colorize(Component.literal(t), CoordinatesDisplay.getConfig().definitionColor);
-    }
-
-    default Component definition(GlobalTexts t, Object ...args) {
-        return definition(t.get(args));
+        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().definitionColor.color());
     }
 
     default Component definition(String k, Object ...args) {
@@ -67,15 +67,15 @@ public interface HudRenderer {
     }
 
     default Component value(String t) {
-        return GuiUtils.colorize(Component.literal(t), CoordinatesDisplay.getConfig().dataColor);
+        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().dataColor.color());
     }
 
     default Component value(Component t) {
-        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor);
+        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor.color());
     }
 
-    default Component value(GlobalTexts t, Object ...args) {
-        return value(t.get(args));
+    default Component valueTranslation(String k, Object ...args) {
+        return value(translation(k, args));
     }
 
     default Component resolveDirection(String direction, boolean useShort) {
@@ -83,21 +83,21 @@ public interface HudRenderer {
         if (useShort) {
             key += ".short";
         }
-        return Component.translatable(key);
+        return new TranslatableComponent(key);
     }
 
     default Component resolveDirection(String direction) {
         return resolveDirection(direction, false);
     }
 
-    static Rect<Integer> renderHud(GuiGraphics guiGraphics, RenderingLayout hudRenderer, boolean background) {
+    default Rect<Integer> renderHud(RenderingLayout hudRenderer) {
         Rect<Integer> r = hudRenderer.calculateRect();
 
-        if (CoordinatesDisplay.getConfig().renderBackground && background) {
-            RenderUtils.drawSquare(guiGraphics, r, CoordinatesDisplay.getConfig().backgroundColor);
+        if (config().renderBackground) {
+            RenderUtils.drawSquare(r, config().backgroundColor);
         }
 
-        hudRenderer.render(guiGraphics);
+        hudRenderer.render();
 
         return r;
     }
@@ -122,11 +122,25 @@ public interface HudRenderer {
         }
     }
 
+    default Component createLine(String defKey, String value) {
+        return definition(
+                defKey,
+                value(value)
+        );
+    }
+
+    default Component createLine(String defKey, Component value) {
+        return definition(
+                defKey,
+                value
+        );
+    }
+
     default Triplet<Component, Component, Component> createXYZ(String x, String y, String z) {
         return new Triplet<>(
-                definition(GlobalTexts.X, value(x)),
-                definition(GlobalTexts.Y, value(y)),
-                definition(GlobalTexts.Z, value(z))
+                createLine("x", x),
+                createLine("y", y),
+                createLine("z", z)
         );
     }
 
@@ -141,29 +155,6 @@ public interface HudRenderer {
 
     // HUD RENDERER METHOD
 
-    RenderingLayout renderOverlay(int x, int y, Position pos);
-
-    enum GlobalTexts {
-        X("hud.coordinatesdisplay.x"),
-        Y("hud.coordinatesdisplay.y"),
-        Z("hud.coordinatesdisplay.z"),
-        XYZ("hud.coordinatesdisplay.xyz"),
-        CHUNK_X("hud.coordinatesdisplay.chunk_x"),
-        CHUNK_Y("hud.coordinatesdisplay.chunk_y"),
-        CHUNK_Z("hud.coordinatesdisplay.chunk_z"),
-        FACING("hud.corodinatesdisplay.facing"),
-        BIOME("hud.coordinatesdisplay.biome"),
-        DIMENSION("hud.coordinatesdisplay.dimension");
-
-        final String key;
-
-        GlobalTexts(String key) {
-            this.key = key;
-        }
-
-        public Component get(Object ...args) {
-            return Component.translatable(key, args);
-        }
-    }
+    Rect<Integer> renderOverlay(int x, int y, Position pos);
 
 }

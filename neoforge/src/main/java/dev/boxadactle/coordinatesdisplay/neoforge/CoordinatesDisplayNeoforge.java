@@ -1,14 +1,16 @@
-package dev.boxadactle.coordinatesdisplay.neoforge;
+package dev.boxadactle.coordinatesdisplay.forge;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
-import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModConfig;
-import dev.boxadactle.coordinatesdisplay.hud.Hud;
+import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.hud.UnknownRendererException;
+import dev.boxadactle.coordinatesdisplay.hud.UnknownVisibilityFilterException;
+import dev.boxadactle.coordinatesdisplay.forge.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -42,7 +44,7 @@ public class CoordinatesDisplayNeoforge {
         public static void keyInput(InputEvent.Key e) {
             Player player = WorldUtils.getPlayer();
             if (player != null) {
-                 Bindings.checkBindings(Position.of(player));
+                 Keybinds.checkBindings(Position.of(player));
             }
         }
 
@@ -56,12 +58,12 @@ public class CoordinatesDisplayNeoforge {
 
                     CoordinatesDisplay.HUD.render(
                             event.getGuiGraphics(),
-                            Hud.RenderType.HUD,
                             Position.of(WorldUtils.getPlayer()),
                             config.hudX,
                             config.hudY,
                             config.renderMode,
                             config.startCorner,
+                            false,
                             config.hudScale
                     );
                 }
@@ -86,13 +88,7 @@ public class CoordinatesDisplayNeoforge {
     public static class ClientModEvents {
         @SubscribeEvent
         public static void registerKeys(RegisterKeyMappingsEvent e) {
-            e.register(Bindings.hudEnabled);
-            e.register(Bindings.coordinatesGUIKeybind);
-            e.register(Bindings.copyLocation);
-            e.register(Bindings.sendLocation);
-            e.register(Bindings.copyPosTp);
-            e.register(Bindings.changeHudPosition);
-            e.register(Bindings.cycleDisplayMode);
+             Keybinds.register(e);
         }
     }
 

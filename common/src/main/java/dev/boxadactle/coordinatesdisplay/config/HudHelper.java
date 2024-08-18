@@ -1,9 +1,7 @@
-package dev.boxadactle.coordinatesdisplay.screen;
+package dev.boxadactle.coordinatesdisplay.config;
 
 import dev.boxadactle.boxlib.gui.config.widget.BCustomEntry;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModConfig;
-import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
@@ -32,15 +30,14 @@ public interface HudHelper {
     }
 
     default BCustomEntry createHudRenderEntry(Position pos) {
-        return new BCustomEntry((guiGraphics, x, y, width, height, mouseX, mouseY, tickDelta) -> {
+        return new BCustomEntry((x, y, width, height, mouseX, mouseY, tickDelta) -> {
             CoordinatesDisplay.HUD.render(
-                    guiGraphics,
-                    Hud.RenderType.SCREEN,
                     pos,
                     (x + width / 2) - CoordinatesDisplay.HUD.getWidth() / 2,
                     y + 3,
                     CoordinatesDisplay.getConfig().renderMode,
-                    StartCorner.TOP_LEFT
+                    StartCorner.TOP_LEFT,
+                    false
             );
         });
     }

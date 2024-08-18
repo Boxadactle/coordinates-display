@@ -10,7 +10,7 @@ import net.minecraft.world.item.Items;
 public class HoldCompassVisibility implements HudVisibilityFilter {
     @Override
     public boolean isVisible() {
-        ItemStack p = WorldUtils.getPlayer().getInventory().getSelected();
+        ItemStack p = WorldUtils.getPlayer().inventory.getSelected();
 
         return p.getItem() == Items.COMPASS;
     }

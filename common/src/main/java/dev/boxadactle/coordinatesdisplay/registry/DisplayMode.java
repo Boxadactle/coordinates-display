@@ -2,10 +2,10 @@ package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public enum DisplayMode {
     DEFAULT(DefaultRenderer.class),
@@ -19,12 +19,12 @@ public enum DisplayMode {
     CHUNK(ChunkRenderer.class);
 
     final HudRenderer renderer;
-    final HudDisplayMode metadata;
+    final dev.boxadactle.coordinatesdisplay.hud.DisplayMode metadata;
 
     DisplayMode(Class<? extends HudRenderer> renderer) {
         this.renderer = BoxLib.initializeClass(renderer);
 
-        HudDisplayMode m = renderer.getAnnotation(HudDisplayMode.class);
+        dev.boxadactle.coordinatesdisplay.hud.DisplayMode m = renderer.getAnnotation(dev.boxadactle.coordinatesdisplay.hud.DisplayMode.class);
         if (m != null) {
             metadata = m;
         } else {
@@ -36,16 +36,16 @@ public enum DisplayMode {
         return renderer;
     }
 
-    public HudDisplayMode getMetadata() {
+    public dev.boxadactle.coordinatesdisplay.hud.DisplayMode getMetadata() {
         return metadata;
     }
 
     public Component getComponent() {
-        return Component.translatable(renderer.getNameKey());
+        return new TranslatableComponent(renderer.getNameKey());
     }
 
     public String getName() {
-        return GuiUtils.getTranslatable(renderer.getNameKey());
+        return GuiUtils.getTranslatable(renderer.getTranslationKey());
     }
 
     public String getId() {

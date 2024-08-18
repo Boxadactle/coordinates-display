@@ -1,23 +1,24 @@
 package dev.boxadactle.coordinatesdisplay.forge;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
-import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModConfig;
-import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.config.ModConfig;
+import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.forge.init.Keybinds;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RenderGuiEvent;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 @SuppressWarnings("unused")
 @Mod(CoordinatesDisplay.MOD_ID)
@@ -28,8 +29,8 @@ public class CoordinatesDisplayForge {
     public CoordinatesDisplayForge() {
         CoordinatesDisplay.init();
 
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-                new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen))
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () ->
+                (minecraft, screen) -> new ConfigScreen(screen)
         );
     }
 
@@ -37,28 +38,28 @@ public class CoordinatesDisplayForge {
     public static class ClientNeoforgeEvents {
 
         @SubscribeEvent
-        public static void keyInput(InputEvent.Key e) {
+        public static void keyInput(InputEvent.KeyInputEvent e) {
             Player player = WorldUtils.getPlayer();
             if (player != null) {
-                 Bindings.checkBindings(Position.of(player));
+                 Keybinds.checkBindings(Position.of(player));
             }
         }
 
         @SubscribeEvent(priority = EventPriority.LOW)
-        public static void renderHud(RenderGuiEvent.Pre event) {
+        public static void renderHud(RenderGameOverlayEvent.Post event) {
             try {
                 if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
-                    RenderSystem.enableBlend();
+                    GlStateManager.enableBlend();
 
                     ModConfig config = CoordinatesDisplay.getConfig();
 
                     CoordinatesDisplay.HUD.render(
-                            event.getGuiGraphics(),
                             Position.of(WorldUtils.getPlayer()),
                             config.hudX,
                             config.hudY,
                             config.renderMode,
                             config.startCorner,
+                            false,
                             config.hudScale
                     );
                 }
@@ -82,14 +83,8 @@ public class CoordinatesDisplayForge {
     @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
         @SubscribeEvent
-        public static void clientSetup(RegisterKeyMappingsEvent e) {
-            e.register(Bindings.hudEnabled);
-            e.register(Bindings.coordinatesGUIKeybind);
-            e.register(Bindings.copyLocation);
-            e.register(Bindings.sendLocation);
-            e.register(Bindings.copyPosTp);
-            e.register(Bindings.changeHudPosition);
-            e.register(Bindings.cycleDisplayMode);
+        public static void clientSetup(FMLClientSetupEvent event) {
+            Keybinds.register();
         }
     }
 

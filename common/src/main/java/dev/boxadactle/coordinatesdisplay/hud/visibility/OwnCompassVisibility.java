@@ -11,7 +11,7 @@ import net.minecraft.world.item.Items;
 public class OwnCompassVisibility implements HudVisibilityFilter {
     @Override
     public boolean isVisible() {
-        Inventory inventory = WorldUtils.getPlayer().getInventory();
+        Inventory inventory = WorldUtils.getPlayer().inventory;
 
         return inventory.contains(new ItemStack(Items.COMPASS));
     }

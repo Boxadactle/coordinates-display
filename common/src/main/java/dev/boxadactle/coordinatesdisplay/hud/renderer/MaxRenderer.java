@@ -1,25 +1,25 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
+import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
-@HudDisplayMode("maximum")
+@DisplayMode("maximum")
 public class MaxRenderer implements HudRenderer {
 
     @Override
-    public RenderingLayout renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
 
         ParagraphComponent component = new ParagraphComponent(config().textPadding);
@@ -29,7 +29,7 @@ public class MaxRenderer implements HudRenderer {
             Vec3<Integer> d = pos.position.getBlockPos();
             Vec3<Integer> e = pos.position.getBlockPosInChunk();
 
-            Component xyz = definition(GlobalTexts.XYZ, value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ())));
+            Component xyz = definition(translation("xyz", value(formatter.formatDecimal(b.getX())), value(formatter.formatDecimal(b.getY())), value(formatter.formatDecimal(b.getZ()))));
             Component block = definition(translation("block", value(Integer.toString(d.getX())), value(Integer.toString(d.getY())), value(Integer.toString(d.getZ())), value(Integer.toString(e.getX())), value(Integer.toString(e.getY())), value(Integer.toString(e.getZ()))));
             Component targeted = definition(translation("block.targeted", value(pos.block.getBlockX()), value(pos.block.getBlockY()), value(pos.block.getBlockZ())));
 
@@ -50,14 +50,14 @@ public class MaxRenderer implements HudRenderer {
             Component g = definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
             Component direction = definition(translation(
                     "direction", g,
-                    config().renderDirectionInt ? f : Component.empty()
+                    config().renderDirectionInt ? f : new TextComponent("")
             ));
 
             component.add(direction);
         }
 
         if (config().renderBiome) {
-            Component biome = definition(translation("biome", value(pos.world.getBiomeKey().toString())));
+            Component biome = definition(translation("biome", value(pos.world.getBiome(false))));
 
             component.add(biome);
         }
@@ -78,6 +78,6 @@ public class MaxRenderer implements HudRenderer {
 
         RowLayout r = new RowLayout(0, 0, 0);
         r.addComponent(component);
-        return new PaddingLayout(x, y, config().padding, r);
+        return renderHud(new PaddingLayout(x, y, config().padding, r));
     }
 }

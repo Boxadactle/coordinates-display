@@ -1,11 +1,9 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import dev.boxadactle.boxlib.layouts.RenderingLayout;
+import com.mojang.blaze3d.platform.GlStateManager;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
-import dev.boxadactle.boxlib.math.mathutils.Clamps;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
@@ -14,9 +12,6 @@ import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
-
-import java.lang.reflect.InvocationTargetException;
 
 public class Hud {
 
@@ -42,75 +37,54 @@ public class Hud {
         return scaleButton.containsPoint(new Vec2<>(Math.round(mouseX / scale), Math.round(mouseY / scale)));
     }
 
-    public boolean shouldRender(VisibilityFilter filter) {
+    public boolean shouldRender(VisibilityFilter filter) throws UnknownVisibilityFilterException {
         boolean bl = true;
 
         // have you ever seen anyone use this operand
         bl &= !ClientUtils.getOptions().hideGui;
-        bl &= !ClientUtils.getClient().getDebugOverlay().showDebugScreen();
+        bl &= !ClientUtils.getOptions().renderDebug;
         bl &= CoordinatesDisplay.shouldHudRender;
         bl &= filter.getFilter().isVisible();
 
         return bl && CoordinatesDisplay.getConfig().enabled;
     }
 
-    public RenderingLayout preRender(RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
+    public void render(Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay) {
         try {
-            RenderingLayout layout = renderMode.getRenderer().renderOverlay(x, y, pos);
+            // only way to do this is the use the size of the hud from the previous frame
+            Rect<Integer> newPos = renderMode.getMetadata().ignoreTranslations() ? new Rect<>(x, y, size.getWidth(), size.getHeight()) : startCorner.getModifier().translateRect(new Rect<>(x, y, size.getWidth(), size.getHeight()), new Dimension<>(
+                    Math.round(ClientUtils.getClient().window.getGuiScaledWidth() / scale),
+                    Math.round(ClientUtils.getClient().window.getGuiScaledHeight() / scale)
+            ), StartCorner.TOP_LEFT);
 
-            Rect<Integer> startSize = layout.calculateRect();
-
-            Dimension<Integer> window = new Dimension<>(
-                    Math.round(ClientUtils.getClient().getWindow().getGuiScaledWidth() / scale),
-                    Math.round(ClientUtils.getClient().getWindow().getGuiScaledHeight() / scale)
-            );
-            Rect<Integer> newPos = renderMode.getMetadata().ignoreTranslations() ?
-                    renderMode.getMetadata().positionModifier().getDeclaredConstructor().newInstance().getPosition(startSize, window, thread) :
-                    startCorner.getModifier().translateRect(startSize, window);
-
-            layout.setPosition(newPos.getX(), newPos.getY());
-
-            return layout;
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    public void render(GuiGraphics guiGraphics, RenderingLayout layout, DisplayMode renderMode) {
-        try {
-            Rect<Integer> size = HudRenderer.renderHud(guiGraphics, layout, renderMode.getMetadata().hasBackground());
-
+            Rect<Integer> size = renderMode.getRenderer().renderOverlay(newPos.getX(), newPos.getY(), pos);
             this.size.setX(size.getX());
             this.size.setY(size.getY());
             this.size.setWidth(size.getWidth());
             this.size.setHeight(size.getHeight());
+
+            if (moveOverlay && renderMode.getMetadata().allowMove()) {
+                renderMoveOverlay(newPos.getX(), newPos.getY());
+            }
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.error("An unexpected error occurred!");
             CoordinatesDisplay.LOGGER.printStackTrace(e);
         }
     }
 
-    public void render(GuiGraphics guiGraphics, RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
-        RenderingLayout layout = preRender(thread, pos, x, y, renderMode, startCorner);
-
-        render(guiGraphics, layout, renderMode);
-    }
-
-    public void render(GuiGraphics guiGraphics, RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, float scale) {
+    public void render(Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, boolean moveOverlay, float scale) {
         try {
             if (!renderMode.getMetadata().ignoreTranslations()) {
-                PoseStack stack = guiGraphics.pose();
+                GlStateManager.pushMatrix();
 
-                stack.pushPose();
-
-                stack.scale(scale, scale, scale);
+                GlStateManager.scalef(scale, scale, scale);
 
                 this.scale = scale;
 
-                render(guiGraphics, thread, pos, x, y, renderMode, startCorner);
+                render(pos, x, y, renderMode, startCorner, moveOverlay);
 
-                stack.popPose();
-            } else render(guiGraphics, thread, pos, x, y, renderMode, startCorner);
+                GlStateManager.popMatrix();
+            } else render(pos, x, y, renderMode, startCorner, moveOverlay);
         } catch (NullPointerException e) {
             CoordinatesDisplay.LOGGER.printStackTrace(e);
         }
@@ -128,35 +102,44 @@ public class Hud {
         return size.getHeight();
     }
 
-    public void renderMoveOverlay(GuiGraphics guiGraphics, int x, int y) {
+    private void renderMoveOverlay(int x, int y) {
         int color = 0x50c7c7c7;
         scaleSize = 5;
         int scaleColor = 0x99d9fffa;
 
         // overlay color
-        RenderUtils.drawSquare(guiGraphics, x, y, size.getWidth(), size.getHeight(), color);
+        RenderUtils.drawSquare(x, y, size.getWidth(), size.getHeight(), color);
 
         // scale square
-        scaleButton = new Rect<>(
-                size.getMaxX() - scaleSize,
-                size.getMaxY() - scaleSize,
-                scaleSize, scaleSize
-        );
+        scaleButton = calculateScaleButton(CoordinatesDisplay.getConfig().startCorner);
         int scaleX = scaleButton.getX();
         int scaleY = scaleButton.getY();
-        RenderUtils.drawSquare(guiGraphics, scaleX, scaleY, scaleSize, scaleSize, scaleColor);
+        RenderUtils.drawSquare(scaleX, scaleY, scaleSize, scaleSize, scaleColor);
     }
 
-    public float calculateScale(int x, int y, int mouseX, int mouseY) {
-        float rectSize = ModUtil.calculatePointDistance(x, y, x + size.getWidth(), y + size.getY());
-        float mouseSize = ModUtil.calculatePointDistance(x, y, mouseX, mouseY);
+    private Rect<Integer> calculateScaleButton(StartCorner corner) {
+        Rect<Integer> pos = new Rect<>(
+                size.getX() + size.getWidth() - scaleSize,
+                size.getY() + size.getHeight() - scaleSize,
+                scaleSize, scaleSize
+        );
 
-        float scaleFactor = mouseSize / rectSize;
+        switch (corner) {
+            case TOP_RIGHT:
+                pos.setX(size.getX());
+                break;
+            case BOTTOM_LEFT:
+                pos.setY(size.getY());
+                break;
+            case BOTTOM_RIGHT:
+                pos.setX(size.getX());
+                pos.setY(size.getY());
+                break;
+            default:
+                break;
+        }
 
-        scaleFactor = Math.round(scaleFactor * 10) / 10.0f;
-        scaleFactor = Clamps.clamp(scaleFactor, 0.5f, 2.0f);
-
-        return scaleFactor;
+        return pos;
     }
 
     public int getX() {
@@ -165,10 +148,5 @@ public class Hud {
 
     public int getY() {
         return size.getY();
-    }
-
-    public enum RenderType {
-        SCREEN,
-        HUD
     }
 }

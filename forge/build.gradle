@@ -81,7 +81,7 @@ unifiedPublishing {
             modrinth {
                 token = modrinthToken
                 id = rootProject.project_id_modrinth
-                version = "${rootProject.mod_version}-${project.name}"
+                version = "${rootProject.mod_version}-${rootProject.name}"
             }
         }
     }

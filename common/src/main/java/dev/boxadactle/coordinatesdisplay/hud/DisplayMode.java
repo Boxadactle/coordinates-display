@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface HudDisplayMode {
+public @interface DisplayMode {
     /**
      * The id for the renderer.
      * <p></p>
@@ -45,16 +45,6 @@ public @interface HudDisplayMode {
      * @return boolean to enable/disable position modifier translations
      */
     boolean ignoreTranslations() default false;
-
-    /**
-     * The class for the position modifier.
-     * <p></p>
-     * This is useful for when you want to use a specific location for a renderer
-     * You must change ignoreTranslations to true in order to use this feature
-     *
-     * @return the class for the position modifier
-     */
-    Class<? extends HudPositionModifier.BasicPositionModifier> positionModifier() default HudPositionModifier.Basic.class;
 
     /**
      * Whether to allow the hud to be moved by the user

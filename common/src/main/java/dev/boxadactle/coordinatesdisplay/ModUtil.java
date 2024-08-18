@@ -2,17 +2,15 @@ package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.datafixers.util.Pair;
 import dev.architectury.injectables.annotations.ExpectPlatform;
-import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -40,7 +38,7 @@ public class ModUtil {
         String y = decimalFormat.format(player.getY());
         String z = decimalFormat.format(player.getZ());
 
-        String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.getXRot()));
+        String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.xRot));
 
         Pair<String, ?>[] supported = new Pair[]{
                 new Pair<>("dimension", pos.world.getDimension(true)),
@@ -92,13 +90,13 @@ public class ModUtil {
         int y = (int)Math.round(player.getY());
         int z = (int)Math.round(player.getZ());
 
-        Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
-                .withColor(TextColor.fromRgb(CoordinatesDisplay.CONFIG.get().deathPosColor))
-                .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
+        Component position = new TranslatableComponent("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
+                .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("message.coordinatesdisplay.teleport")))
+                .setColor((CoordinatesDisplay.CONFIG.get().deathPosColor.color()))
+                .setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return GuiUtils.colorize(Component.translatable("message.coordinatesdisplay.deathpos", position), CoordinatesDisplay.CONFIG.get().definitionColor);
+        return new TranslatableComponent("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.setColor(CoordinatesDisplay.CONFIG.get().definitionColor.color()));
     }
 
     @ExpectPlatform
@@ -147,17 +145,9 @@ public class ModUtil {
         return direction;
     }
 
-    public static Component getBiomeComponent(ResourceLocation key, Biome biome, boolean colored, int defaultColor) {
-        if (biome == null && WorldUtils.getWorld() != null) {
-            return GuiUtils.colorize(Component.translatable("hud.coordinatesdisplay.biome.unknown"), defaultColor);
-        }
-
-        return GuiUtils.colorize(
-                Component.translatable("biome." + key.getNamespace() + "." + key.getPath()),
-                colored ?
-                        WorldColors.getBiomeColor(key, biome):
-                        defaultColor
-        );
+    // copy + pasted from DebugHud.class
+    public static String printBiome(Biome p_205375_) {
+        return Registry.BIOME.getKey(p_205375_).toString();
     }
 
     public static boolean isMouseHovering(int mouseX, int mouseY, int boxX, int boxY, int boxWidth, int boxHeight) {
@@ -169,13 +159,25 @@ public class ModUtil {
         return id.split(":")[0];
     }
 
-    public static float calculatePointDistance(int x, int y, int x1, int y1) {
+    public static int calculatePointDistance(int x, int y, int x1, int y1) {
         int deltaX = x1 - x;
         int deltaY = y1 - y;
 
         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        return (float) distance;
+        return (int) Math.abs(distance);
+    }
+
+    public static float calculateMouseScale(int x, int y, int w, int h, int mouseX, int mouseY) {
+        int value1 = calculatePointDistance(x, y, x + w, y + h);
+        int value2 = calculatePointDistance(x, y, mouseX, mouseY);
+        float scaleFactor = (float) value2 / value1;
+
+        scaleFactor = Math.max(0.5f, Math.min(2.0f, scaleFactor));
+
+        scaleFactor = Math.round(scaleFactor * 100.0f) / 100.0f;
+
+        return scaleFactor;
     }
 
     public static <T> boolean or(T val, T ...compare) {

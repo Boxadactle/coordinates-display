@@ -2,17 +2,16 @@ package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
-import dev.boxadactle.coordinatesdisplay.hud.modifier.*;
+import dev.boxadactle.coordinatesdisplay.hud.modifier.BottomLeftModifier;
+import dev.boxadactle.coordinatesdisplay.hud.modifier.BottomRightModifier;
+import dev.boxadactle.coordinatesdisplay.hud.modifier.TopLeftModifier;
+import dev.boxadactle.coordinatesdisplay.hud.modifier.TopRightModifier;
 
 public enum StartCorner {
     TOP_LEFT(TopLeftModifier.class),
     TOP_RIGHT(TopRightModifier.class),
     BOTTOM_LEFT(BottomLeftModifier.class),
-    BOTTOM_RIGHT(BottomRightModifier.class),
-    TOP(TopModifier.class),
-    LEFT(LeftModifier.class),
-    RIGHT(RightModifier.class),
-    BOTTOM(BottomModifier.class);
+    BOTTOM_RIGHT(BottomRightModifier.class);
 
     final HudPositionModifier modifier;
 

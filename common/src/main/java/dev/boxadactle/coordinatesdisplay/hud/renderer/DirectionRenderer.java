@@ -1,23 +1,25 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
+import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import oshi.util.tuples.Triplet;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
-@HudDisplayMode(
+@DisplayMode(
         value = "direction",
         hasChunkData = false,
         hasBiome = false,
@@ -27,13 +29,13 @@ import oshi.util.tuples.Triplet;
 public class DirectionRenderer implements HudRenderer {
 
     private enum Direction {
-        POSITIVE_Z(Component.translatable("hud.coordinatesdisplay.direction.positive", "Z")), // south
-        NEGATIVE_X(Component.translatable("hud.coordinatesdisplay.direction.negative", "X")), // east
-        NEGATIVE_Z(Component.translatable("hud.coordinatesdisplay.direction.negative", "Z")), // north
-        POSITIVE_X(Component.translatable("hud.coordinatesdisplay.direction.positive", "X")), // west
+        POSITIVE_Z(new TranslatableComponent("hud.coordinatesdisplay.direction.positive", "Z")), // south
+        NEGATIVE_X(new TranslatableComponent("hud.coordinatesdisplay.direction.negative", "X")), // east
+        NEGATIVE_Z(new TranslatableComponent("hud.coordinatesdisplay.direction.negative", "Z")), // north
+        POSITIVE_X(new TranslatableComponent("hud.coordinatesdisplay.direction.positive", "X")), // west
 
-        POSITIVE_Y(Component.translatable("hud.coordinatesdisplay.direction.positive", "Y")), // up
-        NEGATIVE_Y(Component.translatable("hud.coordinatesdisplay.direction.negative", "Y")); // down
+        POSITIVE_Y(new TranslatableComponent("hud.coordinatesdisplay.direction.positive", "Y")), // up
+        NEGATIVE_Y(new TranslatableComponent("hud.coordinatesdisplay.direction.negative", "Y")); // down
 
         public final Component component;
 
@@ -69,7 +71,7 @@ public class DirectionRenderer implements HudRenderer {
     }
 
     @Override
-    public RenderingLayout renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
@@ -77,9 +79,9 @@ public class DirectionRenderer implements HudRenderer {
         RowLayout row = new RowLayout(0, 0, config().textPadding * 2);
 
         if (config().renderXYZ) {
-            Component xtext = definition(GlobalTexts.X, value(player.getA()));
-            Component ytext = definition(GlobalTexts.Y, value(player.getB()));
-            Component ztext = definition(GlobalTexts.Z, value(player.getC()));
+            Component xtext = definition("x", value(player.getA()));
+            Component ytext = definition("y", value(player.getB()));
+            Component ztext = definition("z", value(player.getC()));
 
             row.addComponent(new ParagraphComponent(
                     0,
@@ -107,7 +109,7 @@ public class DirectionRenderer implements HudRenderer {
         if (config().renderDirection) {
             String[] components = createYawComponents(yaw);
             Component intText = definition(
-                    Component.literal(
+                    new TextComponent(
                             components[0] + " (" +
                                     formatter.formatDecimal(compassRenderer.calculateRelativeDirection(pos.position.getBlockPos(), new Vec3<>(0, 0, 0), yaw)) + "°) " +
                                     components[1]
@@ -147,6 +149,6 @@ public class DirectionRenderer implements HudRenderer {
 
         hud.addComponent(direction);
 
-        return new PaddingLayout(x, y, config().padding, hud);
+        return renderHud(new PaddingLayout(x, y, config().padding, hud));
     }
 }

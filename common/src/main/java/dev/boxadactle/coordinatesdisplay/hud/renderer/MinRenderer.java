@@ -1,22 +1,23 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.LeftParagraphComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
-import dev.boxadactle.boxlib.layouts.component.TextComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
+import dev.boxadactle.boxlib.math.geometry.Rect;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
-import oshi.util.tuples.Triplet;
+import net.minecraft.network.chat.TextComponent;
 
-@HudDisplayMode(
+@DisplayMode(
         value = "minimum",
         hasXYZ = false,
         hasChunkData = false,
@@ -43,14 +44,14 @@ public class MinRenderer implements HudRenderer {
         String[] direction = directions[(int) Math.round(yaw / 45.0F) & 7];
 
         return new Component[] {
-                Component.literal(direction[0]),
+                new TextComponent(direction[0]),
                 resolveDirection(ModUtil.getDirectionFromYaw(yaw), true),
-                Component.literal(direction[1])
+                new TextComponent(direction[1])
         };
     }
 
     @Override
-    public RenderingLayout renderOverlay(int x, int y, Position pos) {
+    public Rect<Integer> renderOverlay(int x, int y, Position pos) {
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
         RowLayout layout = new RowLayout(0, 0, config().textPadding);
@@ -58,9 +59,9 @@ public class MinRenderer implements HudRenderer {
         ColumnLayout row = new ColumnLayout(0, 0, config().textPadding / 2);
 
         { // xyz
-            Component xtext = definition(GlobalTexts.X, value(player.getA()));
-            Component ytext = definition(GlobalTexts.Y, value(player.getB()));
-            Component ztext = definition(GlobalTexts.Z, value(player.getC()));
+            Component xtext = createLine("x", player.getA());
+            Component ytext = createLine("y", player.getB());
+            Component ztext = createLine("z", player.getC());
 
             ParagraphComponent paragraph = new ParagraphComponent(1, xtext, ytext, ztext);
             row.addComponent(paragraph);
@@ -68,9 +69,16 @@ public class MinRenderer implements HudRenderer {
 
         // biome
         if (config().renderBiome) {
-            Component biome = ModUtil.getBiomeComponent(pos.world.getBiomeKey(), pos.world.getBiome(), config().biomeColors, config().definitionColor);
+            String biomestring = pos.world.getBiome(true);
+            Component biome = definition(
+                    "biome",
+                    GuiUtils.colorize(
+                            new TextComponent(biomestring),
+                            CoordinatesDisplay.CONFIG.get().dataColor.color()
+                    )
+            );
 
-            row.addComponent(new TextComponent(biome));
+            row.addComponent(new dev.boxadactle.boxlib.layouts.component.TextComponent(biome));
         }
 
         layout.addComponent(new LayoutContainerComponent(row));
@@ -85,6 +93,6 @@ public class MinRenderer implements HudRenderer {
             layout.addComponent(new LeftParagraphComponent(1, xDirection, directionText, zDirection));
         }
 
-        return new PaddingLayout(x, y, config().padding, layout);
+        return renderHud(new PaddingLayout(x, y, config().padding, layout));
     }
 }

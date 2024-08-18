@@ -3,28 +3,63 @@ package dev.boxadactle.coordinatesdisplay.hud.modifier;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
+import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
 
 public class BottomLeftModifier implements HudPositionModifier {
     @Override
-    public Vec2<Integer> translateVector(Vec2<Integer> original, Dimension<Integer> window) {
-        return new Vec2<>(original.getX(), window.getHeight() - original.getY());
+    public Vec2<Integer> translateVector(Vec2<Integer> original, Dimension<Integer> window, StartCorner currentCorner) {
+        int translatedX = original.getX();
+        int translatedY = original.getY();
+
+        int x = original.getX();
+        int y = original.getY();
+
+        int windowWidth = window.getWidth();
+        int windowHeight = window.getHeight();
+
+        switch (currentCorner) {
+            case TOP_LEFT:
+                translatedY = windowHeight - y;
+                break;
+            case TOP_RIGHT:
+                translatedX = windowWidth - x;
+                translatedY = windowHeight - y;
+                break;
+            case BOTTOM_RIGHT:
+                translatedX = windowWidth - x;
+                break;
+            // For BOTTOM_LEFT corner, no translation needed
+            default:
+                break;
+        }
+
+        return new Vec2<>(translatedX, translatedY);
     }
 
     @Override
-    public Rect<Integer> translateRect(Rect<Integer> rect, Dimension<Integer> window) {
+    public Rect<Integer> translateRect(Rect<Integer> rect, Dimension<Integer> window, StartCorner currentCorner) {
+        int translatedX = rect.getX();
+        int translatedY = rect.getY();
+
+        switch (currentCorner) {
+            case TOP_LEFT:
+                translatedY = window.getHeight() - rect.getY() - rect.getHeight();
+                break;
+            case TOP_RIGHT:
+                translatedX = window.getWidth() - rect.getX() - rect.getWidth();
+                translatedY = window.getHeight() - rect.getY() - rect.getHeight();
+                break;
+            case BOTTOM_RIGHT:
+                translatedX = window.getWidth() - rect.getX() - rect.getWidth();
+                break;
+            default:
+                break;
+        }
+
         Rect<Integer> r = rect.clone();
-        r.setY(window.getHeight() - rect.getY() - rect.getHeight());
+        r.setX(translatedX);
+        r.setY(translatedY);
         return r;
-    }
-
-    @Override
-    public Vec2<Integer> getRelativeVec(Vec2<Integer> leftTop, Dimension<Integer> window) {
-        return translateVector(leftTop, window);
-    }
-
-    @Override
-    public Vec2<Integer> getStartCorner(Rect<Integer> rect) {
-        return new Vec2<>(rect.getX(), rect.getMaxY());
     }
 }

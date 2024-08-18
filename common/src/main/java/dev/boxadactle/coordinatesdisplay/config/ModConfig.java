@@ -1,13 +1,11 @@
-package dev.boxadactle.coordinatesdisplay;
+package dev.boxadactle.coordinatesdisplay.config;
 
 import dev.boxadactle.boxlib.config.BConfig;
 import dev.boxadactle.boxlib.config.BConfigFile;
-import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.registry.*;
+import net.minecraft.ChatFormatting;
 
-import java.lang.reflect.Field;
-
-@BConfigFile("coordinatesdisplay")
+@BConfigFile("coordinates-display")
 public class ModConfig implements BConfig {
 
     public boolean enabled = true;
@@ -32,9 +30,9 @@ public class ModConfig implements BConfig {
     public boolean renderMCVersion = true;
     public boolean renderDimension = true;
 
-    public int definitionColor = GuiUtils.GREEN;
-    public int dataColor = GuiUtils.WHITE;
-    public int deathPosColor = GuiUtils.AQUA;
+    public HudColor definitionColor = HudColor.GREEN;
+    public HudColor dataColor = HudColor.WHITE;
+    public HudColor deathPosColor = HudColor.AQUA;
     public int backgroundColor = 0x405c5c5c;
 
     public boolean displayPosOnDeathScreen = true;
@@ -47,19 +45,5 @@ public class ModConfig implements BConfig {
     public String copyPosMessage = "{x}, {y}, {z}";
     public boolean includeDecimalsWhenCopying = true;
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
-
-    public static void checkValidity(ModConfig config) throws NullPointerException {
-        Class<?> clazz = config.getClass();
-
-        for (Field field : clazz.getDeclaredFields()) {
-            try {
-                if (field.get(config) == null) {
-                    throw new NullPointerException("Field " + field.getName() + " is null");
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
 }

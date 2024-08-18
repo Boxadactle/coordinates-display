@@ -36,9 +36,7 @@ dependencies {
 
     modImplementation("dev.boxadactle:Boxlib-fabric:${rootProject.boxlib_version}") { transitive = false }
 
-    modImplementation("com.terraformersmc:modmenu:${rootProject.modmenu_version}") {
-        transitive = false
-    }
+    modImplementation("io.github.prospector:modmenu:${rootProject.modmenu_version}") { transitive = true }
 }
 
 processResources {
@@ -88,7 +86,7 @@ unifiedPublishing {
             modrinth {
                 token = modrinthToken
                 id = "3mW8PdUo"
-                version = "${rootProject.mod_version}-${project.name}"
+                version = "${rootProject.mod_version}-${rootProject.name}"
             }
         }
     }
