@@ -10,6 +10,7 @@ import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModConfig;
 import dev.boxadactle.coordinatesdisplay.position.Position;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 public interface HudRenderer {
@@ -20,16 +21,8 @@ public interface HudRenderer {
         return CoordinatesDisplay.getConfig();
     }
 
-    default void drawInfo(PoseStack poseStack, Component component, int x, int y, int color) {
-        RenderUtils.drawText(poseStack, component, x, y, color);
-    }
-
-    default void drawInfo(PoseStack stack, Component component, int x, int y) {
-        drawInfo(stack, component, x, y, GuiUtils.WHITE);
-    }
-
-    default void updateHudSize(Rect<Integer> newSize) {
-        CoordinatesDisplay.HUD.size = newSize.clone();
+    default void drawInfo(GuiGraphics guiGraphics, Component component, int x, int y, int color) {
+        RenderUtils.drawText(guiGraphics, component, x, y, color);
     }
 
 
@@ -97,14 +90,14 @@ public interface HudRenderer {
         return resolveDirection(direction, false);
     }
 
-    static Rect<Integer> renderHud(PoseStack stack, RenderingLayout hudRenderer, boolean background) {
+    static Rect<Integer> renderHud(GuiGraphics guiGraphics, RenderingLayout hudRenderer, boolean background) {
         Rect<Integer> r = hudRenderer.calculateRect();
 
         if (CoordinatesDisplay.getConfig().renderBackground && background) {
-            RenderUtils.drawSquare(stack, r, CoordinatesDisplay.getConfig().backgroundColor);
+            RenderUtils.drawSquare(guiGraphics, r, CoordinatesDisplay.getConfig().backgroundColor);
         }
 
-        hudRenderer.render(stack);
+        hudRenderer.render(guiGraphics);
 
         return r;
     }

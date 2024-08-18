@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.entity.player.Player;
 
 public class CoordinatesDisplayFabric implements ClientModInitializer {
@@ -42,13 +43,13 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
         }
     }
 
-    private void renderHud(PoseStack stack, float f) {
+    private void renderHud(GuiGraphics guiGraphics, float f) {
         try {
             if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
                 ModConfig config = CoordinatesDisplay.getConfig();
 
                 CoordinatesDisplay.HUD.render(
-                        stack,
+                        guiGraphics,
                         Position.of(WorldUtils.getPlayer()),
                         config.hudX,
                         config.hudY,

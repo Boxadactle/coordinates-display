@@ -16,7 +16,7 @@ public class PlayerWorldData {
 
     public PlayerWorldData(BlockPos player) {
         if (WorldUtils.getWorld() != null) {
-            dimension = WorldUtils.getPlayer().level.dimension().location();
+            dimension = WorldUtils.getPlayer().level().dimension().location();
 
             biome = WorldUtils.getWorld().getBiome(player);
         } else {
