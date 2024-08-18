@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.*;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -24,9 +25,9 @@ public class CoordinatesScreen extends Screen {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float delta) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, delta);
+    public void render(PoseStack stack, int mouseX, int mouseY, float delta) {
+        this.renderBackground(stack);
+        super.render(stack, mouseX, mouseY, delta);
 
         Vec3<Double> player = pos.position.getPlayerPos();
 
@@ -34,8 +35,8 @@ public class CoordinatesScreen extends Screen {
         int z = (int)Math.round(player.getZ());
         int y = (int)Math.round(player.getY());
 
-        RenderUtils.drawTextCentered(new TranslatableComponent("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, GuiUtils.WHITE);
-        RenderUtils.drawTextCentered(new TranslatableComponent("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), GuiUtils.WHITE);
+        RenderUtils.drawTextCentered(stack, new TranslatableComponent("message.coordinatesdisplay.at"), this.width / 2, (this.height / 4) - 20, GuiUtils.WHITE);
+        RenderUtils.drawTextCentered(stack, new TranslatableComponent("message.coordinatesdisplay.location", x, y, z), this.width / 2, (this.height / 4), GuiUtils.WHITE);
     }
 
     @Override
@@ -44,18 +45,18 @@ public class CoordinatesScreen extends Screen {
 
         int bstart = this.height / 2 - 20;
 
-        addButton(new Button(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh, GuiUtils.getTranslatable("button.coordinatesdisplay.copy"), button -> {
+        addButton(new Button(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh, new TranslatableComponent("button.coordinatesdisplay.copy"), button -> {
             ClientUtils.getClient().keyboardHandler.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage, this.pos));
             CoordinatesDisplay.LOGGER.player.info("Copied coordinates to clipboard");
             onClose();
         }));
 
-        addButton(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh, GuiUtils.getTranslatable("button.coordinatesdisplay.send"), button -> {
+        addButton(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh, new TranslatableComponent("button.coordinatesdisplay.send"), button -> {
             CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage, this.pos));
             onClose();
         }));
 
-        addButton(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh, GuiUtils.getTranslatable("button.coordinatesdisplay.copytp"), button -> {
+        addButton(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh, new TranslatableComponent("button.coordinatesdisplay.copytp"), button -> {
             ClientUtils.getClient().keyboardHandler.setClipboard(CoordinatesDisplay.getConfig().teleportMode.toCommand(Position.of(WorldUtils.getPlayer())));
             CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             onClose();

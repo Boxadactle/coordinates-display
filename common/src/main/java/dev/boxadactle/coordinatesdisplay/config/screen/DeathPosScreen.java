@@ -10,6 +10,7 @@ import dev.boxadactle.coordinatesdisplay.config.HudHelper;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class DeathPosScreen extends BOptionScreen implements HudHelper {
 
@@ -18,15 +19,15 @@ public class DeathPosScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    protected String getName() {
-        return GuiUtils.getTranslatable("screen.coordinatesdisplay.deathpos", CoordinatesDisplay.VERSION_STRING);
+    protected Component getName() {
+        return new TranslatableComponent("screen.coordinatesdisplay.deathpos", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(GuiUtils.getTranslatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_DEATHPOS);
+        this.setWiki(new TranslatableComponent("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_DEATHPOS);
     }
 
     @Override
@@ -48,7 +49,7 @@ public class DeathPosScreen extends BOptionScreen implements HudHelper {
 
         addConfigLine(new BSpacingEntry());
 
-        addConfigLine(new BCenteredLabel(ModUtil.makeDeathPositionComponent(generatePositionData()).getColoredString()));
+        addConfigLine(new BCenteredLabel(ModUtil.makeDeathPositionComponent(generatePositionData())));
 
     }
 }

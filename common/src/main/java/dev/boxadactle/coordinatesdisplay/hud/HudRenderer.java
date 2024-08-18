@@ -1,5 +1,6 @@
 package dev.boxadactle.coordinatesdisplay.hud;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
@@ -21,12 +22,12 @@ public interface HudRenderer {
         return CoordinatesDisplay.getConfig();
     }
 
-    default void drawInfo(Component component, int x, int y, int color) {
-        RenderUtils.drawText(component.getColoredString(), x, y, color);
+    default void drawInfo(PoseStack poseStack, Component component, int x, int y, int color) {
+        RenderUtils.drawText(poseStack, component, x, y, color);
     }
 
-    default void drawInfo(Component component, int x, int y) {
-        drawInfo(component, x, y, GuiUtils.WHITE);
+    default void drawInfo(PoseStack stack, Component component, int x, int y) {
+        drawInfo(stack, component, x, y, GuiUtils.WHITE);
     }
 
 
@@ -55,11 +56,11 @@ public interface HudRenderer {
     }
 
     default Component definition(Component t) {
-        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().definitionColor.color());
+        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().definitionColor);
     }
 
     default Component definition(String t) {
-        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().definitionColor.color());
+        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().definitionColor);
     }
 
     default Component definition(String k, Object ...args) {
@@ -67,15 +68,11 @@ public interface HudRenderer {
     }
 
     default Component value(String t) {
-        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().dataColor.color());
+        return GuiUtils.colorize(new TextComponent(t), CoordinatesDisplay.getConfig().dataColor);
     }
 
     default Component value(Component t) {
-        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor.color());
-    }
-
-    default Component valueTranslation(String k, Object ...args) {
-        return value(translation(k, args));
+        return GuiUtils.colorize(t, CoordinatesDisplay.getConfig().dataColor);
     }
 
     default Component resolveDirection(String direction, boolean useShort) {
@@ -90,14 +87,14 @@ public interface HudRenderer {
         return resolveDirection(direction, false);
     }
 
-    default Rect<Integer> renderHud(RenderingLayout hudRenderer) {
+    default Rect<Integer> renderHud(PoseStack stack, RenderingLayout hudRenderer) {
         Rect<Integer> r = hudRenderer.calculateRect();
 
         if (config().renderBackground) {
-            RenderUtils.drawSquare(r, config().backgroundColor);
+            RenderUtils.drawSquare(stack, r, config().backgroundColor);
         }
 
-        hudRenderer.render();
+        hudRenderer.render(stack);
 
         return r;
     }
@@ -155,6 +152,6 @@ public interface HudRenderer {
 
     // HUD RENDERER METHOD
 
-    Rect<Integer> renderOverlay(int x, int y, Position pos);
+    Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos);
 
 }

@@ -2,6 +2,8 @@ package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.datafixers.util.Pair;
 import dev.architectury.injectables.annotations.ExpectPlatform;
+import dev.boxadactle.boxlib.util.GuiUtils;
+import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
@@ -9,11 +11,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
+import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.dimension.DimensionType;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.awt.Desktop;
@@ -91,12 +97,12 @@ public class ModUtil {
         int z = (int)Math.round(player.getZ());
 
         Component position = new TranslatableComponent("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
-                .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("message.coordinatesdisplay.teleport")))
-                .setColor((CoordinatesDisplay.CONFIG.get().deathPosColor.color()))
-                .setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
+                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("message.coordinatesdisplay.teleport")))
+                .withColor(TextColor.fromRgb(CoordinatesDisplay.CONFIG.get().deathPosColor))
+                .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return new TranslatableComponent("message.coordinatesdisplay.deathpos", position).withStyle(style -> style.setColor(CoordinatesDisplay.CONFIG.get().definitionColor.color()));
+        return GuiUtils.colorize(new TranslatableComponent("message.coordinatesdisplay.deathpos", position), CoordinatesDisplay.CONFIG.get().definitionColor);
     }
 
     @ExpectPlatform
@@ -145,9 +151,25 @@ public class ModUtil {
         return direction;
     }
 
-    // copy + pasted from DebugHud.class
-    public static String printBiome(Biome p_205375_) {
-        return Registry.BIOME.getKey(p_205375_).toString();
+    public static Component getBiomeComponent(Biome biome, boolean colored, int defaultColor) {
+        if (biome == null) {
+            return GuiUtils.colorize(new TranslatableComponent("hud.coordinatesdisplay.biome.unknown"), defaultColor);
+        }
+
+        Registry<Biome> registry = WorldUtils.getWorld() != null ? WorldUtils.getWorld().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY) : BuiltinRegistries.BIOME;
+
+        ResourceLocation key = registry.getKey(biome);
+
+        if (key == null) {
+            throw new RuntimeException("Biome key is null for biome: " + biome);
+        }
+
+        return GuiUtils.colorize(
+                new TranslatableComponent("biome." + key.getNamespace() + "." + key.getPath()),
+                colored ?
+                        CoordinatesDisplay.BiomeColors.getBiomeColor(biome) :
+                        defaultColor
+        );
     }
 
     public static boolean isMouseHovering(int mouseX, int mouseY, int boxX, int boxY, int boxWidth, int boxHeight) {

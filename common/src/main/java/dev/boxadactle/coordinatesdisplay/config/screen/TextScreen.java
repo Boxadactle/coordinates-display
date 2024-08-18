@@ -12,6 +12,7 @@ import dev.boxadactle.coordinatesdisplay.registry.TeleportMode;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class TextScreen extends BOptionScreen implements HudHelper {
 
@@ -20,29 +21,29 @@ public class TextScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    protected String getName() {
-        return GuiUtils.getTranslatable("screen.coordinatesdisplay.text", CoordinatesDisplay.VERSION_STRING);
+    protected Component getName() {
+        return new TranslatableComponent("screen.coordinatesdisplay.text", CoordinatesDisplay.VERSION_STRING);
     }
 
     @Override
     protected void initFooter(int startX, int startY) {
         this.setSaveButton(createBackButton(startX, startY, parent));
 
-        this.setWiki(GuiUtils.getTranslatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_TEXTS);
+        this.setWiki(new TranslatableComponent("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI_TEXTS);
     }
 
     @Override
     protected void initConfigButtons() {
 
         // coordinates chat message
-        this.addConfigLine(new BCenteredLabel(GuiUtils.getTranslatable("label.coordinatesdisplay.posChatMessage")));
+        this.addConfigLine(new BCenteredLabel(new TranslatableComponent("label.coordinatesdisplay.posChatMessage")));
         this.addConfigLine(new BStringField(
                 config().posChatMessage,
                 newVal -> config().posChatMessage = newVal
         ));
 
         // copy pos message
-        this.addConfigLine(new BCenteredLabel(GuiUtils.getTranslatable("label.coordinatesdisplay.copyPosMessage")));
+        this.addConfigLine(new BCenteredLabel(new TranslatableComponent("label.coordinatesdisplay.copyPosMessage")));
         this.addConfigLine(new BStringField(
                 config().copyPosMessage,
                 newVal -> config().copyPosMessage = newVal
@@ -61,7 +62,7 @@ public class TextScreen extends BOptionScreen implements HudHelper {
                 config().teleportMode,
                 TeleportMode.class,
                 newVal -> config().teleportMode = newVal,
-                ChatFormatting.AQUA
+                GuiUtils.AQUA
         ));
 
     }
