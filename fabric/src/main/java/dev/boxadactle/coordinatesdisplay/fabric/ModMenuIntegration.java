@@ -2,7 +2,7 @@ package dev.boxadactle.coordinatesdisplay.fabric;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
-import dev.boxadactle.coordinatesdisplay.config.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
 
 public class ModMenuIntegration implements ModMenuApi {
     @Override

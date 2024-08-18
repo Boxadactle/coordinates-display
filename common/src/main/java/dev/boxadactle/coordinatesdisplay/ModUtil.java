@@ -97,13 +97,13 @@ public class ModUtil {
         int y = (int)Math.round(player.getY());
         int z = (int)Math.round(player.getZ());
 
-        Component position = new TranslatableComponent("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("message.coordinatesdisplay.teleport")))
+        Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
+                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
                 .withColor(TextColor.fromRgb(CoordinatesDisplay.CONFIG.get().deathPosColor))
                 .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
         ));
 
-        return GuiUtils.colorize(new TranslatableComponent("message.coordinatesdisplay.deathpos", position), CoordinatesDisplay.CONFIG.get().definitionColor);
+        return GuiUtils.colorize(Component.translatable("message.coordinatesdisplay.deathpos", position), CoordinatesDisplay.CONFIG.get().definitionColor);
     }
 
     @ExpectPlatform
@@ -154,7 +154,7 @@ public class ModUtil {
 
     public static Component getBiomeComponent(Holder<Biome> biome, boolean colored, int defaultColor) {
         if (biome == null) {
-            return GuiUtils.colorize(new TranslatableComponent("hud.coordinatesdisplay.biome.unknown"), defaultColor);
+            return GuiUtils.colorize(Component.translatable("hud.coordinatesdisplay.biome.unknown"), defaultColor);
         }
 
         Registry<Biome> registry = WorldUtils.getWorld() != null ? WorldUtils.getWorld().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY) : BuiltinRegistries.BIOME;
@@ -168,9 +168,9 @@ public class ModUtil {
         ResourceLocation key = resource.get().location();
 
         return GuiUtils.colorize(
-                new TranslatableComponent("biome." + key.getNamespace() + "." + key.getPath()),
+                Component.translatable("biome." + key.getNamespace() + "." + key.getPath()),
                 colored ?
-                        CoordinatesDisplay.WorldColors.getBiomeColor(biome):
+                        WorldColors.getBiomeColor(resource.get(), biome):
                         defaultColor
         );
     }
@@ -184,25 +184,13 @@ public class ModUtil {
         return id.split(":")[0];
     }
 
-    public static int calculatePointDistance(int x, int y, int x1, int y1) {
+    public static float calculatePointDistance(int x, int y, int x1, int y1) {
         int deltaX = x1 - x;
         int deltaY = y1 - y;
 
         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        return (int) Math.abs(distance);
-    }
-
-    public static float calculateMouseScale(int x, int y, int w, int h, int mouseX, int mouseY) {
-        int value1 = calculatePointDistance(x, y, x + w, y + h);
-        int value2 = calculatePointDistance(x, y, mouseX, mouseY);
-        float scaleFactor = (float) value2 / value1;
-
-        scaleFactor = Math.max(0.5f, Math.min(2.0f, scaleFactor));
-
-        scaleFactor = Math.round(scaleFactor * 100.0f) / 100.0f;
-
-        return scaleFactor;
+        return (float) distance;
     }
 
     public static <T> boolean or(T val, T ...compare) {

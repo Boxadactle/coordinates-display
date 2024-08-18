@@ -1,17 +1,17 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.component.TextComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
-import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.hud.DisplayMode;
+import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.hud.Triplet;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -20,7 +20,7 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 import java.util.Objects;
 
-@DisplayMode(
+@HudDisplayMode(
         value = "nether_overworld",
         hasXYZ = false,
         hasChunkData = false,
@@ -33,7 +33,7 @@ import java.util.Objects;
 public class NetherOverworldRenderer implements HudRenderer {
 
     @Override
-    public Rect<Integer> renderOverlay(PoseStack stack, int x, int y, Position pos) {
+    public RenderingLayout renderOverlay(int x, int y, Position pos) {
         try {
             ColumnLayout hud = new ColumnLayout(0, 0, config().textPadding);
 
@@ -68,7 +68,7 @@ public class NetherOverworldRenderer implements HudRenderer {
             hud.addComponent(new LayoutContainerComponent(coordsLayout));
             hud.addComponent(dimensionComponent);
 
-            return renderHud(stack, new PaddingLayout(x, y, config().padding, hud));
+            return new PaddingLayout(x, y, config().padding, hud);
         } catch (NullPointerException ignored) {
             Component error = GuiUtils.colorize(translation("error"), GuiUtils.RED);
             Component dimensionText = definition(translation(
@@ -81,7 +81,7 @@ public class NetherOverworldRenderer implements HudRenderer {
             hud.addComponent(new TextComponent(error));
             hud.addComponent(new TextComponent(dimensionText));
 
-            return renderHud(stack, new PaddingLayout(x, y, config().padding, hud));
+            return new PaddingLayout(x, y, config().padding, hud);
         }
     }
 
