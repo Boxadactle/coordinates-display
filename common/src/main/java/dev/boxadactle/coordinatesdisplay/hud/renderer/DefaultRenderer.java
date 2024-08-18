@@ -1,6 +1,5 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
@@ -39,9 +38,9 @@ public class DefaultRenderer implements HudRenderer {
         ParagraphComponent row2 = new ParagraphComponent(0);
 
         if (config().renderXYZ) {
-            Component xtext = definition("x", value(player.getA()));
-            Component ytext = definition("y", value(player.getB()));
-            Component ztext = definition("z", value(player.getC()));
+            Component xtext = definition(GlobalTexts.X, value(player.getA()));
+            Component ytext = definition(GlobalTexts.Y, value(player.getB()));
+            Component ztext = definition(GlobalTexts.Z, value(player.getC()));
 
             row1.addComponent(new ParagraphComponent(
                     0,
@@ -52,8 +51,8 @@ public class DefaultRenderer implements HudRenderer {
         }
 
         if (config().renderChunkData) {
-            Component chunkx = definition("chunk.x", value(chunkPos.getX().toString()));
-            Component chunkz = definition("chunk.z", value(chunkPos.getY().toString()));
+            Component chunkx = definition(GlobalTexts.CHUNK_X, value(chunkPos.getX().toString()));
+            Component chunkz = definition(GlobalTexts.CHUNK_Z, value(chunkPos.getY().toString()));
 
             row1.addComponent(new ParagraphComponent(
                     0,
@@ -63,20 +62,20 @@ public class DefaultRenderer implements HudRenderer {
         }
 
         if (config().renderDirection) {
-            Component direction = translation(
-                    "direction",
-                    definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))),
-                    config().renderDirectionInt ?
+            Component direction = Component.empty()
+                    .append(definition(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))))
+                    .append(" ")
+                    .append(config().renderDirectionInt ?
                             value("(" + formatter.formatDecimal(pos.headRot.wrapYaw()) + ")")
                             : Component.empty()
-            );
+                    );
 
             row2.add(direction);
         }
 
         if (config().renderBiome || config().renderDimension) {
             Component biomeString = ModUtil.getBiomeComponent(pos.world.getBiomeKey(), pos.world.getBiome(), config().biomeColors, config().dataColor);
-            Component biome = definition("biome", biomeString);
+            Component biome = definition(GlobalTexts.BIOME, biomeString);
 
             String dimensionstring = pos.world.getDimension(true);
             Component coloredDimensionstring = GuiUtils.colorize(
@@ -86,7 +85,7 @@ public class DefaultRenderer implements HudRenderer {
                             config().definitionColor
             );
             Component dimension = definition(
-                    "dimension",
+                    GlobalTexts.DIMENSION,
                     coloredDimensionstring
             );
 

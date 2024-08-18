@@ -78,9 +78,9 @@ public class DirectionRenderer implements HudRenderer {
         RowLayout row = new RowLayout(0, 0, config().textPadding * 2);
 
         if (config().renderXYZ) {
-            Component xtext = definition("x", value(player.getA()));
-            Component ytext = definition("y", value(player.getB()));
-            Component ztext = definition("z", value(player.getC()));
+            Component xtext = definition(GlobalTexts.X, value(player.getA()));
+            Component ytext = definition(GlobalTexts.Y, value(player.getB()));
+            Component ztext = definition(GlobalTexts.Z, value(player.getC()));
 
             row.addComponent(new ParagraphComponent(
                     0,
