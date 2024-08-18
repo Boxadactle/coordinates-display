@@ -1,6 +1,5 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.layouts.LayoutComponent;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.LayoutContainerComponent;
@@ -9,6 +8,7 @@ import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
+import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
@@ -185,23 +185,22 @@ public class SpawnpointRenderer implements HudRenderer {
 
             // this copied from the minecraft compass json model
             String[] textures = {
-                    "item/compass_16", "item/compass_17", "item/compass_18", "item/compass_19", "item/compass_20", "item/compass_21", "item/compass_22", "item/compass_23",
-                    "item/compass_24", "item/compass_25", "item/compass_26", "item/compass_27", "item/compass_28", "item/compass_29", "item/compass_30", "item/compass_31",
-                    "item/compass_00", "item/compass_01", "item/compass_02", "item/compass_03", "item/compass_04", "item/compass_05", "item/compass_06", "item/compass_07",
-                    "item/compass_08", "item/compass_09", "item/compass_10", "item/compass_11", "item/compass_12", "item/compass_13", "item/compass_14", "item/compass_15",
-                    "item/compass_16"
+                    "compass_16", "compass_17", "compass_18", "compass_19", "compass_20", "compass_21", "compass_22", "compass_23",
+                    "compass_24", "compass_25", "compass_26", "compass_27", "compass_28", "compass_29", "compass_30", "compass_31",
+                    "compass_00", "compass_01", "compass_02", "compass_03", "compass_04", "compass_05", "compass_06", "compass_07",
+                    "compass_08", "compass_09", "compass_10", "compass_11", "compass_12", "compass_13", "compass_14", "compass_15",
+                    "compass_16"
             };
 
-            String texture = "textures/" + textures[(int) (range1 * textures.length)] + ".png";
-            return new ResourceLocation("minecraft", texture);
+            String texture = "textures/item/" + textures[(int) (range1 * textures.length)] + ".png";
+            return new ResourceLocation(texture);
         }
 
         @Override
         public void render(GuiGraphics guiGraphics, int x, int y) {
             double degrees = calculateRelativeDirection(component.position.getBlockPos(), new Vec3<>(spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ()), component.headRot.wrapYaw());
 
-            RenderSystem.enableBlend();
-            guiGraphics.blit(resolveCompassTexture(degrees), x, y, 0, 0, size, size);
+            RenderUtils.drawTexture(resolveCompassTexture(degrees), guiGraphics, x, y, size, size, 0, 0);
         }
     }
 }

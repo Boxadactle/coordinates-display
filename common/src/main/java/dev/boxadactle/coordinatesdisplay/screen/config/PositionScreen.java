@@ -55,7 +55,7 @@ public class PositionScreen extends BOptionScreen implements HudHelper {
 
     @Override
     public void render(GuiGraphics guiGraphics, int i, int j, float f) {
-        renderBackground(guiGraphics);
+        renderBackground(guiGraphics, i, j, f);
         super.render(guiGraphics, i, j, f);
 
         if (moveHud(i, j)) {

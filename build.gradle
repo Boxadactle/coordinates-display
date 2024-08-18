@@ -75,7 +75,7 @@ githubRelease {
     targetCommitish = "latest"
     releaseName = "Coordinates Display $project.version"
     generateReleaseNotes = true
-    body = """"Coordinates Display $project.version for Minecraft $project.minecraft_version"
+    body = """Coordinates Display $project.version for Minecraft $project.minecraft_version
 
 ${new File(rootProject.rootDir, project.changelog_file).text}
 """
