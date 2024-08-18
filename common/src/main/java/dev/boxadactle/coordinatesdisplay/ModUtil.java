@@ -9,11 +9,13 @@ import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
 import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
@@ -25,6 +27,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Objects;
+import java.util.Optional;
 
 @SuppressWarnings("unchecked")
 public class ModUtil {
@@ -149,23 +152,25 @@ public class ModUtil {
         return direction;
     }
 
-    public static Component getBiomeComponent(Biome biome, boolean colored, int defaultColor) {
+    public static Component getBiomeComponent(Holder<Biome> biome, boolean colored, int defaultColor) {
         if (biome == null) {
             return GuiUtils.colorize(new TranslatableComponent("hud.coordinatesdisplay.biome.unknown"), defaultColor);
         }
 
         Registry<Biome> registry = WorldUtils.getWorld() != null ? WorldUtils.getWorld().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY) : BuiltinRegistries.BIOME;
 
-        ResourceLocation key = registry.getKey(biome);
+        Optional<ResourceKey<Biome>> resource = registry.getResourceKey(biome.value());
 
-        if (key == null) {
-            throw new RuntimeException("Biome key is null for biome: " + biome);
+        if (resource.isEmpty()) {
+            throw new RuntimeException("Biome key is empty for biome: " + biome);
         }
+
+        ResourceLocation key = resource.get().location();
 
         return GuiUtils.colorize(
                 new TranslatableComponent("biome." + key.getNamespace() + "." + key.getPath()),
                 colored ?
-                        CoordinatesDisplay.WorldColors.getBiomeColor(biome) :
+                        CoordinatesDisplay.WorldColors.getBiomeColor(biome):
                         defaultColor
         );
     }

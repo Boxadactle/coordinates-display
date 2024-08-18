@@ -65,6 +65,12 @@ unifiedPublishing {
         releaseType = rootProject.release_type
         gameVersions = Arrays.asList(rootProject.game_versions.split(","))
         gameLoaders = [ "forge" ]
+        relations {
+            it.depends {
+                it.curseforge = "boxlib"
+                it.modrinth = "boxlib"
+            }
+        }
 
         mainPublication tasks.remapJar
 
