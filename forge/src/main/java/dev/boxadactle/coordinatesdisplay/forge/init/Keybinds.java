@@ -2,7 +2,7 @@ package dev.boxadactle.coordinatesdisplay.forge.init;
 
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fmlclient.registry.ClientRegistry;
 
 import static dev.boxadactle.coordinatesdisplay.CoordinatesDisplay.Bindings.*;
 

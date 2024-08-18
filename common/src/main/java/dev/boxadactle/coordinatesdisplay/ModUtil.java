@@ -17,9 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.dimension.DimensionType;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.awt.Desktop;
@@ -44,7 +42,7 @@ public class ModUtil {
         String y = decimalFormat.format(player.getY());
         String z = decimalFormat.format(player.getZ());
 
-        String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.xRot));
+        String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.getXRot()));
 
         Pair<String, ?>[] supported = new Pair[]{
                 new Pair<>("dimension", pos.world.getDimension(true)),
@@ -167,7 +165,7 @@ public class ModUtil {
         return GuiUtils.colorize(
                 new TranslatableComponent("biome." + key.getNamespace() + "." + key.getPath()),
                 colored ?
-                        CoordinatesDisplay.BiomeColors.getBiomeColor(biome) :
+                        CoordinatesDisplay.WorldColors.getBiomeColor(biome) :
                         defaultColor
         );
     }

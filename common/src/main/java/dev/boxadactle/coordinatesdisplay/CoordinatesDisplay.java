@@ -24,7 +24,7 @@ public class CoordinatesDisplay {
 
 	public static final String MOD_ID = "coordinatesdisplay";
 
-	public static final String VERSION = "3.3.0";
+	public static final String VERSION = "4.1.1";
 
 	public static final String VERSION_STRING = MOD_NAME + " v" + VERSION;
 
@@ -60,7 +60,7 @@ public class CoordinatesDisplay {
 		return CONFIG.get();
 	}
 
-	public static class BiomeColors {
+	public static class WorldColors {
 
 		public static int getBiomeColor(Biome biome) {
 			return switch (biome.getBiomeCategory()) {
@@ -79,7 +79,7 @@ public class CoordinatesDisplay {
 				case "nether" -> 0xff0000;
 				case "end" -> 0xC5BE8B;
 				default -> {
-					if (name.contains("The ")) {
+					if (name.startsWith("The ")) {
 						yield getDimensionColor(name.substring(4), defaultColor);
 					} else {
 						yield defaultColor;
