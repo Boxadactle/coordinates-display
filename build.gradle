@@ -68,6 +68,7 @@ subprojects {
     }
 }
 
+
 githubRelease {
     owner = "Boxadactle"
     repo = "coordinates-display"
