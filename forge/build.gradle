@@ -65,6 +65,12 @@ unifiedPublishing {
         releaseType = rootProject.release_type
         gameVersions = Arrays.asList(rootProject.game_versions.split(","))
         gameLoaders = [ "forge" ]
+        relations {
+            it.depends {
+                it.curseforge = "boxlib"
+                it.modrinth = "boxlib"
+            }
+        }
 
         mainPublication tasks.remapJar
 
@@ -81,7 +87,7 @@ unifiedPublishing {
             modrinth {
                 token = modrinthToken
                 id = rootProject.project_id_modrinth
-                version = "${rootProject.mod_version}-${project.name}"
+                version = "${rootProject.mod_version}-forge"
             }
         }
     }
