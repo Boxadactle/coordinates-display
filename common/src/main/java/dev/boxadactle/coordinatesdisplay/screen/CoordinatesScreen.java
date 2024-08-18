@@ -46,22 +46,22 @@ public class CoordinatesScreen extends Screen {
 
         int bstart = this.height / 2 - 20;
 
-        addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh, Component.translatable("button.coordinatesdisplay.copy"), button -> {
+        addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copy"), button -> {
             ClientUtils.getClient().keyboardHandler.setClipboard(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().copyPosMessage, this.pos));
             CoordinatesDisplay.LOGGER.player.info("Copied coordinates to clipboard");
             onClose();
-        }));
+        }).bounds(this.width / 2 - buttonw / 2, bstart, buttonw, buttonh).build());
 
-        addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh, Component.translatable("button.coordinatesdisplay.send"), button -> {
+        addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.send"), button -> {
             CoordinatesDisplay.LOGGER.player.publicChat(ModUtil.parseText(CoordinatesDisplay.CONFIG.get().posChatMessage, this.pos));
             onClose();
-        }));
+        }).bounds(this.width / 2 - buttonw / 2, bstart + (buttonh + p), buttonw, buttonh).build());
 
-        addRenderableWidget(new Button(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh, Component.translatable("button.coordinatesdisplay.copytp"), button -> {
+        addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copytp"), button -> {
             ClientUtils.getClient().keyboardHandler.setClipboard(CoordinatesDisplay.getConfig().teleportMode.toCommand(Position.of(WorldUtils.getPlayer())));
             CoordinatesDisplay.LOGGER.player.info("Copied as TP command");
             onClose();
-        }));
+        }).bounds(this.width / 2 - buttonw / 2, bstart + (buttonh + p) * 2, buttonw, buttonh).build());
     }
 
     @Override

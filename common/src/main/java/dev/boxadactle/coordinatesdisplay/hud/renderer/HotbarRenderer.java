@@ -19,6 +19,7 @@ import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 
 @HudDisplayMode(
@@ -39,6 +40,10 @@ public class HotbarRenderer implements HudRenderer {
 
     @Override
     public RenderingLayout renderOverlay(int x, int y, Position pos) {
+        if (((OverlayMessageTimeAccessor) ClientUtils.getClient().gui).getOverlayMessageTime() > 0) {
+            return new ColumnLayout(0, 0, 0);
+        }
+
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
         Component xyz = definition("xyz",
@@ -49,8 +54,9 @@ public class HotbarRenderer implements HudRenderer {
 
         Component direction = definition("direction", resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())));
 
-        Holder<Biome> b = pos.world.getBiome();
-        Component biome = ModUtil.getBiomeComponent(b, config().biomeColors, config().dataColor);
+        ResourceLocation bKey = pos.world.getBiomeKey();
+        Biome b = pos.world.getBiome();
+        Component biome = ModUtil.getBiomeComponent(bKey, b, config().biomeColors, config().dataColor);
 
         Component all = translation("all", xyz, direction, biome);
 

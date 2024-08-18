@@ -9,13 +9,9 @@ import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.Vec3i;
-import net.minecraft.data.BuiltinRegistries;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
@@ -27,7 +23,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.Objects;
-import java.util.Optional;
 
 @SuppressWarnings("unchecked")
 public class ModUtil {
@@ -152,25 +147,15 @@ public class ModUtil {
         return direction;
     }
 
-    public static Component getBiomeComponent(Holder<Biome> biome, boolean colored, int defaultColor) {
-        if (biome == null) {
+    public static Component getBiomeComponent(ResourceLocation key, Biome biome, boolean colored, int defaultColor) {
+        if (biome == null && WorldUtils.getWorld() != null) {
             return GuiUtils.colorize(Component.translatable("hud.coordinatesdisplay.biome.unknown"), defaultColor);
         }
-
-        Registry<Biome> registry = WorldUtils.getWorld() != null ? WorldUtils.getWorld().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY) : BuiltinRegistries.BIOME;
-
-        Optional<ResourceKey<Biome>> resource = registry.getResourceKey(biome.value());
-
-        if (resource.isEmpty()) {
-            throw new RuntimeException("Biome key is empty for biome: " + biome);
-        }
-
-        ResourceLocation key = resource.get().location();
 
         return GuiUtils.colorize(
                 Component.translatable("biome." + key.getNamespace() + "." + key.getPath()),
                 colored ?
-                        WorldColors.getBiomeColor(resource.get(), biome):
+                        WorldColors.getBiomeColor(key, biome):
                         defaultColor
         );
     }

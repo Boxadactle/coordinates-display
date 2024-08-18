@@ -25,7 +25,7 @@ public class DeathScreenMixin extends Screen {
     @Inject(at = @At("RETURN"), method = "init")
     private void init(CallbackInfo ci) {
         if (CoordinatesDisplay.CONFIG.get().displayPosOnDeathScreen) {
-            addRenderableWidget(new Button(this.width / 2 - 100, this.height / 4 + 120, 200, 20, Component.translatable("button.coordinatesdisplay.copy"), (button) -> {
+            addRenderableWidget(new Button.Builder(Component.translatable("button.coordinatesdisplay.copy"), (button) -> {
                 button.setMessage(Component.translatable("button.coordinatesdisplay.copied"));
                 button.active = false;
 
@@ -35,7 +35,7 @@ public class DeathScreenMixin extends Screen {
 
                 ClientUtils.getClient().keyboardHandler.setClipboard(x + " " + y + " " + z);
                 CoordinatesDisplay.LOGGER.info("Copied death position to clipboard");
-            }));
+            }).bounds(this.width / 2 - 100, this.height / 4 + 120, 200, 20).build());
         }
     }
 

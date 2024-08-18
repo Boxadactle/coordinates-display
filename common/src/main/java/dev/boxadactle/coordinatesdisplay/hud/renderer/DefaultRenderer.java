@@ -75,7 +75,7 @@ public class DefaultRenderer implements HudRenderer {
         }
 
         if (config().renderBiome || config().renderDimension) {
-            Component biomeString = ModUtil.getBiomeComponent(pos.world.getBiome(), config().biomeColors, config().dataColor);
+            Component biomeString = ModUtil.getBiomeComponent(pos.world.getBiomeKey(), pos.world.getBiome(), config().biomeColors, config().dataColor);
             Component biome = definition("biome", biomeString);
 
             String dimensionstring = pos.world.getDimension(true);

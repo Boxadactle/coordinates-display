@@ -4,11 +4,9 @@ import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.data.BuiltinRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Biomes;
 
 public class PlayerWorldData {
 
@@ -25,8 +23,6 @@ public class PlayerWorldData {
             CoordinatesDisplay.LOGGER.warn("Client world is null! Resorting to default values.");
 
             dimension = new ResourceLocation("minecraft", "overworld");
-
-            biome = BuiltinRegistries.BIOME.getHolderOrThrow(Biomes.PLAINS);
         }
     }
 
@@ -44,12 +40,19 @@ public class PlayerWorldData {
         return formatted ? formatName(dimension.getPath()) : dimension.toString();
     }
 
-    public Holder<Biome> getBiome() {
-        return biome;
+    public Biome getBiome() {
+        if (biome != null) {
+            return biome.value();
+        } else {
+            return null;
+        }
     }
 
     public ResourceLocation getBiomeKey() {
-        Registry<Biome> registry = WorldUtils.getWorld() != null ? WorldUtils.getWorld().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY) : BuiltinRegistries.BIOME;
-        return registry.getKey(biome.value());
+        ResourceLocation def = new ResourceLocation("minecraft", "plains");
+        if (biome == null) {
+            return def;
+        }
+        return biome.unwrap().map(ResourceKey::location, (biome) -> def);
     }
 }
