@@ -1,2 +1,2 @@
 ## Changes
-- Now compiled with the correct java version
+- Correctly launches 1.20.1
