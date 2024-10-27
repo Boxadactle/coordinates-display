@@ -47,7 +47,7 @@ public class DirectionRenderer implements HudRenderer {
         }
 
         public static Direction fromPitch(double pitch) {
-            return pitch > 0 ? POSITIVE_Y : NEGATIVE_Y;
+            return pitch > 0 ? NEGATIVE_Y : POSITIVE_Y;
         }
     }
 

@@ -200,7 +200,7 @@ public class SpawnpointRenderer implements HudRenderer {
         public void render(GuiGraphics guiGraphics, int x, int y) {
             double degrees = calculateRelativeDirection(component.position.getBlockPos(), new Vec3<>(spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ()), component.headRot.wrapYaw());
 
-            guiGraphics.blit(resolveCompassTexture(degrees), x, y, 0, 0, size, size, size, size);
+            RenderUtils.drawTexture(resolveCompassTexture(degrees), guiGraphics, x, y, size, size, 0, 0);
         }
     }
 }

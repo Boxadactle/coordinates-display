@@ -17,7 +17,7 @@ public class CompassRenderer3D extends Renderer3D<CompassRenderer3D> {
     }
 
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource multiBufferSource, double v, double v1, double v2) {
+    public void render(PoseStack poseStack, MultiBufferSource.BufferSource multiBufferSource, double v, double v1, double v2) {
         if (WorldUtils.getCamera() != null && CoordinatesDisplay.getConfig().render3dCompass) {
             float size = 0.15f;
 
