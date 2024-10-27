@@ -8,6 +8,7 @@ import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
+import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
@@ -144,6 +145,11 @@ public class DirectionRenderer implements HudRenderer {
             direction.add(yawText);
             direction.add(pitchText);
         }
+
+        direction.add((definition(
+                "rendering3d",
+                value(config().render3dCompass ? GuiUtils.ON : GuiUtils.OFF)
+        )));
 
         hud.addComponent(direction);
 

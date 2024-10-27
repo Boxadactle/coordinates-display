@@ -97,6 +97,13 @@ public class ConfigScreen extends BOptionScreen {
                 TextScreen::new
         ));
 
+        // 3d compass
+        addConfigLine(new BBooleanButton(
+                "button.coordinatesdisplay.3dcompass",
+                CoordinatesDisplay.getConfig().render3dCompass,
+                (val) -> CoordinatesDisplay.getConfig().render3dCompass = val
+        ));
+
         this.addConfigLine(new BSpacingEntry());
 
         this.addConfigLine(new BCustomButton(Component.translatable("button.coordinatesdisplay.configfile")) {

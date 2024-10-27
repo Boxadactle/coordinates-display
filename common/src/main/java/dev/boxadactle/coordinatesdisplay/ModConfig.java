@@ -48,6 +48,8 @@ public class ModConfig implements BConfig {
     public boolean includeDecimalsWhenCopying = true;
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
 
+    public boolean render3dCompass = false;
+
     public static void checkValidity(ModConfig config) throws NullPointerException {
         Class<?> clazz = config.getClass();
 

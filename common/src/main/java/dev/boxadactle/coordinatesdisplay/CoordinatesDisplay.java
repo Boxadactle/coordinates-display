@@ -3,6 +3,7 @@ package dev.boxadactle.coordinatesdisplay;
 import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
+import dev.boxadactle.boxlib.rendering.RenderQueue;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.coordinatesdisplay.command.CoordinatesCommand;
 import dev.boxadactle.coordinatesdisplay.hud.Hud;
@@ -48,6 +49,9 @@ public class CoordinatesDisplay {
 
 		// initialize HUD
 		HUD = new Hud();
+
+		// register 3d compass renderer
+		RenderQueue.addRenderer(new CompassRenderer3D());
 	}
 
 	public static ModConfig getConfig() {

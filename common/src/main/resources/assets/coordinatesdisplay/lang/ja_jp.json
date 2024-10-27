@@ -6,6 +6,7 @@
   "key.coordinatesdisplay.copypostp": "/tpコマンドとして現在の位置をコピー",
   "key.coordinatesdisplay.changeHudPos": "HUDの位置を変更",
   "key.coordinatesdisplay.cycleDisplayMode": "表示モードを切り替える（戻るにはShiftを押してください）",
+  "key.coordinatesdisplay.toggle3DCompass": "Toggle 3D Compass Rendering",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "北",
@@ -75,6 +76,7 @@
   "hud.coordinatesdisplay.direction.pitch": "Pitch: %s (%s)",
   "hud.coordinatesdisplay.direction.positive": "positive %s",
   "hud.coordinatesdisplay.direction.negative": "negative %s",
+  "hud.coordinatesdisplay.direction.rendering3d": "3D Compass: %s",
 
   "hud.coordinatesdisplay.chunk": "Chunk",
   "hud.coordinatesdisplay.chunk.position": "Position",
@@ -109,6 +111,7 @@
   "button.coordinatesdisplay.colorconfig": "色設定...",
   "button.coordinatesdisplay.deathpos": "死亡位置設定...",
   "button.coordinatesdisplay.text": "テキスト設定...",
+  "button.coordinatesdisplay.3dcompass": "Render 3D Compass: %s",
   "button.coordinatesdisplay.visibility": "Visibility: %s",
   "button.coordinatesdisplay.decimalPlaces": "小数点以下桁数: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "ブロック位置",
@@ -184,5 +187,6 @@
   "command.coordinatesdisplay.config.open.success": "設定ファイルを正常に開きました",
   "command.coordinatesdisplay.config.open.fail": "設定ファイルを開けませんでした",
   "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
-  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s",
+  "command.coordinatesdisplay.toggle3dCompass": "3D Compass rendering: %s"
 }
