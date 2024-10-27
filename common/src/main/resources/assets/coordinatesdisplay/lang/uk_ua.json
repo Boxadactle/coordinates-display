@@ -6,6 +6,7 @@
   "key.coordinatesdisplay.copypostp": "Скопіювати поточні координати як команду /tp",
   "key.coordinatesdisplay.changeHudPos": "Змінити положення інтерфейсу",
   "key.coordinatesdisplay.cycleDisplayMode": "Перемкнути режим відображення (Shift — назад)",
+  "key.coordinatesdisplay.toggle3DCompass": "Toggle 3D Compass Rendering",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "Північ",
@@ -75,6 +76,7 @@
   "hud.coordinatesdisplay.direction.pitch": "Нахил: %s (%s)",
   "hud.coordinatesdisplay.direction.positive": "додатне %s",
   "hud.coordinatesdisplay.direction.negative": "від'ємне %s",
+  "hud.coordinatesdisplay.direction.rendering3d": "3D Compass: %s",
 
   "hud.coordinatesdisplay.chunk": "Chunk",
   "hud.coordinatesdisplay.chunk.position": "Position",
@@ -110,6 +112,7 @@
   "button.coordinatesdisplay.deathpos": "Місце смерті...",
   "button.coordinatesdisplay.text": "Налаштування тексту...",
   "button.coordinatesdisplay.visibility": "Видимість: %s",
+  "button.coordinatesdisplay.3dcompass": "Render 3D Compass: %s",
   "button.coordinatesdisplay.decimalPlaces": "Цифри після коми: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "положення блока",
   "button.coordinatesdisplay.displayMode": "Режим: %s",
@@ -183,5 +186,6 @@
   "command.coordinatesdisplay.config.open.success": "Успішно відкрито файл налаштувань",
   "command.coordinatesdisplay.config.open.fail": "Не вдалося відкрити файл налаштувань",
   "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
-  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s",
+  "command.coordinatesdisplay.toggle3dCompass": "3D Compass rendering: %s"
 }

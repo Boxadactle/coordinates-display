@@ -24,6 +24,8 @@ public class Bindings {
     public static final KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, "category.coordinatesdisplay");
     public static final KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", GLFW.GLFW_KEY_M, "category.coordinatesdisplay");
 
+    public static final KeyMapping toggle3DCompass = new KeyMapping("key.coordinatesdisplay.toggle3DCompass", GLFW.GLFW_KEY_F8, "category.coordinatesdisplay");
+
     public static void toggleHud() {
         CoordinatesDisplay.LOGGER.info("Toggling HUD visibility");
         CoordinatesDisplay.CONFIG.get().enabled = !CoordinatesDisplay.CONFIG.get().enabled;
@@ -61,6 +63,11 @@ public class Bindings {
 
         CoordinatesDisplay.CONFIG.save();
     }
+
+    public static void toggle3DCompass() {
+        CoordinatesDisplay.getConfig().render3dCompass = !CoordinatesDisplay.getConfig().render3dCompass;
+        CoordinatesDisplay.CONFIG.save();
+    }
     
     public static void checkBindings(Position pos) {
         if (hudEnabled.consumeClick()) toggleHud();
@@ -76,6 +83,8 @@ public class Bindings {
         if (changeHudPosition.consumeClick()) openHudPositionGui();
 
         if (cycleDisplayMode.consumeClick()) cycleDisplayMode();
+
+        if (toggle3DCompass.consumeClick()) toggle3DCompass();
     }
     
 }

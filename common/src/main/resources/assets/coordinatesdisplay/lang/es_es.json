@@ -6,6 +6,7 @@
   "key.coordinatesdisplay.copypostp": "Copiar la posición actual como /tp",
   "key.coordinatesdisplay.changeHudPos": "Cambiar la posición del HUD",
   "key.coordinatesdisplay.cycleDisplayMode": "Ciclar el modo renderizado (presionar shift para retroceder)",
+  "key.coordinatesdisplay.toggle3DCompass": "Activar/desactivar el renderizado de la brújula 3D",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "Norte",
@@ -75,6 +76,7 @@
   "hud.coordinatesdisplay.direction.pitch": "Pitch: %s (%s)",
   "hud.coordinatesdisplay.direction.positive": "%s positivo",
   "hud.coordinatesdisplay.direction.negative": "%s negativo",
+  "hud.coordinatesdisplay.direction.rendering3d": "Brújula 3D: %s",
 
   "hud.coordinatesdisplay.chunk": "Pieza",
   "hud.coordinatesdisplay.chunk.position": "Posición",
@@ -109,6 +111,7 @@
   "button.coordinatesdisplay.colorconfig": "Colores...",
   "button.coordinatesdisplay.deathpos": "Posición de muerte...",
   "button.coordinatesdisplay.text": "Ajustes de texto...",
+  "button.coordinatesdisplay.3dcompass": "Renderizar la brújula 3D: %s",
   "button.coordinatesdisplay.visibility": "Visibilidad: %s",
   "button.coordinatesdisplay.decimalPlaces": "Cantidad de decimales: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "posición de bloque",
@@ -184,5 +187,6 @@
   "command.coordinatesdisplay.config.open.success": "Abrió el archivo de configuración con éxito.",
   "command.coordinatesdisplay.config.open.fail": "No se pudo abrir el archivo de configuración.",
   "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
-  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s",
+  "command.coordinatesdisplay.toggle3dCompass": "Brújula 3D: %s"
 }

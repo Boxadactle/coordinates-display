@@ -52,6 +52,7 @@ public class CoordinatesDisplayForge {
             e.register(Bindings.copyPosTp);
             e.register(Bindings.changeHudPosition);
             e.register(Bindings.cycleDisplayMode);
+            e.register(Bindings.toggle3DCompass);
         }
     }
 

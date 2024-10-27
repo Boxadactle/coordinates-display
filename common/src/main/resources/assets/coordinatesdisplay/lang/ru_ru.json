@@ -6,6 +6,7 @@
   "key.coordinatesdisplay.copypostp": "Copy Current Position as /tp command",
   "key.coordinatesdisplay.changeHudPos": "Change HUD Position",
   "key.coordinatesdisplay.cycleDisplayMode": "Cycle Display Mode (hold shift to go back)",
+  "key.coordinatesdisplay.toggle3DCompass": "Toggle 3D Compass Rendering",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "Север",
@@ -75,6 +76,7 @@
   "hud.coordinatesdisplay.direction.pitch": "Pitch: %s (%s)",
   "hud.coordinatesdisplay.direction.positive": "positive %s",
   "hud.coordinatesdisplay.direction.negative": "negative %s",
+  "hud.coordinatesdisplay.direction.rendering3d": "3D Compass: %s",
 
   "hud.coordinatesdisplay.chunk": "Chunk",
   "hud.coordinatesdisplay.chunk.position": "Position",
@@ -109,6 +111,7 @@
   "button.coordinatesdisplay.colorconfig": "Цвета...",
   "button.coordinatesdisplay.deathpos": "Позиция смерти...",
   "button.coordinatesdisplay.text": "Текстовые настройки...",
+  "button.coordinatesdisplay.3dcompass": "Render 3D Compass: %s",
   "button.coordinatesdisplay.visibility": "Visibility: %s",
   "button.coordinatesdisplay.decimalPlaces": "Decimal Places: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "позиция блока",
@@ -184,5 +187,6 @@
   "command.coordinatesdisplay.config.open.success": "Successfully opened config file",
   "command.coordinatesdisplay.config.open.fail": "Could not open config file",
   "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
-  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s"
+  "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s",
+  "command.coordinatesdisplay.toggle3dCompass": "3D Compass rendering: %s"
 }
