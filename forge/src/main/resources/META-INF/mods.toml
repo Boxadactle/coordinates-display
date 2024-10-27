@@ -20,13 +20,13 @@ side="BOTH"
 [[dependencies.coordinatesdisplay]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.21,)"
+versionRange="[1.21.2,)"
 ordering="NONE"
 side="BOTH"
 
 [[dependencies.coordinatesdisplay]]
 modId="boxlib"
 mandatory=true
-versionRange="[14.0.0,15.0.0)"
+versionRange="[15.0.0,16.0.0)"
 ordering="NONE"
 side="CLIENT"

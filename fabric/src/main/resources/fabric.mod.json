@@ -24,9 +24,9 @@
     "coordinatesdisplay.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.15.10",
-    "minecraft": ">=1.21",
-    "boxlib": "14.*",
+    "fabricloader": ">=0.16",
+    "minecraft": ">=1.21.2",
+    "boxlib": "15.*",
     "fabric": "*"
   },
   "recommends": {
