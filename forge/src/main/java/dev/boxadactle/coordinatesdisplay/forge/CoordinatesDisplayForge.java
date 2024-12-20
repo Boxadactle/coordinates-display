@@ -16,7 +16,7 @@ import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 
 @SuppressWarnings("unused")
@@ -28,9 +28,9 @@ public class CoordinatesDisplayForge {
     public CoordinatesDisplayForge() {
         CoordinatesDisplay.init();
 
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
+        ModList.get().getModContainerById(CoordinatesDisplay.MOD_ID).ifPresent(c -> c.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
                 new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen))
-        );
+        ));
     }
 
     @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT)
@@ -45,7 +45,7 @@ public class CoordinatesDisplayForge {
         }
 
         @SubscribeEvent(priority = EventPriority.LOW)
-        public static void renderHud(RenderGuiEvent.Pre event) {
+        public static void renderHud(RenderGuiEvent.Post event) {
             try {
                 if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
                     RenderSystem.enableBlend();
