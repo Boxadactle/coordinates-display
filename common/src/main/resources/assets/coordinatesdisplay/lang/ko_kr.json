@@ -63,7 +63,6 @@
   "hud.coordinatesdisplay.nether_overworld.error": "Not in overworld or nether",
 
   "hud.coordinatesdisplay.hotbar": "핫바",
-  "hud.coordinatesdisplay.hotbar.all": "%s / %s / %s",
 
   "hud.coordinatesdisplay.spawnpoint": "World Spawn (Compass)",
   "hud.coordinatesdisplay.spawnpoint.player": "Player",

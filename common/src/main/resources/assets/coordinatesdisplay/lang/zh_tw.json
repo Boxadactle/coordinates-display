@@ -63,7 +63,6 @@
   "hud.coordinatesdisplay.nether_overworld.error": "不在主世界或地獄中",
 
   "hud.coordinatesdisplay.hotbar": "快捷欄",
-  "hud.coordinatesdisplay.hotbar.all": "%s / %s / %s",
 
   "hud.coordinatesdisplay.spawnpoint": "世界重生點（羅盤）",
   "hud.coordinatesdisplay.spawnpoint.player": "玩家",

@@ -48,36 +48,7 @@ public class CoordinatesDisplayNeoforge {
 
         @SubscribeEvent(priority = EventPriority.LOW)
         public static void renderHud(RenderGuiEvent.Post event) {
-            try {
-                if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
-                    RenderSystem.enableBlend();
-
-                    ModConfig config = CoordinatesDisplay.getConfig();
-
-                    CoordinatesDisplay.HUD.render(
-                            event.getGuiGraphics(),
-                            Hud.RenderType.HUD,
-                            Position.of(WorldUtils.getPlayer()),
-                            config.hudX,
-                            config.hudY,
-                            config.renderMode,
-                            config.startCorner,
-                            config.hudScale
-                    );
-                }
-            } catch (NullPointerException e) {
-                if (deltaError) {
-                    throw new RuntimeException(e);
-                }
-
-                CoordinatesDisplay.LOGGER.error("Unknown error from config file");
-                CoordinatesDisplay.LOGGER.printStackTrace(e);
-
-                CoordinatesDisplay.LOGGER.player.warn(GuiUtils.getTranslatable("message.coordinatesdisplay.configError"));
-                CoordinatesDisplay.CONFIG.resetConfig();
-
-                deltaError = true;
-            }
+           CoordinatesDisplay.renderHud(event.getGuiGraphics());
         }
 
     }

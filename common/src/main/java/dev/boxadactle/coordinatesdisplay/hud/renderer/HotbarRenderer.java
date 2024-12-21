@@ -15,9 +15,14 @@ import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 import oshi.util.tuples.Triplet;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @HudDisplayMode(
         value = "hotbar",
@@ -25,11 +30,8 @@ import oshi.util.tuples.Triplet;
         positionModifier = HotbarRenderer.HotbarPosition.class,
         allowMove = false,
         hasBackground = false,
-        hasXYZ = false,
         hasChunkData = false,
-        hasDirection = false,
         hasDirectionInt = false,
-        hasBiome = false,
         hasMCVersion = false,
         hasDimension = false
 )
@@ -41,24 +43,34 @@ public class HotbarRenderer implements HudRenderer {
             return new ColumnLayout(0, 0, 0);
         }
 
+        List<Component> components = new ArrayList<>();
+
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
-        Component xyz = definition(GlobalTexts.XYZ,
+        if (config().renderXYZ) components.add(definition(GlobalTexts.XYZ,
                 value(player.getA()),
                 value(player.getB()),
                 value(player.getC())
-        );
+        ));
 
-        Component direction = definition(GlobalTexts.FACING, value(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw()))));
+        if (config().renderDirection) components.add(definition(GlobalTexts.FACING, value(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())))));
 
-        ResourceLocation bKey = pos.world.getBiomeKey();
-        Biome b = pos.world.getBiome();
-        Component biome = ModUtil.getBiomeComponent(bKey, b, config().biomeColors, config().dataColor);
+        if (config().renderBiome) {
+            ResourceLocation bKey = pos.world.getBiomeKey();
+            Biome b = pos.world.getBiome();
+            components.add(ModUtil.getBiomeComponent(bKey, b, config().biomeColors, config().dataColor));
+        }
 
-        Component all = translation("all", xyz, direction, biome);
+        MutableComponent all = Component.empty();
+
+        Iterator<Component> it = components.iterator();
+        while (it.hasNext()) {
+            all.append(it.next());
+            if (it.hasNext()) all.append(Component.literal(" / "));
+        }
 
         ColumnLayout hud = new ColumnLayout(x, y, 0);
-        hud.addComponent(new CenteredParagraphComponent(0, all));
+        hud.addComponent(new CenteredParagraphComponent(0, definition(all)));
 
         return hud;
     }

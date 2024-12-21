@@ -22,14 +22,14 @@ side = "BOTH"
 [[dependencies.coordinatesdisplay]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.2,1.22)"
+versionRange = "[1.21.4,1.22)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.coordinatesdisplay]]
 modId = "boxlib"
 type = "required"
-versionRange = "[15.0.0,16.0.0)"
+versionRange = "[16.0.0,17.0.0)"
 ordering = "NONE"
 side = "BOTH"
 
