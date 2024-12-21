@@ -63,7 +63,6 @@
   "hud.coordinatesdisplay.nether_overworld.error": "No estás en el Overworld o Nether",
 
   "hud.coordinatesdisplay.hotbar": "Barra de acceso rápido",
-  "hud.coordinatesdisplay.hotbar.all": "%s / %s / %s",
 
   "hud.coordinatesdisplay.spawnpoint": "Punto de generación del mundo (brújula)",
   "hud.coordinatesdisplay.spawnpoint.player": "Jugador",

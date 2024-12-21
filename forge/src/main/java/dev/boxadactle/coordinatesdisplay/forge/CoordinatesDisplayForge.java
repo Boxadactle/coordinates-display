@@ -8,9 +8,11 @@ import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
+import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 
@@ -23,9 +25,9 @@ public class CoordinatesDisplayForge {
     public CoordinatesDisplayForge() {
         CoordinatesDisplay.init();
 
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
-                new ConfigScreenHandler.ConfigScreenFactory((minecraft, screen) -> new ConfigScreen(screen))
-        );
+        ModList.get().getModContainerById(CoordinatesDisplay.MOD_ID).ifPresent(modContainer -> modContainer.registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class, () ->
+                new ConfigScreenHandler.ConfigScreenFactory(((minecraft, screen) -> new ConfigScreen(screen)))
+        ));
     }
 
     @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT)
@@ -37,6 +39,11 @@ public class CoordinatesDisplayForge {
             if (player != null) {
                 Bindings.checkBindings(Position.of(player));
             }
+        }
+
+        @SubscribeEvent
+        public static void renderHud(CustomizeGuiOverlayEvent.Chat e) {
+            CoordinatesDisplay.renderHud(e.getGuiGraphics());
         }
 
     }

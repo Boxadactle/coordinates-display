@@ -63,7 +63,6 @@
   "hud.coordinatesdisplay.nether_overworld.error": "Зараз не у Незері/Верхньому світі",
 
   "hud.coordinatesdisplay.hotbar": "Панель швидкого доступу",
-  "hud.coordinatesdisplay.hotbar.all": "%s / %s / %s",
 
   "hud.coordinatesdisplay.spawnpoint": "Точка появи у світі (компас)",
   "hud.coordinatesdisplay.spawnpoint.player": "Гравець",

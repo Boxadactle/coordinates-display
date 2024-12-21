@@ -26,7 +26,7 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(this::checkBindings);
 
-        HudRenderCallback.EVENT.register(this::renderHud);
+        HudRenderCallback.EVENT.register((g, d) -> CoordinatesDisplay.renderHud(g));
 
         KeyBindingHelper.registerKeyBinding(Bindings.hudEnabled);
         KeyBindingHelper.registerKeyBinding(Bindings.coordinatesGUIKeybind);
@@ -42,37 +42,6 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
         Player player = WorldUtils.getPlayer();
         if (player != null) {
             Bindings.checkBindings(Position.of(player));
-        }
-    }
-
-    private void renderHud(GuiGraphics guiGraphics, DeltaTracker deltaTracker) {
-        try {
-            if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
-                ModConfig config = CoordinatesDisplay.getConfig();
-
-                CoordinatesDisplay.HUD.render(
-                        guiGraphics,
-                        Hud.RenderType.HUD,
-                        Position.of(WorldUtils.getPlayer()),
-                        config.hudX,
-                        config.hudY,
-                        config.renderMode,
-                        config.startCorner,
-                        config.hudScale
-                );
-            }
-        } catch (NullPointerException e) {
-            if (CoordinatesDisplayFabric.deltaError) {
-                throw new RuntimeException(e);
-            }
-
-            CoordinatesDisplay.LOGGER.error("Unknown error from config file");
-            CoordinatesDisplay.LOGGER.printStackTrace(e);
-
-            CoordinatesDisplay.LOGGER.player.warn(GuiUtils.getTranslatable("message.coordinatesdisplay.configError"));
-            CoordinatesDisplay.CONFIG.resetConfig();
-
-            CoordinatesDisplayFabric.deltaError = true;
         }
     }
 
