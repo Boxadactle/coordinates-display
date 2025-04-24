@@ -1,3 +1,3 @@
 ## Changes
-- Updated to 1.21.4
-- Hotbar mode is now configurable
+- Updated to 1.21.5
+- add day counter to some huds

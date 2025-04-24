@@ -153,7 +153,8 @@ public interface HudRenderer {
         CHUNK_Z("hud.coordinatesdisplay.chunk_z"),
         FACING("hud.corodinatesdisplay.facing"),
         BIOME("hud.coordinatesdisplay.biome"),
-        DIMENSION("hud.coordinatesdisplay.dimension");
+        DIMENSION("hud.coordinatesdisplay.dimension"),
+        DAY("hud.coordinatesdisplay.day");
 
         final String key;
 

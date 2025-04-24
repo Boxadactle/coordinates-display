@@ -19,7 +19,7 @@ import dev.boxadactle.coordinatesdisplay.WorldColors;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
-@HudDisplayMode("default")
+@HudDisplayMode(value = "default")
 public class DefaultRenderer implements HudRenderer {
 
     @Override
@@ -101,6 +101,12 @@ public class DefaultRenderer implements HudRenderer {
             Component mcversion = definition("version", value(ClientUtils.getGameVersion()));
 
             row2.add(mcversion);
+        }
+
+        if (config().renderDay) {
+            Component day = definition(GlobalTexts.DAY, value(Long.toString(pos.world.getDay())));
+
+            row2.add(day);
         }
 
         hud.addComponent(new LayoutContainerComponent(row1));

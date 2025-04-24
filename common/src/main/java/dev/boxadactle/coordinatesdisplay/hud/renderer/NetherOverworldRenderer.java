@@ -27,7 +27,8 @@ import java.util.Objects;
         hasDirectionInt = false,
         hasBiome = false,
         hasMCVersion = false,
-        hasDimension = false
+        hasDimension = false,
+        hasDay = false
 )
 public class NetherOverworldRenderer implements HudRenderer {
 

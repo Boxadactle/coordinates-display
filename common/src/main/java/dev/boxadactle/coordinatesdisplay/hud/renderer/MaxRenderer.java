@@ -1,6 +1,5 @@
 package dev.boxadactle.coordinatesdisplay.hud.renderer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.ParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
@@ -17,7 +16,6 @@ import net.minecraft.network.chat.Component;
 
 @HudDisplayMode("maximum")
 public class MaxRenderer implements HudRenderer {
-
     @Override
     public RenderingLayout renderOverlay(int x, int y, Position pos) {
         NumberFormatter<Double> formatter = genFormatter();
@@ -74,6 +72,12 @@ public class MaxRenderer implements HudRenderer {
             Component dimension = definition(translation("dimension", value(h), value(ModUtil.getNamespace(i))));
 
             component.add(dimension);
+        }
+
+        if (config().renderDay) {
+            Component day = definition(GlobalTexts.DAY, value(Long.toString(pos.world.getDay())));
+
+            component.add(day);
         }
 
         RowLayout r = new RowLayout(0, 0, 0);

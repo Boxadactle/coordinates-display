@@ -16,6 +16,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.InputEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
@@ -28,8 +29,6 @@ public class CoordinatesDisplayNeoforge {
     public static boolean deltaError = false;
 
     public CoordinatesDisplayNeoforge() {
-        CoordinatesDisplay.init();
-
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, () ->
                 (minecraft, screen) -> new ConfigScreen(screen)
         );
@@ -65,6 +64,11 @@ public class CoordinatesDisplayNeoforge {
             e.register(Bindings.changeHudPosition);
             e.register(Bindings.cycleDisplayMode);
             e.register(Bindings.toggle3DCompass);
+        }
+
+        @SubscribeEvent
+        public static void init(FMLClientSetupEvent e) {
+            CoordinatesDisplay.init();
         }
     }
 

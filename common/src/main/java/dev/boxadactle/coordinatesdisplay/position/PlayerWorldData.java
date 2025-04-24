@@ -14,16 +14,36 @@ public class PlayerWorldData {
 
     Holder<Biome> biome;
 
+    long day;
+
+    long time;
+
     public PlayerWorldData(BlockPos player) {
         if (WorldUtils.getWorld() != null) {
             dimension = WorldUtils.getPlayer().level().dimension().location();
 
             biome = WorldUtils.getWorld().getBiome(player);
+
+            day = WorldUtils.getWorld().getDayTime() / 24000L;
+
+            time = WorldUtils.getWorld().getGameTime() % 24000L;
         } else {
             CoordinatesDisplay.LOGGER.warn("Client world is null! Resorting to default values.");
 
             dimension = ResourceLocation.withDefaultNamespace("overworld");
+
+            day = Math.round(Math.random() * 1000);
+
+            time = Math.round(Math.random() * 24000L);
         }
+    }
+
+    public long getDay() {
+        return day;
+    }
+
+    public long getTime() {
+        return time;
     }
 
     private String formatName(String orig) {

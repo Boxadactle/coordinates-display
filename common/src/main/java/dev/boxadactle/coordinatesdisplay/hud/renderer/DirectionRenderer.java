@@ -23,7 +23,8 @@ import oshi.util.tuples.Triplet;
         hasChunkData = false,
         hasBiome = false,
         hasMCVersion = false,
-        hasDimension = false
+        hasDimension = false,
+        hasDay = false
 )
 public class DirectionRenderer implements HudRenderer {
 

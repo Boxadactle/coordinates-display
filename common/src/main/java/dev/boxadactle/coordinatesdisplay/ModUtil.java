@@ -93,9 +93,9 @@ public class ModUtil {
         int z = (int)Math.round(player.getZ());
 
         Component position = Component.translatable("message.coordinatesdisplay.deathlocation", x, y, z, pos.world.getDimension(false)).withStyle((style -> style
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.translatable("message.coordinatesdisplay.teleport")))
+                .withHoverEvent(new HoverEvent.ShowText(Component.translatable("message.coordinatesdisplay.teleport")))
                 .withColor(TextColor.fromRgb(CoordinatesDisplay.CONFIG.get().deathPosColor))
-                .withClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, String.format(command, x, y, z)))
+                .withClickEvent(new ClickEvent.SuggestCommand(String.format(command, x, y, z)))
         ));
 
         return GuiUtils.colorize(Component.translatable("message.coordinatesdisplay.deathpos", position), CoordinatesDisplay.CONFIG.get().definitionColor);
