@@ -37,6 +37,7 @@
   "hud.corodinatesdisplay.facing": "Facing %s",
   "hud.coordinatesdisplay.biome": "Biome: %s",
   "hud.coordinatesdisplay.dimension": "Dimension: %s",
+  "hud.coordinatesdisplay.day": "Day: %s",
 
   "hud.coordinatesdisplay.biome.unknown": "Unknown",
 
@@ -138,6 +139,7 @@
   "button.coordinatesdisplay.directionint": "Direction Int: %s",
   "button.coordinatesdisplay.mcversion": "Minecraft Version: %s",
   "button.coordinatesdisplay.dimension": "Dimension: %s",
+  "button.coordinatesdisplay.day": "Day Counter: %s",
   "button.coordinatesdisplay.displayondeathscreen": "Display on Death Screen: %s",
   "button.coordinatesdisplay.sendinchat": "Send in Chat: %s",
   "button.coordinatesdisplay.roundwhencopying": "Include decimals when copying: %s",

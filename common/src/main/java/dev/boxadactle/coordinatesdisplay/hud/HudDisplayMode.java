@@ -137,4 +137,13 @@ public @interface HudDisplayMode {
      * @return boolean to enable/disable the dimension config button
      */
     boolean hasDimension() default true;
+
+    /**
+     * Whether the hud displays the current day
+     * <p></p>
+     * Specify false to disable the day button from the config screens
+     *
+     * @return boolean to enable/disable the day config button
+     */
+    boolean hasDay() default true;
 }

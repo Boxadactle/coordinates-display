@@ -67,8 +67,6 @@ public class CoordinatesDisplay {
 	public static void renderHud(GuiGraphics graphics) {
 		try {
 			if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
-				RenderSystem.enableBlend();
-
 				ModConfig config = CoordinatesDisplay.getConfig();
 
 				CoordinatesDisplay.HUD.render(

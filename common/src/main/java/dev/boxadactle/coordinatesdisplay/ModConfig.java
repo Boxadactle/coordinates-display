@@ -31,6 +31,9 @@ public class ModConfig implements BConfig {
     public boolean dimensionColors = true;
     public boolean renderMCVersion = true;
     public boolean renderDimension = true;
+    public boolean renderDay = true;
+    public boolean renderTime = true;
+    public boolean extendedDay = true;
 
     public int definitionColor = GuiUtils.GREEN;
     public int dataColor = GuiUtils.WHITE;

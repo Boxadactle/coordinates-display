@@ -61,6 +61,10 @@ public class HotbarRenderer implements HudRenderer {
             components.add(ModUtil.getBiomeComponent(bKey, b, config().biomeColors, config().dataColor));
         }
 
+        if (config().renderDay) {
+            components.add(definition(GlobalTexts.DAY, value(Long.toString(pos.world.getDay()))));
+        }
+
         MutableComponent all = Component.empty();
 
         Iterator<Component> it = components.iterator();

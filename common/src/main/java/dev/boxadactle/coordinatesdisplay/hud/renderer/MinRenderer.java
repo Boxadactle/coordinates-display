@@ -22,7 +22,8 @@ import oshi.util.tuples.Triplet;
         hasChunkData = false,
         hasDirectionInt = false,
         hasMCVersion = false,
-        hasDimension = false
+        hasDimension = false,
+        hasDay = false
 )
 public class MinRenderer implements HudRenderer {
 

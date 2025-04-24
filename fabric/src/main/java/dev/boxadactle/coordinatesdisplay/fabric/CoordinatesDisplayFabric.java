@@ -10,10 +10,13 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 
 public class CoordinatesDisplayFabric implements ClientModInitializer {
@@ -25,8 +28,13 @@ public class CoordinatesDisplayFabric implements ClientModInitializer {
         CoordinatesDisplay.init();
 
         ClientTickEvents.END_CLIENT_TICK.register(this::checkBindings);
-
-        HudRenderCallback.EVENT.register((g, d) -> CoordinatesDisplay.renderHud(g));
+        HudLayerRegistrationCallback.EVENT.register((layeredDrawer) -> {
+            layeredDrawer.addLayer(IdentifiedLayer.of(ResourceLocation.fromNamespaceAndPath(CoordinatesDisplay.MOD_ID, "hud"), (g, d) -> {
+                if (CoordinatesDisplay.shouldHudRender) {
+                    CoordinatesDisplay.renderHud(g);
+                }
+            }));
+        });
 
         KeyBindingHelper.registerKeyBinding(Bindings.hudEnabled);
         KeyBindingHelper.registerKeyBinding(Bindings.coordinatesGUIKeybind);

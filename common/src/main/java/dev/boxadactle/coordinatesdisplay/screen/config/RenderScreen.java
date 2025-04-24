@@ -110,6 +110,14 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
                 metadata.hasMCVersion()
         ));
 
+        // day counter
+        addConfigLine(new HudOption(
+                "button.coordinatesdisplay.day",
+                config().renderDay,
+                newVal -> config().renderDay = newVal,
+                metadata.hasDay()
+        ));
+
         this.addConfigLine(new BSpacingEntry());
 
         // hud rendering
