@@ -1,8 +1,8 @@
 package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
-import dev.boxadactle.coordinatesdisplay.hud.HudPositionModifier;
-import dev.boxadactle.coordinatesdisplay.hud.modifier.*;
+import dev.boxadactle.coordinatesdisplay.HudPositionModifier;
+import dev.boxadactle.coordinatesdisplay.modifier.*;
 
 public enum StartCorner {
     TOP_LEFT(TopLeftModifier.class),

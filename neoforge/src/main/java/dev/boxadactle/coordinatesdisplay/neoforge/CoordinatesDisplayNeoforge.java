@@ -1,14 +1,10 @@
 package dev.boxadactle.coordinatesdisplay.neoforge;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModConfig;
-import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.EventPriority;
@@ -54,18 +50,6 @@ public class CoordinatesDisplayNeoforge {
 
     @EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
     public static class ClientModEvents {
-        @SubscribeEvent
-        public static void registerKeys(RegisterKeyMappingsEvent e) {
-            e.register(Bindings.hudEnabled);
-            e.register(Bindings.coordinatesGUIKeybind);
-            e.register(Bindings.copyLocation);
-            e.register(Bindings.sendLocation);
-            e.register(Bindings.copyPosTp);
-            e.register(Bindings.changeHudPosition);
-            e.register(Bindings.cycleDisplayMode);
-            e.register(Bindings.toggle3DCompass);
-        }
-
         @SubscribeEvent
         public static void init(FMLClientSetupEvent e) {
             CoordinatesDisplay.init();

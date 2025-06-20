@@ -145,6 +145,10 @@
   "button.coordinatesdisplay.tpmode.execute": "/execute",
   "button.coordinatesdisplay.tpmode.tp": "/tp",
   "button.coordinatesdisplay.tpmode.baritone": "Baritone (#goto)",
+  "button.coordinatesdisplay.definitionColor": "Цвет определений: %s",
+  "button.coordinatesdisplay.dataColor": "Цвет значений: %s",
+  "button.coordinatesdisplay.deathposColor": "Цвет смертной позиции: %s",
+  "button.coordinatesdisplay.backgroundColor": "Цвет фона: %s",
 
   "button.coordinatesdisplay.help": "Как использовать...",
   "button.coordinatesdisplay.wiki": "Открыть Wiki...",
@@ -154,10 +158,6 @@
   "button.coordinatesdisplay.resetdefault": "Сделать по умолчанию...",
 
   "label.coordinatesdisplay.preview": "Preview",
-  "label.coordinatesdisplay.definitionColor": "Цвет определений",
-  "label.coordinatesdisplay.dataColor": "Цвет значений",
-  "label.coordinatesdisplay.deathposColor": "Цвет смертной позиции",
-  "label.coordinatesdisplay.backgroundColor": "Цвет фона (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "Сообщение координат в чате",
   "label.coordinatesdisplay.copyPosMessage": "Скопировать сообщение о местоположении",
 

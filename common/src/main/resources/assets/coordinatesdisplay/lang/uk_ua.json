@@ -145,6 +145,10 @@
   "button.coordinatesdisplay.tpmode.execute": "/execute",
   "button.coordinatesdisplay.tpmode.tp": "/tp",
   "button.coordinatesdisplay.tpmode.baritone": "Baritone (#goto)",
+  "button.coordinatesdisplay.definitionColor": "Колір параметра: %s",
+  "button.coordinatesdisplay.dataColor": "Колір значення: %s",
+  "button.coordinatesdisplay.deathposColor": "Колір місця смерті: %s",
+  "button.coordinatesdisplay.backgroundColor": "Колір тла: %s",
 
   "button.coordinatesdisplay.help": "Як використовувати...",
   "button.coordinatesdisplay.wiki": "Відкрити вікі...",
@@ -154,10 +158,6 @@
   "button.coordinatesdisplay.resetdefault": "Скинути до усталеного...",
 
   "label.coordinatesdisplay.preview": "Попередній перегляд",
-  "label.coordinatesdisplay.definitionColor": "Колір параметра",
-  "label.coordinatesdisplay.dataColor": "Колір значення",
-  "label.coordinatesdisplay.deathposColor": "Колір місця смерті",
-  "label.coordinatesdisplay.backgroundColor": "Колір тла (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "Текст, що надсилається в чат",
   "label.coordinatesdisplay.copyPosMessage": "Текст, що копіюється",
 

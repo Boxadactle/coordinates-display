@@ -9,7 +9,7 @@ import dev.boxadactle.boxlib.command.api.subcommand.IntegerSubcommand;
 import dev.boxadactle.boxlib.scheduling.Scheduling;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.screen.config.PositionScreen;
+import dev.boxadactle.coordinatesdisplay.gui.PositionScreen;
 import net.minecraft.client.resources.language.I18n;
 
 public class MoveHudSubcommand {

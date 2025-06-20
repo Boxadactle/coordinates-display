@@ -2,9 +2,9 @@ package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.coordinatesdisplay.hud.HudVisibility;
-import dev.boxadactle.coordinatesdisplay.hud.HudVisibilityFilter;
-import dev.boxadactle.coordinatesdisplay.hud.visibility.*;
+import dev.boxadactle.coordinatesdisplay.HudVisibility;
+import dev.boxadactle.coordinatesdisplay.HudVisibilityFilter;
+import dev.boxadactle.coordinatesdisplay.visibility.*;
 import net.minecraft.network.chat.Component;
 
 public enum VisibilityFilter {
