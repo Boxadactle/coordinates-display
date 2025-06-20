@@ -2,9 +2,9 @@ package dev.boxadactle.coordinatesdisplay.registry;
 
 import dev.boxadactle.boxlib.core.BoxLib;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.coordinatesdisplay.hud.HudDisplayMode;
-import dev.boxadactle.coordinatesdisplay.hud.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.hud.renderer.*;
+import dev.boxadactle.coordinatesdisplay.HudDisplayMode;
+import dev.boxadactle.coordinatesdisplay.HudRenderer;
+import dev.boxadactle.coordinatesdisplay.renderer.*;
 import net.minecraft.network.chat.Component;
 
 public enum DisplayMode {
@@ -32,7 +32,7 @@ public enum DisplayMode {
         }
     }
 
-    public dev.boxadactle.coordinatesdisplay.hud.HudRenderer getRenderer() {
+    public HudRenderer getRenderer() {
         return renderer;
     }
 

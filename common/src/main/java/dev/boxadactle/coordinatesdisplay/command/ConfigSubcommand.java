@@ -9,7 +9,7 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 
 public class ConfigSubcommand {
     public static BSubcommand create() {

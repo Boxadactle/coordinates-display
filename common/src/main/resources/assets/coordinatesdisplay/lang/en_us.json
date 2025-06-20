@@ -147,6 +147,10 @@
   "button.coordinatesdisplay.tpmode.execute": "/execute",
   "button.coordinatesdisplay.tpmode.tp": "/tp",
   "button.coordinatesdisplay.tpmode.baritone": "Baritone (#goto)",
+  "button.coordinatesdisplay.definitionColor": "Definition Color: %s",
+  "button.coordinatesdisplay.dataColor": "Data Color: %s",
+  "button.coordinatesdisplay.deathposColor": "Death Position Color: %s",
+  "button.coordinatesdisplay.backgroundColor": "Background Color: %s",
 
   "button.coordinatesdisplay.help": "How to use...",
   "button.coordinatesdisplay.wiki": "Open Wiki...",
@@ -156,10 +160,6 @@
   "button.coordinatesdisplay.resetdefault": "Reset to Default...",
 
   "label.coordinatesdisplay.preview": "Preview",
-  "label.coordinatesdisplay.definitionColor": "Definition Color",
-  "label.coordinatesdisplay.dataColor": "Data Color",
-  "label.coordinatesdisplay.deathposColor": "Death Position Color",
-  "label.coordinatesdisplay.backgroundColor": "Background Color (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "Coordinates Chat Message",
   "label.coordinatesdisplay.copyPosMessage": "Copy Position Message",
 

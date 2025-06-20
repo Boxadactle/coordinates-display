@@ -1,6 +1,5 @@
 package dev.boxadactle.coordinatesdisplay;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
@@ -9,7 +8,6 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.command.CoordinatesCommand;
-import dev.boxadactle.coordinatesdisplay.hud.Hud;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -47,6 +45,8 @@ public class CoordinatesDisplay {
 
 		// register commands
 		BCommandManager.register(CoordinatesCommand.createCommand());
+
+		Bindings.init();
 	}
 
 	public static void init() {

@@ -4,16 +4,15 @@ import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import dev.boxadactle.coordinatesdisplay.screen.ConfigScreen;
+import dev.boxadactle.coordinatesdisplay.gui.ConfigScreen;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 
 @SuppressWarnings("unused")
@@ -46,21 +45,6 @@ public class CoordinatesDisplayForge {
             CoordinatesDisplay.renderHud(e.getGuiGraphics());
         }
 
-    }
-
-    @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void registerKeys(RegisterKeyMappingsEvent e) {
-            e.register(Bindings.hudEnabled);
-            e.register(Bindings.coordinatesGUIKeybind);
-            e.register(Bindings.copyLocation);
-            e.register(Bindings.sendLocation);
-            e.register(Bindings.copyPosTp);
-            e.register(Bindings.changeHudPosition);
-            e.register(Bindings.cycleDisplayMode);
-            e.register(Bindings.toggle3DCompass);
-        }
     }
 
 }

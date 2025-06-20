@@ -11,10 +11,8 @@ import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.Bindings;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import dev.boxadactle.coordinatesdisplay.screen.CoordinatesScreen;
-import dev.boxadactle.coordinatesdisplay.screen.config.PositionScreen;
+import dev.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.Component;
 
 public class CoordinatesCommand {
 

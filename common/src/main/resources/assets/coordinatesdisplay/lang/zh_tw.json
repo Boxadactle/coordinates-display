@@ -145,6 +145,10 @@
   "button.coordinatesdisplay.tpmode.execute": "/execute",
   "button.coordinatesdisplay.tpmode.tp": "/tp",
   "button.coordinatesdisplay.tpmode.baritone": "Baritone (#goto)",
+  "button.coordinatesdisplay.definitionColor": "定義顏色: %s",
+  "button.coordinatesdisplay.dataColor": "資料顏色: %s",
+  "button.coordinatesdisplay.deathposColor": "死亡位置顏色: %s",
+  "button.coordinatesdisplay.backgroundColor": "背景顏色: %s",
 
   "button.coordinatesdisplay.help": "如何使用…",
   "button.coordinatesdisplay.wiki": "開啟 Wiki…",
@@ -154,10 +158,6 @@
   "button.coordinatesdisplay.resetdefault": "重設為預設值…",
 
   "label.coordinatesdisplay.preview": "預覽",
-  "label.coordinatesdisplay.definitionColor": "定義顏色",
-  "label.coordinatesdisplay.dataColor": "資料顏色",
-  "label.coordinatesdisplay.deathposColor": "死亡位置顏色",
-  "label.coordinatesdisplay.backgroundColor": "背景顏色 (ARGB)",
   "label.coordinatesdisplay.posChatMessage": "座標聊天訊息",
   "label.coordinatesdisplay.copyPosMessage": "複製位置訊息",
 
