@@ -45,8 +45,6 @@ public class CoordinatesDisplay {
 
 		// register commands
 		BCommandManager.register(CoordinatesCommand.createCommand());
-
-		Bindings.init();
 	}
 
 	public static void init() {
