@@ -47,4 +47,19 @@ public class CoordinatesDisplayForge {
 
     }
 
+    @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+    public static class ClientModEvents {
+        @SubscribeEvent
+        public static void registerKeys(RegisterKeyMappingsEvent e) {
+            e.register(Bindings.hudEnabled);
+            e.register(Bindings.coordinatesGUIKeybind);
+            e.register(Bindings.copyLocation);
+            e.register(Bindings.sendLocation);
+            e.register(Bindings.copyPosTp);
+            e.register(Bindings.changeHudPosition);
+            e.register(Bindings.cycleDisplayMode);
+            e.register(Bindings.toggle3DCompass);
+        }
+    }
+
 }
