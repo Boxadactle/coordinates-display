@@ -103,12 +103,12 @@ publishMods {
 
 githubRelease {
     owner = "Boxadactle"
-    repo = "BoxLib"
+    repo = "coordinates-display"
     tagName = "$project.version"
     targetCommitish = "dev"
-    releaseName = "BoxLib $project.version"
+    releaseName = "${mod_name} $project.version"
     generateReleaseNotes = true
-    body = """BoxLib $project.version for Minecraft $project.minecraft_version
+    body = """${mod_name} $project.version for Minecraft $minecraft_version
 
 ${new File(rootProject.rootDir, project.changelog_file).text}
 """
