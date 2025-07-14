@@ -1,12 +1,13 @@
 package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.datafixers.util.Pair;
-import dev.architectury.injectables.annotations.ExpectPlatform;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
+import dev.boxadactle.coordinatesdisplay.marking.MarkPoint;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.util.ClientUtils;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
@@ -101,9 +102,25 @@ public class ModUtil {
         return GuiUtils.colorize(Component.translatable("message.coordinatesdisplay.deathpos", position), CoordinatesDisplay.CONFIG.get().definitionColor);
     }
 
-    @ExpectPlatform
+    public static Component makeMarkComponent(Vec3<Integer> mark, String playername) {
+        String command = MarkPoint.createCommand(mark);
+
+        Component select = Component.translatable("message.coordinatesdisplay.mark.select").withStyle(s -> s
+                .withColor(ChatFormatting.GOLD)
+                .withHoverEvent(new HoverEvent.ShowText(Component.translatable("message.coordinatesdisplay.mark.select.message")))
+                .withClickEvent(new ClickEvent.RunCommand(command))
+        );
+
+        return GuiUtils.colorize(Component.translatable("message.coordinatesdisplay.mark.shared", playername, select), GuiUtils.AQUA);
+    }
+
     public static String getBlockName(Block block) {
-        throw new AssertionError("Expected platform-specific block name function.");
+        try {
+            Class<?> modUtilImplClass = Class.forName("dev.boxadactle.coordinatesdisplay.ModUtilImpl");
+            return (String) modUtilImplClass.getMethod("getBlockName", Block.class).invoke(null, block);
+        } catch (ReflectiveOperationException e) {
+            return "unknown_block";
+        }
     }
 
 
@@ -176,6 +193,14 @@ public class ModUtil {
         double distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
         return (float) distance;
+    }
+
+    public static float calculatePointDistance3d(Vec3<Double> point1, Vec3<Double> point2) {
+        double deltaX = point2.getX() - point1.getX();
+        double deltaY = point2.getY() - point1.getY();
+        double deltaZ = point2.getZ() - point1.getZ();
+
+        return (float)Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
     }
 
     public static <T> boolean or(T val, T ...compare) {

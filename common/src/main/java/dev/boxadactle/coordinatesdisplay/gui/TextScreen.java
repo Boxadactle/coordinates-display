@@ -42,6 +42,13 @@ public class TextScreen extends BOptionScreen implements HudHelper {
                 newVal -> config().copyPosMessage = newVal
         ));
 
+        // mark pos message
+        addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.markPosMessage")));
+        this.addConfigLine(new BStringField(
+                config().markPosText,
+                newVal -> config().markPosText = newVal
+        ));
+
         // round when copying
         this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.roundwhencopying",

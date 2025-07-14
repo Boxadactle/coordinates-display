@@ -26,7 +26,8 @@ public class CoordinatesCommand {
                 .registerSubcommand(ModeSubcommand.create())
                 .registerSubcommand(VisibilitySubcommand.create())
                 .registerSubcommand(PositionSubcommand.create())
-                .registerSubcommand(TeleportModeSubcommand.create());
+                .registerSubcommand(TeleportModeSubcommand.create())
+                .registerSubcommand(MarkSubcommand.create());
     }
 
     static int openCoordinatesScreen(CommandContext<BCommandSourceStack> ignored) {

@@ -1,4 +1,4 @@
-package dev.boxadactle.coordinatesdisplay.neoforge;
+package dev.boxadactle.coordinatesdisplay;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;

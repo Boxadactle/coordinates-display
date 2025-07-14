@@ -3,7 +3,7 @@
 
 ## Introduction
 
-![default hud](https://cdn.modrinth.com/data/3mW8PdUo/images/454efa0cfb25ef8d336fbece8fa8ef1b6f5bbc34.png)
+![default hud](https://boxadactle.dev/img/coordinates-display/coordinates_hud.png)
 
 Coordinates Display enhances the client-side experience by incorporating a heads-up display (HUD) that provides detailed information. It includes your precise coordinates within the game world, your current chunk coordinates, the specific direction you are facing, real-time updates on the biome you are currently traversing, and even displays the version of Minecraft you are playing.
 
@@ -27,25 +27,45 @@ This mod requires [BoxLib](https://modrinth.com/mod/boxlib) a Client-side librar
 ## Key Features
 
 ### 1. Multiple ways to render your coordinates
-![min mode](https://cdn.modrinth.com/data/3mW8PdUo/images/6644c607c631be6ff8a39e4c8f996ccec401281f.png)
+![min mode](https://boxadactle.dev/img/coordinates-display/minimum_hud.png) ![compass mode](https://boxadactle.dev/img/coordinates-display/compass_hud.png) ![hotbar mode](https://boxadactle.dev/img/coordinates-display/hotbar_hud.png)
+
 Coordinates Display provides a wide array of diverse "display modes" for you to select from, each tailored to suit various preferences and needs.
 
-### 2. Highly Customizable
-![config screen](https://cdn.modrinth.com/data/3mW8PdUo/images/eaf9a1d53b5578470cc73e0df47c647d666a3ac2.png)Coordinates Display features an intuitive configuration screen designed for effortless customization, ensuring users can easily adjust settings to tailor their experience according to individual preferences.
+### 2. Highly Configurable
+![config screen](https://boxadactle.dev/img/coordinates-display/configuration/gui.png)
 
-### 3. Easy-to-use Display Position Screen
-![hud position screen](https://cdn.modrinth.com/data/3mW8PdUo/images/22cc0bd745bee10361f29f42ee4243ade523f807.png)
+Coordinates Display features an intuitive configuration screen designed for effortless customization, ensuring users can easily adjust settings to tailor their experience according to individual preferences.
+
+### 3. Easy-to-use Positioning
+![hud position screen](https://boxadactle.dev/img/coordinates-display/configuration/visual/change_position.gif)
+
 Coordinates Display provides users with a user-friendly HUD position screen, allowing for seamless scaling and adjustment of the coordinates HUD to any desired position across the in-game HUD.
 
 ### 4. Configurable Color
-![colorized](https://cdn.modrinth.com/data/3mW8PdUo/images/7e915c08330f593a55b498d982273de2018dc880.png)
+![colorized](https://boxadactle.dev/img/coordinates-display/configuration/custom5.png)
+
 Coordinates Display offers a straightforward way to colorize your HUD by allowing you to effortlessly customize the colors of the displayed text.
 
 ### 5. Death Position Saving
-![death position on death screen](https://cdn.modrinth.com/data/3mW8PdUo/images/bec6402011db17f10f95179caa72489857c8db29.png)Coordinates Display conveniently showcases your death position directly on the death screen and automatically logs it in the chat upon respawn, ensuring you can easily return to your items.
+![death position on death screen](https://boxadactle.dev/img/coordinates-display/configuration/death_pos/deathscreen.png)
+![death position on chat](https://boxadactle.dev/img/coordinates-display/configuration/death_pos/chat.png)
+
+Coordinates Display conveniently showcases your death position directly on the death screen and automatically logs it in the chat upon respawn, ensuring you can easily return to your items.
 
 ### 6. Essential Keybindings
-![keybinds](https://cdn.modrinth.com/data/3mW8PdUo/images/488912ab10736b9d787c25d9e665be61bbb9bb06.png)Coordinates Display provides a comprehensive selection of customizable keybindings, designed to better configuration processes and enhance user convenience.
+![keybinds](https://boxadactle.dev/img/coordinates-display/keybinds/keybinds.png)
+
+Coordinates Display provides a comprehensive selection of customizable keybindings, designed to better configuration processes and enhance user convenience.
+
+### 7. Position Marking
+![mark gui](https://boxadactle.dev/img/coordinates-display/markgui.png)
+![mark position](https://boxadactle.dev/img/coordinates-display/mark_position.png)
+
+Coordinates Display includes a position marking feature that allows you to easily mark and save specific coordinates, enabling quick navigation back to those locations at any time.
+
+![mark sharing gif](https://boxadactle.dev/img/coordinates-display/mark_sharing.gif)
+
+Furthermore, you can share these marked positions with other players, facilitating collaborative exploration and coordination within the game.
 
 ## Contributing
 

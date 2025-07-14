@@ -1,95 +1,64 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
-    id "me.shedaniel.unified-publishing"
+    id 'multiloader-loader'
+    id 'fabric-loom'
 }
-
-architectury {
-    platformSetupLoomIde()
-    fabric()
-}
-
-configurations {
-    common {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentFabric.extendsFrom common
-
-    // Files in this configuration will be bundled into your mod using the Shadow plugin.
-    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
-    shadowBundle {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-}
-
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
+    minecraft "com.mojang:minecraft:${minecraft_version}"
+    mappings loom.layered {
+        officialMojangMappings()
+        parchment("org.parchmentmc.data:parchment-${parchment_minecraft}:${parchment_version}@zip")
+    }
+    modImplementation "net.fabricmc:fabric-loader:${fabric_loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${fabric_version}"
 
-    // Fabric API. This is technically optional, but you probably want it anyway.
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$rootProject.fabric_api_version"
-
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
-
-    modImplementation("dev.boxadactle:Boxlib-fabric:${rootProject.boxlib_version}") { transitive = false }
+    modImplementation ("dev.boxadactle:Boxlib-fabric:${boxlib_version}") { transitive = false }
 
     modImplementation("com.terraformersmc:modmenu:${rootProject.modmenu_version}") {
         transitive = false
     }
 }
 
-processResources {
-    inputs.property 'version', project.version
-
-    filesMatching('fabric.mod.json') {
-        expand version: project.version
+loom {
+    def aw = project(':common').file("src/main/resources/${mod_id}.accesswidener")
+    if (aw.exists()) {
+        accessWidenerPath.set(aw)
+    }
+    mixin {
+        defaultRefmapName.set("${mod_id}.refmap.json")
+    }
+    runs {
+        client {
+            client()
+            setConfigName('Fabric Client')
+            ideConfigGenerated(true)
+            runDir('runs/client')
+        }
+        server {
+            server()
+            setConfigName('Fabric Server')
+            ideConfigGenerated(true)
+            runDir('runs/server')
+        }
     }
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
-}
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
 
-remapJar {
-    input.set shadowJar.archiveFile
-}
+// someone pls make this work like its suppposed to
+tasks.named('processResources') {
+    doLast {
+        def jsonFile = file("$buildDir/resources/main/coordinatesdisplay.mixins.json")
 
-unifiedPublishing {
-    project {
-        displayName = "[Fabric ${rootProject.minecraft_version}] v$rootProject.mod_version"
-        version = "$rootProject.version-fabric"
-        changelog = new File(rootProject.rootDir, rootProject.changelog_file).text
-        releaseType = rootProject.release_type
-        gameVersions = Arrays.asList(rootProject.game_versions.split(","))
-        gameLoaders = [ "fabric", "quilt" ]
-        relations {
-            it.depends {
-                it.curseforge = "boxlib"
-                it.modrinth = "boxlib"
-            }
-        }
+        if (jsonFile.exists()) {
+            def jsonSlurper = new JsonSlurper()
+            def data = jsonSlurper.parse(jsonFile)
 
-        mainPublication tasks.remapJar
+            data["refmap"] = "${mod_id}.refmap.json"
 
-        var cfToken = System.getenv("CURSEFORGE_TOKEN")
-        if (cfToken != null) {
-            curseforge {
-                token = cfToken
-                id = rootProject.project_id_curseforge
-            }
-        }
-
-        var modrinthToken = System.getenv("MODRINTH_TOKEN")
-        if (modrinthToken != null) {
-            modrinth {
-                token = modrinthToken
-                id = "3mW8PdUo"
-                version = "${rootProject.mod_version}-${project.name}"
-            }
+            jsonFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(data))
+        } else {
+            println "mixin config not found at ${jsonFile}"
         }
     }
 }

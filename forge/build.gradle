@@ -1,88 +1,93 @@
 plugins {
-    id 'com.github.johnrengelman.shadow'
-    id "me.shedaniel.unified-publishing"
+    id 'multiloader-loader'
+    id 'net.minecraftforge.gradle' version '[6.0.24,6.2)'
+    id 'org.spongepowered.mixin' version '0.7-SNAPSHOT'
 }
 
-architectury {
-    platformSetupLoomIde()
-    forge {}
+mixin {
+    config("coordinatesdisplay.mixins.json")
 }
-
-loom {
-    forge {
-        mixinConfig "coordinatesdisplay.mixins.json"
+jar {
+    manifest {
+        attributes["MixinConfigs"] = "coordinatesdisplay.mixins.json"
     }
 }
 
-configurations {
-    common {
-        canBeResolved = true
-        canBeConsumed = false
-    }
-    compileClasspath.extendsFrom common
-    runtimeClasspath.extendsFrom common
-    developmentForge.extendsFrom common
+minecraft {
+    mappings channel: 'official', version: minecraft_version
 
-    // Files in this configuration will be bundled into your mod using the Shadow plugin.
-    // Don't use the `shadow` configuration from the plugin itself as it's meant for excluding files.
-    shadowBundle {
-        canBeResolved = true
-        canBeConsumed = false
+    copyIdeResources = true //Calls processResources when in dev
+
+    reobf = false // Forge 1.20.6+ uses official mappings at runtime, so we shouldn't reobf from official to SRG
+
+    // Automatically enable forge AccessTransformers if the file exists
+    // This location is hardcoded in Forge and can not be changed.
+    // https://github.com/MinecraftForge/MinecraftForge/blob/be1698bb1554f9c8fa2f58e32b9ab70bc4385e60/fmlloader/src/main/java/net/minecraftforge/fml/loading/moddiscovery/ModFile.java#L123
+    // Forge still uses SRG names during compile time, so we cannot use the common AT's
+    def at = file('src/main/resources/META-INF/accesstransformer.cfg')
+    if (at.exists()) {
+        accessTransformer = at
+    }
+
+    runs {
+        client {
+            workingDirectory file('runs/client')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Client'
+            mods {
+                modClientRun {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory file('runs/server')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            taskName 'Server'
+            mods {
+                modServerRun {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory file('runs/data')
+            ideaModule "${rootProject.name}.${project.name}.main"
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            taskName 'Data'
+            mods {
+                modDataRun {
+                    source sourceSets.main
+                }
+            }
+        }
     }
 }
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
 
 dependencies {
-    forge "net.minecraftforge:forge:${rootProject.minecraft_version}-${rootProject.forge_version}"
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT:processor")
 
-    common(project(path: ':common', configuration: 'namedElements')) { transitive false }
-    shadowBundle project(path: ':common', configuration: 'transformProductionForge')
+    // Forge's hack fix
+    implementation('net.sf.jopt-simple:jopt-simple:5.0.4') { version { strictly '5.0.4' } }
 
-    modImplementation("dev.boxadactle:Boxlib-forge:${rootProject.boxlib_version}") { transitive = true }
+    implementation "dev.boxadactle:Boxlib-forge:${boxlib_version}"
 }
 
-processResources {
-    inputs.property 'version', project.version
-
-    filesMatching('META-INF/mods.toml') {
-        expand version: project.version
-    }
-}
-
-shadowJar {
-    configurations = [project.configurations.shadowBundle]
-    archiveClassifier = 'dev-shadow'
-}
-
-remapJar {
-    input.set shadowJar.archiveFile
-}
-
-unifiedPublishing {
-    project {
-        displayName = "[Forge ${rootProject.minecraft_version}] v$rootProject.mod_version"
-        version = "$rootProject.version-forge"
-        changelog = new File(rootProject.rootDir, rootProject.changelog_file).text
-        releaseType = rootProject.release_type
-        gameVersions = Arrays.asList(rootProject.game_versions.split(","))
-        gameLoaders = [ "forge" ]
-
-        mainPublication tasks.remapJar
-
-        var cfToken = System.getenv("CURSEFORGE_TOKEN")
-        if (cfToken != null) {
-            curseforge {
-                token = cfToken
-                id = rootProject.project_id_curseforge
-            }
-        }
-
-        var modrinthToken = System.getenv("MODRINTH_TOKEN")
-        if (modrinthToken != null) {
-            modrinth {
-                token = modrinthToken
-                id = rootProject.project_id_modrinth
-                version = "${rootProject.mod_version}-${project.name}"
-            }
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            fg.component(it)
         }
     }
+}
+
+sourceSets.each {
+    def dir = layout.buildDirectory.dir("sourcesSets/$it.name")
+    it.output.resourcesDir = dir
+    it.java.destinationDirectory = dir
 }

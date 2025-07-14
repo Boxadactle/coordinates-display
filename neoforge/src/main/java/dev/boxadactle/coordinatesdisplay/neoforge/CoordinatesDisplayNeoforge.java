@@ -34,6 +34,11 @@ public class CoordinatesDisplayNeoforge {
     public static class ClientNeoforgeEvents {
 
         @SubscribeEvent
+        public static void init(FMLClientSetupEvent e) {
+            CoordinatesDisplay.init();
+        }
+
+        @SubscribeEvent
         public static void keyInput(InputEvent.Key e) {
             Player player = WorldUtils.getPlayer();
             if (player != null) {
@@ -46,14 +51,11 @@ public class CoordinatesDisplayNeoforge {
            CoordinatesDisplay.renderHud(event.getGuiGraphics());
         }
 
-    }
-
-    @EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents {
         @SubscribeEvent
         public static void registerKeys(RegisterKeyMappingsEvent e) {
             e.register(Bindings.hudEnabled);
             e.register(Bindings.coordinatesGUIKeybind);
+            e.register(Bindings.markGuiKeybind);
             e.register(Bindings.copyLocation);
             e.register(Bindings.sendLocation);
             e.register(Bindings.copyPosTp);
@@ -62,10 +64,6 @@ public class CoordinatesDisplayNeoforge {
             e.register(Bindings.toggle3DCompass);
         }
 
-        @SubscribeEvent
-        public static void init(FMLClientSetupEvent e) {
-            CoordinatesDisplay.init();
-        }
     }
 
 }

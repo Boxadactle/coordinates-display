@@ -48,6 +48,7 @@ public class ModConfig implements BConfig {
 
     public String posChatMessage = "{x} {y} {z}";
     public String copyPosMessage = "{x}, {y}, {z}";
+    public String markPosText = "Pos";
     public boolean includeDecimalsWhenCopying = true;
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
 

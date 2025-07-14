@@ -7,6 +7,7 @@
   "key.coordinatesdisplay.changeHudPos": "Change HUD Position",
   "key.coordinatesdisplay.cycleDisplayMode": "Cycle Display Mode (hold shift to go back)",
   "key.coordinatesdisplay.toggle3DCompass": "Toggle 3D Compass Rendering",
+  "key.coordinatesdisplay.markpos": "Mark a Position",
   "category.coordinatesdisplay": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "North",
@@ -104,6 +105,7 @@
   "screen.coordinatesdisplay.text": "Text Config for %s",
   "screen.coordinatesdispaly.hudposition": "Modifying HUD Position",
   "screen.coordinatesdisplay.startcorner": "Changing Start Corner",
+  "screen.coordinatesdisplay.mark": "Mark Position",
 
   "button.coordinatesdisplay.enabled": "Enabled: %s",
   "button.coordinatesdisplay.visualconfig": "Visual Settings...",
@@ -151,6 +153,9 @@
   "button.coordinatesdisplay.dataColor": "Data Color: %s",
   "button.coordinatesdisplay.deathposColor": "Death Position Color: %s",
   "button.coordinatesdisplay.backgroundColor": "Background Color: %s",
+  "button.coordinatesdisplay.mark": "Mark This Position",
+  "button.coordinatesdisplay.clearMarked": "Clear Marked Position",
+  "button.coordinatesdisplay.shareMark": "Share Marked Position",
 
   "button.coordinatesdisplay.help": "How to use...",
   "button.coordinatesdisplay.wiki": "Open Wiki...",
@@ -162,6 +167,8 @@
   "label.coordinatesdisplay.preview": "Preview",
   "label.coordinatesdisplay.posChatMessage": "Coordinates Chat Message",
   "label.coordinatesdisplay.copyPosMessage": "Copy Position Message",
+  "label.coordinatesdisplay.markPosMessage": "Mark Position Message",
+  "label.coordinatesdisplay.markPos": "Mark Position Coordinates",
 
   "message.coordinatesdisplay.openfilefailed": "Could not open file",
   "message.coordinatesdisplay.openfilesuccess": "Opened file in native explorer",
@@ -174,6 +181,11 @@
   "message.coordintatesdisplay.disabled": "This option is disabled for this display mode.",
   "message.coordinatesdisplay.configError": "There was an error loading your config file! Check console for stacktrace.",
   "message.coordinatesdisplay.movehud.error": "Cannot move HUD while in display mode %s!",
+  "message.coordinatesdisplay.mark.select": "Mark This Location",
+  "message.coordinatesdisplay.mark.select.message": "Display this position in the real world",
+  "message.coordinatesdisplay.mark.shared": "%s has shared a location. Would you like to mark it? %s",
+  "message.coordinatesdisplay.mark.shared.confirm": "Do you want to share this position?",
+  "message.coordinatesdisplay.mark.shared.confirm2": "It will be accessible to all players on the server.",
 
   "button.coordinatesdisplay.copy": "Copy to Clipboard",
   "button.coordinatesdisplay.copied": "Copied!",
@@ -189,5 +201,8 @@
   "command.coordinatesdisplay.config.open.fail": "Could not open config file",
   "command.coordinatesdisplay.movehud.fail": "No Y value specified!",
   "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s",
-  "command.coordinatesdisplay.toggle3dCompass": "3D Compass rendering: %s"
+  "command.coordinatesdisplay.toggle3dCompass": "3D Compass rendering: %s",
+  "command.coordinatesdisplay.mark": "Marked position at %s, %s, %s",
+  "command.coordinatesdisplay.mark.clear": "Cleared marked position",
+  "command.coordinatesdisplay.mark.notset": "No marked position set"
 }

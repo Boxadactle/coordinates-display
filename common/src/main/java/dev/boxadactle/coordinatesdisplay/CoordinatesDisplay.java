@@ -3,11 +3,13 @@ package dev.boxadactle.coordinatesdisplay;
 import dev.boxadactle.boxlib.command.BCommandManager;
 import dev.boxadactle.boxlib.config.BConfigClass;
 import dev.boxadactle.boxlib.config.BConfigHandler;
+import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.rendering.RenderQueue;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.ModLogger;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.command.CoordinatesCommand;
+import dev.boxadactle.coordinatesdisplay.marking.MarkPosRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 
@@ -40,6 +42,8 @@ public class CoordinatesDisplay {
 
 	public static Hud HUD;
 
+	public static Vec3<Integer> MARK_POS = null;
+
 	static {
 		LOGGER.info("Initializing " + MOD_NAME + " v" + VERSION);
 
@@ -56,6 +60,8 @@ public class CoordinatesDisplay {
 
 		// register 3d compass renderer
 		RenderQueue.addRenderer(new CompassRenderer3D());
+
+		RenderQueue.addRenderer(new MarkPosRenderer());
 	}
 
 	public static ModConfig getConfig() {

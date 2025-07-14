@@ -1,37 +1,35 @@
 modLoader = "javafml"
-loaderVersion = "[0,)"
-license = "MIT"
+loaderVersion = "${neoforge_loader_version_range}"
+license = "${license}"
 
 [[mods]]
-modId = "coordinatesdisplay"
+modId = "${mod_id}"
 version = "${version}"
-displayName = "Coordinates Display"
-authors = "Boxadactle"
-description = '''
-A mod that displays your coordinates on the in-game HUD.
-'''
+displayName = "${mod_name}"
+authors = "${mod_author}"
+description='''${description}'''
 logoFile = "icon.png"
 
-[[dependencies.coordinatesdisplay]]
+[[dependencies.${mod_id}]]
 modId = "neoforge"
 type = "required"
-versionRange = "[0,)"
+versionRange = "${neoforge_loader_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.coordinatesdisplay]]
+[[dependencies.${mod_id}]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.6,1.22)"
+versionRange = "${minecraft_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.coordinatesdisplay]]
+[[dependencies.${mod_id}]]
 modId = "boxlib"
 type = "required"
-versionRange = "[18.0.0,19.0.0)"
+versionRange = "${boxlib_version_range}"
 ordering = "NONE"
 side = "BOTH"
 
 [[mixins]]
-config = "coordinatesdisplay.mixins.json"
+   config = "coordinatesdisplay.mixins.json"

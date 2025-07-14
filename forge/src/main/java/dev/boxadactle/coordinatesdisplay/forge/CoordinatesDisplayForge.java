@@ -53,6 +53,7 @@ public class CoordinatesDisplayForge {
         public static void registerKeys(RegisterKeyMappingsEvent e) {
             e.register(Bindings.hudEnabled);
             e.register(Bindings.coordinatesGUIKeybind);
+            e.register(Bindings.markGuiKeybind);
             e.register(Bindings.copyLocation);
             e.register(Bindings.sendLocation);
             e.register(Bindings.copyPosTp);

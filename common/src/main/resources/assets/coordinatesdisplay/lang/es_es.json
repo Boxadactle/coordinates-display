@@ -160,6 +160,7 @@
   "label.coordinatesdisplay.preview": "Previsualizar",
   "label.coordinatesdisplay.posChatMessage": "Mensaje de coordenadas de chat",
   "label.coordinatesdisplay.copyPosMessage": "Mensaje de copiar la posición",
+  "label.coordinatesdisplay.markPosMessage": "Mensaje de la ubicación marcada",
 
   "message.coordinatesdisplay.openfilefailed": "No se ha podido abrir el archivo de configuración",
   "message.coordinatesdisplay.openfilesuccess": "Se abrié el archivo de configuración",
@@ -187,5 +188,7 @@
   "command.coordinatesdisplay.config.open.fail": "No se pudo abrir el archivo de configuración.",
   "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
   "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s",
-  "command.coordinatesdisplay.toggle3dCompass": "Brújula 3D: %s"
+  "command.coordinatesdisplay.toggle3dCompass": "Brújula 3D: %s",
+  "command.coordinatesdisplay.mark": "Marcaste la ubicacion %s, %s, %s",
+  "command.coordinatesdisplay.mark.clear": "Despejaste la ubicación marcada"
 }

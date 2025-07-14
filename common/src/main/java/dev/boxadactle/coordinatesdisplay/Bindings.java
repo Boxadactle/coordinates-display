@@ -1,12 +1,12 @@
 package dev.boxadactle.coordinatesdisplay;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import dev.boxadactle.boxlib.keybind.KeybindHelper;
 import dev.boxadactle.boxlib.scheduling.Scheduling;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.gui.CoordinatesScreen;
 import dev.boxadactle.coordinatesdisplay.gui.PositionScreen;
+import dev.boxadactle.coordinatesdisplay.marking.MarkGui;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import net.minecraft.client.KeyMapping;
@@ -17,6 +17,7 @@ public class Bindings {
     public static final KeyMapping hudEnabled = new KeyMapping("key.coordinatesdisplay.hudenabled", GLFW.GLFW_KEY_H, "category.coordinatesdisplay");
 
     public static final KeyMapping coordinatesGUIKeybind = new KeyMapping("key.coordinatesdisplay.coordinatesgui", GLFW.GLFW_KEY_C, "category.coordinatesdisplay");
+    public static final KeyMapping markGuiKeybind = new KeyMapping("key.coordinatesdisplay.markpos", GLFW.GLFW_KEY_B, "category.coordinatesdisplay");
 
     public static final KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", -1, "category.coordinatesdisplay");
     public static final KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", -1, "category.coordinatesdisplay");
@@ -35,6 +36,10 @@ public class Bindings {
 
     public static void coordinatesGui() {
         Scheduling.nextTick(() -> ClientUtils.setScreen(new CoordinatesScreen(Position.of(WorldUtils.getPlayer()))));
+    }
+
+    public static void markGui() {
+        Scheduling.nextTick(() -> ClientUtils.setScreen(new MarkGui()));
     }
 
     public static void copyLocation(Position pos) {
@@ -74,6 +79,8 @@ public class Bindings {
         if (hudEnabled.consumeClick()) toggleHud();
 
         if (coordinatesGUIKeybind.consumeClick()) coordinatesGui();
+
+        if (markGuiKeybind.consumeClick()) markGui();
 
         if (copyLocation.consumeClick()) copyLocation(pos);
 

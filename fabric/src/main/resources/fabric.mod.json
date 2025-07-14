@@ -1,19 +1,19 @@
 {
   "schemaVersion": 1,
-  "id": "coordinatesdisplay",
+  "id": "${mod_id}",
   "version": "${version}",
 
-  "name": "CoordinatesDisplay",
-  "description": "A mod that displays your coordinates on the in-game HUD.",
-  "authors": [ "Boxadactle" ],
+  "name": "${mod_name}",
+  "description": "${description}",
+  "authors": [ "${mod_author}" ],
   "contact": {},
 
-  "license": "MIT",
+  "license": "${license}",
   "icon": "icon.png",
 
   "environment": "*",
   "entrypoints": {
-    "client": [
+    "main": [
       "dev.boxadactle.coordinatesdisplay.fabric.CoordinatesDisplayFabric"
     ],
     "modmenu": [
@@ -25,11 +25,7 @@
   ],
   "depends": {
     "fabricloader": "*",
-    "minecraft": ">=1.21.6",
-    "boxlib": "18.*",
-    "fabric": "*"
-  },
-  "recommends": {
-    "modmenu": "*"
+    "minecraft": "${minecraft_version_range_fabric}",
+    "boxlib": "${boxlib_version_range_fabric}"
   }
 }
