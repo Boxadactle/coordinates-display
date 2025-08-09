@@ -51,19 +51,48 @@ subprojects {
 
     // Configure Maven publishing.
     publishing {
-        publications {
-            mavenJava(MavenPublication) {
-                artifactId = base.archivesName.get()
-                from components.java
-            }
-        }
+        def snapshotenv = System.getenv("IS_SNAPSHOT_PUBLISH")
+        def snapshotRepo = snapshotenv ? snapshotenv.toBoolean() : true
 
-        // See https://docs.gradle.org/current/userguide/publishing_maven.html for information on how to set up publishing.
-        repositories {
-            // Add repositories to publish to here.
-            // Notice: This block does NOT have the same function as the block in the top level.
-            // The repositories here will be used for publishing your artifact, not for
-            // retrieving dependencies.
+        publishing {
+            publications {
+                mavenJava(MavenPublication) {
+                    groupId = rootProject.group
+                    artifactId = "CoordinatesDisplay-$project.name"
+
+                    if (snapshotRepo) version = "${rootProject.version}-snapshot"
+                    else version = rootProject.version
+
+                    from components.java
+                }
+            }
+
+            def user = System.getenv("MAVEN_USER")
+            def pass = System.getenv("MAVEN_PASS")
+
+            if (user && pass) {
+                repositories {
+                    if (!snapshotRepo) {
+                        maven {
+                            url = uri("https://maven.boxadactle.dev/releases")
+                            credentials {
+                                username = user
+                                password = pass
+                            }
+                        }
+                    } else {
+                        maven {
+                            url = uri("https://maven.boxadactle.dev/snapshots")
+                            credentials {
+                                username = user
+                                password = pass
+                            }
+                        }
+                    }
+                }
+            } else {
+                println "Skipping Maven repository upload, no credentials provided."
+            }
         }
     }
 }
