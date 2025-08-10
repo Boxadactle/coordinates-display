@@ -11,6 +11,7 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'idea'
     apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
 
     repositories {
         // Fix issue with lwjgl-freetype not being found on macOS / ForgeGradle issue
@@ -30,6 +31,50 @@ subprojects {
         maven { url = "https://maven.terraformersmc.com/releases/" }
         maven { url = "https://maven.boxadactle.dev/releases" }
         maven { url = "https://maven.boxadactle.dev/snapshots" }
+    }
+
+    def snapshotenv = System.getenv("IS_SNAPSHOT_PUBLISH")
+    def snapshotRepo = snapshotenv ? snapshotenv.toBoolean() : true
+
+    publishing {
+        publications {
+            mavenJava(MavenPublication) {
+                groupId = rootProject.group
+                artifactId = "CoordinatesDisplay-$project.name"
+
+                if (snapshotRepo) version = "${rootProject.version}-snapshot"
+                else version = rootProject.version
+
+                from components.java
+            }
+        }
+
+        def user = System.getenv("MAVEN_USER")
+        def pass = System.getenv("MAVEN_PASS")
+
+        if (user && pass) {
+            repositories {
+                if (!snapshotRepo) {
+                    maven {
+                        url = uri("https://maven.boxadactle.dev/releases")
+                        credentials {
+                            username = user
+                            password = pass
+                        }
+                    }
+                } else {
+                    maven {
+                        url = uri("https://maven.boxadactle.dev/snapshots")
+                        credentials {
+                            username = user
+                            password = pass
+                        }
+                    }
+                }
+            }
+        } else {
+            println "Skipping Maven repository upload, no credentials provided."
+        }
     }
 }
 
