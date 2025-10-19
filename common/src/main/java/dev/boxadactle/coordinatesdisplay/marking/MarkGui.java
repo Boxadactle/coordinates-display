@@ -109,24 +109,25 @@ public class MarkGui extends BOptionScreen {
             return this.widget1.isInvalid() || this.widget2.isInvalid();
         }
 
-        public void render(GuiGraphics p_93523_, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
+        @Override
+        public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean hovered, float v) {
             AbstractWidget w1 = (AbstractWidget)this.widget1;
             AbstractWidget w2 = (AbstractWidget)this.widget2;
             AbstractWidget w3 = (AbstractWidget)this.widget3;
             int p1 = BOptionHelper.padding() / 2;
             int p2 = BOptionHelper.padding() / 2;
-            w1.setX(x);
-            w1.setY(y);
-            w1.setWidth(entryWidth / 3 - p1);
-            w2.setX(x + entryWidth / 3 + p2);
-            w2.setY(y);
-            w2.setWidth(entryWidth / 3 - p2);
-            w3.setX(x + 2 * (entryWidth / 3) + p1);
-            w3.setY(y);
-            w3.setWidth(entryWidth / 3 - p1);
-            w1.render(p_93523_, mouseX, mouseY, tickDelta);
-            w2.render(p_93523_, mouseX, mouseY, tickDelta);
-            w3.render(p_93523_, mouseX, mouseY, tickDelta);
+            w1.setX(getX());
+            w1.setY(getY());
+            w1.setWidth(getWidth() / 3 - p1);
+            w2.setX(getX() + getWidth() / 3 + p2);
+            w2.setY(getY());
+            w2.setWidth(getWidth() / 3 - p2);
+            w3.setX(getX() + 2 * (getWidth() / 3) + p1);
+            w3.setY(getY());
+            w3.setWidth(getWidth() / 3 - p1);
+            w1.render(guiGraphics, mouseX, mouseY, v);
+            w2.render(guiGraphics, mouseX, mouseY, v);
+            w3.render(guiGraphics, mouseX, mouseY, v);
         }
     }
 }

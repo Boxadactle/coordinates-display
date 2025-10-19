@@ -34,12 +34,10 @@ import oshi.util.tuples.Triplet;
         hasDay = false
 )
 public class SpawnpointRenderer implements HudRenderer {
-    
-    // unfortunately, I don't think you can access the player's
-    // spawnpoint unless your mod is server-side
+
     public BlockPos resolveWorldSpawn() {
         try {
-            return WorldUtils.getWorld().getSharedSpawnPos();
+            return WorldUtils.getWorld().getRespawnData().pos();
         } catch (Exception e) {
             return new BlockPos(0, 0, 0);
         }

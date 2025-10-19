@@ -7,7 +7,7 @@
   "key.coordinatesdisplay.changeHudPos": "Change HUD Position",
   "key.coordinatesdisplay.cycleDisplayMode": "Cycle Display Mode (hold shift to go back)",
   "key.coordinatesdisplay.toggle3DCompass": "Toggle 3D Compass Rendering",
-  "category.coordinatesdisplay": "Coordinates Display",
+  "key.category.coordinatesdisplay.keybinds": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "북",
   "hud.coordinatesdisplay.northeast": "북동",

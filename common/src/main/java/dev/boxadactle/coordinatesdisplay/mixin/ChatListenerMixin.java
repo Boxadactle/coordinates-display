@@ -48,7 +48,7 @@ public class ChatListenerMixin {
 
             ci.cancel();
 
-            CoordinatesDisplay.LOGGER.player.chat(ModUtil.makeMarkComponent(mark, gameProfile.getName()));
+            CoordinatesDisplay.LOGGER.player.chat(ModUtil.makeMarkComponent(mark, gameProfile.name()));
         } catch (MalformedJsonException e) {
             // this message is not a shared mark
         }

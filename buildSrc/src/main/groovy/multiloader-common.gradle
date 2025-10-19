@@ -4,7 +4,7 @@ plugins {
 }
 
 base {
-    archivesName = "${mod_id}-${project.name}"
+    archivesName = "${mod_id}-${project.name}-${minecraft_version}"
 }
 
 java {
@@ -88,7 +88,7 @@ processResources {
             'group'                        : project.group, //Else we target the task's group.
             'minecraft_version'            : minecraft_version,
             'minecraft_version_range'      : minecraft_version_range,
-            'minecraft_version_range_fabric' : minecraft_version_range_fabric,
+            'minecraft_version_range_fabric': minecraft_version_range_fabric,
             'fabric_version'               : fabric_version,
             'fabric_loader_version'        : fabric_loader_version,
             'mod_name'                     : mod_name,
@@ -98,8 +98,8 @@ processResources {
             'description'                  : project.description,
             'neoforge_version'             : neoforge_version,
             'neoforge_loader_version_range': neoforge_loader_version_range,
-            "forge_version"                 : forge_version,
-            "forge_loader_version_range"    : forge_loader_version_range,
+            "forge_version": forge_version,
+            "forge_loader_version_range": forge_loader_version_range,
             "boxlib_version_range"          : boxlib_version_range,
             'boxlib_version_range_fabric'   : boxlib_version_range_fabric,
             'credits'                      : credits,

@@ -41,7 +41,7 @@ public class ModUtil {
         String y = decimalFormat.format(player.getY());
         String z = decimalFormat.format(player.getZ());
 
-        String direction = getDirectionFromYaw(Mth.wrapDegrees(c.cameraEntity.getXRot()));
+        String direction = getDirectionFromYaw(Mth.wrapDegrees(c.player.getXRot()));
 
         Pair<String, ?>[] supported = new Pair[]{
                 new Pair<>("dimension", pos.world.getDimension(true)),

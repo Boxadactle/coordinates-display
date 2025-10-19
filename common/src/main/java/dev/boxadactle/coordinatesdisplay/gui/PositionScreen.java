@@ -14,6 +14,7 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
 public class PositionScreen extends BOptionScreen implements HudHelper {
@@ -155,15 +156,15 @@ public class PositionScreen extends BOptionScreen implements HudHelper {
     }
 
     @Override
-    public boolean mouseClicked(double d, double e, int i) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean isDoubleClick) {
         isDragging = true;
-        return super.mouseClicked(d, e, i);
+        return super.mouseClicked(event, isDoubleClick);
     }
 
     @Override
-    public boolean mouseReleased(double d, double e, int i) {
+    public boolean mouseReleased(MouseButtonEvent event) {
         isDragging = false;
-        return super.mouseReleased(d, e, i);
+        return super.mouseReleased(event);
     }
 
     @Override

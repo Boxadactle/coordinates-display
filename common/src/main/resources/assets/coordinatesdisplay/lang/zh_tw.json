@@ -7,7 +7,7 @@
   "key.coordinatesdisplay.changeHudPos": "更改抬頭顯示器位置",
   "key.coordinatesdisplay.cycleDisplayMode": "循環切換顯示模式（按住 Shift 鍵返回）",
   "key.coordinatesdisplay.toggle3DCompass": "Toggle 3D Compass Rendering",
-  "category.coordinatesdisplay": "座標顯示",
+  "key.category.coordinatesdisplay.keybinds": "座標顯示",
 
   "hud.coordinatesdisplay.north": "北",
   "hud.coordinatesdisplay.northeast": "東北",

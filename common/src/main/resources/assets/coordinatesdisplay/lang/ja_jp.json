@@ -7,7 +7,7 @@
   "key.coordinatesdisplay.changeHudPos": "HUDの位置を変更",
   "key.coordinatesdisplay.cycleDisplayMode": "表示モードを切り替える（戻るにはShiftを押してください）",
   "key.coordinatesdisplay.toggle3DCompass": "Toggle 3D Compass Rendering",
-  "category.coordinatesdisplay": "Coordinates Display",
+  "key.category.coordinatesdisplay.keybinds": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "北",
   "hud.coordinatesdisplay.northeast": "北東",

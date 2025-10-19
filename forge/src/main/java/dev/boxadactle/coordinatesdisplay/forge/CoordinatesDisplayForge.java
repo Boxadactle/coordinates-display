@@ -33,6 +33,19 @@ public class CoordinatesDisplayForge {
     public static class ClientForgeEvents {
 
         @SubscribeEvent
+        public static void registerKeys(RegisterKeyMappingsEvent e) {
+            e.register(Bindings.hudEnabled);
+            e.register(Bindings.coordinatesGUIKeybind);
+            e.register(Bindings.markGuiKeybind);
+            e.register(Bindings.copyLocation);
+            e.register(Bindings.sendLocation);
+            e.register(Bindings.copyPosTp);
+            e.register(Bindings.changeHudPosition);
+            e.register(Bindings.cycleDisplayMode);
+            e.register(Bindings.toggle3DCompass);
+        }
+
+        @SubscribeEvent
         public static void keyInput(InputEvent.Key e) {
             Player player = WorldUtils.getPlayer();
             if (player != null) {
@@ -45,22 +58,6 @@ public class CoordinatesDisplayForge {
             CoordinatesDisplay.renderHud(e.getGuiGraphics());
         }
 
-    }
-
-    @Mod.EventBusSubscriber(modid = CoordinatesDisplay.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public static class ClientModEvents {
-        @SubscribeEvent
-        public static void registerKeys(RegisterKeyMappingsEvent e) {
-            e.register(Bindings.hudEnabled);
-            e.register(Bindings.coordinatesGUIKeybind);
-            e.register(Bindings.markGuiKeybind);
-            e.register(Bindings.copyLocation);
-            e.register(Bindings.sendLocation);
-            e.register(Bindings.copyPosTp);
-            e.register(Bindings.changeHudPosition);
-            e.register(Bindings.cycleDisplayMode);
-            e.register(Bindings.toggle3DCompass);
-        }
     }
 
 }

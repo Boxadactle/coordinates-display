@@ -7,7 +7,7 @@
   "key.coordinatesdisplay.changeHudPos": "Cambiar la posición del HUD",
   "key.coordinatesdisplay.cycleDisplayMode": "Ciclar el modo renderizado (presionar shift para retroceder)",
   "key.coordinatesdisplay.toggle3DCompass": "Activar/desactivar el renderizado de la brújula 3D",
-  "category.coordinatesdisplay": "Coordinates Display",
+  "key.category.coordinatesdisplay.keybinds": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "Norte",
   "hud.coordinatesdisplay.northeast": "Noreste",

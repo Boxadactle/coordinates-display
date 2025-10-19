@@ -1,8 +1,9 @@
 plugins {
     // see https://fabricmc.net/develop/ for new versions
-    id 'fabric-loom' version '1.10-SNAPSHOT' apply false
+    id 'fabric-loom' version '1.11-SNAPSHOT' apply false
     // see https://projects.neoforged.net/neoforged/moddevgradle for new versions
-    id 'net.neoforged.moddev' version '2.0.97' apply false
+    id 'net.neoforged.moddev' version '2.0.115' apply false
+
     id "me.modmuss50.mod-publish-plugin" version "0.8.4"
     id "com.github.breadmoirai.github-release" version "2.5.2"
 }
@@ -78,6 +79,8 @@ subprojects {
     }
 }
 
+def snapshotenv = System.getenv("IS_SNAPSHOT_PUBLISH")
+def snapshotRepo = snapshotenv ? snapshotenv.toBoolean() : true
 
 publishMods {
     changelog = new File(rootProject.rootDir, project.changelog_file).text

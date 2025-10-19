@@ -8,7 +8,7 @@
   "key.coordinatesdisplay.cycleDisplayMode": "Cycle Display Mode (hold shift to go back)",
   "key.coordinatesdisplay.toggle3DCompass": "Toggle 3D Compass Rendering",
   "key.coordinatesdisplay.markpos": "Mark a Position",
-  "category.coordinatesdisplay": "Coordinates Display",
+  "key.category.coordinatesdisplay.keybinds": "Coordinates Display",
 
   "hud.coordinatesdisplay.north": "North",
   "hud.coordinatesdisplay.northeast": "Northeast",
