@@ -41,3 +41,24 @@ loom {
         }
     }
 }
+
+import groovy.json.JsonSlurper
+import groovy.json.JsonOutput
+
+// someone pls make this work like its suppposed to
+tasks.named('processResources') {
+    doLast {
+        def jsonFile = file("$buildDir/resources/main/boxlib-common.mixins.json")
+
+        if (jsonFile.exists()) {
+            def jsonSlurper = new JsonSlurper()
+            def data = jsonSlurper.parse(jsonFile)
+
+            data["refmap"] = "${mod_id}.refmap.json"
+
+            jsonFile.text = JsonOutput.prettyPrint(JsonOutput.toJson(data))
+        } else {
+            println "mixin config not found at ${jsonFile}"
+        }
+    }
+}
