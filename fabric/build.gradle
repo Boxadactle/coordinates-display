@@ -48,7 +48,7 @@ import groovy.json.JsonOutput
 // someone pls make this work like its suppposed to
 tasks.named('processResources') {
     doLast {
-        def jsonFile = file("$buildDir/resources/main/boxlib-common.mixins.json")
+        def jsonFile = file("$buildDir/resources/main/"${mod_id}.refmap.json"")
 
         if (jsonFile.exists()) {
             def jsonSlurper = new JsonSlurper()
