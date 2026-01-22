@@ -59,6 +59,9 @@
 
   "hud.coordinatesdisplay.line": "Line",
 
+  "hud.coordinatesdisplay.bedrock": "Bedrock Edition",
+  "hud.coordinatesdisplay.bedrock.position": "Position: %s, %s, %s",
+
   "hud.coordinatesdisplay.nether_overworld": "Nether/Overworld",
   "hud.coordinatesdisplay.nether_overworld.overworld": "Overworld",
   "hud.coordinatesdisplay.nether_overworld.nether": "Nether",
@@ -114,6 +117,7 @@
   "button.coordinatesdisplay.deathpos": "Death Position...",
   "button.coordinatesdisplay.text": "Text Settings...",
   "button.coordinatesdisplay.3dcompass": "Render 3D Compass: %s",
+  "button.coordinatesdisplay.3dcompasssize": "3D Compass Size: %s",
   "button.coordinatesdisplay.visibility": "Visibility: %s",
   "button.coordinatesdisplay.decimalPlaces": "Decimal Places: %s",
   "button.coordinatesdisplay.decimalPlaces.block_pos": "block pos",

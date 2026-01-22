@@ -13,6 +13,7 @@ import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.screens.LevelLoadingScreen;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -44,6 +45,7 @@ public class Hud {
         boolean bl = true;
 
         // have you ever seen anyone use this operand
+        bl &= !(ClientUtils.getCurrentScreen() instanceof LevelLoadingScreen);
         bl &= !ClientUtils.getOptions().hideGui;
         bl &= !ClientUtils.getClient().getDebugOverlay().showDebugScreen();
         bl &= CoordinatesDisplay.shouldHudRender;

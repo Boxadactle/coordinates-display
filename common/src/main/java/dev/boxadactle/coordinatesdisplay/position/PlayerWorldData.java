@@ -4,13 +4,13 @@ import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.biome.Biome;
 
 public class PlayerWorldData {
 
-    ResourceLocation dimension;
+    Identifier dimension;
 
     Holder<Biome> biome;
 
@@ -20,7 +20,7 @@ public class PlayerWorldData {
 
     public PlayerWorldData(BlockPos player) {
         if (WorldUtils.getWorld() != null) {
-            dimension = WorldUtils.getPlayer().level().dimension().location();
+            dimension = WorldUtils.getPlayer().level().dimension().identifier();
 
             biome = WorldUtils.getWorld().getBiome(player);
 
@@ -30,7 +30,7 @@ public class PlayerWorldData {
         } else {
             CoordinatesDisplay.LOGGER.warn("Client world is null! Resorting to default values.");
 
-            dimension = ResourceLocation.withDefaultNamespace("overworld");
+            dimension = Identifier.withDefaultNamespace("overworld");
 
             day = Math.round(Math.random() * 1000);
 
@@ -68,11 +68,11 @@ public class PlayerWorldData {
         }
     }
 
-    public ResourceLocation getBiomeKey() {
-        ResourceLocation def = ResourceLocation.withDefaultNamespace("plains");
+    public Identifier getBiomeKey() {
+        Identifier def = Identifier.withDefaultNamespace("plains");
         if (biome == null) {
             return def;
         }
-        return biome.unwrap().map(ResourceKey::location, (biome) -> def);
+        return biome.unwrap().map(ResourceKey::identifier, (biome) -> def);
     }
 }

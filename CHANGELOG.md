@@ -1,2 +1,3 @@
 ## Changelog
-- Fixed issue where the HUD would not render
+- Added Bedrock-Edition rendering mode
+- Allowing to change size of the 3d compass

@@ -13,6 +13,7 @@ public enum DisplayMode {
     MAXIMUM(MaxRenderer.class),
     LINE(LineRenderer.class),
     NETHER_OVERWORLD(NetherOverworldRenderer.class),
+    BEDOCK(BedrockRenderer.class),
     HOTBAR(HotbarRenderer.class),
     SPAWNPOINT(SpawnpointRenderer.class),
     DIRECTION(DirectionRenderer.class),

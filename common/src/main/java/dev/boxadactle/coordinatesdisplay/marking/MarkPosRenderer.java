@@ -1,6 +1,5 @@
 package dev.boxadactle.coordinatesdisplay.marking;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.math.geometry.Box;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
 import dev.boxadactle.boxlib.rendering.Renderer3D;
@@ -9,8 +8,9 @@ import dev.boxadactle.boxlib.rendering.renderers.TextRenderer;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
-import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.debug.DebugValueAccess;
 
 public class MarkPosRenderer extends Renderer3D<MarkPosRenderer> {
     public MarkPosRenderer() {
@@ -18,7 +18,7 @@ public class MarkPosRenderer extends Renderer3D<MarkPosRenderer> {
     }
 
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource.BufferSource bufferSource, double v, double v1, double v2) {
+    public void render(double v, double v1, double v2, DebugValueAccess debugValueAccess, Frustum frustum, float v3) {
         if (CoordinatesDisplay.MARK_POS != null) {
             Vec3<Double> markPos = new Vec3<>(
                     CoordinatesDisplay.MARK_POS.x.doubleValue(),
@@ -35,15 +35,18 @@ public class MarkPosRenderer extends Renderer3D<MarkPosRenderer> {
                             500.0,
                             0.5
                     ))
-                    .setColor(GuiUtils.RED)
-                    .setAlpha(0.5f);
-            beacon.render(poseStack, bufferSource, v, v1, v2);
+                    .setColor(GuiUtils.applyAlpha(GuiUtils.RED, 0.5f))
+
+                    .setXRay(true);
+            beacon.render(v, v1, v2, debugValueAccess, frustum, v3);
 
             BoxRenderer block = new BoxRenderer(false)
                     .setCube(ModUtil.toBlockPos(CoordinatesDisplay.MARK_POS))
-                    .setColor(GuiUtils.GRAY)
-                    .setAlpha(0.8f);
-            block.render(poseStack, bufferSource, v, v1, v2);
+                    .setColor(GuiUtils.applyAlpha(GuiUtils.YELLOW, 0.8f))
+                    .setOutline(true)
+                    .setOutlineWidth(4.0f)
+                    .setXRay(true);
+            block.render(v, v1, v2, debugValueAccess, frustum, v3);
 
             TextRenderer p = new TextRenderer(false)
                     .setPos(new Vec3<>(
@@ -52,15 +55,14 @@ public class MarkPosRenderer extends Renderer3D<MarkPosRenderer> {
                             markPos.z + 0.5
                     ))
                     .setCentered(true)
-                    .setXray(true)
-                    .setShadow(false)
+                    .setXRay(true)
                     .setText(Component.literal(CoordinatesDisplay.getConfig().markPosText))
                     .setColor(GuiUtils.WHITE)
                     .setSize(ModUtil.calculatePointDistance3d(
                             markPos,
                             new Vec3<>(v, v1, v2)
-                    ) * 0.01f);
-            p.render(poseStack, bufferSource, v, v1, v2);
+                    ) * 0.02f);
+            p.render(v, v1, v2, debugValueAccess, frustum, v3);
         }
     }
 }

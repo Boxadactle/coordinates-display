@@ -3,21 +3,14 @@ package dev.boxadactle.coordinatesdisplay.renderer;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.layouts.component.CenteredParagraphComponent;
 import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
+import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.Hud;
-import dev.boxadactle.coordinatesdisplay.HudPositionModifier;
-import dev.boxadactle.coordinatesdisplay.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.HudDisplayMode;
-import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
+import dev.boxadactle.coordinatesdisplay.*;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.Identifier;
-import net.minecraft.world.level.biome.Biome;
 import oshi.util.tuples.Triplet;
 
 import java.util.ArrayList;
@@ -25,45 +18,32 @@ import java.util.Iterator;
 import java.util.List;
 
 @HudDisplayMode(
-        value = "hotbar",
+        value = "bedrock",
         ignoreTranslations = true,
-        positionModifier = HotbarRenderer.HotbarPosition.class,
+        positionModifier = BedrockRenderer.BedrockPosition.class,
         allowMove = false,
         hasBackground = false,
         hasChunkData = false,
         hasDirectionInt = false,
         hasMCVersion = false,
-        hasDimension = false
+        hasDimension = false,
+        hasBiome = false,
+        hasDirection = false
 )
-public class HotbarRenderer implements HudRenderer {
-
+public class BedrockRenderer implements HudRenderer {
     @Override
     public RenderingLayout renderOverlay(int x, int y, Position pos) {
-        if (((OverlayMessageTimeAccessor) ClientUtils.getClient().gui).getOverlayMessageTime() > 0) {
-            return new ColumnLayout(0, 0, 0);
-        }
-
         List<Component> components = new ArrayList<>();
 
         Triplet<String, String, String> player = this.roundPosition(pos.position.getPlayerPos(), pos.position.getBlockPos(), CoordinatesDisplay.getConfig().decimalPlaces);
 
-        if (config().renderXYZ) components.add(definition(GlobalTexts.XYZ,
+        if (config().renderXYZ) components.add(definition("position",
                 value(player.getA()),
                 value(player.getB()),
                 value(player.getC())
         ));
 
-        if (config().renderDirection) components.add(definition(GlobalTexts.FACING, value(resolveDirection(ModUtil.getDirectionFromYaw(pos.headRot.wrapYaw())))));
-
-        if (config().renderBiome) {
-            Identifier bKey = pos.world.getBiomeKey();
-            Biome b = pos.world.getBiome();
-            components.add(ModUtil.getBiomeComponent(bKey, b, config().biomeColors, config().dataColor));
-        }
-
-        if (config().renderDay) {
-            components.add(definition(GlobalTexts.DAY, value(Long.toString(pos.world.getDay()))));
-        }
+        if (config().renderDay) components.add(definition(GlobalTexts.DAY, value(Long.toString(pos.world.getDay()))));
 
         MutableComponent all = Component.empty();
 
@@ -73,25 +53,22 @@ public class HotbarRenderer implements HudRenderer {
             if (it.hasNext()) all.append(Component.literal(" / "));
         }
 
-        ColumnLayout hud = new ColumnLayout(x, y, 0);
+        ColumnLayout hud = new ColumnLayout(0, 0, 0);
         hud.addComponent(new CenteredParagraphComponent(0, definition(all)));
 
-        return hud;
+        return new PaddingLayout(x, y, 4, hud);
     }
 
-    public static class HotbarPosition implements HudPositionModifier.BasicPositionModifier {
+    public static class BedrockPosition implements HudPositionModifier.BasicPositionModifier {
         @Override
         public Rect<Integer> getPosition(Rect<Integer> rect, Dimension<Integer> ignored, Hud.RenderType type) {
             return switch (type) {
                 case SCREEN -> rect;
                 case HUD -> {
-                    int j = ClientUtils.getClient().getWindow().getGuiScaledWidth() / 2;
-                    int k = ClientUtils.getClient().getWindow().getGuiScaledHeight() - 68 - 4;
-
                     Rect<Integer> r = rect.clone();
 
-                    r.setX(j - rect.getWidth() / 2);
-                    r.setY(k);
+                    r.setX(0);
+                    r.setY(60);
 
                     yield r;
                 }

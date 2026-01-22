@@ -17,7 +17,7 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.util.Tuple;
 import oshi.util.tuples.Triplet;
@@ -174,7 +174,7 @@ public class SpawnpointRenderer implements HudRenderer {
             return Mth.wrapDegrees(relativeDirection - 90);
         }
 
-        private ResourceLocation resolveCompassTexture(double d) {
+        private Identifier resolveCompassTexture(double d) {
             // we need to shift the degrees by 180
             // to set 0 degrees to north rather than south
             double degrees = Mth.wrapDegrees(d + 180);
@@ -192,7 +192,7 @@ public class SpawnpointRenderer implements HudRenderer {
             };
 
             String texture = "textures/item/" + textures[(int) (range1 * textures.length)] + ".png";
-            return ResourceLocation.withDefaultNamespace(texture);
+            return Identifier.withDefaultNamespace(texture);
         }
 
         @Override

@@ -13,7 +13,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.chat.*;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
@@ -164,7 +164,7 @@ public class ModUtil {
         return direction;
     }
 
-    public static Component getBiomeComponent(ResourceLocation key, Biome biome, boolean colored, int defaultColor) {
+    public static Component getBiomeComponent(Identifier key, Biome biome, boolean colored, int defaultColor) {
         if (biome == null && WorldUtils.getWorld() != null) {
             return GuiUtils.colorize(Component.translatable("hud.coordinatesdisplay.biome.unknown"), defaultColor);
         }

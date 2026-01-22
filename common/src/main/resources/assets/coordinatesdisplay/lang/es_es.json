@@ -189,6 +189,5 @@
   "command.coordinatesdisplay.movehud.fail": "No Z value specified!",
   "command.coordinatesdisplay.movehud.get": "Current HUD position: %s, %s",
   "command.coordinatesdisplay.toggle3dCompass": "Brújula 3D: %s",
-  "command.coordinatesdisplay.mark": "Marcaste la ubicacion %s, %s, %s",
-  "command.coordinatesdisplay.mark.clear": "Despejaste la ubicación marcada"
+  "command.coordinatesdisplay.mark": "Marcaste la ubicacion %s, %s, %s"
 }

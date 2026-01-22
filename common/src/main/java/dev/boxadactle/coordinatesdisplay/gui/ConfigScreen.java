@@ -4,6 +4,8 @@ import dev.boxadactle.boxlib.gui.config.BOptionButton;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.*;
+import dev.boxadactle.boxlib.gui.config.widget.slider.BFloatSlider;
+import dev.boxadactle.boxlib.gui.config.widget.slider.BIntegerSlider;
 import dev.boxadactle.boxlib.prompt.Prompts;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
@@ -97,6 +99,14 @@ public class ConfigScreen extends BOptionScreen {
                 "button.coordinatesdisplay.3dcompass",
                 CoordinatesDisplay.getConfig().render3dCompass,
                 (val) -> CoordinatesDisplay.getConfig().render3dCompass = val
+        ));
+
+        addConfigLine(new BFloatSlider(
+                "button.coordinatesdisplay.3dcompasssize",
+                0.5f, 3.0f,
+                CoordinatesDisplay.getConfig().compassScale,
+                2,
+                (val) -> CoordinatesDisplay.getConfig().compassScale = val
         ));
 
         this.addConfigLine(new BSpacingEntry());

@@ -32,8 +32,6 @@ public class ModConfig implements BConfig {
     public boolean renderMCVersion = true;
     public boolean renderDimension = true;
     public boolean renderDay = true;
-    public boolean renderTime = true;
-    public boolean extendedDay = true;
 
     public int definitionColor = GuiUtils.GREEN;
     public int dataColor = GuiUtils.WHITE;
@@ -53,6 +51,7 @@ public class ModConfig implements BConfig {
     public TeleportMode teleportMode = TeleportMode.EXECUTE;
 
     public boolean render3dCompass = false;
+    public float compassScale = 1.5f;
 
     public static void checkValidity(ModConfig config) throws NullPointerException {
         Class<?> clazz = config.getClass();

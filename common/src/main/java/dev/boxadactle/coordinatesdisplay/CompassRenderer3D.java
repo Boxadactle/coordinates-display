@@ -9,7 +9,9 @@ import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.debug.DebugValueAccess;
 
 public class CompassRenderer3D extends Renderer3D<CompassRenderer3D> {
     public CompassRenderer3D() {
@@ -17,12 +19,12 @@ public class CompassRenderer3D extends Renderer3D<CompassRenderer3D> {
     }
 
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource.BufferSource multiBufferSource, double v, double v1, double v2) {
+    public void render(double v, double v1, double v2, DebugValueAccess debugValueAccess, Frustum frustum, float v3) {
         if (WorldUtils.getCamera() != null && CoordinatesDisplay.getConfig().render3dCompass) {
-            float size = 0.15f;
+            float size = 0.15f * CoordinatesDisplay.getConfig().compassScale;
 
             Camera camera = ClientUtils.getClient().gameRenderer.getMainCamera();
-            net.minecraft.world.phys.Vec3 cameraPos = camera.getPosition();
+            net.minecraft.world.phys.Vec3 cameraPos = camera.entity().getPosition(v3);
 
             TextRenderer north = new TextRenderer(false)
                     .setPos(new Vec3<>(cameraPos.x, cameraPos.y + 1.0, cameraPos.z - 10.0))
@@ -30,8 +32,8 @@ public class CompassRenderer3D extends Renderer3D<CompassRenderer3D> {
                     .setSize(size)
                     .setColor(GuiUtils.RED)
                     .setCentered(true)
-                    .setXray(true);
-            north.render(poseStack, multiBufferSource, v, v1, v2);
+                    .setXRay(true);
+            north.render(v, v1, v2, debugValueAccess, frustum, v3);
 
             TextRenderer east = new TextRenderer(false)
                     .setPos(new Vec3<>(cameraPos.x + 10.0, cameraPos.y + 1.0, cameraPos.z))
@@ -39,8 +41,8 @@ public class CompassRenderer3D extends Renderer3D<CompassRenderer3D> {
                     .setSize(size)
                     .setColor(GuiUtils.GREEN)
                     .setCentered(true)
-                    .setXray(true);
-            east.render(poseStack, multiBufferSource, v, v1, v2);
+                    .setXRay(true);
+            east.render(v, v1, v2, debugValueAccess, frustum, v3);
 
             TextRenderer south = new TextRenderer(false)
                     .setPos(new Vec3<>(cameraPos.x, cameraPos.y + 1.0, cameraPos.z + 10.0))
@@ -48,8 +50,8 @@ public class CompassRenderer3D extends Renderer3D<CompassRenderer3D> {
                     .setSize(size)
                     .setColor(GuiUtils.YELLOW)
                     .setCentered(true)
-                    .setXray(true);
-            south.render(poseStack, multiBufferSource, v, v1, v2);
+                    .setXRay(true);
+            south.render(v, v1, v2, debugValueAccess, frustum, v3);
 
             TextRenderer west = new TextRenderer(false)
                     .setPos(new Vec3<>(cameraPos.x - 10.0, cameraPos.y + 1.0, cameraPos.z))
@@ -57,8 +59,8 @@ public class CompassRenderer3D extends Renderer3D<CompassRenderer3D> {
                     .setSize(size)
                     .setColor(GuiUtils.WHITE)
                     .setCentered(true)
-                    .setXray(true);
-            west.render(poseStack, multiBufferSource, v, v1, v2);
+                    .setXRay(true);
+            west.render(v, v1, v2, debugValueAccess, frustum, v3);
         }
     }
 }
