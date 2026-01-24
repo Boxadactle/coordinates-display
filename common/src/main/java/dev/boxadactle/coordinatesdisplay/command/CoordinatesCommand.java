@@ -17,10 +17,9 @@ import net.minecraft.client.resources.language.I18n;
 public class CoordinatesCommand {
 
     public static BCommand createCommand() {
-        return BCommand.create("coordinates", CoordinatesCommand::openCoordinatesScreen)
+        var command = BCommand.create("coordinates", CoordinatesCommand::openCoordinatesScreen)
                 .registerSubcommand(new BasicSubcommand("toggle3dCompass", CoordinatesCommand::toggleCompass))
                 .registerSubcommand(ToggleSubcommand.create())
-                .registerSubcommand(MoveHudSubcommand.create())
                 .registerSubcommand(ConfigSubcommand.create())
                 .registerSubcommand(CornerSubcommand.create())
                 .registerSubcommand(ModeSubcommand.create())
@@ -28,6 +27,10 @@ public class CoordinatesCommand {
                 .registerSubcommand(PositionSubcommand.create())
                 .registerSubcommand(TeleportModeSubcommand.create())
                 .registerSubcommand(MarkSubcommand.create());
+
+        if (!CoordinatesDisplay.isBoxhudInstalled()) command.registerSubcommand(MoveHudSubcommand.create());
+
+        return command;
     }
 
     static int openCoordinatesScreen(CommandContext<BCommandSourceStack> ignored) {

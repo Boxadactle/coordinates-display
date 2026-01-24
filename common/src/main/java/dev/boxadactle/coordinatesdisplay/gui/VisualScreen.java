@@ -110,11 +110,12 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
         );
 
         // hud position screen
-        changeHudPosButton = addConfigLine(new BScreenButton(
+        changeHudPosButton = new BScreenButton(
                 Component.translatable("button.coordinatesdisplay.editHudPos"),
                 this,
                 PositionScreen::new
-        ));
+        );
+        if (!CoordinatesDisplay.isBoxhudInstalled()) addConfigLine(changeHudPosButton)
 
         this.addConfigLine(
             // padding
