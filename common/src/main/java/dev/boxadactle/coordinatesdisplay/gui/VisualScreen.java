@@ -25,7 +25,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
     Position pos;
 
     AbstractWidget startCornerButton;
-    AbstractWidget changeHudPosButton;
+    BScreenButton changeHudPosButton;
 
     public VisualScreen(Screen parent) {
         super(parent, Component.translatable("screen.coordinatesdisplay.visual", CoordinatesDisplay.VERSION_STRING));
@@ -115,7 +115,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                 this,
                 PositionScreen::new
         );
-        if (!CoordinatesDisplay.isBoxhudInstalled()) addConfigLine(changeHudPosButton)
+        if (!CoordinatesDisplay.isBoxhudInstalled()) addConfigLine(changeHudPosButton);
 
         this.addConfigLine(
             // padding
