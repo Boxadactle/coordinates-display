@@ -28,7 +28,7 @@ public class CoordinatesCommand {
                 .registerSubcommand(TeleportModeSubcommand.create())
                 .registerSubcommand(MarkSubcommand.create());
 
-        if (!CoordinatesDisplay.isBoxhudInstalled()) command.registerSubcommand(MoveHudSubcommand.create());
+        if (!CoordinatesDisplay.boxHudInstalled) command.registerSubcommand(MoveHudSubcommand.create());
 
         return command;
     }

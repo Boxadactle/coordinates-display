@@ -44,7 +44,7 @@ public class CoordinatesDisplay {
 
 	public static Vec3<Integer> MARK_POS = null;
 
-	private static boolean boxHudInstalled;
+	public static boolean boxHudInstalled = isBoxhudInstalled();
 
 	static {
 		LOGGER.info("Initializing " + MOD_NAME + " v" + VERSION);
@@ -101,7 +101,7 @@ public class CoordinatesDisplay {
 		}
 	}
 
-	public static boolean isBoxhudInstalled() {
+	private static boolean isBoxhudInstalled() {
 		try {
 			Class.forName("dev.boxadactle.boxhud.Boxhud");
 			CoordinatesDisplay.LOGGER.info("BoxHud is installed!");

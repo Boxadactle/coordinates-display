@@ -115,7 +115,7 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                 this,
                 PositionScreen::new
         );
-        if (!CoordinatesDisplay.isBoxhudInstalled()) addConfigLine(changeHudPosButton);
+        if (!CoordinatesDisplay.boxHudInstalled) addConfigLine(changeHudPosButton);
 
         this.addConfigLine(
             // padding

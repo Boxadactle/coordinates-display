@@ -50,7 +50,7 @@ public class Hud {
         bl &= !ClientUtils.getClient().debugEntries.isOverlayVisible();
         bl &= CoordinatesDisplay.shouldHudRender;
         bl &= filter.getFilter().isVisible();
-        bl &= !CoordinatesDisplay.isBoxhudInstalled();
+        bl &= !CoordinatesDisplay.boxHudInstalled;
 
         return bl && CoordinatesDisplay.getConfig().enabled;
     }
