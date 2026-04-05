@@ -1,6 +1,5 @@
 package dev.boxadactle.coordinatesdisplay;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import dev.boxadactle.boxlib.layouts.RenderingLayout;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
@@ -43,9 +42,8 @@ public class Hud {
     public boolean shouldRender(VisibilityFilter filter) {
         boolean bl = true;
 
-        // have you ever seen anyone use this operand
         bl &= !ClientUtils.getOptions().hideGui;
-        bl &= !ClientUtils.getClient().getDebugOverlay().showDebugScreen();
+        bl &= !ClientUtils.getClient().debugEntries.isF3Visible();
         bl &= CoordinatesDisplay.shouldHudRender;
         bl &= filter.getFilter().isVisible();
 
