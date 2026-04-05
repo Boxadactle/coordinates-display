@@ -18,7 +18,7 @@ public class Position {
         BlockPos b = new BlockPos(player.getBlockX(), player.getBlockY(), player.getBlockZ());
 
         return new Position(
-                a, new ChunkPos(b), b,
+                a, ChunkPos.containing(b), b,
                 player.getYHeadRot(), player.getXRot(),
                 new PlayerTargetBlock(player)
         );

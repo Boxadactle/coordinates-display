@@ -13,7 +13,7 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.layouts.LinearLayout;
 import net.minecraft.client.resources.language.I18n;
@@ -110,7 +110,7 @@ public class MarkGui extends BOptionScreen {
         }
 
         @Override
-        public void renderContent(GuiGraphics guiGraphics, int mouseX, int mouseY, boolean hovered, float v) {
+        public void extractContent(GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, boolean hovered, float v) {
             AbstractWidget w1 = (AbstractWidget)this.widget1;
             AbstractWidget w2 = (AbstractWidget)this.widget2;
             AbstractWidget w3 = (AbstractWidget)this.widget3;
@@ -125,9 +125,9 @@ public class MarkGui extends BOptionScreen {
             w3.setX(getX() + 2 * (getWidth() / 3) + p1);
             w3.setY(getY());
             w3.setWidth(getWidth() / 3 - p1);
-            w1.render(guiGraphics, mouseX, mouseY, v);
-            w2.render(guiGraphics, mouseX, mouseY, v);
-            w3.render(guiGraphics, mouseX, mouseY, v);
+            w1.extractRenderState(guiGraphics, mouseX, mouseY, v);
+            w2.extractRenderState(guiGraphics, mouseX, mouseY, v);
+            w3.extractRenderState(guiGraphics, mouseX, mouseY, v);
         }
     }
 }

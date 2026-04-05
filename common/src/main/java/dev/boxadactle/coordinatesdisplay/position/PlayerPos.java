@@ -20,7 +20,7 @@ public class PlayerPos {
 
         playerPos = new Vec3<>(x, y, z);
 
-        this.chunkPos = new Vec2<>(chunkPos.x, chunkPos.z);
+        this.chunkPos = new Vec2<>(chunkPos.x(), chunkPos.z());
 
         blockPos = new Vec3<>(pos.getX(), pos.getY(), pos.getZ());
 

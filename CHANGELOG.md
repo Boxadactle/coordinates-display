@@ -1,2 +1,3 @@
 ## Changelog
-- Fixed bug where the mod would spam the log
+- Update 26.1.1
+- Fixed crash with position marking

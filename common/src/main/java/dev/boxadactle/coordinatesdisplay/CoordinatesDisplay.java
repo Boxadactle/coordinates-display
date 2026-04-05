@@ -11,7 +11,7 @@ import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.command.CoordinatesCommand;
 import dev.boxadactle.coordinatesdisplay.marking.MarkPosRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public class CoordinatesDisplay {
 
@@ -70,7 +70,7 @@ public class CoordinatesDisplay {
 		return CONFIG.get();
 	}
 
-	public static void renderHud(GuiGraphics graphics) {
+	public static void renderHud(GuiGraphicsExtractor graphics) {
 		try {
 			if (CoordinatesDisplay.HUD.shouldRender(CoordinatesDisplay.getConfig().visibilityFilter)) {
 				ModConfig config = CoordinatesDisplay.getConfig();

@@ -48,7 +48,7 @@ public class ChunkRenderer implements HudRenderer {
             left.addComponent(new ParagraphComponent(2, position, chunkX, chunkY, chunkZ));
 
             // region
-            ChunkPos chunkPos1 = new ChunkPos(ModUtil.toBlockPos(pos.position.getBlockPos()));
+            ChunkPos chunkPos1 = ChunkPos.containing(ModUtil.toBlockPos(pos.position.getBlockPos()));
             Component region = definition(translation("region"));
             Component rFile = value(String.format("r.%d.%d.mca", chunkPos1.getRegionX(), chunkPos1.getRegionZ()));
             Component localRegion = value(String.format("%d %d", chunkPos1.getRegionLocalX(), chunkPos1.getRegionLocalZ()));

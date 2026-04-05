@@ -2,7 +2,7 @@ package dev.boxadactle.coordinatesdisplay.marking;
 
 import dev.boxadactle.boxlib.gui.config.widget.field.BIntegerField;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 import java.util.function.Consumer;
 
@@ -25,11 +25,11 @@ public class PlaceholderIntegerField extends BIntegerField {
     }
 
     @Override
-    public void renderWidget(GuiGraphics p_93657_, int mouseX, int mouseY, float delta) {
-        super.renderWidget(p_93657_, mouseX, mouseY, delta);
+    public void extractWidgetRenderState(GuiGraphicsExtractor p_93657_, int mouseX, int mouseY, float delta) {
+        super.extractWidgetRenderState(p_93657_, mouseX, mouseY, delta);
 
         if (getValue().isBlank()) {
-            p_93657_.drawString(
+            p_93657_.text(
                     GuiUtils.getTextRenderer(),
                     String.valueOf(placeholder),
                     getX() + 4,

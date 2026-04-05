@@ -12,7 +12,7 @@ import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import dev.boxadactle.coordinatesdisplay.registry.VisibilityFilter;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.LevelLoadingScreen;
 
 import java.lang.reflect.InvocationTargetException;
@@ -77,7 +77,7 @@ public class Hud {
         }
     }
 
-    public void render(GuiGraphics guiGraphics, RenderingLayout layout, DisplayMode renderMode) {
+    public void render(GuiGraphicsExtractor guiGraphics, RenderingLayout layout, DisplayMode renderMode) {
         try {
             Rect<Integer> size = HudRenderer.renderHud(guiGraphics, layout, renderMode.getMetadata().hasBackground());
 
@@ -91,13 +91,13 @@ public class Hud {
         }
     }
 
-    public void render(GuiGraphics guiGraphics, RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
+    public void render(GuiGraphicsExtractor guiGraphics, RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner) {
         RenderingLayout layout = preRender(thread, pos, x, y, renderMode, startCorner);
 
         render(guiGraphics, layout, renderMode);
     }
 
-    public void render(GuiGraphics guiGraphics, RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, float scale) {
+    public void render(GuiGraphicsExtractor guiGraphics, RenderType thread, Position pos, int x, int y, DisplayMode renderMode, StartCorner startCorner, float scale) {
         try {
             if (!renderMode.getMetadata().ignoreTranslations()) {
                 var stack = guiGraphics.pose();
@@ -129,7 +129,7 @@ public class Hud {
         return size.getHeight();
     }
 
-    public void renderMoveOverlay(GuiGraphics guiGraphics, int x, int y) {
+    public void renderMoveOverlay(GuiGraphicsExtractor guiGraphics, int x, int y) {
         int color = 0x50c7c7c7;
         scaleSize = 5;
         int scaleColor = 0x99d9fffa;

@@ -24,7 +24,7 @@ public class PlayerWorldData {
 
             biome = WorldUtils.getWorld().getBiome(player);
 
-            day = WorldUtils.getWorld().getDayTime() / 24000L;
+            day = WorldUtils.getWorld().getGameTime() / 24000L;
 
             time = WorldUtils.getWorld().getGameTime() % 24000L;
         } else {

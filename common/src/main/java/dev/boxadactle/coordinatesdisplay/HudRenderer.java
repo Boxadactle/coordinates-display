@@ -7,7 +7,7 @@ import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.RenderUtils;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
@@ -19,7 +19,7 @@ public interface HudRenderer {
         return CoordinatesDisplay.getConfig();
     }
 
-    default void drawInfo(GuiGraphics guiGraphics, Component component, int x, int y, int color) {
+    default void drawInfo(GuiGraphicsExtractor guiGraphics, Component component, int x, int y, int color) {
         RenderUtils.drawText(guiGraphics, component, x, y, color);
     }
 
@@ -88,7 +88,7 @@ public interface HudRenderer {
         return resolveDirection(direction, false);
     }
 
-    static Rect<Integer> renderHud(GuiGraphics guiGraphics, RenderingLayout hudRenderer, boolean background) {
+    static Rect<Integer> renderHud(GuiGraphicsExtractor guiGraphics, RenderingLayout hudRenderer, boolean background) {
         Rect<Integer> r = hudRenderer.calculateRect();
 
         if (CoordinatesDisplay.getConfig().renderBackground && background) {
