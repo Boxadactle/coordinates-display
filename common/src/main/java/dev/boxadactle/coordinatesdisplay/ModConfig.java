@@ -38,6 +38,13 @@ public class ModConfig implements BConfig {
     public int deathPosColor = GuiUtils.AQUA;
     public int backgroundColor = 0x405c5c5c;
 
+    public int markBeaconColor = GuiUtils.applyAlpha(GuiUtils.RED, 0.5f);
+    public int markOutlineColor = GuiUtils.applyAlpha(GuiUtils.YELLOW, 0.8f);
+    public int markTextColor = GuiUtils.WHITE;
+    public boolean renderMarkBeacon = true;
+    public boolean renderMarkOutline = true;
+    public boolean renderMarkText = true;
+
     public boolean displayPosOnDeathScreen = true;
     public boolean showDeathPosInChat = true;
 

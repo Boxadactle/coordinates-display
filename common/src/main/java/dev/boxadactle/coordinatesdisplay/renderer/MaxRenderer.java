@@ -14,6 +14,7 @@ import dev.boxadactle.coordinatesdisplay.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
 
+@Deprecated(forRemoval = true)
 @HudDisplayMode("maximum")
 public class MaxRenderer implements HudRenderer {
     @Override

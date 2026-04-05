@@ -10,7 +10,6 @@ import net.minecraft.network.chat.Component;
 public enum DisplayMode {
     DEFAULT(DefaultRenderer.class),
     MINIMUM(MinRenderer.class),
-    MAXIMUM(MaxRenderer.class),
     LINE(LineRenderer.class),
     NETHER_OVERWORLD(NetherOverworldRenderer.class),
     BEDOCK(BedrockRenderer.class),

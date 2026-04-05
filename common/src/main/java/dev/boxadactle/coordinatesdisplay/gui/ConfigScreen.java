@@ -4,8 +4,7 @@ import dev.boxadactle.boxlib.gui.config.BOptionButton;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.*;
-import dev.boxadactle.boxlib.gui.config.widget.slider.BFloatSlider;
-import dev.boxadactle.boxlib.gui.config.widget.slider.BIntegerSlider;
+import dev.boxadactle.boxlib.gui.config.widget.label.BLabel;
 import dev.boxadactle.boxlib.prompt.Prompts;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
@@ -51,7 +50,18 @@ public class ConfigScreen extends BOptionScreen {
 
     @Override
     protected void addOptions() {
+        addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.hud")));
+        initHud();
 
+        addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.extras")));
+        initExtras();
+
+        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.config")));
+        initConfigOptions();
+
+    }
+
+    private void initHud() {
         // enabled
         this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.enabled",
@@ -72,14 +82,9 @@ public class ConfigScreen extends BOptionScreen {
                 this,
                 RenderScreen::new
         ));
+    }
 
-        // color settings
-        this.addConfigLine(new BScreenButton(
-                Component.translatable("button.coordinatesdisplay.colorconfig"),
-                this,
-                ColorScreen::new
-        ));
-
+    private void initExtras() {
         // death pos settings
         this.addConfigLine(new BScreenButton(
                 Component.translatable("button.coordinatesdisplay.deathpos"),
@@ -94,23 +99,14 @@ public class ConfigScreen extends BOptionScreen {
                 TextScreen::new
         ));
 
-        // 3d compass
-        addConfigLine(new BBooleanButton(
-                "button.coordinatesdisplay.3dcompass",
-                CoordinatesDisplay.getConfig().render3dCompass,
-                (val) -> CoordinatesDisplay.getConfig().render3dCompass = val
+        addConfigLine(new BScreenButton(
+                Component.translatable("button.coordinatesdisplay.world"),
+                this,
+                WorldRenderingScreen::new
         ));
+    }
 
-        addConfigLine(new BFloatSlider(
-                "button.coordinatesdisplay.3dcompasssize",
-                0.5f, 3.0f,
-                CoordinatesDisplay.getConfig().compassScale,
-                2,
-                (val) -> CoordinatesDisplay.getConfig().compassScale = val
-        ));
-
-        this.addConfigLine(new BSpacingEntry());
-
+    private void initConfigOptions() {
         this.addConfigLine(new BCustomButton(Component.translatable("button.coordinatesdisplay.configfile")) {
             @Override
             protected void buttonClicked(BOptionButton<?> button) {
@@ -142,6 +138,5 @@ public class ConfigScreen extends BOptionScreen {
         });
 
         this.addConfigLine(new BLinkButton(Component.translatable("button.coordinatesdisplay.wiki"), CoordinatesDisplay.WIKI));
-
     }
 }

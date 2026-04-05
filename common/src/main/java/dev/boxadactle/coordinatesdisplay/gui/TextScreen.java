@@ -5,6 +5,7 @@ import dev.boxadactle.boxlib.gui.config.widget.button.BBooleanButton;
 import dev.boxadactle.boxlib.gui.config.widget.button.BEnumButton;
 import dev.boxadactle.boxlib.gui.config.widget.field.BStringField;
 import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
+import dev.boxadactle.boxlib.gui.config.widget.label.BLabel;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.registry.TeleportMode;
@@ -29,24 +30,17 @@ public class TextScreen extends BOptionScreen implements HudHelper {
     protected void addOptions() {
 
         // coordinates chat message
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.posChatMessage")));
+        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.posChatMessage")));
         this.addConfigLine(new BStringField(
                 config().posChatMessage,
                 newVal -> config().posChatMessage = newVal
         ));
 
         // copy pos message
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.copyPosMessage")));
+        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.copyPosMessage")));
         this.addConfigLine(new BStringField(
                 config().copyPosMessage,
                 newVal -> config().copyPosMessage = newVal
-        ));
-
-        // mark pos message
-        addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.markPosMessage")));
-        this.addConfigLine(new BStringField(
-                config().markPosText,
-                newVal -> config().markPosText = newVal
         ));
 
         // round when copying

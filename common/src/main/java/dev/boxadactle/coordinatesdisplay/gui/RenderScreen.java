@@ -3,7 +3,9 @@ package dev.boxadactle.coordinatesdisplay.gui;
 import dev.boxadactle.boxlib.gui.config.BOptionScreen;
 import dev.boxadactle.boxlib.gui.config.widget.BSpacingEntry;
 import dev.boxadactle.boxlib.gui.config.widget.button.BBooleanButton;
+import dev.boxadactle.boxlib.gui.config.widget.button.BColorPickerButton;
 import dev.boxadactle.boxlib.gui.config.widget.label.BCenteredLabel;
+import dev.boxadactle.boxlib.gui.config.widget.label.BLabel;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import dev.boxadactle.coordinatesdisplay.HudDisplayMode;
 import dev.boxadactle.coordinatesdisplay.position.Position;
@@ -33,6 +35,23 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected void addOptions() {
+        addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.components")));
+        initComponents();
+
+        addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.colors")));
+        initColors();
+
+        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.preview")));
+        this.addConfigLine(this.createHudRenderEntry(pos));
+
+        // since minecraft's scrolling panels can't handle different entry sizes
+        for (int i = 0; i < 4; i++) {
+            this.addConfigLine(new BSpacingEntry());
+        }
+
+    }
+
+    private void initComponents() {
         HudDisplayMode metadata = config().renderMode.getMetadata();
 
         // background
@@ -110,18 +129,35 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
                 newVal -> config().renderDay = newVal,
                 metadata.hasDay()
         ));
+    }
 
-        this.addConfigLine(new BSpacingEntry());
+    private void initColors() {
+        // definition color
+        addConfigLine(new BColorPickerButton(
+                "button.coordinatesdisplay.definitionColor",
+                this,
+                false,
+                config().definitionColor,
+                newVal -> config().definitionColor = newVal
+        ));
 
-        // hud rendering
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
-        this.addConfigLine(this.createHudRenderEntry(pos));
+        // data color
+        addConfigLine(new BColorPickerButton(
+                "button.coordinatesdisplay.dataColor",
+                this,
+                false,
+                config().dataColor,
+                newVal -> config().dataColor = newVal
+        ));
 
-        // since minecraft's scrolling panels can't handle different entry sizes
-        for (int i = 0; i < 4; i++) {
-            this.addConfigLine(new BSpacingEntry());
-        }
-
+        // background color
+        addConfigLine(new BColorPickerButton(
+                "button.coordinatesdisplay.backgroundColor",
+                this,
+                true,
+                config().backgroundColor,
+                newVal -> config().backgroundColor = newVal
+        ));
     }
 
     public static class HudOption extends BBooleanButton {

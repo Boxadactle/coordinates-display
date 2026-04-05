@@ -7,6 +7,7 @@ import dev.boxadactle.boxlib.rendering.renderers.BoxRenderer;
 import dev.boxadactle.boxlib.rendering.renderers.TextRenderer;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import dev.boxadactle.coordinatesdisplay.ModConfig;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.network.chat.Component;
@@ -26,43 +27,51 @@ public class MarkPosRenderer extends Renderer3D<MarkPosRenderer> {
                     CoordinatesDisplay.MARK_POS.z.doubleValue()
             );
 
-            BoxRenderer beacon = new BoxRenderer(false)
-                    .setCube(new Box<>(
-                            markPos.x + 0.25,
-                            -100.0,
-                            markPos.z + 0.25,
-                            0.5,
-                            500.0,
-                            0.5
-                    ))
-                    .setColor(GuiUtils.applyAlpha(GuiUtils.RED, 0.5f))
+            ModConfig config = CoordinatesDisplay.getConfig();
 
-                    .setXRay(true);
-            beacon.render(v, v1, v2, debugValueAccess, frustum, v3);
+            if (config.renderMarkBeacon) {
+                BoxRenderer beacon = new BoxRenderer(false)
+                        .setCube(new Box<>(
+                                markPos.x + 0.25,
+                                -100.0,
+                                markPos.z + 0.25,
+                                0.5,
+                                500.0,
+                                0.5
+                        ))
+                        .setColor(GuiUtils.applyAlpha(config.markBeaconColor, 0.5f))
 
-            BoxRenderer block = new BoxRenderer(false)
-                    .setCube(ModUtil.toBlockPos(CoordinatesDisplay.MARK_POS))
-                    .setColor(GuiUtils.applyAlpha(GuiUtils.YELLOW, 0.8f))
-                    .setOutline(true)
-                    .setOutlineWidth(4.0f)
-                    .setXRay(true);
-            block.render(v, v1, v2, debugValueAccess, frustum, v3);
+                        .setXRay(true);
+                beacon.render(v, v1, v2, debugValueAccess, frustum, v3);
+            }
 
-            TextRenderer p = new TextRenderer(false)
-                    .setPos(new Vec3<>(
-                            markPos.x + 0.5,
-                            markPos.y + 0.5,
-                            markPos.z + 0.5
-                    ))
-                    .setCentered(true)
-                    .setXRay(true)
-                    .setText(Component.literal(CoordinatesDisplay.getConfig().markPosText))
-                    .setColor(GuiUtils.WHITE)
-                    .setSize(ModUtil.calculatePointDistance3d(
-                            markPos,
-                            new Vec3<>(v, v1, v2)
-                    ) * 0.02f);
-            p.render(v, v1, v2, debugValueAccess, frustum, v3);
+            if (config.renderMarkOutline) {
+                BoxRenderer block = new BoxRenderer(false)
+                        .setCube(ModUtil.toBlockPos(CoordinatesDisplay.MARK_POS))
+                        .setColor(GuiUtils.applyAlpha(config.markOutlineColor, 0.8f))
+                        .setOutline(true)
+                        .setOutlineWidth(4.0f)
+                        .setXRay(true);
+                block.render(v, v1, v2, debugValueAccess, frustum, v3);
+            }
+
+            if (config.renderMarkText) {
+                TextRenderer p = new TextRenderer(false)
+                        .setPos(new Vec3<>(
+                                markPos.x + 0.5,
+                                markPos.y + 0.5,
+                                markPos.z + 0.5
+                        ))
+                        .setCentered(true)
+                        .setXRay(true)
+                        .setText(Component.literal(CoordinatesDisplay.getConfig().markPosText))
+                        .setColor(config.markTextColor)
+                        .setSize(ModUtil.calculatePointDistance3d(
+                                markPos,
+                                new Vec3<>(v, v1, v2)
+                        ) * 0.02f);
+                p.render(v, v1, v2, debugValueAccess, frustum, v3);
+            }
         }
     }
 }

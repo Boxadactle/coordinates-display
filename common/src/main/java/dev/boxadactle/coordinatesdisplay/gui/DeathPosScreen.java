@@ -25,7 +25,6 @@ public class DeathPosScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected void addOptions() {
-
         // display on death screen
         this.addConfigLine(new BBooleanButton(
                 "button.coordinatesdisplay.displayondeathscreen",
@@ -38,6 +37,15 @@ public class DeathPosScreen extends BOptionScreen implements HudHelper {
                 "button.coordinatesdisplay.sendinchat",
                 config().showDeathPosInChat,
                 newVal -> config().showDeathPosInChat = newVal
+        ));
+
+        // deathpos color
+        addConfigLine(new BColorPickerButton(
+                "button.coordinatesdisplay.deathposColor",
+                this,
+                false,
+                config().deathPosColor,
+                newVal -> config().deathPosColor = newVal
         ));
 
         addConfigLine(new BSpacingEntry());

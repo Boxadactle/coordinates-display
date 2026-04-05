@@ -42,6 +42,20 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
 
     @Override
     protected void addOptions() {
+        addConfigLine(new BLabel(Component.translatable("button.coordinatesdisplay.renderconfig")));
+        // display mode
+        Consumer<DisplayMode> var4 = newVal -> {
+            config().renderMode = newVal;
+            verifyButtons();
+        };
+        try {
+            addConfigLine(new DisplayModeSelector(config().renderMode, var4));
+        } catch (RuntimeException e) {
+            CoordinatesDisplay.LOGGER.warn("Unknown hud renderer selected in config! Reverting to default.");
+            config().renderMode = DisplayMode.DEFAULT;
+
+            addConfigLine(new DisplayModeSelector(config().renderMode, var4));
+        }
 
         // visibility filters
         Consumer<VisibilityFilter> var2 = newVal -> config().visibilityFilter = newVal;
@@ -62,36 +76,20 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                 GuiUtils.AQUA
         ));
 
-        // display mode
-        Consumer<DisplayMode> var4 = newVal -> {
-            config().renderMode = newVal;
-            verifyButtons();
-        };
-        try {
-            addConfigLine(new DisplayModeSelector(config().renderMode, var4));
-        } catch (RuntimeException e) {
-            CoordinatesDisplay.LOGGER.warn("Unknown hud renderer selected in config! Reverting to default.");
-            config().renderMode = DisplayMode.DEFAULT;
+        addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.hud")));
 
-            addConfigLine(new DisplayModeSelector(config().renderMode, var4));
-        }
-
-        addConfigLine(new BSpacingEntry());
-
-        // decimal places
-        this.addConfigLine(new DecimalPlacesSlider(
-                "button.coordinatesdisplay.decimalPlaces",
-                0, 5,
-                config().decimalPlaces,
-                newVal -> config().decimalPlaces = newVal
-        ));
-
-        // text shadow
-        this.addConfigLine(new BBooleanButton(
+        changeHudPosButton = new BScreenButton(
+                Component.translatable("button.coordinatesdisplay.editHudPos"),
+                this,
+                PositionScreen::new
+        );
+        var textShadow = new BBooleanButton(
                 "button.coordinatesdisplay.textshadow",
                 config().hudTextShadow,
                 newVal -> config().hudTextShadow = newVal
-        ));
+        );
+        if (!CoordinatesDisplay.boxHudInstalled) addConfigLine(textShadow, changeHudPosButton);
+        else addConfigLine(textShadow);
 
         this.addConfigLine(
                 // biome colors
@@ -108,14 +106,6 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
                         newVal -> config().dimensionColors = newVal
                 )
         );
-
-        // hud position screen
-        changeHudPosButton = new BScreenButton(
-                Component.translatable("button.coordinatesdisplay.editHudPos"),
-                this,
-                PositionScreen::new
-        );
-        if (!CoordinatesDisplay.boxHudInstalled) addConfigLine(changeHudPosButton);
 
         this.addConfigLine(
             // padding
@@ -135,11 +125,16 @@ public class VisualScreen extends BOptionScreen implements HudHelper {
             )
         );
 
-
-        this.addConfigLine(new BSpacingEntry());
+        // decimal places
+        this.addConfigLine(new DecimalPlacesSlider(
+                "button.coordinatesdisplay.decimalPlaces",
+                0, 5,
+                config().decimalPlaces,
+                newVal -> config().decimalPlaces = newVal
+        ));
 
         // hud rendering
-        this.addConfigLine(new BCenteredLabel(Component.translatable("label.coordinatesdisplay.preview")));
+        this.addConfigLine(new BLabel(Component.translatable("label.coordinatesdisplay.preview")));
         this.addConfigLine(this.createHudRenderEntry(pos));
 
         // since minecraft's scrolling panels can't handle different entry sizes
