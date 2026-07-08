@@ -30,7 +30,7 @@ import net.minecraft.world.item.Items;
 public class TimeRenderer implements HudRenderer {
     @Override
     public RenderingLayout renderOverlay(int x, int y, Position pos) {
-        ColumnLayout columnLayout = new ColumnLayout(0, 0, 0);
+        ColumnLayout columnLayout = new ColumnLayout(0, 0, config().textPadding);
 
         columnLayout.addComponent(new LayoutComponent<>(null) {
             @Override

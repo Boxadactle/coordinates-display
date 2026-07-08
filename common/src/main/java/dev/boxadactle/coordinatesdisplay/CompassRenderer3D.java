@@ -8,7 +8,6 @@ import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import net.minecraft.client.Camera;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.debug.DebugValueAccess;
@@ -23,7 +22,7 @@ public class CompassRenderer3D extends Renderer3D<CompassRenderer3D> {
         if (WorldUtils.getCamera() != null && CoordinatesDisplay.getConfig().render3dCompass) {
             float size = 0.15f * CoordinatesDisplay.getConfig().compassScale;
 
-            Camera camera = ClientUtils.getClient().gameRenderer.getMainCamera();
+            Camera camera = ClientUtils.getClient().gameRenderer.mainCamera();
             net.minecraft.world.phys.Vec3 cameraPos = camera.entity().getPosition(v3);
 
             TextRenderer north = new TextRenderer(false)

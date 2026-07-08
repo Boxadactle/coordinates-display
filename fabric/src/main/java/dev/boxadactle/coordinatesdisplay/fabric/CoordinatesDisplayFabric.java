@@ -7,7 +7,9 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keymapping.v1.KeyMappingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.hud.HudElementRegistry;
 import net.minecraft.client.Minecraft;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 
 public class CoordinatesDisplayFabric implements ModInitializer {
@@ -17,6 +19,12 @@ public class CoordinatesDisplayFabric implements ModInitializer {
         CoordinatesDisplay.init();
 
         ClientTickEvents.END_CLIENT_TICK.register(this::checkBindings);
+
+        HudElementRegistry.addLast(Identifier.fromNamespaceAndPath(CoordinatesDisplay.MOD_ID, "hud"), (g, d) -> {
+            if (CoordinatesDisplay.shouldHudRender) {
+                CoordinatesDisplay.renderHud(g);
+            }
+        });
 
         KeyMappingHelper.registerKeyMapping(Bindings.hudEnabled);
         KeyMappingHelper.registerKeyMapping(Bindings.coordinatesGUIKeybind);

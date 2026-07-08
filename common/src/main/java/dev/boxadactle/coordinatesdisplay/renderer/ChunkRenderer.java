@@ -78,7 +78,7 @@ public class ChunkRenderer implements HudRenderer {
             // C
             Component c = definition(translation("c"));
 
-            String var2 = ClientUtils.getClient().level != null ? ClientUtils.getClient().levelRenderer.getSectionStatistics() : "C: 0/0";
+            String var2 = ClientUtils.getClient().level != null ? ClientUtils.getClient().levelExtractor.sectionStatistics() : "C: 0/0";
 
             // why is this field private mojang
             Pattern cPattern = Pattern.compile("C: (\\d+)/(\\d+) \\(s\\)");

@@ -19,7 +19,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import net.minecraft.util.Tuple;
+import oshi.util.tuples.Pair;
 import oshi.util.tuples.Triplet;
 
 // this is a bit of a mess, but it still works
@@ -44,7 +44,7 @@ public class SpawnpointRenderer implements HudRenderer {
         }
     }
 
-    private Tuple<Vec3<Double>, Vec3<Integer>> createRelativePosition(Vec3<Double> playerVec, Vec3<Integer> playerBlock, BlockPos spawn) {
+    private Pair<Vec3<Double>, Vec3<Integer>> createRelativePosition(Vec3<Double> playerVec, Vec3<Integer> playerBlock, BlockPos spawn) {
         int spawnX = spawn.getX();
         int spawnY = spawn.getY();
         int spawnZ = spawn.getZ();
@@ -61,7 +61,7 @@ public class SpawnpointRenderer implements HudRenderer {
                 playerBlock.getZ() - spawnZ
         );
 
-        return new Tuple<>(relativeVec, relativeBlock);
+        return new Pair<>(relativeVec, relativeBlock);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class SpawnpointRenderer implements HudRenderer {
 
         { // relative position
             Component relativeLabel = definition("relative", "");
-            Tuple<Vec3<Double>, Vec3<Integer>> relativePos = createRelativePosition(
+            Pair<Vec3<Double>, Vec3<Integer>> relativePos = createRelativePosition(
                     pos.position.getPlayerPos(),
                     pos.position.getBlockPos(),
                     new BlockPos(spawnpoint.getX(), spawnpoint.getY(), spawnpoint.getZ())

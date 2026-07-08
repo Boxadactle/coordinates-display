@@ -1,3 +1,3 @@
 ## Changelog
-- The mod no longer incorrectly obtains the day counter
-- Added day time feature and time renderer
+- Fix time renderer not respecting text padding config
+- Update to 26.2

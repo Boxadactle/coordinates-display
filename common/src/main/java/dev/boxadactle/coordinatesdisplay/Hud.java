@@ -46,7 +46,7 @@ public class Hud {
 
         // have you ever seen anyone use this operand
         bl &= !(ClientUtils.getCurrentScreen() instanceof LevelLoadingScreen);
-        bl &= !ClientUtils.getOptions().hideGui;
+        bl &= !ClientUtils.getClient().gui.hud.isHidden();
         bl &= !ClientUtils.getClient().debugEntries.isOverlayVisible();
         bl &= CoordinatesDisplay.shouldHudRender;
         bl &= filter.getFilter().isVisible();

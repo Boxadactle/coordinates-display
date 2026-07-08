@@ -34,7 +34,7 @@ public class HotbarRenderer implements HudRenderer {
 
     @Override
     public RenderingLayout renderOverlay(int x, int y, Position pos) {
-        if (((OverlayMessageTimeAccessor) ClientUtils.getClient().gui).getOverlayMessageTime() > 0) {
+        if (((OverlayMessageTimeAccessor) ClientUtils.getClient().gui.hud).getOverlayMessageTime() > 0) {
             return new ColumnLayout(0, 0, 0);
         }
 
