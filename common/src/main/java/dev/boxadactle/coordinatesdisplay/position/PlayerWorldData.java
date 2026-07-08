@@ -1,5 +1,7 @@
 package dev.boxadactle.coordinatesdisplay.position;
 
+import com.mojang.datafixers.DataFixUtils;
+import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.WorldUtils;
 import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
 import net.minecraft.core.BlockPos;
@@ -7,9 +9,13 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.clock.ClockManager;
+import net.minecraft.world.clock.WorldClock;
+import net.minecraft.world.clock.WorldClocks;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.timeline.Timelines;
+
+import java.util.Optional;
 
 public class PlayerWorldData {
 
@@ -21,13 +27,17 @@ public class PlayerWorldData {
 
     long time;
 
+    private Level level() {
+        return ClientUtils.getClient().level == null ? null : DataFixUtils.orElse(Optional.ofNullable(ClientUtils.getClient().getSingleplayerServer()).flatMap((s) -> Optional.ofNullable(s.getLevel(ClientUtils.getClient().level.dimension()))), ClientUtils.getClient().level);
+    }
+
     public PlayerWorldData(BlockPos player) {
         if (WorldUtils.getWorld() != null) {
             dimension = WorldUtils.getPlayer().level().dimension().identifier();
 
             biome = WorldUtils.getWorld().getBiome(player);
 
-            Level world = WorldUtils.getWorld();
+            Level world = level();
             ClockManager clockManager = world.clockManager();
             world.registryAccess().get(Timelines.OVERWORLD_DAY)
                     .ifPresentOrElse(
@@ -35,7 +45,8 @@ public class PlayerWorldData {
                             () -> day = -1
                     );
 
-            time = WorldUtils.getWorld().getGameTime() % 24000L;
+            time = world.getDefaultClockTime() % 24000L;
+            if (time == 0L) time = -1;
         } else {
             CoordinatesDisplay.LOGGER.warn("Client world is null! Resorting to default values.");
 

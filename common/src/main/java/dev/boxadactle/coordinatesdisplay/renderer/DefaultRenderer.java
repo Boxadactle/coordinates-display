@@ -7,15 +7,11 @@ import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.layouts.layout.PaddingLayout;
 import dev.boxadactle.boxlib.layouts.layout.RowLayout;
 import dev.boxadactle.boxlib.math.mathutils.NumberFormatter;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
+import dev.boxadactle.coordinatesdisplay.*;
 import dev.boxadactle.boxlib.math.geometry.Vec2;
 import dev.boxadactle.boxlib.util.ClientUtils;
 import dev.boxadactle.boxlib.util.GuiUtils;
-import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.HudDisplayMode;
-import dev.boxadactle.coordinatesdisplay.HudRenderer;
 import dev.boxadactle.coordinatesdisplay.position.Position;
-import dev.boxadactle.coordinatesdisplay.WorldColors;
 import net.minecraft.network.chat.Component;
 import oshi.util.tuples.Triplet;
 
@@ -107,6 +103,13 @@ public class DefaultRenderer implements HudRenderer {
             Component day = definition(GlobalTexts.DAY, value(Long.toString(pos.world.getDay())));
 
             row2.add(day);
+        }
+
+        if (config().renderTime) {
+            String formatted = config().militaryTime ? DateUtil.formatMinecraftDayTime24(pos.world.getTime()) : DateUtil.formatMinecraftDayTime(pos.world.getTime());
+            Component time = definition(GlobalTexts.TIME, value(formatted));
+            
+            row2.add(time);
         }
 
         hud.addComponent(new LayoutContainerComponent(row1));

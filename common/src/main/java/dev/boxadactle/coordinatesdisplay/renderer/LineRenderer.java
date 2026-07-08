@@ -20,7 +20,8 @@ import oshi.util.tuples.Triplet;
         hasBiome = false,
         hasMCVersion = false,
         hasDimension = false,
-        hasDay = false
+        hasDay = false,
+        hasTime = false
 )
 public class LineRenderer implements HudRenderer {
 

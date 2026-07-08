@@ -152,7 +152,8 @@ public interface HudRenderer {
         FACING("hud.corodinatesdisplay.facing"),
         BIOME("hud.coordinatesdisplay.biome"),
         DIMENSION("hud.coordinatesdisplay.dimension"),
-        DAY("hud.coordinatesdisplay.day");
+        DAY("hud.coordinatesdisplay.day"),
+        TIME("hud.coordinatesdisplay.daytime");
 
         final String key;
 

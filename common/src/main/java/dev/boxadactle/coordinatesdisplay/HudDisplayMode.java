@@ -146,4 +146,13 @@ public @interface HudDisplayMode {
      * @return boolean to enable/disable the day config button
      */
     boolean hasDay() default true;
+
+    /**
+     * Whether the hud displays the world day time of the current dimension
+     * <p></p>
+     * Specify false to disable the world day time buttons from the config screens
+     *
+     * @return boolean to enable/disable world time buttons
+     */
+    boolean hasTime() default true;
 }

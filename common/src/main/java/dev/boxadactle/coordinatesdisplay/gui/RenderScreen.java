@@ -129,6 +129,22 @@ public class RenderScreen extends BOptionScreen implements HudHelper {
                 newVal -> config().renderDay = newVal,
                 metadata.hasDay()
         ));
+
+        // time counter
+        addConfigLine(
+                new HudOption(
+                        "button.coordinatesdisplay.time",
+                        config().renderTime,
+                        newVal -> config().renderTime = newVal,
+                        metadata.hasDay()
+                ),
+                new HudOption(
+                        "button.coordinatesdisplay.24hour",
+                        config().militaryTime,
+                        newVal -> config().militaryTime = newVal,
+                        metadata.hasDay()
+                )
+        );
     }
 
     private void initColors() {

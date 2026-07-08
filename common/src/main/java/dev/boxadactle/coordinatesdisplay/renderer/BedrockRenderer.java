@@ -28,7 +28,8 @@ import java.util.List;
         hasMCVersion = false,
         hasDimension = false,
         hasBiome = false,
-        hasDirection = false
+        hasDirection = false,
+        hasTime = false
 )
 public class BedrockRenderer implements HudRenderer {
     @Override
