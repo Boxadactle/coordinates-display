@@ -6,12 +6,7 @@ import dev.boxadactle.boxlib.layouts.layout.ColumnLayout;
 import dev.boxadactle.boxlib.math.geometry.Dimension;
 import dev.boxadactle.boxlib.math.geometry.Rect;
 import dev.boxadactle.boxlib.util.ClientUtils;
-import dev.boxadactle.coordinatesdisplay.CoordinatesDisplay;
-import dev.boxadactle.coordinatesdisplay.ModUtil;
-import dev.boxadactle.coordinatesdisplay.Hud;
-import dev.boxadactle.coordinatesdisplay.HudPositionModifier;
-import dev.boxadactle.coordinatesdisplay.HudRenderer;
-import dev.boxadactle.coordinatesdisplay.HudDisplayMode;
+import dev.boxadactle.coordinatesdisplay.*;
 import dev.boxadactle.coordinatesdisplay.mixin.OverlayMessageTimeAccessor;
 import dev.boxadactle.coordinatesdisplay.position.Position;
 import net.minecraft.network.chat.Component;
@@ -63,6 +58,13 @@ public class HotbarRenderer implements HudRenderer {
 
         if (config().renderDay) {
             components.add(definition(GlobalTexts.DAY, value(Long.toString(pos.world.getDay()))));
+        }
+
+        if (config().renderTime) {
+            String formatted = config().militaryTime ? DateUtil.formatMinecraftDayTime24(pos.world.getTime()) : DateUtil.formatMinecraftDayTime(pos.world.getTime());
+            Component time = definition(GlobalTexts.TIME, value(formatted));
+
+            components.add(time);
         }
 
         MutableComponent all = Component.empty();

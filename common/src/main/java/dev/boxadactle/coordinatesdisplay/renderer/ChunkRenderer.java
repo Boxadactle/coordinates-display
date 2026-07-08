@@ -27,7 +27,8 @@ import java.util.regex.Pattern;
         hasDirection = false,
         hasDirectionInt = false,
         hasMCVersion = false,
-        hasDay = false
+        hasDay = false,
+        hasTime = false
 )
 public class ChunkRenderer implements HudRenderer {
 

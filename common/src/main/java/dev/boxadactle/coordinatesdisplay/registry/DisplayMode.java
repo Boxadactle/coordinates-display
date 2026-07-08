@@ -16,7 +16,8 @@ public enum DisplayMode {
     HOTBAR(HotbarRenderer.class),
     SPAWNPOINT(SpawnpointRenderer.class),
     DIRECTION(DirectionRenderer.class),
-    CHUNK(ChunkRenderer.class);
+    CHUNK(ChunkRenderer.class),
+    TIME(TimeRenderer.class);
 
     final HudRenderer renderer;
     final HudDisplayMode metadata;

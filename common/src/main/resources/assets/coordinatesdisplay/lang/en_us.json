@@ -39,6 +39,7 @@
   "hud.coordinatesdisplay.biome": "Biome: %s",
   "hud.coordinatesdisplay.dimension": "Dimension: %s",
   "hud.coordinatesdisplay.day": "Day: %s",
+  "hud.coordinatesdisplay.daytime": "Day Time: %s",
 
   "hud.coordinatesdisplay.biome.unknown": "Unknown",
 
@@ -56,6 +57,9 @@
   "hud.coordinatesdisplay.maximum.biome": "In %s",
   "hud.coordinatesdisplay.maximum.version": "Minecraft %s",
   "hud.coordinatesdisplay.maximum.dimension": "Dimension: %s (from %s)",
+
+  "hud.coordinatesdisplay.time": "Time",
+  "hud.coordinatesdisplay.time.unknown": "Dimension does not have clock",
 
   "hud.coordinatesdisplay.line": "Line",
 
@@ -147,6 +151,8 @@
   "button.coordinatesdisplay.mcversion": "Minecraft Version: %s",
   "button.coordinatesdisplay.dimension": "Dimension: %s",
   "button.coordinatesdisplay.day": "Day Counter: %s",
+  "button.coordinatesdisplay.time": "Day Time: %s",
+  "button.coordinatesdisplay.24hour": "24 Hour Format: %s",
   "button.coordinatesdisplay.displayondeathscreen": "Display on Death Screen: %s",
   "button.coordinatesdisplay.sendinchat": "Send in Chat: %s",
   "button.coordinatesdisplay.roundwhencopying": "Include decimals when copying: %s",
