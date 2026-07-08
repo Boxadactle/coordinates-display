@@ -6,7 +6,10 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.clock.ClockManager;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.timeline.Timelines;
 
 public class PlayerWorldData {
 
@@ -24,7 +27,13 @@ public class PlayerWorldData {
 
             biome = WorldUtils.getWorld().getBiome(player);
 
-            day = WorldUtils.getWorld().getGameTime() / 24000L;
+            Level world = WorldUtils.getWorld();
+            ClockManager clockManager = world.clockManager();
+            world.registryAccess().get(Timelines.OVERWORLD_DAY)
+                    .ifPresentOrElse(
+                            (timeline) -> day = (timeline.value()).getPeriodCount(clockManager),
+                            () -> day = -1
+                    );
 
             time = WorldUtils.getWorld().getGameTime() % 24000L;
         } else {

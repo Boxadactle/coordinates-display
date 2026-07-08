@@ -1,10 +1,17 @@
 package dev.boxadactle.coordinatesdisplay.position;
 
+import com.mojang.datafixers.DataFixUtils;
 import dev.boxadactle.boxlib.math.geometry.Vec3;
+import dev.boxadactle.boxlib.util.ClientUtils;
+import dev.boxadactle.boxlib.util.WorldUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.Level;
+import org.jspecify.annotations.Nullable;
+
+import java.util.Optional;
 
 public class Position {
 
