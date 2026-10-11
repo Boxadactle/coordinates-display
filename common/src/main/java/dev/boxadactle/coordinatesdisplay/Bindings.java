@@ -11,25 +11,24 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.registry.DisplayMode;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.resources.Identifier;
-import org.lwjgl.glfw.GLFW;
 
 public class Bindings {
 
     public static final KeyMapping.Category CATEGORY = KeyMapping.Category.register(Identifier.fromNamespaceAndPath(CoordinatesDisplay.MOD_ID, "keybinds"));
-    
-    public static final KeyMapping hudEnabled = new KeyMapping("key.coordinatesdisplay.hudenabled", GLFW.GLFW_KEY_H, CATEGORY);
 
-    public static final KeyMapping coordinatesGUIKeybind = new KeyMapping("key.coordinatesdisplay.coordinatesgui", GLFW.GLFW_KEY_C, CATEGORY);
-    public static final KeyMapping markGuiKeybind = new KeyMapping("key.coordinatesdisplay.markpos", GLFW.GLFW_KEY_B, CATEGORY);
+    public static final KeyMapping hudEnabled = new KeyMapping("key.coordinatesdisplay.hudenabled", InputConstants.KEY_H, CATEGORY);
 
-    public static final KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", -1, CATEGORY);
-    public static final KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", -1, CATEGORY);
-    public static final KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", -1, CATEGORY);
+    public static final KeyMapping coordinatesGUIKeybind = new KeyMapping("key.coordinatesdisplay.coordinatesgui", InputConstants.KEY_C, CATEGORY);
+    public static final KeyMapping markGuiKeybind = new KeyMapping("key.coordinatesdisplay.markpos", InputConstants.KEY_B, CATEGORY);
 
-    public static final KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", GLFW.GLFW_KEY_F9, CATEGORY);
-    public static final KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", GLFW.GLFW_KEY_M, CATEGORY);
+    public static final KeyMapping copyLocation = new KeyMapping("key.coordinatesdisplay.copypos", InputConstants.UNKNOWN.getType(), InputConstants.UNKNOWN.getValue(), CATEGORY);
+    public static final KeyMapping sendLocation = new KeyMapping("key.coordinatesdisplay.sendpos", InputConstants.UNKNOWN.getType(), InputConstants.UNKNOWN.getValue(), CATEGORY);
+    public static final KeyMapping copyPosTp = new KeyMapping("key.coordinatesdisplay.copypostp", InputConstants.UNKNOWN.getType(), InputConstants.UNKNOWN.getValue(), CATEGORY);
 
-    public static final KeyMapping toggle3DCompass = new KeyMapping("key.coordinatesdisplay.toggle3DCompass", GLFW.GLFW_KEY_F8, CATEGORY);
+    public static final KeyMapping changeHudPosition = new KeyMapping("key.coordinatesdisplay.changeHudPos", InputConstants.KEY_F9, CATEGORY);
+    public static final KeyMapping cycleDisplayMode = new KeyMapping("key.coordinatesdisplay.cycleDisplayMode", InputConstants.KEY_M, CATEGORY);
+
+    public static final KeyMapping toggle3DCompass = new KeyMapping("key.coordinatesdisplay.toggle3DCompass", InputConstants.KEY_F8, CATEGORY);
 
     public static void toggleHud() {
         CoordinatesDisplay.LOGGER.info("Toggling HUD visibility");
@@ -67,7 +66,7 @@ public class Bindings {
     }
 
     public static void cycleDisplayMode() {
-        if (!InputConstants.isKeyDown(ClientUtils.getClient().getWindow(), 340)) CoordinatesDisplay.getConfig().renderMode = DisplayMode.nextMode(CoordinatesDisplay.getConfig().renderMode);
+        if (!InputConstants.isKeyDown(InputConstants.KEY_LSHIFT)) CoordinatesDisplay.getConfig().renderMode = DisplayMode.nextMode(CoordinatesDisplay.getConfig().renderMode);
         else CoordinatesDisplay.getConfig().renderMode = DisplayMode.previousMode(CoordinatesDisplay.getConfig().renderMode);
 
         CoordinatesDisplay.CONFIG.save();

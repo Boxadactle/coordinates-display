@@ -8,13 +8,15 @@ import dev.boxadactle.coordinatesdisplay.position.Position;
 import dev.boxadactle.coordinatesdisplay.ModUtil;
 import dev.boxadactle.coordinatesdisplay.registry.StartCorner;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Vec3i;
 import net.minecraft.world.level.ChunkPos;
 
 public interface HudHelper {
 
     default Position generatePositionData() {
         net.minecraft.world.phys.Vec3 pos = new net.minecraft.world.phys.Vec3(Math.random() * 1000, Math.random() * 5, Math.random() * 1000);
-        BlockPos b = new BlockPos(ModUtil.doubleVecToIntVec(pos));
+        Vec3i vec = ModUtil.doubleVecToIntVec(pos);
+        BlockPos b = new BlockPos(vec.getX(), vec.getY(), vec.getZ());
         ChunkPos chunkPos = ChunkPos.containing(b);
         float cameraYaw = (float) Math.random() * 180;
         float cameraPitch  = (float) Math.random() * 180;
