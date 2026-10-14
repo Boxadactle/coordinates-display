@@ -3,6 +3,8 @@ package dev.boxadactle.coordinatesdisplay;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.level.biome.Biome;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 import java.awt.*;
 import java.util.Objects;
@@ -20,8 +22,13 @@ public class WorldColors {
             if (biomeName.contains("end")) return 0xC5BE8B;
             if (biomeName.contains("ocean") || biomeName.contains("river") || biomeName.contains("swamp"))
                 return biome.getWaterColor();
-            if (biomeName.contains("nether"))
-                return new Color(Objects.requireNonNull(biome.getAttributes().get(EnvironmentAttributes.FOG_COLOR)).applyModifier(1)).brighter().brighter().getRGB();
+            if (biomeName.contains("nether")) {
+                Vector3fc fogColor = biome.getAttributes().applyModifier(
+                        EnvironmentAttributes.FOG_COLOR,
+                        new Vector3f(0.77f, 0.45f, 0.37f)
+                );
+                return new Color(fogColor.x(), fogColor.y(), fogColor.z()).brighter().brighter().getRGB();
+            }
             if (biomeName.contains("icy")) return 0x84ecf0;
             if (biomeName.contains("beach")) return 0xfade55;
             else return biome.getFoliageColor();
